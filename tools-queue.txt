@@ -3,5 +3,6 @@
 # After a tool is built, the line is rewritten to: [done] Tool Name
 #
 # Add your tool ideas below (one per line) -- e.g.:
-# Pomodoro Timer
+# LTV Calculator | add this also FAQ's - How do I calculate LTV?, Is 20% a good LTV?, How to calculate 75% LTV? 
+# Pomodoro Timer | add this also FAQ's - What is a pomodoro timer?, Is 25/5 or 50/10 pomodoro better?, Is pomodoro only 25 minutes?
 # Loan EMI Calculator | include amortization breakdown table
