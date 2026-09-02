@@ -1,0 +1,7 @@
+# One tool idea per line. The first line NOT starting with [done] will be built next.
+# Optional per-tool note after a pipe:  Tool Name | any note/design hints for the builder.
+# After a tool is built, the line is rewritten to: [done] Tool Name
+#
+# Add your tool ideas below (one per line) -- e.g.:
+# Pomodoro Timer
+# Loan EMI Calculator | include amortization breakdown table
