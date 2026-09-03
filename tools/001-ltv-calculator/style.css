@@ -1,0 +1,90 @@
+:root {
+  --brand: #2b6cb3;
+  --brand-dark: #1e4f85;
+  --ink: #212529;
+  --muted: #6c757d;
+  --soft: #f8f9fa;
+  --border: #e9ecef;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background: #fff;
+  color: var(--ink);
+}
+
+h1,h2,h3 { color: var(--ink); }
+
+h2 { font-size: 1.35rem; margin-top: 2rem; margin-bottom: 0.85rem; }
+
+section p, section li { line-height: 1.7; }
+
+.breadcrumb { font-size: 0.85rem; }
+.breadcrumb a { color: var(--brand); }
+
+.btn-primary {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+.btn-primary:hover {
+  background-color: var(--brand-dark);
+  border-color: var(--brand-dark);
+}
+.btn-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgba(43,108,179,0.35);
+}
+
+.card { border-radius: 0.75rem; }
+#toolCard {
+  background: #fff;
+  border:  1px solid var(--border);
+  box-shadow: 0 0.25rem 1rem rgba(0,0,0,0.06) !important;
+}
+
+#toolCard label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #495057;
+}
+
+.result-box {
+  background: var(--soft);
+  border-radius:  0.5rem;
+  border:  1px solid var(--border);
+  height: 100%;
+}
+.result-box .h4 { font-size: 1.35rem; }
+
+.toc {
+  border-radius:  0.5rem;
+}
+.toc a {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom:  1px dashed #ced4da;
+}
+.toc a:hover { color: var(--brand); }
+
+.faq-item {
+  background: var(--soft);
+  border:  1px solid var(--border);
+  border-radius:  0.5rem;
+  padding:  1rem 1.1rem;
+}
+.faq-item h3 { color: var(--brand-dark); }
+
+code {
+  background: #eef2f7;
+  border-radius:  0.25rem;
+  padding:  0.1rem 0.35rem;
+  font-size: 0.9em;
+}
+
+#results .alert { border-radius: 0.5rem; }
+
+footer a { color: var(--muted); }
+footer a:hover { color: var(--brand); }
+
+@media (max-width: 576px) {
+  #toolCard .card-body { padding: 1.25rem !important; }
+}

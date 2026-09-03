@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LTV Calculator — Customer Lifetime Value &amp; CLV Formula Tool</title>
+  <meta name="description" content="Free LTV calculator - compute customer lifetime value with the CLV formula, retention rate, margin, and CAC payback. Ideal for SaaS, subscriptions, and ecommerce.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+    <nav aria-label="breadcrumb" class="small text-muted">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/calculators">Calculators</a></li>
+        <li class="breadcrumb-item active" aria-current="page">LTV Calculator</li>
+      </ol>
+    </nav>
+
+    <h1 class="h2 mb-1 font-weight-bold">Customer Lifetime Value Calculator</h1>
+    <p class="lead text-muted mb-4">Work out how much a customer is worth to your business over time — with clear CLV breakdowns, retention insights,,and marketing budget guidance.</p>
+
+    <div class="card shadow-sm border-0 mb-5" id="toolCard">
+      <div class="card-body p-4 p-md-5">
+        <form id="ltvForm" novalidate>
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <label for="avgOrder">Average order value ($)</label>
+              <input type="number" class="form-control" id="avgOrder" placeholder="e.g. 45" min="0" step="0.01" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="purchaseFreq">Purchases per year</label>
+              <input type="number" class="form-control" id="purchaseFreq" placeholder="e.g. 4" min="0" step="0.01" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="grossMargin">Gross margin (%)</label>
+              <input type="number" class="form-control" id="grossMargin" placeholder="e.g. 35" min="0" max="100" step="0.01" required>
+            </div>
+            <div class="col-md-6 form-group">
+              <label for="retentionRate">Annual retention rate (%)</label>
+              <input type="number" class="form-control" id="retentionRate" placeholder="e.g. 80" min="0" max="100" step="0.01" required>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-lg px-4">Calculate LTV</button>
+        </form>
+
+        <div id="results" class="mt-4 d-none">
+          <h2 class="h5 font-weight-bold mb-3">Your customer lifetime value</h2>
+          <div class="row text-center">
+            <div class="col-sm-6 col-lg-3 mb-3">
+              <div class="result-box p-3 bg-light rounded">
+                <div class="text-muted small">LTV (per customer)</div>
+                <div class="h4 font-weight-bold text-primary" id="ltvValue">—</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-3">
+              <div class="result-box p-3 bg-light rounded">
+                <div class="text-muted small">Avg. gross profit / yr</div>
+                <div class="h4 font-weight-bold" id="gpvValue">—</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-3">
+              <div class="result-box p-3 bg-light rounded">
+                <div class="text-muted small">Avg. customer lifespan</div>
+                <div class="h4 font-weight-bold" id="lifespanValue">—</div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-lg-3 mb-3">
+              <div class="result-box p-3 bg-light rounded">
+                <div class="text-muted small">Max CAC to break even</div>
+                <div class="h4 font-weight-bold" id="cacValue">—</div>
+              </div>
+            </div>
+          </div>
+          <div class="alert alert-info small mt-2" role="alert" id="insightBox">
+            <strong>Insight:</strong> <span id="insightText"></span>
+          </div>
+        </div>
+
+        <p class="text-muted small mt-3 mb-0">Values are estimates for planning only — actual LTV varies with churn, discounts,, cohorts,,and cost structure.</p>
+      </div>
+    </div>
+
+    <nav class="toc card card-body bg-light border-0 mb-5" aria-label="Table of contents">
+      <h2 class="h6 font-weight-bold mb-2">Table of Contents</h2>
+      <ul class="mb-0">
+        <li><a href="#what-is-ltv">What is LTV?</a></li>
+        <li><a href="#how-it-works">How the LTV calculator works</a></li>
+        <li><a href="#ltv-formula">The CLV formula explained</a></li>
+        <li><a href="#use-cases">Use cases</a></li>
+        <li><a href="#pro-tips">Pro tips</a></li>
+        <li><a href="#faq">LTV FAQ</a></li>
+        <li><a href="#about">About the author</a></li>
+      </ul>
+    </nav>
+
+    <article>
+      <section id="what-is-ltv">
+        <h2>What is LTV?</h2>
+        <p>LTV — short for lifetime value — is the total profit a business can reasonably expect from a single customer over the whole time that customer stays with you. It is also called CLV (customer lifetime value) or CLTV.. When someone says “customer value over time,” they almost always mean one of these three letters.. LTV answers one deceptively simple question: <em>what is one customer worth to this business in dollars, not just today, but across every future order?</em></p>
+        <p>Startups chase LTV because it turns a customer from a line item into an asset.. A subscription business, for example, might lose money on its first month of a plan (after acquisition and onboarding costs) but make it back many times over if the customer stays eighteen months.. Without LTV,that math stays invisible.. With it, you can decide how much to spend acquiring people, which channels deserve more budget,,and where churn is quietly eating your growth..</p>
+      </section>
+
+      <section id="how-it-works">
+        <h2>How the LTV calculator works</h2>
+        <p>This tool applies the standard customer lifetime value model used by SaaS,and ecommerce teams:</p>
+        <ol>
+          <li><strong>Average order value × purchases per year</strong> gives your annual revenue per customer..</li>
+          <li>That figure × <strong>gross margin %</strong> gives annual gross profit per customer.. This is the number that matters — revenue minus the direct cost of delivering the product or service.</li>
+          <li>Your <strong>retention rate</strong> tells us how many years a typical customer sticks around. The math converts retention into a lifespan using the formula <code>1 / (1 − retention rate)</code>.. Retention of 80% gives an average lifespan of five years; 90% gives ten.. Small retention gains compound hugely.</li>
+          <li>Annual gross profit × lifespan = <strong>LTV</strong>.. We also display the reciprocal idea in practical terms:the maximum you can pay to acquire a customer (CAC)and still break even over their lifetime.</li>
+        </ol>
+        <p>All four inputs stay in your control.. Adjust any number and the results update instantly when you calculate — no signup,, no hidden assumptions..</p>
+      </section>
+
+      <section id="ltv-formula">
+        <h2>The CLV formula explained</h2>
+        <p>The core model this calculator uses is:</p>
+        <div class="p-3 bg-light rounded border-left border-primary font-weight-bold mb-3">LTV = (Average Order Value × Purchases per Year × Gross Margin %)× (1 ÷ (1 − Retention Rate)))</div>
+        <p>If your average order is $45, customers buy four times a year, gross margin is 35%,and retention is 80%,the math works out like this:</p>
+        <ul>
+          <li>Annual revenue per customer: $45 × 4 = <strong>$180</strong></li>
+          <li>Annual gross profit: $180 × 0.35 = <strong>$63</strong></li>
+          <li>Average lifespan: 1 ÷ (1 − 0.80) = <strong>5 years</strong></li>
+          <li>LTV: $63 ×  5 = <strong>$315</strong></li>
+        </ul>
+        <p>That $315 is the most you could theoretically spend to win this customer,and still break even.. Most healthy businesses aim for LTV at least three times the customer acquisition cost.</p>
+      </section>
+
+      <section id="use-cases">
+        <h2>Who should use a customer lifetime value calculator</h2>
+        <ul>
+          <li><strong>SaaS founders</strong> — to sanity-check subscription pricing against churn before raising prices or adding tiers.</li>
+          <li><strong>Ecommerce store owners</strong> — to decide whether repeat-purchase campaigns (email flows,, loyalty programs) afford their cost.</li>
+          <li><strong>Marketing managers</strong> — to compare LTV: CAC across paid search,, social,, influencer,,and affiliate channels and re-weight budget monthly.</li>
+          <li><strong>Finance teams</strong> — to model cohort payback periods,and set loan/valuation assumptions for investor decks.</li>
+          <li><strong>Agencies,and consultants</strong> — to run quick client audits where the client has no existing reporting tool.</li>
+        </ul>
+      </section>
+
+      <section id="pro-tips">
+        <h2>Pro tips for improving LTV</h2>
+        <p>A higher number rarely comes from one heroic launch.. It compounds from small, repeated choices:</p>
+        <ul>
+          <li><strong>Raise retention by 3 percentage points</strong> — a common first lever.. At 80% retention, an extra 3 points lifts average lifespan from 5 to roughly 5.9 years — nearly a 20% LTV gain without a single new customer.</li>
+          <li><strong>Re-examine gross margin</strong> — tightening COGS,, shipping,, support cost,,or payment fees often adds more LTV than discounting to win new buyers.</li>
+          <li><strong>Increase purchase frequency</strong> — subscriptions,, replenishment reminders,, cross-sells,,and bundles turn a one-off buyer into a repeating one.</li>
+          <li><strong>Segment by cohort</strong> — your top-decile cohort may show LTV of $900 while the blended average says $315.. Marketing decisions made on blends hide where the real value sits.</li>
+          <li><strong>Watch payback period</strong> — if LTV is $315,and CAC is $100,,you recover acquisition in roughly 1.6 years.. Longer than your cash runway,and something has to give.</li>
+        </ul>
+      </section>
+
+      <section id="faq">
+        <h2>LTV FAQ</h2>
+        <div class="faq-item mb-3">
+          <h3 class="h6 font-weight-bold">How do I calculate LTV?</h3>
+          <p>Multiply average order value by purchases per year by gross margin,then divide by the annual churn rate (1 − retention rate). For an $45 order, four orders a year, 35% margin,and 80% retention: $45 × 4 × 0.35 ÷ 0.2 = <strong>$315</strong>. You can plug the same four numbers into the calculator above — it does the division,and the margin step for you.</p>
+        </div>
+        <div class="faq-item mb-3">
+          <h3 class="h6 font-weight-bold">Is 20% a good LTV?</h3>
+          <p>Twenty percent is not itself an LTV figure — it is usually a margin-related number, such as a 20% profit margin or a 20% increase in LTV year over year. If you mean LTV as a multiple of CAC, a ratio of around 3:1 is considered healthy in most industries,and many SaaS investors look for  5:1 or higher before scaling paid acquisition. The dollar value depends on price point — a $20 subscription naturally has lower LTV than a $200-per-month contract.</p>
+        </div>
+        <div class="faq-item mb-3">
+          <h3 class="h6 font-weight-bold">How to calculate 75% LTV?</h3>
+          <p>If you mean an LTV figure calculated with a 75% retention rate,plug 75 in the retention field above:the average lifespan becomes 1 ÷ (1 − 0.75) = four years,and annual gross profit is multiplied by four. If you instead mean LTV at a 75% gross margin,enter that margin in the margin field — the calculator applies it before the lifespan step. Either way,the inputs map directly to the two percentage fields in the form above.</p>
+        </div>
+        <div class="faq-item mb-3">
+          <h3 class="h6 font-weight-bold">What is a good customer lifetime value benchmark?</h3>
+          <p>For subscription businesses,an LTV:CAC ratio above 3 is a common healthy threshold,with top performers near 5–7. For ecommerce,gross-margin-based LTV varies widely by category — CPG often runs far lower than B2B software because repeat purchase,and margin profiles differ.. Benchmarks only help when compared against your own cohorts,and industry category,not absolute dollar amounts.</p>
+        </div>
+        <div class="faq-item mb-3">
+          <h3 class="h6 font-weight-bold">Why does retention matter more than acquisition?</h3>
+          <p>Because churn is a denominator,in the LTV formula,small changes swing results exponentially. Improving retention from 80% to 85% shortens,the churn rate from  20% to 15% — a 33% reduction in churn — which lifts lifespan from  5 to 6.7 years.. Acquiring customers faster rarely beats keeping,the ones you already have.</p>
+        </div>
+      </section>
+
+      <section id="about">
+        <h2>About the author</h2>
+        <p>This tool was built by the <strong>Daily Tools</strong> project — an OpenHands automation that designs one fresh, single-page web tool every day.. The LTV model follows standard subscription analytics practice used across SaaS finance teams.. Facts and formulas are presented for planning purposes only,and are not financial advice..</p>
+        <p class="text-muted small">Last updated: September 2, 2026</p>
+      </section>
+    </article>
+  </main>
+
+  <footer class="border-top py-4 mt-4">
+    <div class="container text-center text-muted small">
+      <p class="mb-1">© 2026 A Free Tools — Customer Lifetime Value Calculator. All rights reserved.</p>
+      <p class="mb-0"><a href="/privacy">Privacy</a> · <a href="/terms">Terms</a> · <a href="/contact">Contact</a></p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
