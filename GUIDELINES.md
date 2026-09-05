@@ -10,7 +10,8 @@
 4. **Reference page for theme/vibe**: https://afreetools.com/tip-calculator — visit it and let it guide the overall layout rhythm,, colors,, spacing,, and tone.. (Adapt,, don't copy.)
 5. **Unique content** — include a unique,, plagiarism-free,, human-like informational article of **~800–1000 words** on the page (below or around the interactive tool).. Integrate relevant **secondary keywords** naturally to build **E-E-A-T** (Experience,, Expertise,, Authoritativeness,, Trustworthiness:: author signature/bio block,, accurate facts,, sources where relevant,, FAQ section,, last-updated date,, etc.)
 6. **Originality per tool** — every tool must be genuinely distinct in voice,, structure,, and design (no reused boilerplate).. Do not duplicate another tool's title,, slug,, or article..
-7. **Theme primary color** - Please use #60089c as theme primary color and used all its color variant to build the page theme. 
+7. **Theme primary color** - Please use #60089c as theme primary color and used all its color variant to build the page theme.
+8. **Disclaimer** - Add disclaimer for each tool. 
 
 ## How the queue works
 - `tools-queue.txt` holds one tool idea per line.. First unconsumed line (not starting with `[done]`) gets built next..
