@@ -25,5 +25,11 @@ Each tool is self-contained in its folder. With GitHub Pages enabled (Settings �
 https://<your-user>.github.io/daily-tools/tools/001-tool-name/
 ```
 
+## Tools
+| # | Tool | What it does | Link |
+|---|------|---------------|------|
+| 001 | LTV Calculator | Estimate customer lifetime value for subscription and SaaS businesses | [View](tools/001-ltv-calculator/) |
+| 002 | Pomodoro Timer | Run customizable 25/5 focus sessions with short and long break cycles | [View](tools/002-pomodoro-timer/) |
+
 ## Guidelines
 Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light theme only, SEO title/description, and a ~800–1000-word unique article per tool with E-E-A-T signals.
