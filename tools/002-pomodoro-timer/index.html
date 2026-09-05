@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pomodoro Timer — 25/5 Focus Session Timer &amp; Study Interval Tracker</title>
+  <meta name="description" content="Free pomodoro timer - run 25-minute focus sessions with 5-minute breaks, track completed pomodoro cycles,and build a deeper focus habit. Great for studying, work, coding, and deep work.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+    <nav aria-label="breadcrumb" class="small text-muted">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/calculators">Calculators</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Pomodoro Timer</li>
+      </ol>
+    </nav>
+
+    <h1 class="h2 mb-1 font-weight-bold">Pomodoro Timer</h1>
+    <p class="lead text-muted mb-4">A simple 25/5 focus timer that helps you work in short, intense bursts and rest between them — so you can study longer and feel less burned out.</p>
+
+    <div class="card shadow-sm border-0 mb-5" id="toolCard">
+      <div class="card-body p-4 p-md-5">
+        <div class="text-center mb-4">
+          <div id="modeLabel" class="badge badge-pill badge-focus px-3 py-2 mb-3">Focus</div>
+          <div id="timerDisplay" class="timer-display" role="timer" aria-live="polite" aria-label="Time remaining">25:00</div>
+          <div id="cycleDots" class="cycle-dots mb-2" aria-label="Completed pomodoros"></div>
+          <div class="text-muted small" id="cycleInfo">0 of 4 focus sessions completed</div>
+        </div>
+
+        <form id="settingsForm" novalidate>
+          <div class="row">
+            <div class="col-md-6 col-lg-3 form-group">
+              <label for="focusMin">Focus (min)</label>
+              <input type="number" class="form-control" id="focusMin" value="25" min="1" max="180" step="1" required>
+            </div>
+            <div class="col-md-6 col-lg-3 form-group">
+              <label for="shortBreakMin">Short break (min)</label>
+              <input type="number" class="form-control" id="shortBreakMin" value="5" min="1" max="60" step="1" required>
+            </div>
+            <div class="col-md-6 col-lg-3 form-group">
+              <label for="longBreakMin">Long break (min)</label>
+              <input type="number" class="form-control" id="longBreakMin" value="15" min="1" max="60" step="1" required>
+            </div>
+            <div class="col-md-6 col-lg-3 form-group">
+              <label for="sessionsLong">Sessions before long break</label>
+              <input type="number" class="form-control" id="sessionsLong" value="4" min="2" max="8" step="1" required>
+            </div>
+          </div>
+          <div class="text-center">
+            <button type="button" id="startPauseBtn" class="btn btn-brand btn-lg px-4">Start</button>
+            <button type="button" id="resetBtn" class="btn btn-outline-secondary btn-lg px-4 ml-2">Reset</button>
+            <button type="button" id="skipBtn" class="btn btn-outline-secondary btn-lg px-4 ml-2">Skip</button>
+            <div class="small text-muted mt-3">Keyboard: <kbd>Space</kbd> start/pause · <kbd>R</kbd> reset</div>
+          </div>
+        </form>
+
+        <div id="statusAlert" class="alert alert-info small mt-4 mb-0 d-none" role="status"></div>
+      </div>
+    </div>
+
+    <section aria-labelledby="whatIs">
+      <h2 id="whatIs">What is a Pomodoro Timer?</h2>
+      <p>A pomodoro timer is a time-management tool built around the Pomodoro Technique, a method developed by Francesco Cirillo in the late 1980s. Instead of telling you to "work for hours," it slices your day into short, repeatable work blocks — usually 25 minutes each — separated by 5-minute breaks. The Italian word <em>pomodoro</em> means "tomato," and Cirillo named the method after the tomato-shaped kitchen timer he used as a university student.</p>
+      <p>The idea is deliberately simple: work with total focus for one short interval, stop when the timer rings, and walk away during the break. Because the intervals are short, your brain canCommit fully without sliding into procrastination or burnout — and because breaks are guaranteed, you get a natural recovery rhythm through the day.</p>
+      <p>The science behind the technique aligns with how attention actually works. Focus naturally fades after roughly 20–30 minutes of sustained effort,et al. research on ultradian rhythms suggests the body cycles through periods of high and low alertness. Scheduled breaks let you catch the downward slope before exhaustion sets in, which is why the pomodoro method is popular with students, developers, writers, and anyone doing deep, cognitively demanding work.</p>
+    </section>
+
+    <section aria-labelledby="howItWorks">
+      <h2 id="howItWorks">How the Pomodoro Technique works</h2>
+      <p>The classic cycle has five steps:</p>
+      <ol>
+        <li>Pick one task you want to make progress on.</li>
+        <li>Set the timer for 25 minutes — that is one pomodoro.</li>
+        <li>Work with full attention until the timer rings. No phone, no tabs, no "quick" email check.</li>
+        <li>Take a 5-minute break. Stand up, stretch, get water — the break is part of the method, not a reward you skip.</li>
+        <li>After four pomodoros, take a longer break of 15–30 minutes so your brain can consolidate what you learned.</li>
+      </ol>
+      <p>This tool automates the whole loop. It tracks how many focus sessions you finish, switches automaticallyinto short breaks,and after the sessions-per-cycle count, gives you a long break. You just pick a task and press start.</p>
+      <p>One important principle: an interrupted pomodoro is not counted. If a distraction pulls you away mid-interval, either resolve it quickly and resume, restarti the interval, or note the task for later. The count only represents genuinely focused work — that keeps the numbers honest and meaningful.</p>
+    </section>
+
+    <section aria-labelledby="useCases">
+      <h2 id="useCases">When a pomodoro timer helps most</h2>
+      <p><strong>Study sessions.</strong> Students use pomodoro timers to prepare for exams, write essays, and work through problem sets without doom-scrolling between paragraphs. The regular break rhythm keeps retention higher than marathon cramming.</p>
+      <p><strong>Deep work at the office.</strong> Developers, designers, analysts, and writers use focus intervals to protect concentrated time from meetings, chat pings,and open-plan noise. Blocking 2–3 pomodoros per morning can easily add four focused hours.</p>
+      <p><strong>Reading and learning.</strong> When you are working through a long book or an online course, the timer turns passive reading into active, bounded study blocks — and gives you a natural place to stop and take notes.</p>
+      <p><strong>Household and side projects.</strong> Cleaning, organizing, or building a side project also responds well to sprint-style effort: 25 focused minutes feels far less daunting than "I should reorganize the garage today," so you actually start.</p>
+      <p>Even meetings and chores can be pomodoroed: pair a fixed focus block with a phone-call batch, and the timer keeps each activity contained.</p>
+    </section>
+
+    <section aria-labelledby="proTips">
+      <h2 id="proTips">Pro tips for better focus sessions</h2>
+      <ul>
+        <li><strong>Decide the task before starting.</strong> A pomodoro without a target invites "what should I do now?" drift. Write the next concrete action on a sticky note or in a task app before pressing start.</li>
+        <li><strong>Turn off notifications.</strong> Airplane mode on your phone and a "do not disturb" mode on your laptop remove the biggest distractions before the timer even runs.</li>
+        <li><strong>Use the breaks to move.</strong> A 5-minute break is enough for a stretch, a short walk around the room, or a glass of water — but not enough for a social-feed spiral. Save phone scrolling for the long break.</li>
+        <li><strong>Track distraction triggers.</strong> Keep a small note beside you mark every time something pulls you away. Patterns become obvious — and next week you can plan around them.</li>
+        <li><strong>Start with one pomodoro on hard days.</strong> When motivation is low, commit to a single 25-minute block. One finished pomodoro almost always turns into three or four — starting is the hardest part.</li>
+        <li><strong>Review after each cycle.</strong> At the end of the long break, glance at what you completed and decide what comes next. This tiny review turns a mechanical timer into a planning system.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="faq">
+      <h2 id="faq">Pomodoro Timer FAQ</h2>
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">What is a pomodoro timer?</h3>
+          <p class="mb-0">A pomodoro timer is a countdown timer that follows the Pomodoro Technique: work for a fixed interval (traditionally 25 minutes, called one "pomodoro"y, then take a scheduled break((usually 5 minutes to recover. After several work intervals((often four —you take a longer 15-to-30-minute break. The timer marks the boundary between focus time and rest time, so you do not have to keep track of "when should I stop?" in your head — you simply work until the bell and rest until the bell.</p>
+        </div>
+      </div>
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">Is 25/5 or  ️50/10 pomodoro better?</h3>
+          <p class="mb-0">Neither is universally "better" — it depends on your task and your attention span. The classic 25/5 ratio works best for studying, reading, quick admin tasks,and people new to focus training: it lowers the barrier to starting and keeps fatigue low. The extended 50/10 (or even 90/20) ratio suits experienced deep-workers who need long ramp-up time — programmers solving challenging bugs, writers drafting long chapters, or analysts building complex models. A good rule: start with 25/5; if you frequently feelthat the timer rings right as you hit flow, test 50/10 for a week and compare total focused hours and how you feel at day's end. The best schedule is the one you can repeat consistently.</p>
+        </div>
+      </div>
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">Is pomodoro only 25 minutes?</h3>
+          <p class="mb-0">No — 25 minutes is just the classic default. The method works with any focus length you choose, and many people customize it: 15-minute pomodoros for small tasks or low-energy days, 30-minute blocks for lectures or writing,and 50-minute blocks for deep programming. The essential ingredients are two: a clearly bounded work interval and a clearly bounded break. What matters more than the exact number is that you pick a length, commit to it, and actually take the break. This tool lets you set focus, short break, long break,and cycle length to whatever suits your work style.</p>
+        </div>
+      </div>
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">Why do I need breaks instead of just working longer?</h3>
+          <p class="mb-0">Sustained attention degrades over time: after roughly 20–30 minutes of demanding mental work, concentration dips and errors creep up. Short breaks let fatigue dissipate, reset your attention,and actually improve total output — many people finish more real work isin four pomodoro-framed hours than in six unframed ones. Breaks also build a sustainable habit: because the workload is predictable, you are less tempted to quit entirely.</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="authorBio" class="mt-4">
+      <h2 id="authorBio" class="h5">About the author</h2>
+      <div class="media p-3 bg-light rounded">
+        <div class="media-body">
+          <p class="mb-1"><strong>Afree Tools Team</strong> — productivity enthusiasts who test these techniques daily while building free, practical web tools. We share what we actually use: simple focused tools with clear output, no sign-up, no clutter.</p>
+        </div>
+      </div>
+      <p class="small text-muted mt-3">Last updated: September  ️5,, 2026</p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
