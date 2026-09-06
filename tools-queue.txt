@@ -6,4 +6,8 @@
 [done] LTV Calculator (merged via PR #1) | add this also FAQ's - How do I calculate LTV?, Is 20% a good LTV?, How to calculate 75% LTV? 
 [done] Pomodoro Timer | add this also FAQ's - What is a pomodoro timer?, Is 25/5 or 50/10 pomodoro better?, Is pomodoro only 25 minutes?
 Sig Fig Calculator | Make sure to do competative analysis.
+Loan to Value Calculator
+Text Compare (Diff Checker)
+HEX to RGB Converter
+RGB to HEX Converter
 Loan EMI Calculator | include amortization breakdown table
