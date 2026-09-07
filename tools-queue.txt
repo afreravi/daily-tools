@@ -5,8 +5,8 @@
 # Add your tool ideas below — one per line, WITHOUT a leading # so they are active.
 [done] LTV Calculator (merged via PR #1) | add this also FAQ's - How do I calculate LTV?, Is 20% a good LTV?, How to calculate 75% LTV? 
 [done] Pomodoro Timer | add this also FAQ's - What is a pomodoro timer?, Is 25/5 or 50/10 pomodoro better?, Is pomodoro only 25 minutes?
-Sig Fig Calculator | Make sure to do competative analysis.
-Loan to Value Calculator
+[done] Sig Fig Calculator | Make sure to do competative analysis.
+[done] Loan to Value Calculator
 Text Compare (Diff Checker)
 HEX to RGB Converter
 RGB to HEX Converter
