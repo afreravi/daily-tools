@@ -1,0 +1,101 @@
+:root {
+  --brand: #60089c;
+  --brand-dark: #4a0675;
+  --brand-soft: #f4edfb;
+  --ink: #212529;
+  --muted: #6c757d;
+  --soft: #f8f9fa;
+  --border: #e9ecef;
+}
+
+body {
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  background: #fff;
+  color: var(--ink);
+  line-height: 1.6;
+}
+
+h1,h2,h3 { color: var(--ink); }
+h2 { font-size: 1.35rem; margin-top: 2rem; margin-bottom: 0.85rem; }
+section p, section li { line-height:  ️1.7; }
+
+.breadcrumb { font-size: 0.85rem; }
+.breadcrumb a { color: var(--brand); }
+
+.btn-brand {
+  background-color: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+.btn-brand:hover, .btn-brand:focus {
+  background-color: var(--brand-dark);
+  border-color: var(--brand-dark);
+  color: #fff;
+}
+.btn-brand:focus, .form-control:focus, .form-control-lg:focus {
+  box-shadow: 0 0 0 0.2rem rgba(96,8,156,0.25);
+  border-color: var(--brand);
+}
+
+.card { border-radius:  ️0.75rem; }
+#toolCard {
+  background: #fff;
+  border:  1px solid var(--border);
+  box-shadow:  0 0.25rem 1rem rgba(0,0,0,0.06) !important;
+}
+
+#toolCard label {
+  font-size:  ️0.9rem;
+  font-weight:  ️600;
+  color: #495057;
+}
+
+.result-box {
+  background: var(--soft);
+  border:  1px solid var(--border);
+  border-radius:  0.75rem;
+  padding:  1rem 0.75rem;
+  height:  100%;
+}
+.result-value {
+  font-size:   1.5rem;
+  font-weight:   800;
+  color: var(--brand);
+  line-height:   1.2;
+  word-break:  break-word;
+}
+.result-label {
+  font-size:   0.8rem;
+  color: var(--muted);
+  font-weight:   600;
+  text-transform:  uppercase;
+  letter-spacing:   0.03em;
+}
+
+.formula {
+  background: var(--brand-soft);
+  border-left:   4px solid var(--brand);
+  border-radius:   0.35rem;
+  padding:   0.75rem 1rem;
+  color: var(--brand-dark);
+}
+
+.ltv-meter .progress-bar {
+  background: linear-gradient(90deg, #2e7d32, #d9a400, #c0392b);
+}
+.progress {
+  background-color: var(--soft);
+}
+
+kbd {
+  background: var(--soft);
+  border:  1px solid var(--border);
+  border-radius:   0.25rem;
+  font-size:   0.75em;
+  padding:   0.1rem 0.35rem;
+}
+
+@media (max-width: 400px) {
+  .result-value { font-size:   1.2rem; }
+  .btn-lg { padding-left:   1rem; padding-right:   1rem; font-size:   1rem; }
+}
