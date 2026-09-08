@@ -7,7 +7,7 @@
 [done] Pomodoro Timer | add this also FAQ's - What is a pomodoro timer?, Is 25/5 or 50/10 pomodoro better?, Is pomodoro only 25 minutes?
 [done] Sig Fig Calculator | Make sure to do competative analysis.
 [done] Loan to Value Calculator
-Text Compare (Diff Checker)
+[done] Text Compare (Diff Checker)
 HEX to RGB Converter
 RGB to HEX Converter
 Loan EMI Calculator | include amortization breakdown table
