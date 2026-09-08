@@ -95,7 +95,7 @@
         sameRun++;
         if (sameRun <= 3) {
           out.push('<span class="l-same"> ' + escapeHtml(s1[sameIndex(s1, s2, k, ops)]) + '</span>');
-        } else if (sameRun === 4) {
+        } else if (sameRun === 4) { sameRun =  0; 
           out.push('<span class="l-ellipsis">â¦</span>');
         }
       } else if (ops[k] === "del") {
@@ -126,7 +126,11 @@
   }
 
   function addIndex(s1, s2, k, ops) {
-    return sameIndex(s1, s2, k, ops);
+    var j =  0;
+    for (var p =  0; p < k; p++) {
+      if (ops[p] === "add") j++;
+    }
+    return j;
   }
 
   function escapeHtml(str) {
