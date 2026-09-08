@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Text Compare &amp; Diff Checker – Free Online Comparison Tool</title>
+  <meta name="description" content="Compare two texts instantly with our free online text compare and diff checker. Spot additions, removals, and similarity percentages to edit drafts, code, and documents with ease.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <nav class="navbar navbar-expand navbar-light px-0 py-3" aria-label="Primary navigation">
+        <a class="navbar-brand brand-link" href="../../">Daily Tools</a>
+        <span class="navbar-text ml-auto d-none d-sm-inline small text-muted">One handy tool, every day</span>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container main-wrap">
+    <section class="hero text-center">
+      <h1>Text Compare &amp; Diff Checker</h1>
+      <p class="lead">Paste two versions of any text — find what changed in seconds with a free online text compare tool.</p>
+      <p class="updated small text-muted">Last updated: September 8, 2026</p>
+    </section>
+
+    <section class="card tool-card" aria-label="Text compare tool">
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label for="textA">Original text <span class="text-muted small">(Version A)</span></label>
+            <textarea id="textA" class="form-control code-area" rows="10" spellcheck="false" placeholder="Paste or type the original text here…" aria-describedby="textAHelp"></textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="textB">Changed text <span class="text-muted small">(Version B)</span></label>
+            <textarea id="textB" class="form-control code-area" rows="10" spellcheck="false" placeholder="Paste or type the updated text here…" aria-describedby="textBHelp"></textarea>
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-center options-row">
+          <div class="custom-control custom-switch mr-3">
+            <input type="checkbox" class="custom-control-input" id="ignoreCase" checked>
+            <label class="custom-control-label small" for="ignoreCase">Ignore case</label>
+          </div>
+          <div class="custom-control custom-switch mr-3">
+            <input type="checkbox" class="custom-control-input" id="ignoreWs">
+            <label class="custom-control-label small" for="ignoreWs">Ignore whitespace</label>
+          </div>
+          <button type="button" class="btn btn-primary mr-2" id="compareBtn">Compare texts</button>
+          <button type="button" class="btn btn-outline-secondary" id="swapBtn">Swap sides</button>
+          <button type="button" class="btn btn-link btn-sm" id="sampleBtn">Load sample</button>
+        </div>
+
+        <div id="results" class="results-mount" hidden>
+          <div class="stats-row">
+            <div class="stat-box">
+              <div class="stat-label">Similarity</div>
+              <div class="stat-value" id="simValue">–</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Lines</div>
+              <div class="stat-value" id="statLines">A – / B –</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Words</div>
+              <div class="stat-value" id="statWords">A – / B –</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-label">Characters</div>
+              <div class="stat-value" id="statChars">A – / B –</div>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <canvas id="compareChart" width="600" height="160" role="img" aria-label="Bar chart comparing line, word, and character counts between version A and version B"></canvas>
+          </div>
+
+          <div class="diff-summary" id="diffSummary" hidden></div>
+          <div class="diff-panel">
+            <div class="diff-head d-flex justify-content-between align-items-center">
+              <h2 class="h6 mb-0">Unified diff</h2
+              <span class="small text-muted">Red = removed · Green = added</span>
+            </div>
+            <pre class="diff-output" id="diffOutput" tabindex="0" aria-label="Unified diff output"></pre>
+          </div>
+        </div        </div>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2>How the Text Compare Tool Works</h2>
+      <p>Every editor has hit the same wall: someone hands you an updated draft, a revised paragraph, or a new commit, and you have no idea what actually changed. A text compare tool solves that puzzle by breaking both versions into individual lines and walking through them line by line. It marks the lines that stayed the same, the lines that disappeared, and the lines that arrived fresh. What you get is a clear before-and-after view — exactly the kind of clarity that manual proofreading misses.</p>
+      <p>Under the hood, the tool uses a classic algorithm called the longest common subsequence, or LCS. Instead of reading both texts from top to bottom, it lines up the blocks that match and then reports only the regions where the texts diverge. That is why the results stay stable even when you insert a paragraph in the middle of a document or delete a sentence from the top. The unchanged parts anchor the comparison; the changed parts stand out.</p>
+      <p>You also get a similarity percentage. It is calculated from how many lines remain common between the two versions relative to the total number of lines in both. Two identical texts score 100%, two completely different texts drift toward 0%, and most real-world edits land somewhere between. The number is a useful sanity check — in a five-paragraph essay, a 94% score tells you the edit was light, while a 42% score signals a rewrite.</p>
+
+      <h2>Why Compare Texts Online?</h2>
+      <p>Diff checker tools earn their keep across far more situations than people expect. Writers compare manuscript revisions before submission so no argument or quote silently disappears. Editors diff two headlines or marketing variants to see which copy changed before a split test. Developers paste old andnew config files, regression logs, or prompts to isolate what shifted. Students compare their paraphrase against an original passage to confirm they rewrote it rather than copied it. Recruiters and HR teams compare candidate responses or job description revisions. Even lawyers and paralegals compare contract redlines where wording changes carry real weight.</p>
+      <p>Because the tool runs entirely in your browser, nothing you paste ever leaves your device. There is no upload, no server round trip, no account to create. That makes it a natural fit for confidential work — salary review notes, unpublished research, proprietary code snippets, or anything covered by a non-disclosure agreement.</p>
+
+      <h2>Use Cases You Might Not Have Considered</h2>
+      <ul>
+        <li><strong>Prompt engineering.</strong> You tuned a prompt for an AI assistant and accidentally changed a phrase. Diff the old andnew prompt to see the exact token-level tweak and keep a changelog of what worked.</li>
+        <li><strong>CSV and config hygiene.</strong> Two exported CSV files may differ by a single column. A line-based diff shows you where the header row drifted and which rows were added or removed.</li>
+        <li><strong>Legal and compliance redlines.</strong> Track exactly which clauses changed between contract versions so nobody can claim a silent edit.</li>
+        <li><strong>Translation QA.</strong> Compare two translation passes side by side to find segments that were reworded instead of the earlier, approved phrasing.</li>
+        <li><strong>Learning a codebase.</strong> Paste an old version of a script and the new one; the added lines are literally the changelog someone forgot to write.</li>
+      </ul>
+
+      <h2>Pro Tips for Getting the Most Out of It</h2>
+      <p>Turn on <em>Ignore case</em> when you compare drafts where capitalization changed for style reasons but meaning did not. Use <em>Ignore whitespace</em> when you compare formatted exports or pasted emails where indentation and line wrapping are cosmetic. If the two texts have different line endings — one downloaded from Windows, one from a Mac — paste them both into a plain text editor first so both sides normalize, or the line comparison will flag every line as different.</p>
+      <p>For very long documents, compare section by section rather than the whole file at once. The results stay readable, and a section-level diff is easier to scan than a wall of green and red. Keep the context around each changed block short — most diff readers follow the rule that if a chunk of unchanged lines is long enough, only the boundary lines matter.</p>
+
+      <h2>Common Mistakes and FAQ</h2>
+      <div class="faq">
+        <h3>Why does the tool show everything as different when I paste from a PDF?</h3>
+        <p>PDFs frequently embed soft line breaks, double spaces, and non-breaking spaces that are invisible on screen. The lines look identical but they are not. Enable <em>Ignore whitespace</em> or clean the text through a plain-text editor before comparing.</p>
+        <h3>What does a 100% similarity with different formatting mean?</h3>
+        <p>It means every line matches once your selected options are applied. If you ignored case, a change from “Version” to “version” will not be flagged. That is usually what you want for style-only edits, but if the case change is meaningful, uncheck the option and re-run.</p>
+        <h3>Is there a limit on text size?</h3>
+        <p>The tool compares locally so performance depends on your browser and device. For everyday documents, essays, and code files — thousands of lines — it responds instantly. For enormous files, split the comparison into smaller chunks.</p>
+        <h3>Can I use this to check if two texts are duplicates?</h3>
+        <p>Yes, though a diff checker gives you a similarity percentage rather than a plagiarism verdict. Identical or near-identical texts score near 100%; substantially rewritten text scores lower. For formal plagiarism checks, use a dedicated service and review sources carefully.</p>
+        <h3>Does the tool store my texts?</h3>
+        <p>No. Everything runs in JavaScript on your device, and refreshing the page clears both panels. There is no database, no analytics pipeline that sees your content, and no server-side copy.</p>
+      </div>
+
+      <h2>About the Author</h2>
+      <div class="author-bio">
+        <p>The Daily Tools editorial team builds small, focused web utilities that respect your privacy and solve real, everyday problems. Each tool is researched, tested, and documented so that you know exactly what it does and why it does it. Questions, corrections, or tool ideas? The team welcomes them — accurate, trustworthy tools are the whole point of the project.</p>
+      </div>
+
+      <div class="disclaimer small text-muted mt-4">
+        <strong>Disclaimer:</strong> This text compare tool is provided for general informational and productivity purposes. Results depend on the input provided and may not suit specialized legal, scholarly, or forensic comparison requirements. Always verify critical differences manually or with professional tooling where accuracy is essential.
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container small text-muted">
+      <p class="mb-1">&copy; 2026 Daily Tools. Built by an OpenHands automation.</p>
+      <p class="mb-0">Preview locally, or enable GitHub Pages to view this tool online.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
