@@ -31,7 +31,8 @@ https://<your-user>.github.io/daily-tools/tools/001-tool-name/
 | 001 | LTV Calculator | Estimate customer lifetime value for subscription and SaaS businesses | [View](tools/001-ltv-calculator/) |
 | 002 | Pomodoro Timer | Run customizable 25/5 focus sessions with short and long break cycles | [View](tools/002-pomodoro-timer/) |
 | 003 | Sig Fig Calculator | Count and round significant figures, with scientific notation support | [View](tools/003-sig-fig-calculator/) |
-| 004 | Loan to Value Calculator | Calculate mortgage LTV ratio, equity stake,and risk band from price and down payment | [View](tools/004-loan-to-value-calculator/) |
+| 004 | Loan to Value Calculator | Calculate mortgage LTV ratio, equity stake,and risk band from price and down payment | [View](tools/004-loan-to-value-calculator/) | 
+| 005 | Text Compare | Compare two texts line by line to spots additions, removals,and unchanged blocks, with similarity percentage | [View](tools/005-text-compare/) |
 
 ## Guidelines
 Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light theme only, SEO title/description, and a ~800–1000-word unique article per tool with E-E-A-T signals.
