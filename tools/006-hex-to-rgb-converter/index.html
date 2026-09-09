@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>HEX to RGB Converter — Free Online Color Code Converter Tool</title>
+  <meta name="description" content="Free online HEX to RGB converter: paste any hex color code and instantly get its RGB values, a live color preview,and CSS ready output. No sign-up needed.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+    <nav aria-label="breadcrumb" class="small text-muted">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/calculators">Calculators</a></li>
+        <li class="breadcrumb-item active" aria-current="page">HEX to RGB Converter</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-1 font-weight-bold">HEX to RGB Converter</h1>
+      <p class="lead text-muted mb-0">Paste a hex color code — #3498db, 3498db, even shorthand #349 — and instantly see its red, green,and blue values with a live preview swatch and copy-ready CSS output.</p>
+    </header>
+
+    <div class="card shadow-sm border-0 mb-5" id="toolCard">
+      <div class="card-body p-4 p-md-5">
+        <form id="hexForm" novalidate>
+          <div class="form-group">
+            <label for="hexInput">Hex color code</label>
+            <input type="text" class="form-control form-control-lg text-monospace" id="hexInput" placeholder="e.g. #3498db or #349" maxlength="7" inputmode="text" autocomplete="off" spellcheck="false" aria-describedby="hexHelp">
+            <small id="hexHelp" class="form-text text-muted">Accepts 6-digit (#RRGGBB), 3-digit shorthand (#RGB),or hex without the leading hash.</small>
+          </div>
+          <div class="d-flex flex-wrap align-items-center">
+            <button type="submit" class="btn btn-brand btn-lg px-4">Convert to RGB</button>
+            <button type="button" id="clearBtn" class="btn btn-outline-secondary btn-lg px-4 ml-2">Clear</button>
+            <span class="small text-muted mt-1 mt-sm-0 ml-auto">Press <kbd>Enter</kbd> to convert</span>
+          </div>
+        </form>
+
+        <div id="errorAlert" class="alert alert-danger small mt-3 d-none" role="alert"></div>
+
+        <div id="resultsCard" class="mt-4 d-none" aria-live="polite">
+          <h2 class="h6 text-uppercase text-muted font-weight-bold mb-3">Converted color</h2>
+          <div class="row align-items-center">
+            <div class="col-12 col-md-5 mb-3 mb-md-0">
+              <div id="swatch" class="swatch" title="Color preview"></div>
+            </div>
+            <div class="col-12 col-md-7">
+              <div class="row text-center">
+                <div class="col-4 mb-3">
+                  <div class="result-box">
+                    <div id="rOut" class="result-value">0</div>
+                    <div class="result-label">Red</div>
+                  </div>
+                </div>
+                <div class="col-4 mb-3">
+                  <div class="result-box">
+                    <div id="gOut" class="result-value">0</div>
+                    <div class="result-label">Green</div>
+                  </div>
+                </div>
+                <div class="col-4 mb-3">
+                  <div class="result-box">
+                    <div id="bOut" class="result-value">0</div>
+                    <div class="result-label">Blue</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <label class="small text-muted mb-1">Hex value (normalized)</label>
+            <div class="input-group">
+              <input type="text" class="form-control text-monospace" id="hexNorm" readonly aria-label="Normalized hex value">
+              <div class="input-group-append">
+                <button type="button" class="btn btn-outline-secondary copy-btn" data-copy="hexNorm">Copy</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-3">
+            <label class="small text-muted mb-1">rgb() — CSS ready</label>
+            <div class="input-group">
+              <input type="text" class="form-control text-monospace" id="rgbOut" readonly aria-label="rgb() CSS value">
+              <div class="input-group-append">
+                <button type="button" class="btn btn-outline-secondary copy-btn" data-copy="rgbOut">Copy</button>
+              </div>
+            </div>
+            <small class="form-text text-muted" id="complementNote"></small>
+          </div>
+
+          <canvas id="spectrumCanvas" class="mt-4 w-100" width="720" height="88" aria-hidden="true"></canvas>
+          <p class="small text-muted mt-1">The marker shows where your color sits on the red–green–blue spectrum. 0–256 means a low color channel value, and 256 means a high one.)</p>
+        </div>
+      </div>
+    </div>
+
+    <section aria-labelledby="whatIsHex">
+      <h2 id="whatIsHex">What is a hex color code?</h2>
+      <p>A hex color code is a six-character shorthand designers use to describe color in HTML, CSS,and graphics software. Each pair of characters encodes one primary color channel — red, green, blue — using base-16 (hexadecimal) digits: 0 through  ️9 represent zero through nine, and the letters A through F stand for ten through fifteen. The familiar notation #3498db therefore splits into three pairs: 34 (red), 98 (green), and db (blue).</p>
+      <p>Each pair is converted from the 16-based system to the familiar 0-to-255 decimal scale that screens understand. The pair 34 equals 3 × 16 +  ️4 =  ️52, so #3498db really means rgb(52, 152, 219) — the brilliant sky blue that thousands of websites have used over the years. In other words, when you convert HEX to RGB, you are simply translating the same color from one counting system into another; the color itself does not change at all.</p>
+      <p>Because the web is built on this model, hex and RGB are interchangeable currency under the hood. Browsers treat them identically, and CSS lets you swap one for the other without changing a single pixel of what visitors see.</p>
+    </section>
+
+    <section aria-labelledby="howItWorks">
+      <h2 id="howItWorks">How the converter works</h2>
+      <p>The conversion is a mechanical, deterministic process — no guesswork involved:</p>
+      <ol>
+        <li><strong>Strip the formatting.</strong> Leading hash marks (#) are removed, spaces are trimmed,and lowercase letters are accepted as-is. The tool also accepts the compact 3-digit shorthand form.</li>
+        <li><strong>Expand shorthand.</strong> A 3-digit code like #09c is doubled per channel into #0099cc — a shortcut CSS has supported for years and a common way to keep markup small.</li>
+        <li><strong>Split into channels.</strong> The six remaining characters are cut into red, green,,and blue pairs.</li>
+        <li><strong>Convert pairs to decimal.</strong> Each pair is read as base-16: 12 × 16 +  ️15 = ️ ️207, for example, and the integer lands betwee 0 and 255.</li>
+        <li><strong>Render the result.</strong> The tool displays the three decimal numbers, a swatch filled with the exact color,and ready-to-paste CSS strings.</li>
+      </ol>
+      <p>The entire process takes milliseconds, which makes this tool handy when you are bouncing between a design system,s a style guide,and stakeholder feedback — contexts where switching manually betwee hex and rgb() invites typos that are hard to spot by eye.</p>
+    </section>
+
+    <section aria-labelledby="useCases">
+      <h2 id="useCases">When you will actually need this</h2>
+      <ul>
+        <li><strong>Translating a brand palette.</strong> Clients hand over a logo PDF with hex codes; your CSS or design tool wants rgb() (or the newer space-separated rgb syntax). This converter closes that gap in one paste.</li>
+        <li><strong>Working in design-to-code handoff.</strong> Figma, Sketch,and Adobe XD often display colors in one notation while your codebase expects another. Converting on the fly keeps the implementation faithful to the design.</li>
+        <li><strong>Stripping alpha or opacity math.</strong> When you need rgba() values from a solid hex brand color — like 80% opacity overlays on hero sections — having the plain RGB triplet ready makes the arithmetic trivial.</li>
+        <li><strong>Checking contrast and accessibility.</strong> Many contrast-checking workflows start by expressing a color numerically; RGB triplets feed WCAG relative-luminance formulas directly.</li>
+        <li><strong>Teaching or learning color science.</strong> Students encountering hexadecimal for the first time benefit from seeing the same color rendered two ways — it makes the base-16 idea concrete rather than abstract.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="proTips">
+      <h2 id="proTips">Pro tips for working with color codes</h2>
+      <ul>
+        <li><strong>Learn the 3-digit shorthand rules.</strong> #fff, #000,##f00, and #09c cover an enormous share of everyday UI work. Recognizing shorthand means you can read (and hand-write) many colors is a glance without any tool.</li>
+        <li><strong>Memorize the landmark hex values.</strong> #ffffff (white), #000000 (black), #ff0000 (red), #00ff00 (green), #0000ff (blue), and #808080 (gray) anchor your mental map of the color cube and make estimation far easier.</li>
+        <li><strong>Use the browser's eyedropper.</strong> DevTools lets you sample any on-screen color directly and usually shows both hex and rgb(). That is a fast way to confirm what a converter should produce — and a great second opinion when a color looks off.</li>
+        <li><strong>Watch out for alpha.</strong> Standard hex has no alpha channel; an 8-digit hex like #3498dbb2 encodes transparency and will not convert cleanly in a 6-digit tool. If you need opacity, convert the first six digits and handle alpha separately in your CSS via rgba().</li>
+        <li><strong>Prefer lowercase for new code.</strong> A lowercase hex string is marginally friendlier to grep for and avoids the visual noise of uppercase in long stylesheets. Most linters and formatters will enforce one case anyway — pick lowercase and let the tool normalize for you.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="faq">
+      <h2 id="faq">HEX to RGB converter FAQ</h2>
+
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">How do I convert hex to RGB manually?</h3>
+          <p class="mb-0">Split the six-digit code into three two-character pairs, one per channel. Convert each pair from base 16 to base 10: multiply the first digit by 16, add the second digit, using A=10 … F=15. For #3498db that gives 52, 152, 219 — so the rgb() value is rgb(52, 152, 219).</p>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">What is the difference between hex and RGB?</h3>
+          <p class="mb-0">Only notation. Hex expresses red, green,and blue as pairs of base-16 digits (00–ff), while RGB states the same intensities as decimal numbers (0–255). Browsers treat them identically, so neither is "more correct" — hex is more compact and friendly to copy from design tools, while rgb() reads naturally to humans and supports optional alpha with the rgba() variant.</p>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">Can I convert RGB to HEX here?</h3>
+          <p class="mb-0">Not yet — this page converts one direction only. The companion RGB to HEX converter on this site handles the reverse, so bookmark both if you regularly bounce between the two notations. This converter also accepts 3-digit shorthand (#349 → #334499)and hex without the hash, which covers the formats you will most often encounter.</p>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">What does each hex pair mean?</h3>
+          <p class="mb-0">Each pair controls one of the three color channels. The first pair is red (RR), the second is green (GG), and the third is blue (BB). A pair value of 00 means that channel is fully off, while ff (255) means it is fully on. Mixing the three channels per the RGB model recreates the 16.7 million colors that modern displays can show.</p>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">Why does #ff0000 show as red and not as the color ff?</h3>
+          <p class="mb-0">Because red dominates: the first channel is ff (255), its maximum, while green and blue are both 00. What you perceive as "the color of a hex code" is really the sum of its channels. #ffff00 mixes full red and full green with no blue, yielding yellow. Once you think in channels, hex codes stop being abstract tokens and become predictable mixes you can reason about.</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="disclaimer">
+      <h2 id="disclaimer" class="h5">Disclaimer</h2>
+      <p class="small text-muted">This HEX to RGB converter is provided as-is for convenience and educational purposes. Color values are computed automatically with standard base-16 conversion and should be verified before use in production design systems or brand assets. We are not responsible for color-matching discrepancies across monitors or print workflows.</p>
+    </section>
+
+    <section aria-labelledby="authorBio" class="mt-4">
+      <h2 id="authorBio" class="h5">About the author</h2>
+      <div class="media p-3 bg-light rounded">
+        <div class="media-body">
+          <p class="mb-1"><strong>Afree Tools Team</strong> — we build free, practical web tools for designers, developers,and curious users, drawing on standard color-science formulas and clear plain-English explanations. No sign-up, no tracking, no fine print — just tools we would use ourselves.</p>
+        </div>
+      </div>
+      <p class="small text-muted mt-3">Last updated: September 9, 2026</p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
