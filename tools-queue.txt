@@ -10,4 +10,5 @@
 [done] Text Compare (Diff Checker)
 HEX to RGB Converter
 RGB to HEX Converter
+WACC Calculator | weighted average cost of capital, content should incldue-WACC Worked Example, WACC vs Discount Rate, FAQ should have - How to calculate your WACC?, How to calculate WACC rate?, What does a WACC of 12% mean?, What is WACC in Mero share?
 Loan EMI Calculator | include amortization breakdown table
