@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>RGB to HEX Converter — Free Online Color Code Converter Tool</title>
+  <meta name="description" content="Free online RGB to HEX converter: enter any RGB or rgba color value, get its hex code instantly, plus a live preview, HSL,,and one-click copy. No sign-up needed.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+    <nav aria-label="breadcrumb" class="small text-muted">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/calculators">Calculators</a></li>
+        <li class="breadcrumb-item active" aria-current="page">RGB to HEX Converter</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-1 font-weight-bold">RGB to HEX Converter</h1>
+      <p class="lead text-muted mb-0">Type any RGB or rgba color value — rgb(52, 152, 219), 52 152 219, or even 52,152,219 — and instantly get its six-digit hex code, a live preview swatch, HSL data,and one-click copy. No sign-up needed.</p>
+    </header>
+
+    <div class="card shadow-sm border-0 mb-5" id="toolCard">
+      <div class="card-body p-4 p-md-5">
+        <form id="rgbForm" novalidate>
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="rInput">Red (0–255)</label>
+                <input type="number" class="form-control form-control-lg" id="rInput" min="0" max="255" step="1" placeholder="52" inputmode="numeric" autocomplete="off" aria-describedby="rgbHelp">
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="gInput">Green (0–255)</label>
+                <input type="number" class="form-control form-control-lg" id="gInput" min="0" max="255" step="1" placeholder="152" inputmode="numeric" autocomplete="off">
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="bInput">Blue (0–255)</label>
+                <input type="number" class="form-control form-control-lg" id="bInput" min="0" max="255" step="1" placeholder="219" inputmode="numeric" autocomplete="off">
+              </div>
+            </div>
+          </div>
+          <small id="rgbHelp" class="form-text text-muted mb-3">Each channel runs from 0 (off) to 255 (full intensity). Values outside this range are rejected with a friendly message.</small>
+
+          <div class="d-flex flex-wrap align-items-center">
+            <button type="submit" class="btn btn-brand btn-lg px-4">Convert to HEX</button>
+            <span class="small text-muted mt-1 mt-sm-0 ml-auto">Tip: pressing <kbd>Enter</kbd> in any field converts instantly</span>
+          </div>
+        </form>
+
+        <div id="errorAlert" class="alert alert-danger small mt-3 d-none" role="alert"></div>
+
+        <div id="resultsCard" class="mt-4 d-none" aria-live="polite">
+          <div class="row align-items-center">
+            <div class="col-12 col-md-5 mb-3 mb-md-0">
+              <div id="swatch" class="swatch" title="Color preview"></div>
+              <p class="small text-muted mt-2 mb-0">Live preview of the color your inputs produce.</p>
+            </div>
+            <div class="col-12 col-md-7">
+              <h2 class="h6 text-uppercase text-muted font-weight-bold mb-3">Converted color</h2>
+              <label class="small text-muted mb-1">Hex code</label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control text-monospace" id="hexOut" readonly aria-label="Hex code result">
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-outline-secondary copy-btn" data-copy="hexOut">Copy</button>
+                </div>
+              </div>
+              <label class="small text-muted mb-1">rgb() — original</label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control text-monospace" id="rgbOut" readonly aria-label="Original rgb value">
+                <div class="input-group-append">
+                  <button type="button" class="btn btn-outline-secondary copy-btn" data-copy="rgbOut">Copy</button>
+                </div>
+              </div>
+              <div class="row text-center">
+                <div class="col-6 mb-3">
+                  <div class="result-box">
+                    <div id="hslOut" class="result-value">0°</div>
+                    <div class="result-label">HSL</div>
+                  </div>
+                </div>
+                <div class="col-6 mb-3">
+                  <div class="result-box">
+                    <div id="lumNote" class="result-value">—</div>
+                    <div class="result-label">Perceived lightness</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-2">
+            <label class="small text-muted mb-1">Channel mix graph</label>
+            <canvas id="mixCanvas" class="w-100" width="720" height="180" aria-label="Bar chart of red green and blue channel intensity"></canvas>
+            <p class="small text-muted mt-1">How the three channels compare: each bar shows the share of red, green,and blue in this color.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section aria-labelledby="rgbBasics">
+      <h2 id="rgbBasics">What is an RGB color value?</h2>
+      <p>An RGB color value describes a color as a mix of three light channels — red, green,and blue. Each channel carries an intensity from 0 (completely off) to  ️255 (fully on), which is exactly the range that one byte of computer memory can hold. Screens build every pixel this way: tiny red, green,and blue sub-pixels glow at different strengths,and your eye blends them into a single perceived color.</p>
+      <p>The notation appears everywhere in code: CSS uses <code>rgb(52, 152, 219)</code>, older canvas and WebGL code feeds integers directly into graphics pipelines,and design software lets you type channel values into numeric fields. An RGB to HEX converter swaps that notation for the more compact hexadecimal form — <code>#3498db</code> — without changing the color one bit.</p>
+    </section>
+
+    <section aria-labelledby="howItWorks">
+      <h2 id="howItWorks">How the converter works</h2>
+      <p>Turning three decimal numbers into a hex code is a delightfully simple two-step process:</p>
+      <ol>
+        <li><strong>Convert each channel to base 16.</strong> Divide the value by 16: the whole-number result becomes the first digit,and the remainder becomes the second. For red 52 that is 3 remainder 4 → digits “34”.</li>
+        <li><strong>Join the three pairs.</strong> Green 152 becomes 98, blue 219 becomes db,and the final code reads “3498db”. Prepend a hash and you have <code>#3498db</code>, ready for CSS.</li>
+      </ol>
+      <p>Because every channel sits between 0 and  ️255, each pair always lands between 00 and ff; the hex code is therefore always exactly six digits long. This tool does the conversion instantly and shows you the corresponding HSL values too, so you can reason about hue, saturation,and lightness as well as raw channel intensity.</p>
+    </section>
+
+    <section aria-labelledby="useCases">
+      <h2 id="useCases">When an RGB to HEX converter earns its keep</h2>
+      <ul>
+        <li><strong>Design-to-code handoffs.</strong> A designer sends rgb(242, 132, 130) for a secondary button; your Sass variables expect hex. One paste from this page keeps the token faithful to the design.</li>
+        <li><strong>Tuning colors numerically.</strong> When you want a slightly less saturated blue, typing 52 →  ️160 →220 in RGB gives you fine-grained control; this converter shows the resulting hex immediately so you can lock it into your design system.</li>
+        <li><strong>Working with legacy code.</strong> Old CSS files and server-side templates are full of rgb() values. When you refactor a stylesheet onto a token system, normalizing everything to hex (or to lowercase hex, an industry favorite) becomes a quick, mechanical job.</li>
+        <li><strong>Teaching color theory.</strong> Showing students how (255,0,0) becomes #ff0000 makes the base-16 system concrete and demystifies a notation that otherwise looks like random text.</li>
+        <li><strong>Building style guides and documentation.</strong> Documentation tables look tidier with a single canonical hex column than with free-form rgb strings of varying spacing and syntax.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="proTips">
+      <h2 id="proTips">Pro tips for RGB and hex color codes</h2>
+      <ul>
+        <li><strong>Learn the power-of-two landmarks.</strong> 0 →00, 128 →80, and 255 →ff anchor your mental map. Once you know that 51 =33, 102 =66,and 153 =99, you can estimate any channel’s hex pair almost instantly.</li>
+        <li><strong>Know when to use 3-digit shorthand.</strong> If each channel’s pair uses repeating digits (like #fff or #1a2b3c), CSS accepts the compact 3-digit form. Converters still output the full six digits,and you can shorten them yourself whenever the pattern repeats.</li>
+        <li><strong>Prefer lowercase hex in new code.</strong> Lowercase reads slightly more calmly in long stylesheets and makes grepping for a specific color easier across tools. Most linters default to one case anyway — pick lowercase and stay consistent.</li>
+        <li><strong>Treat alpha separately.</strong> Standard hex carries no transparency: it colors only the red,,green,and blue channels. If you are coming from an rgba() value with alpha, convert the RGB triplet here and append the opacity inthe CSS property itself, e.g. <code>background: #3498db; opacity: .8;</code> or use the 8-digit hex extension #3498dbcc if your browser support allows.</li>
+        <li><strong>Double-check with the eyedropper.</strong> DevTools eye dropper shows any on-screen color in both notations; a quick comparison confirms that your converter got the pair conversion right.</li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="faq">
+      <h2 id="faq">RGB to HEX converter FAQ</h2>
+
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">How do I convert RGB to HEX manually?</h3>
+          <p class="mb-0">Divide each channel by 16: the quotient becomes the first hex digit, the remainder the second (10 =a, 11 =b, up to 15 =f). Then concatenate the three pairs and prepend a hash. For rgb(52, 152, 219): 52 →34, 152 →98, 219 →db, giving #3498db.</p>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">What is the difference between RGB and HEX?</h3>
+          <p class="mb-0">Only notation. RGB states each channel’s intensity as a decimal integer from 0 to 255; hex states the same three intensities as pairs of base-16 digits from 00 to ff. Browsers treat both forms identically, so neither is more accurate — hex is just more compact, while rgb() reads naturally and supports alpha via rgba().</p>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">Why is rgb(255,0,0) equal to #ff0000?</h3>
+          <p class="mb-0">Because 255 ÷16 =15 remainder 15, and the digits 15 is written as f in hex. The red channel hits its maximumand the green and blue channels are zero, so the color is full-strength red. Any color with an ff in a channel means that channel is fully on.</p>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">Can I convert HEX to RGB here?</h3>
+          <p class="mb-0">This page converts RGB to hex only, but the companion HEX to RGB converter on this site handles the reverse direction. Both tools accept plain numeric input and give you live previews, so pick whichever direction matches the format you are starting from.</p>
+        </div>
+      </div>
+
+      <div class="card border-0 shadow-sm mb-3">
+        <div class="card-body">
+          <h3 class="h6 font-weight-bold">What about rgba() values with alpha?</h3>
+          <p class="mb-0">The core color is still trois channels; alpha sits apart from the color representation itself. Convert the red,,green,and blue triplet here, then apply opacity separately in CSS — either with the rgba() function kept in place, an <code>opacity</code> property, or an 8-digit hex code if you need the alpha baked in.</p>
+        </div>
+      </div>
+    </section>
+
+    <section aria-labelledby="disclaimer">
+      <h2 id="disclaimer" class="h5">Disclaimer</h2>
+      <p class="small text-muted">This RGB to HEX converter is provided as-is for convenience and educational purposes. Conversion uses standard base-16 arithmetic and should be verified against your design system before production use. We are not responsible for color-matching discrepancies across monitors, print workflows, or accessibility interpretations of the values.</p>
+    </section>
+
+    <section aria-labelledby="authorBio" class="mt-4">
+      <h2 id="authorBio" class="h5">About the author</h2>
+      <div class="media p-3 bg-light rounded">
+        <div class="media-body">
+          <p class="mb-1"><strong>Afree Tools Team</strong> — we build free, practical web tools for designers, developers,and curious users, drawing on standard color-science formulas and clear plain-English explanations. No sign-up, no tracking, no fine print — just tools we would use ourselves.</p>
+        </div>
+      </div>
+      <p class="small text-muted mt-3">Last updated: September 10, 2026</p>
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
