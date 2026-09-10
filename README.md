@@ -35,4 +35,4 @@ https://<your-user>.github.io/daily-tools/tools/001-tool-name/
 | 005 | Text Compare | Compare two texts line by line to spots additions, removals,and unchanged blocks, with similarity percentage | [View](tools/005-text-compare/) |
 
 ## Guidelines
-Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light theme only, SEO title/description, and a ~800–1000-word unique article per tool with E-E-A-T signals.
+Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light theme only, SEO title/description, and a ~800–1000-word unique article per tool with E-E-A-T signals.| 007 | RGB to HEX Converter | Convert RGB or rgba color values to six-digit hex codes with live swatch previewand HSL data | [View](tools/007-rgb-to-hex-converter/) |
