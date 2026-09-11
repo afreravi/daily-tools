@@ -1,0 +1,103 @@
+:root {
+  --brand: #60089c;
+  --brand-dark: #4a0678;
+  --brand-light: #f3edf9;
+  --muted: #6c757d;
+  --ink: #262726;
+}
+
+body {
+  color: var(--ink);
+  background: linear-gradient(180deg, #ffffff 0%, #fbf9fd 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+.breadcrumb {
+  font-size: .875rem;
+}
+.breadcrumb a {
+  color: var(--brand);
+}
+
+h1,
+h2,
+h3 {
+  color: var(--ink);
+}
+h2 {
+  margin-top: 2.25rem;
+  margin-bottom:  1rem;
+  font-size:calc(1.3rem +  0.2vw);
+}
+
+.lead {
+  color: var(--muted);
+}
+
+.btn-brand {
+  background-color: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+.btn-brand:hover,
+.btn-brand:focus {
+  background-color: var(--brand-dark);
+  border-color: var(--brand-dark);
+  color: #fff;
+}
+.btn-outline-secondary:hover {
+  background-color: var(--brand-light);
+  border-color: var(--brand);
+  color: var(--brand);
+}
+
+.form-control:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 0.2rem rgba(96, 8, 156, .18);
+}
+
+.result-box {
+  background: var(--brand-light);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  height:  100%;
+}
+.ht-100 {
+  height:  100%;
+}
+.result-value {
+  font-size:  1.3rem;
+  font-weight:  700;
+  color: var(--brand);
+  line-height:  1.2;
+}
+.result-label {
+  font-size: .75rem;
+  color: var(--muted);
+  text-transform:uppercase;
+  letter-spacing: .04em;
+}
+
+.formula-box {
+  background: var(--brand-light);
+  border-left:  4px solid var(--brand);
+  border-radius: 0 .4rem;
+  padding: 0.9rem 1rem;
+  font-weight:  600;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+.card {
+  border-radius: 0.75rem;
+}
+
+.table td,
+.table th {
+  vertical-align:middle;
+}
+
+@media (max-width: 575.98px) {
+  .result-value {
+    font-size:  1.1rem;
+  }
+}
