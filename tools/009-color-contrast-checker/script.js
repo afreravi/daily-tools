@@ -156,9 +156,9 @@
 
   function contrastRatio(c1, c2) {
     var l1 = luminance(c1);
-    var l2 = luminance(c2;
-    var lighter = Math.max(l1, l2;
-    var darker = Math.min(l1, l2;
+    var l2 = luminance(c2);
+    var lighter = Math.max(l1, l2);
+    var darker = Math.min(l1, l2);
     return (lighter + 0.05) / (darker + 0.05);
   }
 
@@ -205,8 +205,8 @@
       label.setAttribute("font-size", "10");
       label.setAttribute("fill", "#6c757d");
       label.textContent = t[1];
-      thresholdsG.appendChild(label;
-    }));
+      thresholdsG.appendChild(label);
+    });
   }
 
   function syncPicker(which) {
@@ -216,7 +216,7 @@
       var rgb = hexToRgb(t);
       if (rgb) {
         var target = which === "fg" ? fgPicker : bgPicker;
-        target.value = toHex(rgb;
+        target.value = toHex(rgb);
       }
     }
   }
@@ -244,11 +244,11 @@
     var pUi = ratio >=  3;
     setBadge(vUi, pUi ? "pass" : "fail", pUi ? "AA Pass" : "Fail");
 
-    previewBox.style.backgroundColor = cssToRgbString(bg;
-    previewBig.style.color = cssToRgbString(fg;
-    previewSmall.style.color = cssToRgbString(fg;
+    previewBox.style.backgroundColor = cssToRgbString(bg);
+    previewBig.style.color = cssToRgbString(fg);
+    previewSmall.style.color = cssToRgbString(fg);
 
-    var x = scaleX(ratio;
+    var x = scaleX(ratio);
     pointer.setAttribute("x1", x.toString());
     pointer.setAttribute("x2", x.toString());
     pointerLabel.setAttribute("x", x.toString());

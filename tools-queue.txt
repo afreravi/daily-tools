@@ -11,7 +11,7 @@
 [done] HEX to RGB Converter
 [done] RGB to HEX Converter
 [done] WACC Calculator | weighted average cost of capital, content should incldue-WACC Worked Example, WACC vs Discount Rate.
-Color Contrast Checker | Reference: https://coolors.co/contrast-checker
+[done] Color Contrast Checker | Reference: https://coolors.co/contrast-checker
 Mulch Calculator | Reference: https://www.calculator.net/mulch-calculator.html
 QR Code Generator | Reference: https://qrfy.com
 Trapezoid Area Calculator | Reference: https://www.calculatorsoup.com/calculators/geometry-plane/trapezoid.php

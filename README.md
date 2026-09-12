@@ -33,6 +33,7 @@ https://<your-user>.github.io/daily-tools/tools/001-tool-name/
 | 003 | Sig Fig Calculator | Count and round significant figures, with scientific notation support | [View](tools/003-sig-fig-calculator/) |
 | 004 | Loan to Value Calculator | Calculate mortgage LTV ratio, equity stake,and risk band from price and down payment | [View](tools/004-loan-to-value-calculator/) | 
 | 005 | Text Compare | Compare two texts line by line to spots additions, removals,and unchanged blocks, with similarity percentage | [View](tools/005-text-compare/) |
+| 009 | Color Contrast Checker | Check WCAG contrast ratio between two colors with optional presets and a ratio scale | [View](tools/009-color-contrast-checker/) |
 
 ## Guidelines
 Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light theme only, SEO title/description, and a ~800–1000-word unique article per tool with E-E-A-T signals.| 007 | RGB to HEX Converter | Convert RGB or rgba color values to six-digit hex codes with live swatch previewand HSL data | [View](tools/007-rgb-to-hex-converter/) |
