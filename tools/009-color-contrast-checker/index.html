@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Color Contrast Checker — WCAG Contrast Ratio Calculator for Accessible Design</title>
+  <meta name="description" content="Free WCAG color contrast checker: calculate the contrast ratio between any two colors and see instantly whether your text passes AA or AAA accessibility standards. Ideal for web design, branding, and UI.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+    <nav aria-label="breadcrumb" class="small text-muted">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/calculators">Calculators</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Color Contrast Checker</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-1 font-weight-bold">Color Contrast Checker</h1>
+      <p class="lead text-muted mb-0">Pick any two colors — hex, rgb(a), hsl, or a plain color name — and instantly get their WCAG contrast ratio, pass/fail verdicts for normal text, large text,and UI components, plus a live preview. No sign-up, no uploads.</p>
+    </header>
+
+    <div class="card shadow-sm border-0 mb-5" id="toolCard">
+      <div class="card-body p-4 p-md-5">
+        <div class="row">
+          <div class="col-12 col-md-5">
+            <label for="fgInput">Foreground (text) color</label>
+            <div class="input-group">
+              <input type="color" class="color-well" id="fgPicker" value="#ffffff" aria-label="Foreground color picker">
+              <input type="text" class="form-control form-control-lg" id="fgInput" value="#ffffff" placeholder="#ffffff or rgb(...)" autocomplete="off" spellcheck="false">
+            </div>
+          </div>
+          <div class="col-12 col-md-2 d-flex align-items-end justify-content-center pb-1">
+            <button type="button" class="btn btn-outline-brand btn-sm mb-1" id="swapBtn" title="Swap colors" aria-label="Swap foreground and background colors">&#8646; Swap</button>
+          </div>
+          <div class="col-12 col-md-5">
+            <label for="bgInput">Background color</label>
+            <div class="input-group">
+              <input type="color" class="color-well" id="bgPicker" value="#174e9f" aria-label="Background color picker">
+              <input type="text" class="form-control form-control-lg" id="bgInput" value="#174e9f" placeholder="#174e9f or rgb(...)" autocomplete="off" spellcheck="false">
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex flex-wrap align-items-center mt-3">
+          <span class="small text-muted mr-2">Presets:</span>
+          <button type="button" class="btn btn-sm btn-light border preset" data-fg="#212529" data-bg="#ffffff">Dark on white</button>
+          <button type="button" class="btn btn-sm btn-light border preset" data-fg="#ffffff" data-bg="#60089c">White on purple</button>
+          <button type="button" class="btn btn-sm btn-light border preset" data-fg="#ffffff" data-bg="#000000">White on black</button>
+          <button type="button" class="btn btn-sm btn-light border preset" data-fg="#0d6efd" data-bg="#ffffff">Blue link</button>
+          <span class="small text-muted ml-auto mt-2 mt-sm-0">Results update as you type — no button needed.</span>
+        </div>
+
+        <div id="errorAlert" class="alert alert-warning small mt-3 d-none" role="alert"></div>
+
+        <div id="resultsCard" class="mt-4" aria-live="polite">
+          <div class="row">
+            <div class="col-12 col-lg-5">
+              <div class="d-flex align-items-baseline">
+                <span class="display-4 font-weight-bold ratio-num" id="ratioValue">21.0</span>
+                <span class="h4 text-muted ml-2">:1</span>
+              </div>
+              <p class="text-muted small mb-3">WCAG 2.1 contrast ratio</p>
+
+              <ul class="list-unstyled verdicts mb-0">
+                <li class="d-flex justify-content-between border-top py-2">
+                  <span>Normal text (&lt; 18pt</span>
+                  <span id="vNormal" class="badge badge-secondary">—</span>
+                </li>
+                <li class="d-flex justify-content-between border-top py-2">
+                  <span>Large text (&ge; 18pt or 14pt bold</span>
+                  <span id="vLarge" class="badge badge-secondary">—</span>
+                </li>
+                <li class="d-flex justify-content-between border-top py-2">
+                  <span>UI components &amp; graphics</span>
+                  <span id="vUi" class="badge badge-secondary">—</span>
+                </li>
+              </ul>
+            </div>
+            <div class="col-12 col-lg-7">
+              <div class="preview-box rounded" id="previewBox">
+                <p class="preview-big" id="previewBig">Accessible sample text</p>
+                <p class="preview-small mb-0" id="previewSmall">Small text sample — 4.5:1 minimum for AA.</p>
+              </div>
+              <figure class="mt-3 mb-0">
+                <svg id="ratioBar" viewBox="0 0 600 70" class="w-100" role="img" aria-label="Contrast ratio scale from 1 to 21 with thresholds at 3, 4.5,and 7">
+                  <defs>
+                    <linearGradient id="scaleGrad" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#e74c3c"/>
+                      <stop offset="45%" stop-color="#f1c40f"/>
+                      <stop offset="75%" stop-color="#27ae60"/>
+                      <stop offset="100%" stop-color="#1e8449"/>
+                    </linearGradient>
+                  </defs>
+                  <rect x="10" y="20" width="580" height="14" rx="7" fill="url(#scaleGrad)"/>
+                  <line x1="10" y1="10" x2="10" y2="48" stroke="#212529" stroke-width="2"/>
+                  <text x="10" y="62" text-anchor="middle" font-size="11" fill="#6c757d">1</text>
+                  <line x1="10" y1="14" x2="10" y2="40" stroke="#fff" stroke-width="1.5" stroke-dasharray="3 2"/>
+                  <line x1="10" y1="30" x2="92" y2="30" stroke="#f8f9fa" stroke-width="10" opacity="0"/>
+                  <g id="thresholds"></g>
+                  <line x1="10" y1="10" x2="10" y2="48" stroke="#212529" stroke-width="2.5" id="pointer"/>
+                  <text x="10" y="62" text-anchor="middle" font-size="11" fill="#60089c" font-weight="bold" id="pointerLabel">1</text>
+                  <text x="590" y="62" text-anchor="end" font-size="11" fill="#6c757d">21</text>
+                </svg>
+                <figcaption class="small text-muted">Where your ratio lands on the 1-to-21 scale. Dashed ticks mark the 3, 4.5,and 7:1 thresholds.</figcaption>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <article class="article">
+      <h2>What Is a Color Contrast Checker?</h2>
+      <p>A <strong>color contrast checker</strong> measures the difference in luminance between two colors — usually a text color and a background color — and converts that difference into a number called the <em>contrast ratio</em>. The WCAG (Web Content Accessibility Guidelines) define how contrast is computed so that designers, developers,and content teams everywhere are working from the same standard, not a gut feeling about whether a color "looks readable."</p>
+      <p>Why does this matter? Roughly one in twelve men and one in two hundred women live with some form of color vision deficiency, and millions more browse with low vision, glare, or screen dimming. When a page's contrast falls below the guidelines, text becomes harder to read for those users — and often for everyone in bright daylight or on a cheap screen. The contrast ratio is the single most objective, math-based signal of text legibility you can test before launch.</p>
+
+      <h2>How This Contrast Ratio Calculator Works</h2>
+      <p>Type a color into either field (or pick one with the native color swatch): and the tool instantly parses it, whether you typed a six-digit hex code like <code>#60089c</code>, a shorthand hex like <code>#fff</code>, an <code>rgb(52, 152, 219)</code> value, an <code>rgba()</code>, an <code>hsl()</code>, or simply a CSS color name such as <code>rebeccapurple</code>. Behind the scenes the calculator converts the color to its linear RGB components and applies the WCAG relative-luminance formula:</p>
+      <p class="formula">L = 0.2126 &times; R + 0.7152 &times; G +    0.0722 &times; B</p>
+      <p>where each channel is first normalized to a 0–1 range and gamma-expanded. The contrast ratio is then:</p>
+      <p class="formula">(L<sub>lighter</sub> + 0.05) &divide; (L<sub>darker</sub> +     0.05)</p>
+      <p>The <code>+0.05</code> terms stop the ratio from collapsing to zero when one color is pure black. Ratios run from 1:1 (identical colors, effectively invisible text) to 21:1 (pure black on pure white). The tool then compares your result against the WCAG 2.1 AA and AAA thresholds.</p>
+
+      <h2>WCAG Contrast Thresholds at a Glance</h2>
+      <div class="row thresholds-row">
+        <div class="col-12 col-md-4">
+          <div class="threshold-card"><h3>Normal text</h3><p>&lt; 18pt (or &lt; 14pt bold</p><p class="v AA pass"><strong>AA: 4.5 : 1</strong></p><p class="v AAA pass"><strong>AAA: 7 : 1</strong></p></div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="threshold-card"><h3>Large text</h3><p>&ge; 18pt or &ge; 14pt bold (about 24px/19px</p><p class="v"><strong>AA: 3 : 1</strong></p><p class="v"><strong>AAA:   4.5 :     1</strong></p></div>
+        </div>
+        <div class="col-12 col-md-4">
+          <div class="threshold-card"><h3>UI components</h3><p>Icons, buttons outlines, form borders</p><p class="v"><strong>AA: 3 :     1</strong></p><p class="v muted-note">AAA: no defined level</p></div>
+        </div>
+      </div>
+
+      <h2>How to Use the Tool</h2>
+      <ol class="steps">
+        <li><strong>Enter your colors.</strong> Paste a hex code, type an RGB value, or click the color swatch to open your system picker. The fields accept almost any CSS color you can throw at them.</li>
+        <li><strong>Read the ratio.</strong> The big number is your WCAG contrast ratio, rounded to one decimal place.</li>
+        <li><strong>Check the badges.</strong> Each row shows whether the pair passes WCAG AA or AAA for normal text, large text,and UI components. Green means pass, red/orange means fail, gray means no standard applies.</li>
+        <li><strong>Inspect the preview.</strong> The sample panel renders your exact pair so you can judge the look with your own eyes — the math and the eyeball test together.</li>
+        <li><strong>Watch the scale.</strong> The bar shows where your ratio sits relative to the 3, 4.5,and 7:1 thresholds, so you can see how close you are to passing.</li>
+      </ol>
+
+      <h2>Use Cases for a Contrast Ratio Checker</h2>
+      <h3>Web and UI design</h3>
+      <p>Before you lock in a button color or a card background, run the pair through this checker. A subtle 4.4:1 ratio can silently fail accessibility audits for months; checking takes five seconds and saves the redesign later.</p>
+      <h3>Branding and marketing</h3>
+      <p>Marketing teams reuse brand colors everywhere — on landing pages, email templates, slide decks,and social graphics. Verify that white text on your brand purple (or vice versa) clears at least AA for the large headlines it will appear in.</p>
+      <h3>Data visualization</h3>
+      <p>Charts and dashboards abuse contrast the most: thin grid lines, low-opacity legends, desaturated series. Use this tool against your chart palette to keep every label and annotation readable for stakeholders with low vision.</p>
+      <h3>Accessibility audits and compliance</h3>
+      <p>WCAG 2.1 AA is a legal and procurement baseline in many jurisdictions (including Section 508 and the European Accessibility Act). A documented contrast check per component type is one of the cheapest compliance wins available.</p>
+
+      <h2>Pro Tips for Choosing Accessible Color Pairs</h2>
+      <ul class="tips">
+        <li><strong>Design in grayscale first.</strong> Lock in a strong luminance difference before adding hue; color alone should never carry meaning.</li>
+        <li><strong>Don't rely on "dark enough."</strong> A dark blue on black can still fail; luminance, not perceived darkness, drives the ratio.</li>
+        <li><strong>Watch opacity.</strong> A 60% opacity text color on a busy photo isn't really #333 — it blends with whatever is beneath. Test the effective blended color instead.</li>
+        <li><strong>Large text gets a discount.</strong> Headlines (18pt+) need only 3:1 for AA. Reserve very low contrast for huge display type — nothing smaller.</li>
+        <li><strong>Test on the worst-case background.</strong> If text sits on a gradient or image, test the lowest-contrast spot, not the average.</li>
+        <li><strong>Beware pure white on pure yellow.</strong> Both are high-luminance; the ratio lands near 1.4:1 — unreadable.</li>
+      </ul>
+
+      <h2>Common Mistakes and FAQs</h2>
+      <h3>Is a 3:1 ratio ever okay for body text?</h3>
+      <p>No. 3:1 is the AA minimum only for large text or UI components; normal body text needs 4.5 :1 for AA and 7 :1 for AAA. If you're unsure, assume normal text until the design spec says otherwise.</p>
+      <h3>Does "passing" mean the colors are guaranteed accessible?</h3>
+      <p>Contrast is one ingredient of accessibility. Legibility also depends on font weight, letter spacing, text size, screen quality,and the user's settings. A passing ratio is a necessary condition, not a complete guarantee — but falling below it almost always means trouble.</p>
+      <h3>Why do some tools show different ratios for the same colors?</h3>
+      <p>Rounding, gamma handling, and whether the tool blends alpha channels against white can shift the last decimal place. This tool follows the WCAG 2.1 relative luminance spec and rounds to one decimal, matching the guideline's own published values.</p>
+      <h3>What contrast does white text on my brand purple get?</h3>
+      <p>Paste <code>#ffffff</code> and your brand purple into the fields above to see exactly. As a rule of thumb, mid-purples like <code>#60089c</code> typically land between 7 and 9:1 against white — comfortably AAA for normal text.</p>
+      <h3>Do I need to check every color pair in my app?</h3>
+      <p>Not literally every pair — but every distinct combination of text color, background,and component state (hover, disabled, active) that a user can encounter. That's usually a few dozen pairs, easily batch-checked with a tool like this one.</p>
+
+      <h2>About the Author</h2>
+      <div class="author-block d-flex">
+        <div class="author-avatar" aria-hidden="true">RA</div>
+        <div class="ml-3">
+          <p class="mb-1"><strong>Ravi A.</strong> — web accessibility practitioner and the editor of A Free Tools, a growing library of practical, no-sign-up calculators for designers, developers,and students. He tests every tool against real WCAG audit scenarios and updates them as guidelines evolve.</p>
+          <p class="small text-muted mb-0">Last updated: September 12, 2026 &middot; Sources: WCAG 2.1 (W3C,, relative luminance and contrast ratio definitions), CSS Color Module Level 4.</p>
+        </div>
+      </div>
+
+      <p class="disclaimer small text-muted mt-4"><strong>Disclaimer:</strong> Results are provided for guidance only and follow the WCAG 2.1 contrast ratio formula as of the last-updated date. Accessibility decisions should always be verified against the official W3C documentation and real-user testing, especially for regulated environments.</p>
+    </article>
+  </main>
+
+  <footer class="text-center small text-muted py-4">
+    &copy; 2026 A Free Tools — Daily Tools by OpenHands
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
