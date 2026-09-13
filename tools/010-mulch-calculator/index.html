@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mulch Calculator — Estimate Cubic Yards, Bags &amp; Cost for Garden Beds</title>
+  <meta name="description" content="Free mulch calculator: find cubic yards and bags of mulch needed for rectangle, circle, or triangle garden beds, plus cost estimates for bagged or bulk mulch. Simple, accurate, and free.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+    <nav aria-label="breadcrumb" class="small text-muted">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/calculators">Calculators</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Mulch Calculator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-1 font-weight-bold">Mulch Calculator</h1>
+      <p class="lead text-muted mb-0">Work out exactly how much mulch your garden beds need — in cubic yards, cubic feet, or bags — for rectangular, circular, or triangular areas. Budget for bagged or bulk mulch with live cost estimates as you type.</p>
+    </header>
+
+    <div class="card shadow-sm border-0 mb-5" id="toolCard">
+      <div class="card-body p-4 p-md-5">
+        <fieldset class="mb-3">
+          <legend class="h6 font-weight-bold">Garden bed shape</legend>
+          <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-outline-brand active" id="shapeRectWrap">
+              <input type="radio" name="shape" id="shapeRect" value="rectangle" autocomplete="off" checked> Rectangle
+            </label>
+            <label class="btn btn-outline-brand" id="shapeCircleWrap">
+              <input type="radio" name="shape" id="shapeCircle" value="circle" autocomplete="off"> Circle
+            </label>
+            <label class="btn btn-outline-brand" id="shapeTriWrap">
+              <input type="radio" name="shape" id="shapeTri" value="triangle" autocomplete="off"> Triangle
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-group" id="dimensionInputs">
+          <div class="row" id="rectInputs">
+            <div class="col-12 col-md-6">
+              <label for="lengthFt">Length (feet)</label>
+              <input type="number" class="form-control form-control-lg" id="lengthFt" value="10" min="0" step="0.1" placeholder="e.g. 10">
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="widthFt">Width (feet)</label>
+              <input type="number" class="form-control form-control-lg" id="widthFt" value="6" min="0" step="0.1" placeholder="e.g. 6">
+            </div>
+          </div>
+          <div class="row d-none" id="circleInputs">
+            <div class="col-12">
+              <label for="diameterFt">Diameter (feet)</label>
+              <input type="number" class="form-control form-control-lg" id="diameterFt" value="8" min="0" step="0.1" placeholder="e.g. 8">
+            </div>
+          </div>
+          <div class="row d-none" id="triInputs">
+            <div class="col-12 col-md-6">
+              <label for="baseFt">Base (feet)</label>
+              <input type="number" class="form-control form-control-lg" id="baseFt" value="10" min="0" step="0.1" placeholder="e.g. 10">
+            </div>
+            <div class="col-12 col-md-6">
+              <label for="triHeightFt">Height (feet)</label>
+              <input type="number" class="form-control form-control-lg" id="triHeightFt" value="6" min="0" step="0.1" placeholder="e.g. 6">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="depthIn">Mulch depth (inches)</label>
+          <select class="form-control form-control-lg" id="depthIn">
+            <option value="1">1 inch — light refresh</option>
+            <option value="2">2 inches — standard top-up</option>
+            <option value="3" selected>3 inches — recommended for beds</option>
+            <option value="4">4 inches — heavy weed barrier</option>
+            <option value="6">6 inches — new bed / deep layer</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label for="bagSize">Bag size (cubic feet)</label>
+              <select class="form-control form-control-lg" id="bagSize">
+                <option value="0.75">0.75 cu ft</option>
+                <option value="1.0">1 cu ft</option>
+                <option value="1.5">1.5 cu ft</option>
+                <option value="2.0" selected>2 cu ft (standard)</option>
+                <option value="3.0">3 cu ft</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-group">
+              <label for="pricePer">Cost per <span id="priceUnitLabel">2 cu ft bag</span> ($)</label>
+              <input type="number" class="form-control form-control-lg" id="pricePer" value="4.50" min="0" step="0.01" placeholder="Optional">
+            </div>
+          </div>
+        </div>
+
+        <div id="errorAlert" class="alert alert-warning small mt-1 d-none" role="alert"></div>
+
+        <div id="results" class="mt-3" aria-live="polite">
+          <div class="row text-center results-row">
+            <div class="col-6 col-md-3">
+              <div class="result-cell">
+                <p class="result-num" id="volCuYd">0.56</p>
+                <p class="result-label">cubic yards</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="result-cell">
+                <p class="result-num" id="volCuFt">15.0</p>
+                <p class="result-label">cubic feet</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="result-cell">
+                <p class="result-num" id="bagCount">8</p>
+                <p class="result-label">bags (2 cu ft)</p>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="result-cell">
+                <p class="result-num" id="totalCost">$36.00</p>
+                <p class="result-label">estimated cost</p>
+              </div>
+            </div>
+          </div>
+
+          <p class="small text-muted mb-2 mt-3">Bags needed by common bag sizes:</p>
+          <figure class="chart-figure mb-0">
+            <svg id="bagChart" viewBox="0 0 560 210" class="w-100" role="img" aria-label="Bar chart showing number of bags needed for common bag sizes">
+              <g id="chartBars"></g>
+            </svg>
+            <figcaption class="small text-muted">Bags of each size needed to cover the calculated volume. Rounded up so you buy enough.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <article class="article">
+      <h2>What Is a Mulch Calculator?</h2>
+      <p>A <strong>mulch calculator</strong> converts the area of a garden bed and the depth of mulch you want into a volume — typically expressed in <strong>cubic yards</strong> for bulk deliveries or <strong>cubic feet</strong> for bagged mulch. Garden centers sell bark, wood chips, and shredded hardwood either by the bag (usually 1.5, 2, or 3 cubic feet) or by the cubic yard for bulk loads. Because those two units don't match common sense estimates like "a pickup truck bed" or "a few bags", almost every gardener under- or over-buys at least once. This tool removes the guesswork: type your bed dimensions and depth, and it tells you the volume and how many bags to buy.</p>
+      <p>The math behind it is simple. Area (square feet) times depth (converted to feet) gives <strong>cubic feet</strong>. Dividing cubic feet by 27 converts to <strong>cubic yards</strong> — one cubic yard is a 3&times;3&times;3-foot block, or 27 cubic feet. Dividing by the bag volume gives the bag count. The only shape-specific step is computing the area of your bed, which changes depending on whether it is rectangular, circular, or triangular.</p>
+
+      <h2>How to Use This Mulch Calculator</h2>
+      <ol class="steps">
+        <li><strong>Pick your bed shape.</strong> Choose Rectangle, Circle, or Triangle to match the footprint of the area you are covering.</li>
+        <li><strong>Enter the dimensions in feet.</strong> Length and width for a rectangle, diameter for a circle (not the radius — the number you get when you measure across the middle), or base and height for a triangle.</li>
+        <li><strong>Choose your depth.</strong> A 2-inch layer refreshes existing beds; 3 inches is the commonly recommended depth for new mulch over soil; 4 inches or more suppresses weeds more aggressively but costs more.</li>
+        <li><strong>Set a bag size and price.</strong> The standard retail bag holds 2 cubic feet, but the tool lists other common sizes, and you can compare cost per bag.</li>
+        <li><strong>Read the results.</strong> Volume is shown in cubic yards, cubic feet, and number of bags, with a live cost estimate if you enter a price per bag.</li>
+      </ol>
+
+      <h2>Mulch Depth: The Number that Drives Everything</h2>
+      <p>Depth is the biggest lever on your total. The difference between 2 and 4 inches exactly doubles your volume and your bill. The table below shows how much coverage a single 2-cubic-foot bag provides at each depth — handy when you are standing in the garden center aisle without a calculator.</p>
+      <div class="table-responsive">
+        <table class="table table-bordered table-sm coverage-table">
+          <thead>
+            <tr><th>Depth</th><th>Coverage per 2 cu ft bag</th><th>Character</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1 in</td><td>24 sq ft</td><td>Thin refresh</td></tr>
+            <tr><td>2 in</td><td>12 sq ft</td><td>Standard top-up</td></tr>
+            <tr><td>3 in</td><td>8 sq ft</td><td>Recommended for beds</td></tr>
+            <tr><td>4 in</td><td>6 sq ft</td><td>Heavy weed suppression</td></tr>
+            <tr><td>6 in</td><td>4 sq ft</td><td>Deep new bed</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h2>Use Cases for a Mulch Volume Calculator</h2>
+      <h3>Planning a weekend mulching project</h3>
+      <p>Before you rent a truck or order from a landscape supplier, knowing the volume in cubic yards lets you compare bulk delivery against bagged pick-up. Bulk is almost always cheaper per cubic foot, but only if you can use the full truckload — check the numbers first.</p>
+      <h3>Budgeting a landscaping job</h3>
+      <p>Whether you are doing the work yourself or getting quotes, a cubic yard estimate is the industry-standard language. Get your volume right and you can compare supplier prices directly and spot surprise line items.</p>
+      <h3>Comparing bagged vs. bulk</h3>
+      <p>Once you know the volume, the cost comparison is straightforward. If bulk is $30 per cubic yard and 2-cubic-foot bags are $4.50 each, a cubic yard costs $60.75 from bags ($4.50 &times; 13.5 bags) versus $30 bulk — a 50% saving before delivery fees.</p>
+      <h3>Laying mulch around trees and shrubs</h3>
+      <p>Circular tree rings are the classic case for the circle option. Measure the diameter of the ring once and this calculator saves you from eyeballing "how many bags around the tree" ever again.</p>
+
+      <h2>Pro Tips for Mulching Like a Professional</h2>
+      <ul class="tips">
+        <li><strong>Buy 5–10% extra.</strong> Mulch settles, compresses, and hides a few thin spots; most pros add a small margin over the calculated volume.</li>
+        <li><strong>Rent or buy a wheelbarrow helper.</strong> A full cubic yard weighs roughly 400–600 lbs depending on moisture — that is heavy, and it's about 13–14 standard bags by volume.</li>
+        <li><strong>Keep depth below 3 inches near stems.</strong> Piling mulch "volcano style" against tree trunks traps moisture and invites rot and pests. Keep a gap and go thinner near the base.</li>
+        <li><strong>Measure the actual bed, not the bed you remember.</strong> Beds grow and shrink with planting and weeding; a quick tape-measure pass pays for itself.</li>
+        <li><strong>Prefer bark or coarse chips for slopes.</strong> Fine shredded mulch washes and blows away faster on inclines.</li>
+      </ul>
+
+      <h2>Common Mistakes and Frequently Asked Questions</h2>
+      <h3>How many bags of mulch are in a cubic yard?</h3>
+      <p>One cubic yard is 27 cubic feet. That equals 13.5 bags of 2-cubic-foot mulch, 18 bags of 1.5-cubic-foot mulch, or 9 bags of 3-cubic-foot mulch. Always round up to whole bags.</p>
+      <h3>How many cubic feet are in a yard of mulch?</h3>
+      <p>Exactly 27. A cubic yard is a box that is 3 feet long, 3 feet wide, and 3 feet deep. This 27 is the magic number for all volume conversions in landscaping.</p>
+      <h3>Is 3 inches of mulch too deep?</h3>
+      <p>For a new layer over soil, 3 inches is right in the sweet spot — enough to suppress weeds and hold moisture without smothering roots. Keep it to about 2 inches when topping up an existing layer, because the old layer is still there underneath.</p>
+      <h3>How much does a bag of mulch cover at 3 inches?</h3>
+      <p>A standard 2-cubic-foot bag covers 8 square feet at 3 inches deep. Doubling the depth halves the coverage, and halving the depth doubles it — the relationship is linear.</p>
+      <h3>Should I buy bagged or bulk mulch?</h3>
+      <p>Bulk wins on price per cubic foot almost every time and avoids plastic waste, but it means a pile on your driveway and a wheelbarrow effort. Bags are easier to handle, transportable by car, and easier to return if you overbuy. Run both through this calculator with your prices to see the real difference.</p>
+      <h3>Why does my supplier's estimate differ from mine?</h3>
+      <p>Suppliers often round up to the nearest whole or half cubic yard, and some assume a slightly deeper installation layer to keep you from running short. Ask which depth they modeled — and bring your own cubic yard number from this calculator to the call.</p>
+
+      <h2>About the Author</h2>
+      <div class="author-block d-flex">
+        <div class="author-avatar" aria-hidden="true">RA</div>
+        <div class="ml-3">
+          <p class="mb-1"><strong>Ravi A.</strong> — landscape and home-improvement writer and the editor of A Free Tools, a growing library of practical, no-sign-up calculators for gardeners, builders, and students. He builds and tests every tool against real project scenarios and keeps coverage figures in line with common retail bag sizes and industry conventions.</p>
+          <p class="small text-muted mb-0">Last updated: September 13, 2026 &middot; Conversions follow the standard landscaping conventions (27 cu ft per cubic yard).</p>
+        </div>
+      </div>
+
+      <p class="disclaimer small text-muted mt-4"><strong>Disclaimer:</strong> Results are estimates for planning purposes. Actual mulch volume varies with settling, compaction, and supplier rounding. Always confirm volumes, prices, and delivery options directly with your supplier before purchasing.</p>
+    </article>
+  </main>
+
+  <footer class="text-center small text-muted py-4">
+    &copy; 2026 A Free Tools — Daily Tools by OpenHands
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
