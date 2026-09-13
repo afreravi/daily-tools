@@ -105,7 +105,7 @@
     for (var i = 0; i < sizes.length; i++) {
       var size = sizes[i];
       var count = volumes[size.v];
-      var h = count > 0 ? Math.max(6, (count / maxBars) * maxH) : 6;
+      var h = count > 0 ? Math.max(6, (count / maxBags) * maxH) : 6;
 
       var g = document.createElementNS("http://www.w3.org/2000/svg", "g");
       g.setAttribute("transform", "translate(" + (startX + i * (barW + gap)) + ",0)");
@@ -193,9 +193,8 @@
 
     volCuYd.textContent = formatNumber(volumeCuYd);
     volCuFt.textContent = formatNumber(volumeCuFt);
-    bagCount.textContent = formatNumber(bagCountVal);
-    totalCost.textContent = formatMoney(cost);
     bagCount.textContent = Math.ceil(bagCountVal).toLocaleString("en-US");
+    totalCost.textContent = formatMoney(cost);
 
     // Update the bag-size label next to the price input
     priceUnitLabel.textContent = bagVol + " cu ft bag";
