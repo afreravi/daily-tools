@@ -17,5 +17,5 @@ Random Topic Generator
 QR Code Generator | Reference: https://qrfy.com
 HTML Encoder
 Acreage calculator
-Trapezoid Area Calculator | Reference: https://www.calculatorsoup.com/calculators/geometry-plane/trapezoid.php
+[done] Trapezoid Area Calculator | Reference: https://www.calculatorsoup.com/calculators/geometry-plane/trapezoid.php
 Loan EMI Calculator | include amortization breakdown table
