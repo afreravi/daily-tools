@@ -161,13 +161,15 @@
     }
 
     // --- Validation: a leg can never be shorter than the height ---
+    var legInvalid = false;
     [[legC, el.legC, el.errLegC, "c"], [legD, el.legD, el.errLegD, "d"]].forEach(function (t) {
       if (t[0] !== null && t[0] < h) {
         setError(t[1], t[2], "Leg " + t[3] + " cannot be shorter than the height (" + fmt(h, 2) + " " + units.a + ").");
+        legInvalid = true;
       }
     });
 
-    var perimeter = (legC !== null && legD !== null) ? a + b + legC + legD : null;
+    var perimeter = (!legInvalid && legC !== null && legD !== null) ? a + b + legC + legD : null;
 
     // --- Write results ---
     safeSet(el.areaOut, fmt(area, 2));
@@ -279,7 +281,6 @@
       ctx.font = "13px -apple-system, Segoe UI, Roboto, sans-serif";
       ctx.save();
       ctx.translate((topLeft + botLeft) / 2 - 34, (topY + botY) / 2);
-      ctx.rotate(-Math.atan2(botY - topY, botLeft - topLeft) * 0);
       ctx.fillText("c", 0, 0);
       ctx.restore();
       ctx.save();
