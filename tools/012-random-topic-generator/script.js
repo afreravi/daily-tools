@@ -195,18 +195,25 @@
     }
   ];
 
-  var TONE_PREFIX = {
-    academic: ['A critical analysis of: ', 'An evidence-based examination of: ', 'To what extent is it true that ', 'Evaluate the argument that '],
-    casual: ['Let us talk about ', 'Honestly, ', 'Quick one: ', 'Here is a thought about '],
-    provocative: ['Unpopular opinion: ', 'The uncomfortable case for ', 'Everything you have been told about ', 'The real reason '],
-    funny: ['A deeply unserious look at ', 'Why ', 'The absurd rise of ', 'An overly dramatic investigation into ']
-  };
-  var TONE_SUFFIX = {
-    academic: [' (with reference to recent research)', ' — discuss with supporting evidence.', ''],
-    provocative: [' — argue the side nobody wants to hear.', ' — and why most people get it backwards.', ''],
-    casual: ['', ' — what do you actually think?', ''],
-    funny: [' (with absolutely no evidence whatsoever)', ' — a topic far more dramatic than it deserves.', ''],
-    balanced: ['']
+  // Labels are separate clauses so the underlying sentence always stays grammatical.
+  var TONE_FRAMES = {
+    balanced: { pre: [''], suf: [''] },
+    academic: {
+      pre: ['Academic prompt: ', 'Research question: ', 'Seminar discussion: '],
+      suf: [' Support your answer with cited evidence.', ' Discuss with reference to recent research.', '']
+    },
+    casual: {
+      pre: ['Just curious: ', 'Coffee-break question: ', ''],
+      suf: ['', ' — what do you actually think?', '']
+    },
+    provocative: {
+      pre: ['Argue the uncomfortable side: ', 'Unpopular opinion: ', 'Steelman this claim: '],
+      suf: ['', ' — make the case nobody wants to hear.', '']
+    },
+    funny: {
+      pre: ['Deeply unserious debate: ', 'Overly dramatic investigation: ', 'Hot take, zero evidence: '],
+      suf: ['', ' (evidence strictly optional)', '']
+    }
   };
   var AUDIENCE_PREFIX = {
     school: 'For a school assignment: ',
@@ -295,17 +302,30 @@
     el.grid.innerHTML = html;
   }
 
+  // Strips the trailing period only when a new clause is appended, so framing
+  // never produces a run-on like "…research.  — make the case".
+  function normaliseBase(base) {
+    var t = String(base).trim();
+    t = t.replace(/^([A-Za-z][A-Za-z\s,&'\-]*?) question:\s*/i, '');
+    return t;
+  }
+
   function formatTopic(base, categoryLabel) {
     var tone = el.tone.value;
     var audience = el.audience.value;
-    var text = base;
+    var frames = TONE_FRAMES[tone] || TONE_FRAMES.balanced;
+    var text = normaliseBase(base);
 
-    if (TONE_PREFIX[tone]) {
-      text = pick(TONE_PREFIX[tone]) + text;
+    var pre = pick(frames.pre);
+    var suf = pick(frames.suf);
+
+    if (pre) {
+      text = pre + text;
     }
-    if (TONE_SUFFIX[tone]) {
-      text = text.replace(/\.$/, '') + pick(TONE_SUFFIX[tone]);
-      text = text.replace(/\.\.$/, '.');
+    if (suf) {
+      if (/[.!?]$/.test(text)) { text = text.replace(/([.!?])$/, ''); }
+      text = text + suf;
+      if (!/[.!?]$/.test(text)) { text += '.'; }
     }
     if (AUDIENCE_PREFIX[audience]) {
       text = AUDIENCE_PREFIX[audience] + text;
@@ -313,61 +333,56 @@
     return { text: text, label: categoryLabel };
   }
 
-  function gather(categoryId, amount) {
-    var out = [];
+  function poolFor(categoryId) {
     var pools = categoryId === 'mixed' ? CATEGORIES.slice() : [getCategory(categoryId)];
+    var out = [];
+    for (var i = 0; i < pools.length; i++) {
+      for (var j = 0; j < pools[i].topics.length; j++) {
+        out.push({ base: pools[i].topics[j], label: pools[i].label });
+      }
+    }
+    return out;
+  }
+
+  function gather(categoryId, amount) {
+    if (!el.noRepeat.checked) {
+      var all = shuffle(poolFor(categoryId));
+      var repeated = [];
+      for (var i = 0; all.length && i < amount; i++) {
+        repeated.push(all[i % all.length]);
+      }
+      return repeated;
+    }
+
+    // Prefer unseen topics, widening to the full pool, then recycle the
+    // category history once every bank has been served.
     var used = usedTopics(categoryId);
+    var key = historyKey(categoryId);
+    var chosen = [];
+    var seenThis = {};
+    var stages = [poolFor(categoryId), poolFor('mixed')];
 
-    // Pass 1: unseen topics only (when no-repeat is on)
-    if (el.noRepeat.checked) {
-      var fresh = [];
-      for (var i = 0; i < pools.length; i++) {
-        var pool = pools[i];
-        for (var j = 0; j < pool.topics.length; j++) {
-          var t = pool.topics[j];
-          if (used.indexOf(t) === -1) {
-            fresh.push({ base: t, label: pool.label });
-          }
-        }
-      }
+    for (var s2 = 0; s2 < stages.length && chosen.length < amount; s2++) {
+      var fresh = stages[s2].filter(function (t) {
+        return used.indexOf(t.base) === -1 && !seenThis[t.base];
+      });
       shuffle(fresh);
-      out = fresh.slice(0, amount);
-
-      // Pass 2: top up from the wider pool if the selection ran dry
-      if (out.length < amount) {
-        var remaining = [];
-        for (var k = 0; k < CATEGORIES.length; k++) {
-          var p2 = CATEGORIES[k];
-          if (pools.length === 1 && p2.id !== categoryId) { continue; }
-          for (var m = 0; m < p2.topics.length; m++) {
-            remaining.push({ base: p2.topics[m], label: p2.label });
-          }
-        }
-        shuffle(remaining);
-        for (var n = 0; n < remaining.length && out.length < amount; n++) {
-          out.push(remaining[n]);
-        }
-        if (out.length < amount) {
-          // Exhausted everything: reset the category history and start over
-          state.history[historyKey(categoryId)] = [];
-        }
-      }
-    } else {
-      var all = [];
-      for (var a = 0; a < pools.length; a++) {
-        for (var b = 0; b < pools[a].topics.length; b++) {
-          all.push({ base: pools[a].topics[b], label: pools[a].label });
-        }
-      }
-      shuffle(all);
-      // Allow duplicates-free sampling up to pool size, then recycle
-      for (var c2 = 0; out.length < amount; c2++) {
-        if (all.length === 0) { break; }
-        out.push(all[c2 % all.length]);
+      for (var f = 0; f < fresh.length && chosen.length < amount; f++) {
+        seenThis[fresh[f].base] = true;
+        chosen.push(fresh[f]);
       }
     }
 
-    return out;
+    if (chosen.length < amount) {
+      state.history[key] = [];
+      var recycled = shuffle(poolFor(categoryId));
+      for (var r = 0; recycled.length && chosen.length < amount; r++) {
+        chosen.push(recycled[r % recycled.length]);
+        if (r >= recycled.length) { break; }
+      }
+    }
+
+    return chosen.slice(0, amount);
   }
 
   function shuffle(arr) {
