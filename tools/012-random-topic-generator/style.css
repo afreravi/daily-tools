@@ -1,0 +1,288 @@
+:root {
+  --brand: #60089c;
+  --brand-dark: #4c077d;
+  --brand-darker: #37055a;
+  --brand-mid: #8a3fbf;
+  --brand-soft: #efe6f7;
+  --brand-softer: #faf7fd;
+  --accent: #f0a02a;
+  --ink: #241f2b;
+  --body: #3d3644;
+  --muted: #6d6675;
+  --line: #e7e1ee;
+}
+
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(900px 380px at 12% -8%, #f4ecfc 0%, rgba(244, 236, 252, 0) 70%),
+    linear-gradient(180deg, #ffffff 0%, #fdfcff 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ---------- Navigation ---------- */
+.breadcrumb {
+  font-size: .875rem;
+  color: var(--muted);
+}
+.breadcrumb a {
+  color: var(--brand);
+}
+.breadcrumb a:hover {
+  color: var(--brand-dark);
+}
+
+/* ---------- Typography ---------- */
+h1, h2, h3 {
+  color: var(--ink);
+  letter-spacing: -.01em;
+}
+.lead {
+  color: var(--muted);
+  font-size: 1.075rem;
+}
+.legend-tight {
+  letter-spacing: .07em;
+  color: var(--brand);
+  font-size: .78rem;
+  border: 0;
+  padding: 0;
+}
+
+/* ---------- Tool card ---------- */
+.card {
+  border-radius: 14px;
+}
+#toolCard {
+  border-top: 4px solid var(--brand);
+  background: #fff;
+}
+
+/* ---------- Category grid ---------- */
+#categoryGrid {
+  margin-left: -6px;
+  margin-right: -6px;
+}
+.category-chip {
+  position: relative;
+  padding: 0 6px;
+  margin-bottom: 10px;
+}
+.category-chip .custom-control {
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: .6rem .75rem .6rem 2.1rem;
+  transition: border-color .15s ease, background-color .15s ease, box-shadow .15s ease;
+  background: #fff;
+  min-height: 100%;
+}
+.category-chip .custom-control:hover {
+  border-color: var(--brand-mid);
+  background: var(--brand-softer);
+}
+.category-chip .custom-control-input:checked ~ .custom-control-label::before {
+  border-color: var(--brand);
+  background-color: var(--brand);
+}
+.category-chip .custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .2);
+}
+.category-chip .custom-control-label {
+  font-size: .92rem;
+  font-weight: 600;
+  color: var(--body);
+  cursor: pointer;
+  display: block;
+}
+.category-chip .custom-control-label small {
+  display: block;
+  font-weight: 400;
+  color: var(--muted);
+  font-size: .76rem;
+  line-height: 1.35;
+}
+.category-chip .custom-control-input:checked ~ .custom-control-label {
+  color: var(--brand-darker);
+}
+
+/* ---------- Buttons ---------- */
+.btn-brand {
+  background-color: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  font-weight: 600;
+}
+.btn-brand:hover,
+.btn-brand:focus {
+  background-color: var(--brand-dark);
+  border-color: var(--brand-dark);
+  color: #fff;
+}
+.btn-brand:focus {
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .25);
+}
+.btn-outline-brand {
+  color: var(--brand);
+  border-color: var(--brand);
+  font-weight: 600;
+}
+.btn-outline-brand:hover,
+.btn-outline-brand:focus {
+  background-color: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+}
+.btn-outline-brand:disabled {
+  color: #a99cb5;
+  border-color: var(--line);
+  background: #fff;
+  opacity: 1;
+}
+.btn-outline-brand:focus {
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .25);
+}
+.btn-link.text-muted:focus {
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .15);
+  border-radius: 4px;
+}
+
+/* ---------- Form controls ---------- */
+.form-control:focus,
+.custom-control-input:focus ~ .custom-control-label::before,
+.custom-select:focus {
+  border-color: var(--brand-mid);
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .15);
+}
+label {
+  font-weight: 600;
+  color: var(--body);
+  font-size: .95rem;
+}
+.form-text {
+  font-size: .82rem;
+}
+.invalid-feedback {
+  color: #a1123c;
+  font-size: .83rem;
+  min-height: 1.1rem;
+}
+
+/* ---------- Results ---------- */
+.topic-list {
+  counter-reset: topic;
+}
+.topic-item {
+  counter-increment: topic;
+  position: relative;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--brand);
+  border-radius: 10px;
+  padding: .85rem 1rem .85rem 3.1rem;
+  margin-bottom: .6rem;
+  box-shadow: 0 1px 2px rgba(55, 5, 90, .05);
+  animation: topicIn .22s ease-out both;
+  line-height: 1.55;
+  color: var(--body);
+}
+.topic-item::before {
+  content: counter(topic);
+  position: absolute;
+  left: .85rem;
+  top: .78rem;
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  background: var(--brand-soft);
+  color: var(--brand-darker);
+  font-size: .78rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.topic-tag {
+  display: inline-block;
+  font-size: .68rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--brand-dark);
+  background: var(--brand-soft);
+  border-radius: 999px;
+  padding: .1rem .5rem;
+  margin-right: .45rem;
+  vertical-align: 1px;
+}
+@keyframes topicIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .topic-item { animation: none; }
+}
+
+#chartNote,
+#statusLine {
+  font-size: .84rem;
+}
+
+/* ---------- Article ---------- */
+.article {
+  max-width: 780px;
+}
+.article h2 {
+  margin-top: 2.4rem;
+  margin-bottom: .9rem;
+  font-size: 1.42rem;
+  font-weight: 700;
+  padding-bottom: .5rem;
+  border-bottom: 2px solid var(--brand-soft);
+}
+.article h3 {
+  margin-top: 1.5rem;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--brand-darker);
+}
+.article p,
+.article li {
+  color: var(--body);
+  line-height: 1.72;
+}
+.article ul {
+  padding-left: 1.25rem;
+}
+.article li {
+  margin-bottom: .45rem;
+}
+.article strong {
+  color: var(--ink);
+}
+
+/* ---------- Disclaimer ---------- */
+.disclaimer-box {
+  background: var(--brand-softer);
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--accent);
+  border-radius: 10px;
+  padding: 1rem 1.15rem;
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background: #fff;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+}
+
+/* ---------- Small screens ---------- */
+@media (max-width: 575.98px) {
+  .topic-item {
+    padding-left: 2.9rem;
+  }
+  #toolCard .card-body {
+    padding: 1.4rem !important;
+  }
+}

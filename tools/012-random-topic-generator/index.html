@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Random Topic Generator — Instant Writing &amp; Speech Ideas</title>
+  <meta name="description" content="Free random topic generator: spin unlimited writing prompts for essays, speeches, podcasts and debates. Pick a category, quantity and tone, then copy your list.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/generators">Generators</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Random Topic Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Random Topic Generator</h1>
+      <p class="lead mb-0">Stuck on what to write or talk about? Spin the wheel below and get fresh, specific topic ideas in one click — choose a category, how many you need, and how serious you want them to sound.</p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-4" id="toolCard">
+      <div class="card-body p-4 p-md-5">
+        <form id="topicForm" novalidate>
+          <fieldset class="mb-4">
+            <legend class="h6 font-weight-bold text-uppercase legend-tight">1. Topic category</legend>
+            <div class="custom-control custom-radio mb-2">
+              <input type="radio" id="catMixed" name="category" class="custom-control-input" value="mixed" checked>
+              <label class="custom-control-label" for="catMixed">Surprise me — mix every category</label>
+            </div>
+            <div class="row" id="categoryGrid"></div>
+            <p class="form-text mb-0 mt-2" id="catHint">Each category holds a curated bank of topics. Mixing pools them all together, so you rarely see the same idea twice.</p>
+          </fieldset>
+
+          <div class="row">
+            <div class="col-12 col-md-4 mb-3">
+              <label for="count">How many topics?</label>
+              <input type="number" class="form-control form-control-lg" id="count" value="5" min="1" max="30" step="1" inputmode="numeric" aria-describedby="errCount countHelp">
+              <small class="form-text text-muted" id="countHelp">Anywhere from 1 to 30.</small>
+              <div class="invalid-feedback d-block" id="errCount" role="alert"></div>
+            </div>
+
+            <div class="col-12 col-md-4 mb-3">
+              <label for="tone">Tone</label>
+              <select class="form-control form-control-lg" id="tone">
+                <option value="balanced" selected>Balanced</option>
+                <option value="academic">Academic</option>
+                <option value="casual">Casual</option>
+                <option value="provocative">Provocative</option>
+                <option value="funny">Funny</option>
+              </select>
+              <small class="form-text text-muted">Shifts the wording, not the subject.</small>
+            </div>
+
+            <div class="col-12 col-md-4 mb-3">
+              <label for="audience">Level</label>
+              <select class="form-control form-control-lg" id="audience">
+                <option value="any" selected>Any level</option>
+                <option value="school">School / GCSE</option>
+                <option value="highschool">High school / A-level</option>
+                <option value="college">College / university</option>
+                <option value="professional">Professional / workplace</option>
+              </select>
+              <small class="form-text text-muted">Useful for essay and speech prompts.</small>
+            </div>
+          </div>
+
+          <div class="custom-control custom-checkbox mb-4">
+            <input type="checkbox" class="custom-control-input" id="noRepeat" checked>
+            <label class="custom-control-label" for="noRepeat">Never repeat a topic until the whole category has been used</label>
+          </div>
+
+          <div class="d-flex flex-wrap align-items-center">
+            <button type="submit" class="btn btn-brand btn-lg px-4 mr-2 mb-2" id="generateBtn">
+              Generate topics
+            </button>
+            <button type="button" class="btn btn-outline-brand btn-lg px-4 mr-2 mb-2" id="copyBtn" disabled>
+              Copy list
+            </button>
+            <button type="button" class="btn btn-link text-muted mb-2" id="resetBtn">
+              Reset history
+            </button>
+          </div>
+          <p class="small text-muted mt-3 mb-0" id="statusLine" role="status" aria-live="polite">Ready when you are — press Generate topics.</p>
+        </form>
+      </div>
+    </section>
+
+    <section class="mb-4 d-none" id="resultsSection" aria-labelledby="resultsHeading">
+      <h2 class="h5 font-weight-bold" id="resultsHeading">Your topic ideas</h2>
+      <ol class="topic-list list-unstyled mb-3" id="resultList"></ol>
+
+      <div class="card border-0 shadow-sm">
+        <div class="card-body">
+          <h3 class="h6 text-uppercase legend-tight mb-3">Where your topics came from</h3>
+          <canvas id="chartCanvas" width="640" height="280" role="img" aria-label="Horizontal bar chart showing how many generated topics came from each category"></canvas>
+          <p class="small text-muted mb-0 mt-2" id="chartNote">Bars show how many of your generated topics came from each category this round.</p>
+        </div>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2>Why a topic generator beats staring at a blank page</h2>
+      <p>The hardest part of writing is rarely the writing. It is the first sentence, and the first sentence cannot exist until you know what you are actually saying. A random topic generator removes that blockage by handing you a starting point you did not have to invent. It is not about letting a machine do your thinking — it is about giving your thinking something to push against.</p>
+      <p>This generator draws from a curated bank of topic ideas across ten categories: persuasive essays, creative writing, science and technology, history, ethics, business, education, health and lifestyle, environment, and arts and culture. Every spin is local to your browser. Nothing is uploaded, nothing is logged, and you can spin as many times as you like.</p>
+
+      <h2>How the tool works</h2>
+      <p>Three inputs shape your list. <strong>Category</strong> narrows the pool — pick one theme or leave it on "surprise me" to mix everything. <strong>Count</strong> sets how many topics you want, from one to thirty. <strong>Tone</strong> reworks the phrasing: an academic spin adds a formal framing clause, a provocative spin pushes the idea toward a claim readers might disagree with, and a funny spin leans into the absurd. <strong>Level</strong> adds a school, university, or workplace context so the prompt fits the assignment in front of you.</p>
+      <p>The "never repeat" switch matters more than it looks. When it is ticked, the generator tracks which ideas it has already served you and refuses to recycle them until the entire pool is exhausted. That is what stops the tool from feeling like a rigged dice roll after five clicks. The chart underneath your results shows how the ideas were distributed across categories, which is a quick way to spot that you have accidentally asked for eight science topics in a row and need to broaden.</p>
+
+      <h2>Practical ways to use it</h2>
+      <ul>
+        <li><strong>Essay warm-ups.</strong> Generate ten persuasive topics, pick the two you instinctively want to argue against, and free-write for five minutes on each. The one that produces more text is probably your real essay.</li>
+        <li><strong>Speech and debate prep.</strong> Ask for five provocative topics, then assign yourself the side you disagree with. Debating from the uncomfortable position exposes weak reasoning fast.</li>
+        <li><strong>Podcast and newsletter planning.</strong> Generate fifteen ideas at the start of a month and shortlist three. Keep the rest as a backup bank for weeks when inspiration runs thin.</li>
+        <li><strong>Classroom prompts.</strong> Teachers can spin a batch each morning and hand out one topic per student, which sidesteps the "I don't know what to write about" delay.</li>
+        <li><strong>Journaling.</strong> A single casual prompt a day is enough to keep a habit alive when you have nothing pressing to record.</li>
+      </ul>
+
+      <h2>Getting better results from random prompts</h2>
+      <p><strong>Treat the topic as a seed, not a brief.</strong> A question like "should social media platforms be liable for harmful content?" is a starting point, not a finished thesis. Your job is to narrow it — to a platform, a country, a harm, an age group — until it is small enough to actually answer in your word count.</p>
+      <p><strong>Generate more than you need.</strong> Creative selection is easier than creative generation. Asking for fifteen and discarding twelve is faster than trying to will the perfect topic into existence on the first spin.</p>
+      <p><strong>Combine two ideas when nothing fits.</strong> A weak topic from one category plus a surprising category label often produces the most original angle — "bees" plus "business" becomes a genuinely interesting piece about pollination as a supply chain.</p>
+      <p><strong>Check the fit before you commit.</strong> A fascinating topic is useless if it needs sources you cannot access or fieldwork you cannot do. Ask whether you can defend the idea with what is in your library, your data, or your own experience.</p>
+      <p><strong>Write your own prompts too.</strong> The bank is inspiration, not scripture. Once an idea gets you moving, rewrite it in your own words — that rewrite is usually your real topic.</p>
+
+      <h2>Common mistakes when choosing a topic</h2>
+      <ul>
+        <li><strong>Picking the first idea because it is there.</strong> Cheap availability is not the same as genuine interest. Sit with at least a handful before deciding.</li>
+        <li><strong>Choosing something too broad.</strong> "Climate change" is a library, not an essay. Narrow it to one city, one policy, or one decade.</li>
+        <li><strong>Ignoring the audience.</strong> A workplace report and a sixth-form essay want very different registers. Use the level selector honestly.</li>
+        <li><strong>Restarting forever.</strong> At some point you have to write. If a topic survives three minutes of thinking, treat it as your topic and move on.</li>
+        <li><strong>Forgetting to verify claims.</strong> A generated topic is a question, not evidence. Every factual assertion you make still needs a real source.</li>
+      </ul>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Is the random topic generator really random?</h3>
+      <p>It uses the browser's built-in random number generator to shuffle a curated pool, so each spin picks without any bias toward popular topics. Because the pool is finite, results are evenly spread rather than mathematically unpredictable forever.</p>
+      <h3>Can I use these topics for school essays?</h3>
+      <p>Yes. Use the level selector to set school, high school, college, or professional framing. That said, always check the prompt against your actual assignment brief and your teacher's requirements.</p>
+      <h3>Does it store my topics or search history?</h3>
+      <p>No. Everything runs in your browser. Your repeat-history is kept in memory for the current session only so the no-repeat rule works, and it disappears when you close the page or press Reset history.</p>
+      <h3>Why do some topics come back with extra wording?</h3>
+      <p>That is the tone setting working. Academic and provocative tones add a framing clause so the same underlying idea reads differently. Set tone to Balanced to see the plain version.</p>
+      <h3>How many topics can I generate at once?</h3>
+      <p>Up to thirty per click. If no-repeat is on and you request more than the chosen category holds, the generator tops the list up from other categories rather than skipping the request.</p>
+      <h3>Are these topics plagiarism-free to use?</h3>
+      <p>Yes. Topic prompts are short general questions, not prose, and you write the content yourself. What matters for originality is your research and your argument, not the question that started it.</p>
+
+      <h2>About this tool</h2>
+      <p>This generator was built and tested by the A Free Tools team as part of a daily open-source tool build. The topic bank is hand-written rather than scraped, the tone adjustments are applied at generation time, and everything runs client-side so no data leaves your device. If a topic feels flat or a category is thin, that is useful feedback — tell us and the bank gets sharpened in the next release. Last updated: <span id="lastUpdated">September 16, 2026</span>.</p>
+
+      <div class="disclaimer-box mt-4" role="note">
+        <h3 class="h6 font-weight-bold mb-2">Disclaimer</h3>
+        <p class="mb-0 small">This random topic generator is provided for general educational and creative brainstorming purposes only. Topics are suggestions, not research, advice, or verified fact. You are responsible for checking that any topic suits your assignment brief, that your claims are supported by credible sources, and that you comply with your school, employer, or publisher's rules on originality and citation. A Free Tools accepts no liability for loss arising from use of these prompts.</p>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer py-4 mt-4">
+    <div class="container small text-center">
+      <span>&copy; <span id="year">2026</span> A Free Tools — free, browser-based utilities.</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
