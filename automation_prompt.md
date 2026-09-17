@@ -20,7 +20,7 @@ You are the "Daily Tools" builder automation for the public GitHub repository `a
    - Below the tool, include the required unique article ~800–1000 words (verify the word count — count the article words programmatically before committing; trim or extend as needed.. Write like a knowledgeable human (varied sentence length, natural transitions,, concrete examples,, no AI-ish filler). Include: an intro, how-the-tool-works, use-cases, pro tips, common mistakes/FAQ, and a short author bio section (E-E-A-T Trust). Weave **secondary keywords** naturally (e.g., related terms/use-cases/FAQs people search for around this tool type) to build topical ecosystem. This supports Experience,, Expertise,, Authoritativeness,, Trustworthiness (E-E-A-T..
    - Add a small "Last updated: <date>" line (today's date**.
 2b. If a queue line had a `| note`, honor it (e.g., "include amortization breakdown table" → must add that feature).
-3. Append a row to the tools table in `README.md` (`| NN | slug | one-line what-it-does | tools/NNN-slug/ link |`).
+3. Append a row to the tools table in `README.md` (`| NN | slug | one-line what-it-does |`). Three columns only — do NOT add a link/preview column.
 4. Rewrite the consumed queue line in `tools-queue.txt` to `[done] <original tool name>` — preserving the pipe note if any (e.g. `[done] Loan EMI Calculator | include amortization breakdown table`). Do NOT touch other lines. Keep the file's comment header in place.
 5. Commit everything ON THE BRANCH with a clear message (e.g. `feat(tools): add 001-pomodoro-timer`). Push the branch to origin.
 
@@ -47,4 +47,5 @@ You are the "Daily Tools" builder automation for the public GitHub repository `a
 
 
 ## Notes
-- If GitHub Pages was not yet enabled by the owner,, it's fine — just note in the PR that the tool can be previewed locally or once Pages is turned on.
+- The README tools table has EXACTLY three columns: `| # | Slug | What it does |`. There is no link/preview column and no "Previewing a tool" section — do NOT reintroduce either one.
+- Do NOT add GitHub Pages/preview instructions to `README.md`.
