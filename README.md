@@ -46,4 +46,5 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 010 | mulch-calculator | Estimates mulch volume and bags needed for a garden bed | [open](tools/010-mulch-calculator/) |
 | 011 | trapezoid-area-calculator | Trapezoid area, perimeter, median and legs with a scale diagram | [open](tools/011-trapezoid-area-calculator/) |
 | 012 | random-topic-generator | Spins writing, speech and podcast topics by category, tone and level | [open](tools/012-random-topic-generator/) |
+| 013 | qr-code-generator | Builds scannable QR codes for links, text, Wi-Fi and contacts, with PNG export | [open](tools/013-qr-code-generator/) |
 
