@@ -230,8 +230,8 @@
         if (m[row][col] !== null) continue; // overlaps a finder pattern
         for (var r = -2; r <= 2; r++) {
           for (var c = -2; c <= 2; c++) {
-            var isBorder = Math.max(Math.abs(r), Math.abs(c));
-            m[row + r][col + c] = isBorder === 2 || isBorder === 0 ? 1 : 0;
+            // dark outer ring and dark centre dot, light ring in between
+            m[row + r][col + c] = Math.max(Math.abs(r), Math.abs(c)) === 1 ? 0 : 1;
           }
         }
       }
@@ -416,15 +416,47 @@
     var bits = formatBits(level, maskId);
     var get = function (i) { return (bits >>> i) & 1; };
     var i;
-    for (i = 0; i <= 5; i++) m[8][i] = get(i);
-    m[8][7] = get(6);
-    m[8][8] = get(7);
-    m[7][8] = get(8);
-    for (i = 9; i <= 14; i++) m[14 - i][8] = get(i);
 
-    for (i = 0; i <= 7; i++) m[size - 1 - i][8] = get(i);
-    for (i = 8; i <= 14; i++) m[8][size - 15 + i] = get(i);
-    m[size - 8][8] = 1;
+    // Copy 1, wrapped around the top-left finder. Row/column 6 carry the timing
+    // pattern, so both strips jump from index 5 straight to 7.
+    for (i = 0; i < 8; i++) {
+      var skip = i < 6 ? i : i + 1;
+      m[skip][8] = get(i);        // vertical strip: bits 0-7, top to bottom
+      m[8][skip] = get(14 - i);   // horizontal strip: bits 14-7, left to right
+    }
+
+    // Copy 2, split between the bottom-left and top-right corners.
+    for (i = 0; i < 8; i++) {
+      m[size - 1 - i][8] = get(14 - i); // bits 14-7, bottom to top
+      m[8][size - 1 - i] = get(i);      // bits 0-7, right to left
+    }
+
+    m[size - 8][8] = 1; // dark module, always set after the format bits
+  }
+
+  function versionBits(version) {
+    var rem = version;
+    for (var i = 0; i < 12; i++) {
+      rem = (rem << 1) ^ ((rem >> 11) * 0x1f25);
+    }
+    return (version << 12) | (rem & 0xfff);
+  }
+
+  function placeVersionInfo(m, version) {
+    if (version < 7) return; // versions 1-6 carry no version information
+    var size = m.length;
+    var bits = versionBits(version);
+    var get = function (i) { return (bits >>> i) & 1; };
+    for (var i = 0; i < 6; i++) {
+      // Lower-left block: three rows, six columns
+      m[size - 11][i] = get(i * 3);
+      m[size - 10][i] = get(i * 3 + 1);
+      m[size - 9][i] = get(i * 3 + 2);
+      // Upper-right block: the same three bits transposed
+      m[i][size - 11] = get(i * 3);
+      m[i][size - 10] = get(i * 3 + 1);
+      m[i][size - 9] = get(i * 3 + 2);
+    }
   }
 
   function buildMatrix(bytes, version, level, maskId) {
@@ -435,6 +467,7 @@
     placeFinder(m, size - 7, 0);
     placeAlignment(m, version);
     placeTiming(m);
+    placeVersionInfo(m, version);
     m[size - 8][8] = 1;
 
     var isFunction = [];
@@ -767,9 +800,6 @@
     qrFrame.style.background = 'transparent';
 
     var caption = labelInput.value.trim();
-    qrPlaceholder.textContent = caption
-      ? caption
-      : (state.text !== text ? '' : '');
     if (caption) {
       qrPlaceholder.textContent = caption;
     } else {
@@ -809,12 +839,14 @@
     var moduleScale = Math.max(1, Math.floor(exportSize / (matrixSize + quiet * 2)));
     var totalModules = matrixSize + quiet * 2;
     var pixelSize = moduleScale * totalModules;
+    var caption = labelInput.value.trim();
+    var captionBand = caption ? Math.round(pixelSize * 0.09) : 0;
 
     canvas.width = pixelSize;
-    canvas.height = pixelSize;
+    canvas.height = pixelSize + captionBand;
     var ctx = canvas.getContext('2d');
     ctx.fillStyle = bgColor.value;
-    ctx.fillRect(0, 0, pixelSize, pixelSize);
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = fgColor.value;
     for (var r = 0; r < matrixSize; r++) {
       for (var c = 0; c < matrixSize; c++) {
@@ -822,6 +854,15 @@
         ctx.fillRect((c + quiet) * moduleScale, (r + quiet) * moduleScale,
           moduleScale, moduleScale);
       }
+    }
+
+    if (caption) {
+      ctx.font = 'bold ' + Math.max(11, Math.round(captionBand * 0.42)) +
+        'px -apple-system, Segoe UI, Roboto, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(caption.slice(0, 60), pixelSize / 2,
+        pixelSize + captionBand * 0.5, pixelSize * 0.94);
     }
 
     var filenameBase = state.text
