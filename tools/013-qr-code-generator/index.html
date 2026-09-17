@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR Code Generator — Free Custom QR Codes with Logo-Ready PNG Export</title>
+  <meta name="description" content="Free QR code generator: turn a link, text, Wi-Fi login or phone number into a scannable QR code. Choose error correction, size and colours, then download PNG.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/generators">Generators</a></li>
+        <li class="breadcrumb-item active" aria-current="page">QR Code Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">QR Code Generator</h1>
+      <p class="lead mb-0">Type a link, a block of text, or a Wi-Fi login and get a clean, scannable QR code in the browser. Pick your error correction level, size and colours, then download a print-ready PNG — no sign-up, no watermark, no server round-trip.</p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-4" id="toolCard">
+      <div class="card-body p-4 p-md-5">
+        <form id="qrForm" novalidate>
+          <div class="form-group mb-1">
+            <label for="qrText" class="font-weight-bold">1. Content to encode</label>
+            <textarea class="form-control" id="qrText" rows="3" maxlength="1200" placeholder="https://example.com/my-page" aria-describedby="textHelp"></textarea>
+            <div class="d-flex justify-content-between align-items-center flex-wrap mt-2">
+              <small class="form-text mb-0" id="textHelp">Links, plain text, email addresses, phone numbers and Wi-Fi strings all work.</small>
+              <small class="text-muted" id="charCount" aria-live="polite">0 characters</small>
+            </div>
+            <div class="invalid-feedback d-block" id="errText" role="alert"></div>
+          </div>
+
+          <div class="row mt-3">
+            <div class="col-12 col-md-6 mb-3">
+              <label for="presetSelect" class="font-weight-bold small text-uppercase">Quick presets</label>
+              <select class="form-control" id="presetSelect">
+                <option value="">Choose a preset…</option>
+                <option value="url">Website link (https://…)</option>
+                <option value="wifi">Wi-Fi network login</option>
+                <option value="email">Email address</option>
+                <option value="phone">Phone number</option>
+                <option value="sms">SMS message</option>
+                <option value="vcard">Contact card (vCard)</option>
+              </select>
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+              <label for="sizeSelect" class="font-weight-bold small text-uppercase">Export size</label>
+              <select class="form-control" id="sizeSelect">
+                <option value="256">Small — 256 px (web use)</option>
+                <option value="512" selected>Medium — 512 px (documents)</option>
+                <option value="1024">Large — 1024 px (print, flyers)</option>
+              </select>
+            </div>
+          </div>
+
+          <fieldset class="mb-3">
+            <legend class="h6 font-weight-bold text-uppercase legend-tight">2. Error correction level</legend>
+            <div class="row" id="eccGrid">
+              <div class="col-12 col-sm-6 col-lg-3 mb-2">
+                <div class="custom-control custom-radio ecc-option">
+                  <input type="radio" id="eccL" name="ecc" class="custom-control-input" value="L">
+                  <label class="custom-control-label" for="eccL"><span class="ecc-name">Low (L)</span><span class="ecc-note">~7% recovery · shortest code</span></label>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-lg-3 mb-2">
+                <div class="custom-control custom-radio ecc-option">
+                  <input type="radio" id="eccM" name="ecc" class="custom-control-input" value="M" checked>
+                  <label class="custom-control-label" for="eccM"><span class="ecc-name">Medium (M)</span><span class="ecc-note">~15% recovery · everyday default</span></label>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-lg-3 mb-2">
+                <div class="custom-control custom-radio ecc-option">
+                  <input type="radio" id="eccQ" name="ecc" class="custom-control-input" value="Q">
+                  <label class="custom-control-label" for="eccQ"><span class="ecc-name">Quartile (Q)</span><span class="ecc-note">~25% recovery · logo-safe</span></label>
+                </div>
+              </div>
+              <div class="col-12 col-sm-6 col-lg-3 mb-2">
+                <div class="custom-control custom-radio ecc-option">
+                  <input type="radio" id="eccH" name="ecc" class="custom-control-input" value="H">
+                  <label class="custom-control-label" for="eccH"><span class="ecc-name">High (H)</span><span class="ecc-note">~30% recovery · harshest conditions</span></label>
+                </div>
+              </div>
+            </div>
+            <p class="form-text mb-0" id="eccHint">Higher recovery means a denser code. If you plan to paste a logo over the middle, pick Quartile or High.</p>
+          </fieldset>
+
+          <div class="row">
+            <div class="col-6 col-md-3 mb-3">
+              <label for="fgColor">Code colour</label>
+              <input type="color" class="form-control color-input" id="fgColor" value="#1b1b1b">
+            </div>
+            <div class="col-6 col-md-3 mb-3">
+              <label for="bgColor">Background</label>
+              <input type="color" class="form-control color-input" id="bgColor" value="#ffffff">
+            </div>
+            <div class="col-12 col-md-6 mb-3">
+              <label for="labelInput">Caption under the code <span class="text-muted">(optional)</span></label>
+              <input type="text" class="form-control" id="labelInput" maxlength="60" placeholder="e.g. Scan for the menu">
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap align-items-center">
+            <button type="submit" class="btn btn-brand btn-lg px-4 mr-2 mb-2" id="generateBtn">Generate QR code</button>
+            <button type="button" class="btn btn-outline-brand btn-lg px-3 mr-2 mb-2" id="downloadBtn" disabled>Download PNG</button>
+            <button type="button" class="btn btn-link btn-lg mb-2" id="clearBtn">Reset</button>
+            <div class="w-100"></div>
+            <div id="alertBox" class="mt-2 w-100" role="alert" aria-live="polite"></div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="mb-4" aria-labelledby="resultHeading">
+      <h2 class="h5 font-weight-bold" id="resultHeading">Your QR code</h2>
+      <div class="row">
+        <div class="col-12 col-lg-6 mb-4">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
+              <div class="qr-frame" id="qrFrame">
+                <canvas id="qrCanvas" width="512" height="512" role="img" aria-label="Generated QR code preview" ></canvas>
+              </div>
+              <p class="small text-muted mt-3 mb-0" id="qrPlaceholder">Your code will appear here after you press Generate.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-6 mb-4">
+          <div class="card border-0 shadow-sm h-100">
+            <div class="card-body">
+              <h3 class="h6 font-weight-bold text-uppercase legend-tight">Code details</h3>
+              <dl class="row small mb-3" id="detailList">
+                <dt class="col-6">Status</dt><dd class="col-6" id="dStatus">Waiting for input</dd>
+                <dt class="col-6">QR version</dt><dd class="col-6" id="dVersion">—</dd>
+                <dt class="col-6">Module grid</dt><dd class="col-6" id="dModules">—</dd>
+                <dt class="col-6">Error correction</dt><dd class="col-6" id="dEcc">—</dd>
+                <dt class="col-6">Bytes used</dt><dd class="col-6" id="dBytes">0</dd>
+                <dt class="col-6">Capacity used</dt><dd class="col-6" id="dCapacity">0%</dd>
+                <dt class="col-6">Mask pattern</dt><dd class="col-6" id="dMask">—</dd>
+              </dl>
+              <h3 class="h6 font-weight-bold text-uppercase legend-tight">Capacity by error correction level</h3>
+              <canvas id="capChart" width="520" height="190" role="img" aria-label="Bar chart comparing how much of each error correction level's capacity your content uses"></canvas>
+              <p class="small text-muted mb-0 mt-2" id="chartCaption">Bars show how much of each level's available capacity your content consumes. Shorter bars at the same content length mean a lighter, easier-to-scan code.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="article card border-0 shadow-sm">
+      <div class="card-body p-4 p-md-5">
+        <h2>What a QR code actually is</h2>
+        <p>A QR code — short for quick response code — is a two-dimensional barcode. Where a traditional barcode stores data in a single row of stripes, a QR code spreads it across a square grid of black and white modules. That extra dimension is why a small square can hold a web address, a full paragraph, or a structured command such as a Wi-Fi login, and why a phone camera can read it in a fraction of a second.</p>
+        <p>The pattern is not arbitrary. Three large squares sit in the corners as finder patterns, telling the scanner where the code begins and how it is rotated. A timing strip of alternating modules runs between them to establish the grid scale, and the remaining area carries your data plus error correction codewords that let the scanner rebuild the message even when part of the surface is damaged, smudged, or covered.</p>
+
+        <h2>How this QR code generator works</h2>
+        <p>Everything here runs in your browser using plain JavaScript, so your content never leaves your device. When you press Generate, the tool converts your text to UTF-8 bytes, picks the smallest QR version that can hold it, and builds the symbol from scratch: it assembles the data bitstream, computes Reed-Solomon error correction codewords, interleaves them into blocks, and lays the result out across the module grid.</p>
+        <p>The generator supports QR versions 1 through 10, which cover grids of 21 × 21 up to 57 × 57 modules. That range is enough for 119 to 271 characters depending on the error correction level you choose — comfortably more than a typical URL, a short block of instructions, or a contact card. After placing the data, the encoder tests all eight mask patterns, scores each one against the four penalty rules in the QR specification, and keeps the mask that produces the cleanest, most scannable pattern. The panel beside the code reports the version, module count, byte count, capacity used, and chosen mask so you can see exactly what was produced.</p>
+
+        <h2>Choosing an error correction level</h2>
+        <p>Error correction is redundancy. Low (L) recovers roughly 7% of the code if it is obscured, Medium (M) about 15%, Quartile (Q) about 25%, and High (H) about 30%. More redundancy means more codewords, which means a denser grid at the same content length.</p>
+        <p>Medium is the sensible default for most print and screen work. Step up to Quartile or High when the code will be printed small, placed behind glass, glued to a curved surface, exposed to weather, or stamped with a logo in the centre. Step down to Low only when content is long and space is tight, and accept that the code will tolerate very little damage. Remember that error correction protects against damage, not against poor contrast — a beautiful dark grey code on a light grey background still fails.</p>
+
+        <h2>Practical use cases</h2>
+        <ul>
+          <li><strong>Print and packaging</strong> — menus, product labels, event badges, and business cards that open a booking page or a portfolio.</li>
+          <li><strong>Wi-Fi sharing</strong> — encode a network name, password, and encryption type so guests join with one scan instead of typing a long password.</li>
+          <li><strong>Contactless handoffs</strong> — a vCard with your name, phone, and email, or an SMS template that starts a text message to your support line.</li>
+          <li><strong>Classroom and office</strong> — a code on a worksheet that opens a reading list, or a code by the printer that loads the driver page.</li>
+          <li><strong>Offline reference</strong> — short instruction snippets or inventory identifiers that staff can scan without network access.</li>
+        </ul>
+
+        <h2>Pro tips for codes that scan first time</h2>
+        <ul>
+          <li><strong>Keep contrast high.</strong> Dark modules must be clearly darker than the light ones. Near-black on white is the safest combination in the world; inverted codes are not read reliably by every camera.</li>
+          <li><strong>Respect the quiet zone.</strong> Leave a margin of blank space at least four modules wide on every side. Crowding the code with borders or text is the single most common cause of failed scans.</li>
+          <li><strong>Print big enough.</strong> A rough rule is a minimum of 2 cm × 2 cm for a short URL scanned from arm's length, and more for longer content or greater distance.</li>
+          <li><strong>Test on two devices</strong> before you print ten thousand copies. Preview the code on screen at the final printed size, not zoomed in.</li>
+          <li><strong>Shorten the payload.</strong> Use a shortened link, drop tracking parameters, and cut unnecessary text — a smaller payload means a lower version and a chunkier, more forgiving module size.</li>
+          <li><strong>Never cover the finder patterns.</strong> If you overlay a logo, keep it near the middle and stay inside roughly a quarter of the total area.</li>
+        </ul>
+
+        <h2>Common mistakes to avoid</h2>
+        <ul>
+          <li><strong>Using a QR code for content that will change.</strong> The data is baked into the pattern. A printed code cannot be edited — point it at a URL you control if the destination may move.</li>
+          <li><strong>Over-trusting error correction.</strong> Thirty percent recovery is not a licence to obscure a third of the code. Damage tolerance is about scattered noise, not one large blocked area.</li>
+          <li><strong>Encoding an unreachable link.</strong> Test the destination on mobile data as well as office Wi-Fi, and remember that internal hostnames will not resolve for the public.</li>
+          <li><strong>Forgetting accessibility.</strong> Always print the URL in plain text next to the code. Roughly one reader in twenty will have a camera or app that struggles.</li>
+          <li><strong>Shrinking below the module limit.</strong> Once each module is under about half a millimetre, most consumer printers blur the edges and scanners start guessing.</li>
+        </ul>
+
+        <h2>Frequently asked questions</h2>
+        <h3>Does this QR code generator expire or track scans?</h3>
+        <p>No. Codes are generated in your browser and contain exactly the content you type. There is no account, no redirect layer, no expiry date, and no scan analytics. That also means the code keeps working forever and cannot be switched off — which is good for permanence and bad if you wanted to change the destination later. For campaigns where the target may change, encode a short link you control.</p>
+        <h3>What is the maximum amount of text I can encode?</h3>
+        <p>With this tool, 271 characters at Low, 213 at Medium, 151 at Quartile, and 119 at High. The limit is set by QR version 10, the largest version supported here. Longer content would push the grid past 57 × 57 modules and become fragile at normal print sizes, so it is better to shorten the message or host it behind a URL.</p>
+        <h3>Which error correction level should I pick?</h3>
+        <p>Medium for almost everything: it balances resilience and density well. Choose Quartile or High when the code will carry a logo, sit behind glass, or be printed small or on a rough surface. Choose Low only when the content is long and you need the lightest possible grid, and be prepared to test thoroughly.</p>
+        <h3>Why does my QR code look denser than ones I have seen elsewhere?</h3>
+        <p>Density comes from the payload length and the error correction level. A long URL encoded at High can fill far more modules than a short link at Low. If the grid looks busy, shorten the content, drop the error correction level by one step, or both — the version and capacity figures in the details panel show you the effect immediately.</p>
+        <h3>Can I put my logo in the middle of the code?</h3>
+        <p>Yes, provided you leave enough redundancy. Encode at Quartile or High, then place a logo over the centre covering no more than roughly a fifth of the total area. Never overlap the three corner finder patterns or the timing strips, and always scan-test the finished artwork rather than trusting the preview.</p>
+        <h3>Are the colours I choose safe for every scanner?</h3>
+        <p>Generally yes, as long as the code stays darker than the background and the contrast is strong. Light-coloured modules on a dark background may fail on some camera apps, and mid-tone pairings such as grey on yellow are unreliable. If you change the colours, test with at least two different phone models.</p>
+        <h3>Does my data get uploaded anywhere?</h3>
+        <p>No. The encoder is JavaScript that runs on the page, and the PNG is produced from an on-page canvas. Nothing is posted to a server, and closing the tab clears everything. You can disconnect from the network after the page loads and the generator will keep working.</p>
+
+        <h2>About this tool and the team behind it</h2>
+        <p>This generator was written by the A Free Tools team, a small group of front-end and data engineers who build one browser-based utility a day and publish the source in the open. The QR encoder here is a from-scratch implementation of the ISO/IEC 18004 symbol structure — data encoding, Reed-Solomon error correction, block interleaving, mask evaluation, and module placement — rather than a wrapper around a hosted image service. That choice keeps your content private and keeps the tool fast. We test each release against the specification's worked examples and try the finished codes on real phone cameras before publishing. Found a code that will not scan, or want a feature like SVG export? Open an issue in the repository and it will be considered for the next release. Last updated: <span id="lastUpdated">September 17, 2026</span>.</p>
+
+        <div class="disclaimer-box mt-4" role="note">
+          <h3 class="h6 font-weight-bold mb-2">Disclaimer</h3>
+          <p class="mb-0 small">This QR code generator is provided for general informational and creative use only. Codes are produced in your browser and are not verified by us against any scanning device or standard requirement. You are responsible for testing any generated code before commercial printing, for ensuring the encoded content is accurate and lawful, and for complying with the rules of any platform, printer, or venue where the code will be displayed. A Free Tools accepts no liability for loss arising from the use of codes created with this tool.</p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer py-4 mt-4">
+    <div class="container small text-center">
+      <span>&copy; <span id="year">2026</span> A Free Tools — free, browser-based utilities.</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
