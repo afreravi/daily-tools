@@ -146,6 +146,7 @@
     var canvas = el.canvas;
     if (!canvas || !canvas.getContext) { return; }
     var ctx = canvas.getContext('2d');
+    if (!ctx) { return; }
     var w = canvas.width;
     var h = canvas.height;
     var padding = { top: 14, right: 12, bottom: 26, left: 12 };
