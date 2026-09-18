@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>HTML Encoder — Escape HTML Entities Online with a Free Converter</title>
-  <meta name="description" content="Free HTML encoder that escapes special characters into safe HTML entities and decodes them back. Convert ampersands, angle brackets and quotes instantly — no sign-up.">
+  <meta name="description" content="Free HTML encoder that escapes special characters into safe HTML entities and decodes them back. Convert ampersands, angle brackets and quotes instantly.">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -105,7 +105,7 @@
 
       <h2>What an HTML encoder actually does</h2>
       <p>An HTML encoder takes text that would otherwise be read as markup and rewrites the dangerous characters as entities, so a browser renders them as ordinary letters instead of instructions. The ampersand becomes <code>&amp;amp;</code>, a less-than sign becomes <code>&amp;lt;</code>, a double quote becomes <code>&amp;quot;</code>. To a visitor, the page looks identical to the original text. To the browser, the difference is enormous: an escaped string is inert data, while an unescaped one can be parsed as a tag, an attribute, or a script block.</p>
-      <p>That is the whole point of this tool. It is a small, focused converter for the moment when you have a snippet of markup — a code sample, a user comment, a template variable, a log line — and you need it to survive a trip through an HTML document without being interpreted along the way. Encoding is not obfuscation and not encryption; it is a syntax change, and anyone can reverse it in a second.</p>
+      <p>That is the whole point of this tool. It is a focused converter for the moment when you have a snippet of markup — a code sample, a user comment, a template variable, a log line — and you need it to survive a trip through an HTML document without being interpreted along the way. Encoding is not obfuscation and not encryption; it is a syntax change, and anyone can reverse it in a second.</p>
 
       <h2>How to use the converter</h2>
       <p>Paste your text into the input box and the result appears immediately, character by character, as you type. Choose <strong>Encode</strong> to escape special characters, or <strong>Decode</strong> to turn an already-encoded string back into readable text. Decode mode understands all three entity forms: named entities such as <code>&amp;nbsp;</code>, decimal numeric entities such as <code>&amp;#8217;</code>, and hexadecimal entities such as <code>&amp;#x2019;</code>. Once the result looks right, copy it with one click, or push it back into the input field to chain conversions. The stat panel and bar chart show how much the string grew, which is a quick way to see whether you escaped more than you intended.</p>
@@ -121,7 +121,7 @@
       </ul>
 
       <h2>Named entities versus numeric entities</h2>
-      <p>Both forms work everywhere, and neither is faster in any way you would notice. Named entities are easier for humans to read in a template, which makes review and diffs simpler. Numeric entities are safer in a narrow sense: they are unambiguous, they do not depend on the browser recognising a name, and every character in Unicode has one. If you are encoding automatically rather than by hand, numeric output is the more predictable choice, and hexadecimal numeric entities are the most compact for characters above the basic Latin range.</p>
+      <p>Both forms work everywhere. Named entities are easier for humans to read in a template, which makes review and diffs simpler. Numeric entities are more predictable when you encode automatically: they are unambiguous, they do not depend on the browser recognising a name, and every character in Unicode has one.</p>
 
       <h2>HTML encoding, URL encoding, and escaping are not the same thing</h2>
       <p>These three get mixed up constantly, and the mix-up causes real bugs. HTML encoding replaces characters that are meaningful to the HTML parser, and its output belongs in a document. URL encoding, also called percent-encoding, replaces characters that are meaningful to a URL parser — spaces become <code>%20</code>, ampersands become <code>%26</code> — and its output belongs in a query string or path. Escaping in a programming language, such as a backslash before a quote in JavaScript or PHP, belongs in source code. Use the wrong one and the string will look fine until it meets the parser that disagrees with you.</p>
@@ -130,16 +130,10 @@
       <ul>
         <li>Escape at the moment of output, not on the way into storage. Encoding on input makes searching and sorting harder, and it does not protect a second output context.</li>
         <li>Do not escape twice. Double-encoded text is the single most common complaint in CMS support queues, and it is always fixed by decoding once.</li>
+        <li>Because entities begin with <code>&amp;</code>, escape the ampersand first — otherwise you corrupt entities you just created.</li>
+        <li>Never escape inside <code>&lt;script&gt;</code> or <code>&lt;style&gt;</code>. Those blocks are parsed as raw text, so entities are not decoded there and escaping breaks the code instead of protecting it.</li>
+        <li>Remember that <code>&amp;nbsp;</code> is a non-breaking space, not an ordinary space; it will not wrap at line ends and can overflow narrow columns.</li>
         <li>Encoding is a formatting step, not a security control. For untrusted HTML, sanitise with a dedicated library; for untrusted plain text, encode — but never treat encoding as a substitute for validating input.</li>
-        <li>Keep the original string somewhere. If you encode a template and lose the source, you will spend longer decoding than you saved.</li>
-      </ul>
-
-      <h2>Common mistakes to avoid</h2>
-      <ul>
-        <li><strong>Forgetting the ampersand rule.</strong> Because entities begin with <code>&amp;</code>, it must be escaped first, or you will corrupt entities you just created.</li>
-        <li><strong>Escaping inside <code>&lt;script&gt;</code> or <code>&lt;style&gt;</code>.</strong> These blocks are parsed as raw text; entities are not decoded there, so escaping breaks the code instead of protecting it.</li>
-        <li><strong>Assuming <code>&amp;nbsp;</code> is a space.</strong> It is a non-breaking space and will not wrap at line ends, which can cause awkward overflow in narrow columns.</li>
-        <li><strong>Decoding text you are about to display.</strong> Decoding untrusted input undoes the protection you were relying on.</li>
       </ul>
 
       <h2>Frequently asked questions</h2>

@@ -39,4 +39,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 011 | trapezoid-area-calculator | Trapezoid area, perimeter, median and legs with a scale diagram |
 | 012 | random-topic-generator | Spins writing, speech and podcast topics by category, tone and level |
 | 013 | qr-code-generator | Builds scannable QR codes for links, text, Wi-Fi and contacts, with PNG export |
-
+| 014 | html-encoder | Escapes HTML special characters into safe entities, and decodes them back |
