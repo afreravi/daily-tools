@@ -49,6 +49,19 @@
     return Math.round(value * f) / f;
   }
 
+  // Keep a non-zero value from displaying as "0" when rounding is coarse.
+  function decimalsFor(value, dp) {
+    var d = dp;
+    while (d < 8 && value > 0 && roundForDisplay(value, d) === 0) d++;
+    return d;
+  }
+
+  function formatValue(value, dp) {
+    if (!isFinite(value)) return "—";
+    var d = decimalsFor(value, dp);
+    return fmt(roundForDisplay(value, d), d);
+  }
+
   /* ----------------------------- state ----------------------------- */
   var state = { mode: "dims", parcels: [] };
 
@@ -156,13 +169,13 @@
     var acres = res.acres;
     var sqft = res.sqft;
 
-    $("outAcres").textContent = fmt(roundForDisplay(acres, dp), dp);
-    $("outSqft").textContent = fmt(roundForDisplay(sqft, dp), dp);
-    $("outSqm").textContent = fmt(roundForDisplay(sqft / SQFT_PER_SQM, dp), dp);
-    $("outHa").textContent = fmt(roundForDisplay(acres / 2.47105381467165, Math.min(dp, 6)), dp);
-    $("outSqmi").textContent = fmt(roundForDisplay(sqft / SQFT_PER_SQMI, Math.min(dp, 6)), dp);
-    $("outSqyd").textContent = fmt(roundForDisplay(sqft / SQFT_PER_SQYD, dp), dp);
-    $("outSections").textContent = fmt(roundForDisplay(acres / 640, Math.min(dp, 6)), dp);
+    $("outAcres").textContent = formatValue(acres, dp);
+    $("outSqft").textContent = formatValue(sqft, dp);
+    $("outSqm").textContent = formatValue(sqft / SQFT_PER_SQM, dp);
+    $("outHa").textContent = formatValue(acres / 2.47105381467165, Math.min(dp, 6));
+    $("outSqmi").textContent = formatValue(sqft / SQFT_PER_SQMI, Math.min(dp, 6));
+    $("outSqyd").textContent = formatValue(sqft / SQFT_PER_SQYD, dp);
+    $("outSections").textContent = formatValue(acres / 640, Math.min(dp, 6));
 
     var f = $("factFootball");
     if (f) {
