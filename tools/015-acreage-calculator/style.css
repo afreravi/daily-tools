@@ -1,0 +1,207 @@
+/* Acreage Calculator — light theme, brand #60089c */
+:root {
+  --brand: #60089c;
+  --brand-dark: #4c077c;
+  --brand-darker: #37045a;
+  --brand-mid: #8a3fc0;
+  --brand-soft: #efe4f8;
+  --brand-tint: #f9f5fd;
+  --line: #e6dff0;
+  --ink: #251f2b;
+  --muted: #6b6473;
+  --ok: #1e7a4b;
+}
+
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(1100px 420px at 50% -180px, var(--brand-soft) 0%, rgba(239, 228, 248, 0) 70%),
+    #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.65;
+}
+
+/* ---------- Links & nav ---------- */
+a { color: var(--brand-dark); }
+a:hover, a:focus { color: var(--brand-darker); }
+
+.breadcrumb { font-size: .875rem; background: transparent; }
+.breadcrumb-item + .breadcrumb-item::before { content: "/"; color: #b7aec2; }
+
+/* ---------- Headings ---------- */
+h1, h2, h3 { color: var(--ink); }
+h1 { letter-spacing: -.4px; }
+
+.article-body h2 {
+  margin-top: 2.4rem;
+  margin-bottom: .9rem;
+  font-size: 1.35rem;
+  font-weight: 700;
+  padding-left: .85rem;
+  border-left: 4px solid var(--brand);
+}
+.article-body h3 {
+  margin-top: 1.5rem;
+  margin-bottom: .4rem;
+  font-size: 1.04rem;
+  font-weight: 700;
+  color: var(--brand-darker);
+}
+.article-body p { color: #3a3441; }
+.article-body ul { padding-left: 1.25rem; }
+.article-body li { margin-bottom: .4rem; }
+
+/* ---------- Cards ---------- */
+.card {
+  border-radius: 14px;
+  border: 1px solid var(--line);
+}
+#toolCard {
+  background: #ffffff;
+  border-top: 4px solid var(--brand);
+}
+#resultCard {
+  background: linear-gradient(180deg, var(--brand-tint) 0%, #ffffff 100%);
+  border-left: 4px solid var(--brand-mid);
+}
+
+/* ---------- Forms ---------- */
+.form-control, .input-group-text {
+  border-radius: 9px;
+  border-color: #d9cfe6;
+}
+.form-control:focus {
+  border-color: var(--brand-mid);
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .16);
+}
+.input-group > .form-control { border-radius: 0; }
+.input-group > .input-group-prepend > .input-group-text,
+.input-group > .input-group-prepend:first-child > .input-group-text {
+  border-top-left-radius: 9px;
+  border-bottom-left-radius: 9px;
+}
+label { font-weight: 600; font-size: .93rem; }
+
+/* ---------- Brand buttons ---------- */
+.btn-brand {
+  background-color: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  font-weight: 600;
+  border-radius: 9px;
+}
+.btn-brand:hover, .btn-brand:focus {
+  background-color: var(--brand-dark);
+  border-color: var(--brand-dark);
+  color: #fff;
+}
+.btn-brand:focus {
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .28);
+}
+.btn-outline-brand {
+  color: var(--brand);
+  border-color: var(--brand);
+  background: #fff;
+  font-weight: 600;
+}
+.btn-outline-brand:hover, .btn-outline-brand:focus {
+  background-color: var(--brand-soft);
+  color: var(--brand-darker);
+  border-color: var(--brand);
+}
+.btn-group-toggle .btn.active,
+.btn-group-toggle .btn:active {
+  background-color: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+.btn-outline-secondary { border-radius: 9px; }
+
+/* ---------- Results table ---------- */
+#resultTable {
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+#resultTable thead th {
+  border-top: 0;
+  background: var(--brand-soft);
+  color: var(--brand-darker);
+  text-transform: uppercase;
+  font-size: .76rem;
+  letter-spacing: .5px;
+  border-bottom: 1px solid #dfd3ee;
+}
+#resultTable tbody th { font-weight: 600; color: #443d4d; }
+#resultTable td { font-variant-numeric: tabular-nums; }
+#rowAcres { background: rgba(96, 8, 156, .06); }
+#rowAcres td { color: var(--brand-darker); font-size: 1.05rem; }
+
+/* ---------- Quick facts ---------- */
+.quick-facts {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  height: 100%;
+}
+.quick-facts p:not(.text-uppercase) { font-size: .93rem; }
+
+/* ---------- Chart ---------- */
+.chart-wrap {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem;
+}
+#areaChart { width: 100%; height: auto; display: block; }
+
+/* ---------- Parcel table ---------- */
+#parcelTable thead th {
+  border-top: 0;
+  font-size: .78rem;
+  text-transform: uppercase;
+  letter-spacing: .4px;
+  color: var(--muted);
+}
+#parcelTable td, #parcelTable th { vertical-align: middle; }
+#parcelTable tfoot th { border-top: 2px solid var(--brand-soft); }
+.parcel-remove {
+  border: 0;
+  background: transparent;
+  color: #a3234a;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: .1rem .4rem;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.parcel-remove:hover, .parcel-remove:focus {
+  background: #fdeef3;
+  outline: 2px solid #f3c6d6;
+}
+
+/* ---------- Disclaimer ---------- */
+.disclaimer-box {
+  background: var(--brand-tint);
+  border: 1px dashed #cdb6e4;
+  border-radius: 12px;
+}
+.disclaimer-box h2 { color: var(--brand-darker); }
+
+/* ---------- Alerts ---------- */
+.alert-danger {
+  border-radius: 10px;
+  background: #fdf2f4;
+  border-color: #f0c2ce;
+  color: #86203c;
+}
+
+footer a { font-weight: 600; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 575.98px) {
+  .article-body h2 { font-size: 1.18rem; }
+  #resultTable td, #resultTable th { font-size: .9rem; }
+  .btn-group-toggle { flex-direction: column; }
+}
