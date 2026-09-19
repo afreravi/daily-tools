@@ -17,5 +17,5 @@
 [done] Random Topic Generator
 [done] QR Code Generator | Reference: https://qrfy.com
 [done] HTML Encoder
-Acreage calculator
+[done] Acreage calculator
 Loan EMI Calculator | include amortization breakdown table
