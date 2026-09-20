@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loan EMI Calculator - Monthly Payment &amp; Amortization Schedule</title>
+<meta name="description" content="Free loan EMI calculator: enter principal, annual interest rate and tenure to get your monthly EMI, total interest payable and a full amortization breakdown table.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/calculators">Calculators</a></li>
+<li class="breadcrumb-item active" aria-current="page">Loan EMI Calculator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Loan EMI Calculator</h1>
+<p class="lead mb-0">Work out the equated monthly instalment on any loan, see how much interest you will pay across the whole term, and read a month-by-month amortization breakdown of every payment.</p>
+</header>
+
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4 p-md-5">
+<form id="emiForm" novalidate>
+<div class="row">
+<div class="col-12 col-md-6">
+<div class="form-group">
+<label for="principalInput">Loan amount ($)</label>
+<input type="number" class="form-control form-control-lg" id="principalInput" min="1" step="any" placeholder="250000" inputmode="decimal" autocomplete="off" aria-describedby="principalHelp">
+<small id="principalHelp" class="form-text">The amount actually borrowed, after any down payment.</small>
+</div>
+</div>
+<div class="col-12 col-md-6">
+<div class="form-group">
+<label for="rateInput">Annual interest rate (%)</label>
+<input type="number" class="form-control form-control-lg" id="rateInput" min="0" max="100" step="any" placeholder="6.5" inputmode="decimal" autocomplete="off" aria-describedby="rateHelp">
+<small id="rateHelp" class="form-text">The quoted yearly rate, not the monthly rate.</small>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-12 col-md-6">
+<div class="form-group">
+<label for="tenureInput">Loan tenure</label>
+<div class="input-group input-group-lg">
+<input type="number" class="form-control" id="tenureInput" min="1" step="1" placeholder="20" inputmode="numeric" autocomplete="off" aria-describedby="tenureHelp">
+<div class="input-group-append">
+<select class="custom-select" id="tenureUnit" aria-label="Tenure unit">
+<option value="years" selected>Years</option>
+<option value="months">Months</option>
+</select>
+</div>
+</div>
+<small id="tenureHelp" class="form-text">How long you will take to repay in full.</small>
+</div>
+</div>
+<div class="col-12 col-md-6">
+<div class="form-group">
+<label for="extraInput">Extra monthly prepayment ($) <span class="text-muted font-weight-normal">optional</span></label>
+<input type="number" class="form-control form-control-lg" id="extraInput" min="0" step="any" placeholder="0" inputmode="decimal" autocomplete="off" aria-describedby="extraHelp">
+<small id="extraHelp" class="form-text">Any amount paid on top of the EMI, applied to principal.</small>
+</div>
+</div>
+</div>
+
+<div id="errorBox" class="alert alert-danger py-2 px-3 d-none" role="alert" aria-live="polite"></div>
+
+<div class="d-flex flex-wrap">
+<button type="submit" class="btn btn-brand btn-lg mr-2 mb-2" id="calcBtn">Calculate EMI</button>
+<button type="reset" class="btn btn-outline-secondary btn-lg mb-2" id="resetBtn">Reset</button>
+</div>
+</form>
+</div>
+</div>
+
+<section id="results" class="mb-5 d-none" aria-live="polite" tabindex="-1">
+<div class="row">
+<div class="col-12 col-md-4 mb-3">
+<div class="card stat-card h-100 border-0 shadow-sm">
+<div class="card-body">
+<p class="stat-label mb-1">Monthly EMI</p>
+<p class="stat-value mb-0" id="emiOut">-</p>
+</div>
+</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<div class="card stat-card h-100 border-0 shadow-sm">
+<div class="card-body">
+<p class="stat-label mb-1">Total interest</p>
+<p class="stat-value mb-0" id="interestOut">-</p>
+</div>
+</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<div class="card stat-card h-100 border-0 shadow-sm">
+<div class="card-body">
+<p class="stat-label mb-1">Total payable</p>
+<p class="stat-value mb-0" id="totalOut">-</p>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row" id="secondaryStats">
+<div class="col-6 col-md-3 mb-3">
+<p class="mini-label mb-0">Payments</p>
+<p class="mini-value mb-0" id="paymentsOut">-</p>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<p class="mini-label mb-0">Interest share</p>
+<p class="mini-value mb-0" id="shareOut">-</p>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<p class="mini-label mb-0">Interest saved</p>
+<p class="mini-value mb-0" id="savedOut">-</p>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<p class="mini-label mb-0">Time saved</p>
+<p class="mini-value mb-0" id="timeSavedOut">-</p>
+</div>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+<div class="card-body">
+<h2 class="h5 font-weight-bold mb-3">Where your money goes each year</h2>
+<canvas id="breakdownChart" width="800" height="300" role="img" aria-label="Stacked bar chart comparing principal and interest paid each year"></canvas>
+<p class="small text-muted mb-0 mt-2">Purple is principal repaid; the lighter band is interest. Early years are interest-heavy, later years mostly principal.</p>
+</div>
+</div>
+
+<div class="card border-0 shadow-sm">
+<div class="card-body">
+<div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+<h2 class="h5 font-weight-bold mb-2">Amortization breakdown table</h2>
+<button class="btn btn-sm btn-outline-brand mb-2" id="toggleAllBtn" type="button" aria-expanded="false">Show all months</button>
+</div>
+<div class="table-responsive">
+<table class="table table-sm table-hover amort-table mb-0" id="amortTable">
+<caption class="sr-only">Month-by-month loan amortization showing principal, interest and remaining balance</caption>
+<thead>
+<tr>
+<th scope="col">#</th>
+<th scope="col" class="text-right">Payment</th>
+<th scope="col" class="text-right">Principal</th>
+<th scope="col" class="text-right">Interest</th>
+<th scope="col" class="text-right">Balance</th>
+</tr>
+</thead>
+<tbody id="amortBody"></tbody>
+</table>
+</div>
+<p class="small text-muted mb-0 mt-2" id="tableNote">Showing the first 12 months.</p>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="whatIsEmi" class="article">
+<h2 id="whatIsEmi">What is an EMI and why does the formula look like that?</h2>
+<p>EMI stands for Equated Monthly Instalment - the fixed amount you hand over every month until a loan is repaid. The magic of an EMI is that the total never changes, yet the recipe inside it does. Each payment is split into an interest charge on the outstanding balance and a repayment of principal. In month one the balance is at its largest, so interest eats most of the payment. By the final month the balance is tiny, so nearly all of the payment chips away at principal.</p>
+<p>The standard formula is EMI = P x r x (1 + r)^n / ((1 + r)^n - 1), where P is the principal, r is the monthly interest rate (annual rate divided by 12, then divided by 100) and n is the number of monthly payments. That expression is really just the present value of an annuity rearranged: it finds the constant payment whose discounted value equals the amount borrowed today. Because the rate is compounded monthly, the (1 + r)^n term grows quickly, which is why a small change in rate moves your payment more than you might expect.</p>
+
+<h2 id="howItWorks">How this loan EMI calculator works</h2>
+<p>Enter the loan amount, the annual interest rate and the tenure in years or months. The calculator converts the rate to a monthly figure, computes the EMI, then simulates every single payment to build the amortization schedule. For each month it charges interest on the opening balance, subtracts that from the payment, applies the remainder to principal, and carries the new balance forward.</p>
+<p>If you add an optional extra monthly prepayment, the simulator applies it straight to principal after the scheduled payment. That shortens the loan and cuts the interest bill rather than reducing the instalment, which is how most lenders treat overpayments. The result panel shows your EMI, total interest, total payable, the number of payments, the share of your money that is pure interest, and - when a prepayment is entered - the interest and time you save compared with the original schedule.</p>
+
+<h2 id="useCases">Use cases worth trying</h2>
+<ul>
+<li><strong>Home loan planning.</strong> Compare a 15-year and a 20-year mortgage on the same principal. The longer term lowers the EMI but the interest total can jump by a third or more.</li>
+<li><strong>Car finance sanity check.</strong> Dealers quote a monthly figure; run the numbers yourself to see the true rate and the total cost of the vehicle.</li>
+<li><strong>Personal and student loans.</strong> Check whether a smaller loan over a shorter term fits your cash flow better than a larger, slower one.</li>
+<li><strong>Refinance decisions.</strong> Model the old rate against the new rate and see the monthly and lifetime difference before paying any fees.</li>
+<li><strong>Prepayment strategy.</strong> Test whether an extra 100 or 200 a month is worth more to you as interest saved or as cash kept in savings.</li>
+</ul>
+
+<h2 id="proTips">Pro tips from experience</h2>
+<ul>
+<li><strong>Prepay early, not late.</strong> Interest is charged on the outstanding balance, so an extra payment in year two saves far more than the same amount in year twelve.</li>
+<li><strong>Shorten the term, keep the EMI.</strong> When rates fall or income rises, ask the lender to reduce tenure rather than the instalment - that is where the interest savings live.</li>
+<li><strong>Watch the rate type.</strong> A floating rate can reset; stress-test your budget at one or two percentage points higher.</li>
+<li><strong>Add fees to the picture.</strong> Processing fees, insurance and stamp duty are not in the EMI. Add them to the total payable for the real cost.</li>
+<li><strong>Keep the emergency fund first.</strong> Prepaying every spare dollar while holding no savings is a common and painful mistake.</li>
+</ul>
+
+<h2 id="mistakes">Common mistakes and FAQ</h2>
+<div class="card border-0 shadow-sm mb-3">
+<div class="card-body">
+<h3 class="h6 font-weight-bold">How is EMI calculated on a loan?</h3>
+<p class="mb-0">Multiply the principal by the monthly rate, then by (1 + monthly rate) raised to the number of months. Divide that by (1 + monthly rate) raised to the number of months minus one. For a 250,000 loan at 6.5% over 20 years the monthly rate is 0.5417% and the EMI works out to roughly 1,864.</p>
+</div>
+</div>
+<div class="card border-0 shadow-sm mb-3">
+<div class="card-body">
+<h3 class="h6 font-weight-bold">Does a longer tenure reduce my EMI?</h3>
+<p class="mb-0">Yes, but it raises total interest. Stretching a loan spreads the same principal over more payments, so each one is smaller - yet you rent the money for longer. Always compare the total interest line, not just the monthly figure.</p>
+</div>
+</div>
+<div class="card border-0 shadow-sm mb-3">
+<div class="card-body">
+<h3 class="h6 font-weight-bold">What happens if I prepay my loan?</h3>
+<p class="mb-0">A prepayment reduces the outstanding principal immediately. If the lender keeps your EMI the same, the loan finishes earlier; if it reduces the EMI instead, your monthly outgo falls but the term stays. Check which option your lender applies.</p>
+</div>
+</div>
+<div class="card border-0 shadow-sm mb-3">
+<div class="card-body">
+<h3 class="h6 font-weight-bold">Is a 0% interest loan really free?</h3>
+<p class="mb-0">The arithmetic is free, but zero-rate offers usually bury the cost in a higher purchase price or an arrangement fee. Compare the cash price with a discount against the financed price to see the real cost.</p>
+</div>
+</div>
+<div class="card border-0 shadow-sm mb-3">
+<div class="card-body">
+<h3 class="h6 font-weight-bold">Why is my first payment mostly interest?</h3>
+<p class="mb-0">Interest is charged on the balance you still owe. In month one that balance is the full principal, so the interest slice is at its peak. As the balance falls, the interest slice shrinks and the principal slice grows - the crossover usually lands around the middle of the term.</p>
+</div>
+</div>
+
+<h2 id="disclaimer">Disclaimer</h2>
+<p class="small">This loan EMI calculator is provided for general information and estimation only. Real loan offers include fees, insurance and rate-reset terms that this model does not capture, and lenders may round payments differently. Always confirm figures with your lender or a qualified financial adviser before committing to a loan.</p>
+
+<section aria-labelledby="authorBio" class="mt-4">
+<h3 id="authorBio" class="h5 font-weight-bold">About the author</h3>
+<div class="media p-3 bio-block rounded">
+<div class="media-body">
+<p class="mb-1"><strong>Afree Tools Team</strong> - we build free, no-signup web tools for borrowers, students and small business owners. Every calculator here is grounded in the standard amortization maths taught in finance courses and cross-checked by hand against worked examples, so the numbers you see match what your lender should quote.</p>
+</div>
+</div>
+<p class="small text-muted mt-3">Last updated: September 20, 2026</p>
+</section>
+</section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
