@@ -18,4 +18,4 @@
 [done] QR Code Generator | Reference: https://qrfy.com
 [done] HTML Encoder
 [done] Acreage calculator
-Loan EMI Calculator | include amortization breakdown table
+[done] Loan EMI Calculator | include amortization breakdown table
