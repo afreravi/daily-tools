@@ -270,7 +270,7 @@
 
     ctx.textAlign = "left";
     ctx.fillStyle = textColor;
-    ctx.fillText("Total scheduled: " + moneyShort(maxTotal) + " in year 1-heavy outgo", padLeft, 10);
+    ctx.fillText("Largest annual payment: " + moneyShort(maxTotal), padLeft, 10);
   }
 
   function calculate() {

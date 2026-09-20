@@ -41,3 +41,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 013 | qr-code-generator | Builds scannable QR codes for links, text, Wi-Fi and contacts, with PNG export |
 | 014 | html-encoder | Escapes HTML special characters into safe entities, and decodes them back |
 | 015 | acreage-calculator | Converts land area between acres, sq ft, hectares and more, with totals for multiple parcels |
+| 016 | loan-emi-calculator | Monthly EMI, total interest and a full amortization breakdown table |
