@@ -19,7 +19,7 @@
 [done] HTML Encoder
 [done] Acreage calculator
 [done] Loan EMI Calculator | include amortization breakdown table
-YouTube Title Length Checker
+[done] YouTube Title Length Checker
 DnD Character Name Generator
 Watts to Amps Calculator
 Random Movie Generator
