@@ -43,3 +43,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 015 | acreage-calculator | Converts land area between acres, sq ft, hectares and more, with totals for multiple parcels |
 | 016 | loan-emi-calculator | Monthly EMI, total interest and a full amortization breakdown table |
 | 017 | youtube-title-length-checker | Live character count and truncation preview for YouTube titles under the 100-character limit |
+| 018 | dnd-character-name-generator | Fantasy character names by ancestry, class and tone, with roots chart and copy-to-clipboard |
