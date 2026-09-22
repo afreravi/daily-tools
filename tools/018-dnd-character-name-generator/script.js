@@ -129,7 +129,7 @@
     },
     'Sylvan': {
       opens: [
-        { s: 'Thistle', g: 'n' }, { s: 'Fern', g: 'f' }, { s: 'Mossw', g: 'n' },
+        { s: 'Thistle', g: 'n' }, { s: 'Fern', g: 'f' }, { s: 'Moss', g: 'n' },
         { s: 'Lark', g: 'f' }, { s: 'Bramble', g: 'n' }, { s: 'Dew', g: 'n' },
         { s: 'Hawth', g: 'm' }
       ],
@@ -234,8 +234,10 @@
     var closing = pick(filterTone(root.ends, tone)).s;
 
     var syllables = [opening];
-    var useMiddle = Math.random() < 0.55;
-    if (useMiddle) syllables.push(pick(root.mids));
+    /* Long or vowel-final openings already carry the beat - adding a linking
+       vowel there turns Thistle into Thistleabloom. */
+    var canTakeMiddle = /[^aeiou]$/i.test(opening) && opening.length <= 4;
+    if (canTakeMiddle && Math.random() < 0.55) syllables.push(pick(root.mids));
 
     /* Occasional cross-root blend gives the batch a mixed feel. */
     if (Math.random() < 0.22) {
