@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Watts to Amps Calculator &mdash; DC, AC Single-Phase &amp; 3-Phase</title>
+<meta name="description" content="Convert watts to amps for DC, AC single-phase and three-phase circuits. Enter watts, volts and power factor to see current, the formula used and chart.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/electrical">Electrical</a></li>
+<li class="breadcrumb-item active" aria-current="page">Watts to Amps Calculator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Watts to Amps Calculator</h1>
+<p class="lead mb-0">Turn a power rating in watts into the current a circuit actually carries. Pick direct current or alternating current, set the voltage and power factor, and see the amps, the exact formula and how the load behaves across a range of voltages.</p>
+</header>
+
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4 p-md-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Circuit details</h2>
+
+<fieldset class="mb-3">
+<legend class="sr-only">Current type</legend>
+<span class="field-label d-block mb-2">Current type</span>
+<div class="btn-group btn-group-toggle d-flex flex-wrap" data-toggle="buttons" role="radiogroup" aria-label="Current type">
+<label class="btn btn-outline-brand active flex-fill mb-1">
+<input type="radio" name="ctype" id="ctDc" value="dc" autocomplete="off" checked> DC
+</label>
+<label class="btn btn-outline-brand flex-fill mb-1">
+<input type="radio" name="ctype" id="ctAc1" value="ac1" autocomplete="off"> AC 1-phase
+</label>
+<label class="btn btn-outline-brand flex-fill mb-1">
+<input type="radio" name="ctype" id="ctAc3" value="ac3" autocomplete="off"> AC 3-phase
+</label>
+</div>
+</fieldset>
+
+<div class="row">
+<div class="col-12 col-md-4 mb-3">
+<div class="form-group mb-0">
+<label for="watts">Power (watts)</label>
+<div class="input-group">
+<input type="number" class="form-control" id="watts" value="1500" min="0" step="any" inputmode="decimal" aria-describedby="wattsHelp">
+<div class="input-group-append"><span class="input-group-text">W</span></div>
+</div>
+<small id="wattsHelp" class="form-text">Real power drawn by the load.</small>
+</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<div class="form-group mb-0">
+<label for="volts" id="voltsLabel">Voltage (volts)</label>
+<div class="input-group">
+<input type="number" class="form-control" id="volts" value="120" min="0" step="any" inputmode="decimal" aria-describedby="voltsHelp">
+<div class="input-group-append"><span class="input-group-text">V</span></div>
+</div>
+<small id="voltsHelp" class="form-text">Line-to-line voltage for three-phase.</small>
+</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<div class="form-group mb-0">
+<label for="pf">Power factor</label>
+<div class="input-group">
+<input type="number" class="form-control" id="pf" value="1" min="0.1" max="1" step="0.01" inputmode="decimal" aria-describedby="pfHelp">
+<div class="input-group-append"><span class="input-group-text">PF</span></div>
+</div>
+<small id="pfHelp" class="form-text">Ignored for DC. Use 1.0 for resistive loads.</small>
+</div>
+</div>
+</div>
+
+<div class="d-flex flex-wrap align-items-center mb-3">
+<button type="button" class="btn btn-brand mr-2 mb-2" id="calcBtn">Calculate amps</button>
+<button type="button" class="btn btn-outline-brand mr-2 mb-2" id="resetBtn">Reset</button>
+</div>
+
+<p class="alert alert-danger py-2 px-3 mb-3 d-none" id="errorBox" role="alert"></p>
+
+<div id="resultPanel" class="d-none" aria-live="polite">
+<div class="row">
+<div class="col-12 col-md-5 mb-3">
+<div class="stat-tile h-100">
+<span class="stat-label">Current draw</span>
+<span class="stat-value" id="statAmps">&mdash;</span>
+<span class="stat-note" id="statAmpsNote">amps</span>
+</div>
+</div>
+<div class="col-12 col-md-7 mb-3">
+<div class="stat-tile h-100">
+<span class="stat-label">Formula applied</span>
+<span class="stat-formula" id="statFormula">&mdash;</span>
+<span class="stat-note" id="statWorking">&mdash;</span>
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-12 col-md-4 mb-3">
+<div class="stat-tile h-100">
+<span class="stat-label">Milliamps</span>
+<span class="stat-value stat-value-sm" id="statMilli">&mdash;</span>
+<span class="stat-note">same current, smaller unit</span>
+</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<div class="stat-tile h-100">
+<span class="stat-label">Current at 120 V</span>
+<span class="stat-value stat-value-sm" id="statAt120">&mdash;</span>
+<span class="stat-note">for the same load</span>
+</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<div class="stat-tile h-100">
+<span class="stat-label">Breaker headroom</span>
+<span class="stat-value stat-value-sm" id="statBreaker">&mdash;</span>
+<span class="stat-note" id="statBreakerNote">next standard size</span>
+</div>
+</div>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mt-2">Current across the voltage range</h2>
+<canvas id="ampsChart" width="820" height="260" role="img" aria-label="Line chart showing how current in amps changes as supply voltage rises, for the wattage entered"></canvas>
+<p class="small text-muted mt-2 mb-3" id="chartCaption">Run a calculation and the curve appears here.</p>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker">Reference points at common voltages</h2>
+<div class="table-responsive mb-4">
+<table class="table table-sm table-striped mb-0" id="refTable">
+<thead>
+<tr><th scope="col">System voltage</th><th scope="col">Current (A)</th><th scope="col">Typical use</th></tr>
+</thead>
+<tbody id="refBody">
+<tr><td colspan="3" class="text-muted">Run a calculation to fill this table.</td></tr>
+</tbody>
+</table>
+</div>
+
+<p class="small text-muted mb-0">Everything runs in your browser. Nothing you type is uploaded or stored.</p>
+</div>
+</div>
+
+<article class="article">
+<h2 id="why">Why watts and amps are not the same number</h2>
+<p>Watts describe how much work electricity is doing. Amps describe how much charge is moving through the wire to do it. A 1,500 watt heater running on 120 volts pulls far more current than the same 1,500 watts running on 240 volts, because each volt is delivering twice the push. That is the whole reason a watts to amps conversion exists: the power stays constant while voltage and current trade against each other.</p>
+<p>Getting this wrong is expensive in a very physical way. Wire gauge, breaker size, fuse rating, connector type and cable length limits are all chosen from current, not from power. Size a circuit from the wattage alone and you can end up with a conductor that quietly overheats behind a wall.</p>
+
+<h2 id="how">How this watts to amps calculator works</h2>
+<p>The maths depends on whether the supply is direct current or alternating current, and if alternating, how many phases are involved.</p>
+<p><strong>DC:</strong> current equals power divided by voltage, or I = P / V. A 600 W load on a 24 V battery bank draws 25 A.</p>
+<p><strong>AC single-phase:</strong> current equals power divided by voltage and power factor, or I = P / (V &times; PF). The power factor matters because alternating current is not perfectly in step with voltage in most real loads.</p>
+<p><strong>AC three-phase:</strong> current equals power divided by the square root of three, then by voltage and power factor, or I = P / (&radic;3 &times; V &times; PF). Enter the line-to-line voltage here, the value usually printed on a three-phase motor nameplate or panel schedule.</p>
+<p>The calculator applies the right expression for the option you choose, shows the numbers substituted into the formula, and then re-draws the same load across a voltage sweep so you can see how sensitive the current is to supply voltage.</p>
+
+<h2 id="pf">Power factor, briefly but properly</h2>
+<p>Power factor is the ratio of real power to apparent power. Resistive loads such as kettles, incandescent lamps and heaters sit close to 1.0. Motors, transformers, compressors and anything with a switch-mode supply can sit between 0.6 and 0.95. A lower power factor means more current is needed to deliver the same useful watts, which is why a 1,000 W motor at 0.8 power factor draws noticeably more amps than a 1,000 W heater.</p>
+<p>If you are working from a nameplate, use the power factor printed on it. If there is none, treat 1.0 as a resistive load and around 0.8 as a reasonable default for a motor. Assuming 1.0 for a motor underestimates current, and underestimating current is the mistake that trips breakers and warms cables.</p>
+
+<h2 id="uses">Where people actually use this conversion</h2>
+<p>Solar and battery installers convert panel or inverter output into amps to size charge controllers and DC breakers, because a 3,000 W array at 48 V is a very different wiring problem from the same array at 400 V. Vehicle owners check the current a winch, inverter or amplifier will demand before deciding whether the alternator and cabling can carry it. Homeowners add up appliance watts on a circuit to see whether a new space heater or induction hob will push a shared 15 A or 20 A branch past its limit.</p>
+<p>Anyone comparing a 12 V and 24 V version of the same device uses the conversion to see the wiring advantage of the higher-voltage model. Technicians reading a nameplate in watts but holding a clamp meter that reads amps use it to confirm that the measured current matches the rating, and students working through Ohm's law problems use it to check their algebra.</p>
+
+<h2 id="tips">Pro tips before you commit a wire size</h2>
+<ul>
+<li><strong>Plan for 80 percent.</strong> Continuous loads are generally limited to 80 percent of a breaker's rating, so a 20 A circuit is treated as 16 A of usable capacity. The breaker headroom figure above applies that rule for you.</li>
+<li><strong>Never round current down.</strong> Round to the next standard breaker or fuse size, then verify the conductor can carry it at the expected ambient temperature.</li>
+<li><strong>Check starting current.</strong> Motors can pull several times their running current for a moment on start-up. A circuit that is fine at steady state can still nuisance-trip.</li>
+<li><strong>Remember voltage drop.</strong> Long runs lose volts, which raises current for the same power. On low-voltage DC, keep cable runs short and conductors generous.</li>
+<li><strong>Confirm the voltage you are using.</strong> Nameplate voltage, nominal supply voltage and measured voltage can all differ. Use the measured value for real-world decisions.</li>
+</ul>
+
+<h2 id="mistakes">Common mistakes and FAQ</h2>
+<h3 class="h6 font-weight-bold">How do I convert watts to amps?</h3>
+<p>Divide watts by volts for a DC circuit. For AC single-phase, divide watts by volts and then by the power factor. For three-phase, divide watts by 1.732, then by volts and power factor. This calculator does all three, and shows the formula it used.</p>
+<h3 class="h6 font-weight-bold">How many amps is 1,500 watts?</h3>
+<p>At 120 V DC or at unity power factor it is 12.5 A. At 240 V it is 6.25 A. On a 12 V system it would be 125 A, which is why low-voltage high-power loads need very heavy cable.</p>
+<h3 class="h6 font-weight-bold">Is 1,000 watts equal to 1 amp?</h3>
+<p>No. At 1,000 volts, 1,000 watts would be 1 amp, but that voltage is unusual. At 120 V, 1,000 watts is 8.33 A, and at 12 V it is 83.3 A. Watts equal amps only when voltage is 1.</p>
+<h3 class="h6 font-weight-bold">Do I use line-to-line or line-to-neutral voltage for three-phase?</h3>
+<p>This tool expects line-to-line voltage, the higher figure such as 208 V, 400 V or 480 V. If you only have the line-to-neutral value, multiply it by 1.732 first, or use the single-phase option for a single leg.</p>
+<h3 class="h6 font-weight-bold">Can I use this for a breaker size?</h3>
+<p>It gives you the current, which is the starting point. Final selection also depends on continuous-load derating, conductor ampacity, ambient temperature and local code. Use the result as input to that decision, not as a replacement for it.</p>
+
+<h2 id="disclaimer">Disclaimer</h2>
+<p class="small">This watts to amps calculator provides estimates for planning and educational purposes only. It is not electrical engineering advice and does not replace the National Electrical Code, manufacturer documentation or the judgement of a licensed electrician. Real installations depend on conductor ampacity, insulation rating, ambient temperature, voltage drop, duty cycle and local regulations. Always verify results with a qualified professional before working on or energising any circuit, and never work on live wiring.</p>
+
+<section aria-labelledby="authorBio" class="mt-4">
+<h3 id="authorBio" class="h5 font-weight-bold">About the author</h3>
+<div class="media p-3 bio-block rounded">
+<div class="media-body">
+<p class="mb-1"><strong>Afree Tools Team</strong> &mdash; we publish free, no-signup calculators for trades, students and makers. The formulas here follow standard electrical relationships for DC and AC circuits, with three-phase current using the 1.732 line-to-line factor, and the reference points were checked against common nameplate and panel values.</p>
+</div>
+</div>
+<p class="small text-muted mt-3">Last updated: September 23, 2026</p>
+</section>
+</article>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
