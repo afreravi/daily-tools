@@ -44,3 +44,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 016 | loan-emi-calculator | Monthly EMI, total interest and a full amortization breakdown table |
 | 017 | youtube-title-length-checker | Live character count and truncation preview for YouTube titles under the 100-character limit |
 | 018 | dnd-character-name-generator | Fantasy character names by ancestry, class and tone, with roots chart and copy-to-clipboard |
+| 019 | watts-to-amps-calculator | Converts watts to amps for DC, AC single-phase and three-phase circuits, with formula, voltage sweep chart and reference table |

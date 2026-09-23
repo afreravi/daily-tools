@@ -156,23 +156,21 @@
 <p><strong>DC:</strong> current equals power divided by voltage, or I = P / V. A 600 W load on a 24 V battery bank draws 25 A.</p>
 <p><strong>AC single-phase:</strong> current equals power divided by voltage and power factor, or I = P / (V &times; PF). The power factor matters because alternating current is not perfectly in step with voltage in most real loads.</p>
 <p><strong>AC three-phase:</strong> current equals power divided by the square root of three, then by voltage and power factor, or I = P / (&radic;3 &times; V &times; PF). Enter the line-to-line voltage here, the value usually printed on a three-phase motor nameplate or panel schedule.</p>
-<p>The calculator applies the right expression for the option you choose, shows the numbers substituted into the formula, and then re-draws the same load across a voltage sweep so you can see how sensitive the current is to supply voltage.</p>
+<p>The calculator applies the right expression for the option you choose, shows the numbers substituted into the formula, then plots the same load across a voltage sweep so you can see how sensitive current is to supply voltage.</p>
 
 <h2 id="pf">Power factor, briefly but properly</h2>
 <p>Power factor is the ratio of real power to apparent power. Resistive loads such as kettles, incandescent lamps and heaters sit close to 1.0. Motors, transformers, compressors and anything with a switch-mode supply can sit between 0.6 and 0.95. A lower power factor means more current is needed to deliver the same useful watts, which is why a 1,000 W motor at 0.8 power factor draws noticeably more amps than a 1,000 W heater.</p>
-<p>If you are working from a nameplate, use the power factor printed on it. If there is none, treat 1.0 as a resistive load and around 0.8 as a reasonable default for a motor. Assuming 1.0 for a motor underestimates current, and underestimating current is the mistake that trips breakers and warms cables.</p>
+<p>If you are working from a nameplate, use the power factor printed on it. If there is none, treat 1.0 as a resistive load and around 0.8 as a reasonable default for a motor. Assuming 1.0 for a motor underestimates current, and underestimating current is what trips breakers and warms cables.</p>
 
 <h2 id="uses">Where people actually use this conversion</h2>
-<p>Solar and battery installers convert panel or inverter output into amps to size charge controllers and DC breakers, because a 3,000 W array at 48 V is a very different wiring problem from the same array at 400 V. Vehicle owners check the current a winch, inverter or amplifier will demand before deciding whether the alternator and cabling can carry it. Homeowners add up appliance watts on a circuit to see whether a new space heater or induction hob will push a shared 15 A or 20 A branch past its limit.</p>
-<p>Anyone comparing a 12 V and 24 V version of the same device uses the conversion to see the wiring advantage of the higher-voltage model. Technicians reading a nameplate in watts but holding a clamp meter that reads amps use it to confirm that the measured current matches the rating, and students working through Ohm's law problems use it to check their algebra.</p>
+<p>Solar and battery installers convert panel or inverter output into amps to size charge controllers and DC breakers, because a 3,000 W array at 48 V is a very different wiring problem from the same array at 400 V. Vehicle owners check the current a winch, inverter or amplifier will demand before deciding whether the alternator and cabling can carry it. Homeowners add up appliance watts on a circuit to see whether a new space heater or induction hob will push a shared 15 A or 20 A branch past its limit. Technicians reading a nameplate in watts but holding a clamp meter that reads amps use the conversion to confirm the measured current matches the rating.</p>
 
 <h2 id="tips">Pro tips before you commit a wire size</h2>
 <ul>
 <li><strong>Plan for 80 percent.</strong> Continuous loads are generally limited to 80 percent of a breaker's rating, so a 20 A circuit is treated as 16 A of usable capacity. The breaker headroom figure above applies that rule for you.</li>
-<li><strong>Never round current down.</strong> Round to the next standard breaker or fuse size, then verify the conductor can carry it at the expected ambient temperature.</li>
 <li><strong>Check starting current.</strong> Motors can pull several times their running current for a moment on start-up. A circuit that is fine at steady state can still nuisance-trip.</li>
 <li><strong>Remember voltage drop.</strong> Long runs lose volts, which raises current for the same power. On low-voltage DC, keep cable runs short and conductors generous.</li>
-<li><strong>Confirm the voltage you are using.</strong> Nameplate voltage, nominal supply voltage and measured voltage can all differ. Use the measured value for real-world decisions.</li>
+<li><strong>Confirm the voltage you are using.</strong> Nameplate, nominal supply and measured voltage can all differ. Use the measured value for real-world decisions.</li>
 </ul>
 
 <h2 id="mistakes">Common mistakes and FAQ</h2>
@@ -183,7 +181,7 @@
 <h3 class="h6 font-weight-bold">Is 1,000 watts equal to 1 amp?</h3>
 <p>No. At 1,000 volts, 1,000 watts would be 1 amp, but that voltage is unusual. At 120 V, 1,000 watts is 8.33 A, and at 12 V it is 83.3 A. Watts equal amps only when voltage is 1.</p>
 <h3 class="h6 font-weight-bold">Do I use line-to-line or line-to-neutral voltage for three-phase?</h3>
-<p>This tool expects line-to-line voltage, the higher figure such as 208 V, 400 V or 480 V. If you only have the line-to-neutral value, multiply it by 1.732 first, or use the single-phase option for a single leg.</p>
+<p>This tool expects line-to-line voltage, the higher figure such as 208 V, 400 V or 480 V. If you only have the line-to-neutral value, multiply it by 1.732 first.</p>
 <h3 class="h6 font-weight-bold">Can I use this for a breaker size?</h3>
 <p>It gives you the current, which is the starting point. Final selection also depends on continuous-load derating, conductor ampacity, ambient temperature and local code. Use the result as input to that decision, not as a replacement for it.</p>
 

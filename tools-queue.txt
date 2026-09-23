@@ -21,7 +21,7 @@
 [done] Loan EMI Calculator | include amortization breakdown table
 [done] YouTube Title Length Checker
 [done] DnD Character Name Generator
-Watts to Amps Calculator
+[done] Watts to Amps Calculator
 Random Movie Generator
 Rule of 72 calculator
 Instagram Caption Character Counter
