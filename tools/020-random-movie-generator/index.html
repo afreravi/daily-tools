@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Random Movie Generator &mdash; Pick a Film to Watch Tonight</title>
+<meta name="description" content="Spin the random movie generator and get a film worth watching tonight. Filter by genre, era, mood, rating and runtime, then see your pick and why to watch it.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/entertainment">Entertainment</a></li>
+<li class="breadcrumb-item active" aria-current="page">Random Movie Generator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-2 font-weight-bold">Random Movie Generator</h1>
+<p class="lead mb-0">End the scroll. Set a genre, an era, a mood and a runtime ceiling, hit spin, and get one film to watch tonight &mdash; with the reason it fits what you asked for.</p>
+</header>
+
+<div class="card shadow-sm border-0 mb-4" id="toolCard">
+<div class="card-body p-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. Set your filters</h2>
+
+<div class="row">
+<div class="col-12 col-md-6 col-lg-3 mb-3">
+<div class="form-group mb-0">
+<label for="genre">Genre</label>
+<select class="form-control" id="genre">
+<option value="any">Any genre</option>
+</select>
+</div>
+</div>
+<div class="col-12 col-md-6 col-lg-3 mb-3">
+<div class="form-group mb-0">
+<label for="era">Era</label>
+<select class="form-control" id="era">
+<option value="any">Any era</option>
+<option value="classic">1940s &ndash; 1950s</option>
+<option value="newhollywood">1960s &ndash; 1970s</option>
+<option value="eighties">1980s &ndash; 1990s</option>
+<option value="modern">2000s &ndash; 2009</option>
+<option value="recent">2010 &ndash; 2019</option>
+<option value="current">2020 onward</option>
+</select>
+</div>
+</div>
+<div class="col-12 col-md-6 col-lg-3 mb-3">
+<div class="form-group mb-0">
+<label for="mood">Mood</label>
+<select class="form-control" id="mood">
+<option value="any">Any mood</option>
+<option value="cozy">Cozy</option>
+<option value="dark">Dark</option>
+<option value="funny">Funny</option>
+<option value="thoughtful">Thoughtful</option>
+<option value="romantic">Romantic</option>
+<option value="tense">Tense</option>
+<option value="family">Family friendly</option>
+<option value="epic">Epic</option>
+</select>
+</div>
+</div>
+<div class="col-12 col-md-6 col-lg-3 mb-3">
+<div class="form-group mb-0">
+<label for="minRating">Minimum rating <span class="badge badge-brand" id="minRatingOut">6.0</span></label>
+<input type="range" class="form-control-range" id="minRating" min="6" max="9" step="0.1" value="6" aria-describedby="minRatingHelp">
+<small id="minRatingHelp" class="form-text">Approximate IMDb-style score.</small>
+</div>
+</div>
+</div>
+
+<div class="row align-items-end">
+<div class="col-12 col-md-8 mb-3 mb-md-0">
+<label for="maxRuntime">Maximum runtime <span class="badge badge-brand" id="maxRuntimeOut">200 min</span></label>
+<input type="range" class="form-control-range" id="maxRuntime" min="80" max="200" step="5" value="200" aria-describedby="maxRuntimeHelp">
+<small id="maxRuntimeHelp" class="form-text">Slide left if you want something short enough for a weeknight.</small>
+</div>
+<div class="col-12 col-md-4">
+<button type="button" class="btn btn-brand btn-block btn-lg" id="spinBtn">Spin the movie wheel</button>
+</div>
+</div>
+
+<p class="small text-muted mt-3 mb-0" id="poolLine" role="status" aria-live="polite"></p>
+<p class="small text-danger mb-0 d-none" id="filterError" role="alert"></p>
+</div>
+</div>
+
+<div class="card shadow-sm border-0 mb-4 result-card d-none" id="resultCard">
+<div class="card-body p-4">
+<div class="row align-items-start">
+<div class="col-12 col-lg-8">
+<span class="pill" id="resGenre">Genre</span>
+<h2 class="h3 font-weight-bold mt-2 mb-1" id="resTitle">Title</h2>
+<p class="text-muted mb-3" id="resMeta">Year &middot; Director &middot; Runtime</p>
+<p class="mb-2" id="resWhy">Why this pick fits.</p>
+<p class="small mb-0 text-muted" id="resNote"></p>
+</div>
+<div class="col-12 col-lg-4 text-lg-right mt-3 mt-lg-0">
+<div class="score-box d-inline-block text-center">
+<span class="score-num" id="resScore">0.0</span>
+<span class="score-label d-block">rating</span>
+</div>
+<div class="mt-3">
+<button type="button" class="btn btn-outline-brand btn-sm btn-block mb-2" id="againBtn">Not tonight &mdash; spin again</button>
+<button type="button" class="btn btn-brand btn-sm btn-block mb-2" id="watchBtn">Add to watchlist</button>
+<button type="button" class="btn btn-link btn-sm btn-block p-0" id="seenBtn">Already seen it &mdash; hide it</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row mb-4">
+<div class="col-12 col-lg-7 mb-4 mb-lg-0">
+<div class="card shadow-sm border-0 h-100">
+<div class="card-body">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-2">Genre mix in the current pool</h2>
+<p class="small text-muted mb-3">Every bar is a genre available with the filters you have set. Change a filter and the chart redraws.</p>
+<canvas id="poolChart" width="640" height="300" role="img" aria-label="Bar chart of genres available in the current movie pool"></canvas>
+<p class="small text-muted mt-3 mb-0" id="chartCaption"></p>
+</div>
+</div>
+</div>
+<div class="col-12 col-lg-5">
+<div class="card shadow-sm border-0 h-100">
+<div class="card-body">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-2">Your watchlist</h2>
+<ul class="list-group list-group-flush" id="watchList">
+<li class="list-group-item text-muted small px-0">Nothing saved yet. Spin, then add a pick to build your watchlist.</li>
+</ul>
+<button type="button" class="btn btn-link btn-sm px-0 mt-2 d-none" id="clearWatch">Clear watchlist</button>
+<p class="small text-muted mt-3 mb-0">Saved in this browser only. Nothing leaves your device.</p>
+</div>
+</div>
+</div>
+</div>
+
+<article class="article">
+<h2 id="intro">Why choosing a film is harder than watching one</h2>
+<p>Streaming catalogues solved availability and made the decision worse. When a shelf held forty tapes, you picked one. When a search box holds forty thousand titles and the home screen rearranges itself every time you open it, the picking becomes the whole evening. The average viewer now spends more time browsing than watching, and the fix is not a better recommendation algorithm &mdash; it is a constraint. This random movie generator exists to apply constraints fast: you name a genre, an era, a mood and a runtime ceiling, and it returns exactly one film.</p>
+
+<h2 id="how">How the random movie generator works</h2>
+<p>The tool holds a curated pool of films, each tagged with genres, a release year, an approximate rating, a runtime in minutes and a set of mood tags. When you spin, the script filters that pool against your settings, then draws one title at random from what survives.</p>
+<p>Every filter is a hard cut, not a ranking:</p>
+<ul>
+<li><strong>Genre</strong> matches any of a film's listed genres, so a thriller that is also a drama still appears under drama.</li>
+<li><strong>Era</strong> is a year band. Choose <em>1960s &ndash; 1970s</em> and nothing newer enters the pool.</li>
+<li><strong>Mood</strong> reads the mood tags, which is how you separate a warm romance from a bleak one without reading synopses.</li>
+<li><strong>Rating and runtime</strong> are floors and ceilings. The rating filter uses an approximate score, so treat 7.5 as "well regarded" rather than as a precise gate.</li>
+</ul>
+<p>If your combination is too narrow, the tool tells you instead of pretending to work. Loosening the rating floor by half a point is usually enough to reopen a pool. Anything you mark as already seen is remembered in your browser and quietly excluded from later spins, so the generator stops suggesting the film you watched last Tuesday.</p>
+
+<h2 id="uses">When a random pick beats a considered one</h2>
+<p>Movie nights with a group stall on consensus, and consensus is the enemy of a start time. One person spins with everyone's filters agreed in advance, the result is final, and the argument ends. The same logic rescues solo evenings when the algorithm keeps serving the same six prestige titles.</p>
+<p>Film students and club organisers use the era and genre filters to build a screening order: set <em>1960s &ndash; 1970s</em> plus <em>drama</em>, spin ten times, and you have a month of programming with genuine range. Writers use mood tags as a research shortcut when they need to see how a specific tone is handled. Households with children use the family-friendly mood and a 110-minute ceiling, which quietly removes most of what makes a weeknight screening run past bedtime.</p>
+
+<h2 id="tips">Pro tips for better spins</h2>
+<ul>
+<li><strong>Commit to the first result.</strong> Respinning is fine once. Respinning five times recreates the browsing problem you came here to solve.</li>
+<li><strong>Use runtime as the real constraint.</strong> A 95-minute ceiling is the single most effective filter for a weeknight; a 180-minute ceiling turns Tuesday into a project.</li>
+<li><strong>Set the era, not the decade.</strong> Broad year bands surface films that a narrow decade filter would hide, and older titles are the ones most people have never been shown.</li>
+<li><strong>Pick a mood before a genre.</strong> Mood is what you actually want tonight; genre is how you normally search, which is why the same three genres keep winning.</li>
+<li><strong>Keep the watchlist honest.</strong> Add only what you will genuinely watch in the next fortnight, and mark films as seen so they drop out of the pool.</li>
+</ul>
+
+<h2 id="mistakes">Common mistakes and FAQ</h2>
+<h3 class="h6 font-weight-bold">How do I pick a random movie to watch?</h3>
+<p>Decide the constraints first, then let chance choose. Set a genre, an era, a mood and a maximum runtime, spin once, and take the result. Constraining before randomising is what stops the generator from returning something you would never have chosen anyway.</p>
+<h3 class="h6 font-weight-bold">Why is a random pick better than scrolling?</h3>
+<p>Scrolling optimises for keeping you on the app, not for starting a film. A single random draw ends the search in one step and removes the second-guessing that comes with a ranked list of near-identical options.</p>
+<h3 class="h6 font-weight-bold">Can I filter by streaming service?</h3>
+<p>Not here, and deliberately so. Availability changes by country and by month, so any hard-coded service list goes stale quickly. Use this tool to decide what to watch, then check availability in your own service's search.</p>
+<h3 class="h6 font-weight-bold">What do the mood tags mean?</h3>
+<p>They describe the experience rather than the plot. Cozy means low-stakes and warm, dark means unsettling or morally heavy, thoughtful means it gives you something to argue about afterwards, and tense means sustained suspense rather than gore.</p>
+<h3 class="h6 font-weight-bold">Are the ratings official?</h3>
+<p>No. They are approximate IMDb-style scores included to keep obviously weak titles out of the pool. They are not live data, and they are not a substitute for your own taste.</p>
+<h3 class="h6 font-weight-bold">What happens if no film matches?</h3>
+<p>The tool reports that the pool is empty and asks you to relax a filter. The usual culprits are a minimum rating above 8.5 combined with a runtime under 100 minutes, or a mood tag paired with the wrong era.</p>
+
+<h2 id="disclaimer">Disclaimer</h2>
+<p class="small">This random movie generator is provided for entertainment and planning purposes only. The film pool, ratings, runtimes and mood tags are a curated editorial selection and are approximate; release details can vary between regions and editions. Nothing here is a paid promotion, and no streaming availability, pricing or licensing information is claimed or guaranteed. Always confirm runtime, rating and availability with your own provider before planning an evening around a title.</p>
+
+<section aria-labelledby="authorBio" class="mt-4">
+<h3 id="authorBio" class="h5 font-weight-bold">About the author</h3>
+<div class="media p-3 bio-block rounded">
+<div class="media-body">
+<p class="mb-1"><strong>Afree Tools Team</strong> &mdash; we build free, no-signup utilities for everyday decisions, and we watch a lot of films. The pool behind this generator was assembled by hand from widely screened, widely discussed titles across eight decades, and every mood tag was written by someone who has sat through the film rather than scraped from a database.</p>
+</div>
+</div>
+<p class="small text-muted mt-3">Last updated: September 24, 2026</p>
+</section>
+</article>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
