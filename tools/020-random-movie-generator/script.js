@@ -86,7 +86,14 @@
     { t: 'The Holdovers', y: 2023, d: 'Alexander Payne', r: 133, s: 7.9, g: ['comedy', 'drama'], m: ['cozy', 'funny', 'thoughtful'], n: 'Three people stuck at a boarding school over the holidays.' },
     { t: 'Anatomy of a Fall', y: 2023, d: 'Justine Triet', r: 151, s: 7.7, g: ['drama', 'mystery', 'thriller'], m: ['tense', 'thoughtful'], n: 'A death, a marriage, and a trial that cannot settle either.' },
     { t: 'Godzilla Minus One', y: 2023, d: 'Takashi Yamazaki', r: 125, s: 7.7, g: ['scifi', 'action', 'drama'], m: ['epic', 'tense'], n: 'A monster film with a postwar survivor story underneath it.' },
-    { t: 'Dune: Part Two', y: 2024, d: 'Denis Villeneuve', r: 166, s: 8.5, g: ['scifi', 'adventure', 'drama'], m: ['epic', 'tense'], n: 'The prophecy arrives, and it is not good news.' }
+    { t: 'Dune: Part Two', y: 2024, d: 'Denis Villeneuve', r: 166, s: 8.5, g: ['scifi', 'adventure', 'drama'], m: ['epic', 'tense'], n: 'The prophecy arrives, and it is not good news.' },
+    { t: 'Casablanca', y: 1942, d: 'Michael Curtiz', r: 102, s: 8.5, g: ['romance', 'drama', 'war'], m: ['romantic', 'cozy', 'thoughtful'], n: 'A nightclub, an old flame, and a choice made for the right reason.' },
+    { t: 'Seven Samurai', y: 1954, d: 'Akira Kurosawa', r: 207, s: 8.6, g: ['action', 'adventure', 'drama'], m: ['epic', 'thoughtful'], n: 'A village hires protectors, and the template for the team-up film is born.' },
+    { t: 'The Ten Commandments', y: 1956, d: 'Cecil B. DeMille', r: 220, s: 7.9, g: ['adventure', 'drama', 'history'], m: ['epic', 'family'], n: 'The last great studio spectacle, and it behaves like one.' },
+    { t: 'Ben-Hur', y: 1959, d: 'William Wyler', r: 212, s: 8.1, g: ['adventure', 'drama', 'history'], m: ['epic'], n: 'A chariot race that still sets the bar for practical staging.' },
+    { t: 'Gladiator', y: 2000, d: 'Ridley Scott', r: 155, s: 8.5, g: ['action', 'adventure', 'drama', 'history'], m: ['epic', 'tense'], n: 'A revenge story that revived the sword-and-sandal epic.' },
+    { t: 'The Imitation Game', y: 2014, d: 'Morten Tyldum', r: 114, s: 8.0, g: ['drama', 'history', 'thriller'], m: ['thoughtful', 'tense'], n: 'Codebreaking as a race against time and a study of isolation.' },
+    { t: 'La La Land', y: 2016, d: 'Damien Chazelle', r: 128, s: 8.0, g: ['romance', 'drama', 'music', 'comedy'], m: ['romantic', 'cozy', 'thoughtful'], n: 'A musical about ambition, and about what it costs to keep both dreams.' }
   ];
 
   var GENRES = ['action', 'adventure', 'animation', 'comedy', 'crime', 'drama', 'family', 'fantasy', 'history', 'horror', 'music', 'mystery', 'romance', 'scifi', 'thriller', 'war', 'western'];
@@ -250,7 +257,7 @@
     if (pool.length === 0) {
       line.textContent = '';
       if (total > 0) {
-        err.textContent = 'Every matching title is already marked as seen. Clear your seen list or relax a filter.';
+        err.textContent = 'Every matching title is already marked as seen. Reset the seen list or relax a filter.';
       } else {
         err.textContent = 'No films match this combination. Try lowering the minimum rating or raising the runtime ceiling.';
       }
@@ -261,6 +268,7 @@
       line.textContent = pool.length + ' title' + (pool.length === 1 ? '' : 's') +
         ' in the pool' + (seen.length ? ' (seen titles excluded)' : '') + '.';
     }
+    $('resetSeen').classList.toggle('d-none', seen.length === 0);
     drawChart();
   }
 
@@ -281,6 +289,9 @@
 
     $('resWhy').textContent = 'Picked because ' + reasons.join(', ') + '.';
     $('resultCard').classList.remove('d-none');
+    if ($('seenBtn').textContent !== 'Already seen it \u2014 hide it') {
+      $('seenBtn').textContent = 'Already seen it \u2014 hide it';
+    }
     $('resultCard').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
@@ -352,12 +363,6 @@
   $('spinBtn').addEventListener('click', spin);
 
   $('againBtn').addEventListener('click', function () {
-    if (current) {
-      var k = key(current);
-      if (seen.indexOf(k) === -1) seen.push(k);
-      save(STORE_SEEN, seen);
-      updatePoolLine();
-    }
     spin();
   });
 
@@ -389,6 +394,12 @@
     watchlist = [];
     save(STORE_WATCH, watchlist);
     renderWatchlist();
+  });
+
+  $('resetSeen').addEventListener('click', function () {
+    seen = [];
+    save(STORE_SEEN, seen);
+    updatePoolLine();
   });
 
   /* ---------- slider readouts + live pool updates ---------- */
