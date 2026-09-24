@@ -22,7 +22,7 @@
 [done] YouTube Title Length Checker
 [done] DnD Character Name Generator
 [done] Watts to Amps Calculator
-Random Movie Generator
+[done] Random Movie Generator
 Rule of 72 calculator
 Instagram Caption Character Counter
 Prorate rent calculator
