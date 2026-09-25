@@ -23,7 +23,7 @@
 [done] DnD Character Name Generator
 [done] Watts to Amps Calculator
 [done] Random Movie Generator
-Rule of 72 calculator
+[done] Rule of 72 calculator
 Instagram Caption Character Counter
 Prorate rent calculator
 Random Team Name Generator
