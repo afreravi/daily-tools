@@ -1,0 +1,151 @@
+:root {
+  --brand: #60089c;
+  --brand-deep: #3f0568;
+  --brand-bright: #8b2fd0;
+  --brand-wash: #f7f1fd;
+  --brand-edge: #e3d4f4;
+  --ink: #221f28;
+  --muted: #6a6673;
+  --rule: #e8e2f0;
+  --good: #1c7d4d;
+  --bad: #b32639;
+}
+
+body {
+  color: var(--ink);
+  background: #ffffff;
+  background-image: radial-gradient(circle at 12% 0%, rgba(96, 8, 156, .07), transparent 45%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.68;
+}
+
+a { color: var(--brand); }
+a:hover, a:focus { color: var(--brand-deep); }
+
+.breadcrumb { font-size: .875rem; }
+.breadcrumb a { color: var(--brand); }
+.breadcrumb-item.active { color: var(--muted); }
+
+h1, h2, h3, h4 { color: var(--ink); }
+.lead { color: var(--muted); max-width: 62ch; }
+
+/* ---------- labels ---------- */
+.section-kicker {
+  color: var(--brand-deep);
+  letter-spacing: .08em;
+  font-size: .76rem;
+  border-left: 3px solid var(--brand);
+  padding-left: .55rem;
+}
+
+label, .field-label { font-weight: 600; font-size: .95rem; }
+.form-text { color: var(--muted); font-size: .82rem; }
+
+/* ---------- form ---------- */
+.form-control, .custom-select {
+  border-color: var(--rule);
+  border-radius: .25rem;
+  color: var(--ink);
+  font-size: 1.05rem;
+  background-color: #fff;
+}
+.form-control:focus, .custom-select:focus {
+  border-color: var(--brand-bright);
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .14);
+}
+.input-group-text {
+  background: var(--brand-wash);
+  border-color: var(--rule);
+  color: var(--brand-deep);
+  font-weight: 700;
+}
+
+/* ---------- buttons ---------- */
+.btn-brand {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  font-weight: 600;
+  padding: .5rem 1.35rem;
+}
+.btn-brand:hover, .btn-brand:focus {
+  background: var(--brand-deep);
+  border-color: var(--brand-deep);
+  color: #fff;
+}
+.btn-outline-brand {
+  border-color: var(--brand);
+  color: var(--brand);
+  font-weight: 600;
+}
+.btn-outline-brand:hover, .btn-outline-brand:focus,
+.btn-outline-brand.active {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+.btn-group-toggle .btn { border-radius: .25rem !important; margin-right: .35rem; }
+
+/* ---------- stat tiles ---------- */
+.stat-tile {
+  display: block;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--rule);
+  border-left: 4px solid var(--brand);
+  border-radius: .3rem;
+  background: linear-gradient(90deg, var(--brand-wash) 0%, #ffffff 65%);
+}
+.stat-label {
+  display: block;
+  font-size: .74rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--brand-deep);
+  font-weight: 700;
+  margin-bottom: .25rem;
+}
+.stat-value {
+  display: block;
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--brand);
+  line-height: 1.15;
+}
+.stat-value-sm { font-size: 1.4rem; }
+.stat-note { display: block; color: var(--muted); font-size: .84rem; margin-top: .15rem; }
+.stat-note.is-good { color: var(--good); font-weight: 600; }
+.stat-note.is-bad { color: var(--bad); font-weight: 600; }
+
+canvas { max-width: 100%; height: auto; border: 1px solid var(--rule); border-radius: .3rem; background: #fff; }
+
+/* ---------- tables ---------- */
+.table thead th {
+  border-top: 0;
+  border-bottom: 2px solid var(--brand-edge);
+  color: var(--brand-deep);
+  font-size: .8rem;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+.table td, .table th { border-color: var(--rule); }
+.table-striped tbody tr:nth-of-type(odd) { background: var(--brand-wash); }
+
+/* ---------- article ---------- */
+.article { max-width: 74ch; }
+.article h2 {
+  font-size: 1.35rem;
+  font-weight: 700;
+  margin-top: 2.1rem;
+  padding-bottom: .35rem;
+  border-bottom: 1px solid var(--rule);
+}
+.article h3 { font-size: 1rem; margin-top: 1.35rem; }
+.article p, .article li { color: #34303c; }
+.article ul { padding-left: 1.15rem; }
+.article li { margin-bottom: .4rem; }
+
+.bio-block {
+  background: var(--brand-wash);
+  border: 1px solid var(--brand-edge);
+  border-left: 4px solid var(--brand);
+}
