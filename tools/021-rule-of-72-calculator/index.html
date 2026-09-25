@@ -156,29 +156,27 @@
 
 <article class="article">
 <h2 id="what">What the rule of 72 actually says</h2>
-<p>The rule of 72 is a mental shortcut for compound growth. Divide 72 by an annual percentage return and the answer is roughly the number of years it takes for a sum of money to double. At 8 percent, 72 divided by 8 gives 9 years. At 6 percent it gives 12 years. At 12 percent it gives 6 years. The appeal is that the arithmetic fits in your head, so you can sanity-check a fund fact sheet, a savings rate or a loan rate without opening a spreadsheet.</p>
-<p>What makes it useful rather than merely neat is that the same expression works in reverse. Multiply a rate by a doubling time and you get back to about 72. That symmetry is why the rule of 72 turns up in retirement planning, in classroom compound interest problems and in quick comparisons between two accounts.</p>
+<p>The rule of 72 is a mental shortcut for compound growth. Divide 72 by an annual percentage return and the answer is roughly the number of years it takes for a sum of money to double. At 8 percent, 72 divided by 8 gives 9 years. At 6 percent it gives 12 years. At 12 percent it gives 6 years. The appeal is that the arithmetic fits in your head, so you can sanity-check a fund fact sheet, a savings rate or a loan rate without opening a spreadsheet. What makes it useful rather than merely neat is that the same expression works in reverse: multiply a rate by a doubling time and you get back to about 72. That symmetry is why the rule of 72 turns up in retirement planning, in classroom compound interest problems and in quick comparisons between two accounts.</p>
 
 <h2 id="how">How this rule of 72 calculator works</h2>
 <p>The tool gives you both answers at once, so you can see the shortcut next to the truth.</p>
 <p><strong>The shortcut.</strong> Doubling time is 72 divided by the annual rate. In the reverse direction, the rate needed is 72 divided by the target number of years. Both are shown to one decimal place because the rule itself is only accurate to roughly one decimal.</p>
 <p><strong>The exact answer.</strong> Real compounding solves 2 = (1 + r/n) raised to the power n&times;t, where r is the nominal annual rate, n is the number of compounding periods per year and t is time in years. Rearranged, the doubling time is ln(2) divided by n&times;ln(1 + r/n). For continuous compounding it simplifies to ln(2) divided by r, which is about 69.3 divided by the rate as a percentage.</p>
-<p><strong>The comparison.</strong> The tool plots the rule of 72, the rule of 70 and the exact curve across a range of rates so the divergence is visible. It then walks the doubling milestones &mdash; first double, second, third, fourth &mdash; and shows what $1,000 grows into at each step, which is where the difference between the shortcut and exact maths starts to compound.</p>
+<p><strong>The comparison.</strong> The tool plots the rule of 72, the rule of 70 and the exact curve across a range of rates so the divergence is visible. It then walks the doubling milestones and shows what $1,000 grows into at each step, which is where the difference between the shortcut and exact maths starts to compound.</p>
 
 <h2 id="origin">Where 72 comes from, and why 69.3 is the purist's number</h2>
 <p>The constant is not arbitrary. Doubling time is ln(2) divided by ln(1 + r), and ln(2) is 0.6931. For small rates, ln(1 + r) is approximately r, so the doubling time is roughly 69.3 divided by the percentage rate. That is the mathematically pure version.</p>
-<p>72 is used instead because it divides cleanly by 2, 3, 4, 6, 8, 9 and 12, which are the rates people actually talk about, and because the true value of ln(1 + r) is a little below r at everyday rates. That small gap nudges the practical constant up from 69.3 to about 72 for rates between roughly 5 and 12 percent. Above 20 percent the rule starts overshooting; below 3 percent it undershoots. The calculator shows both constants side by side so you can see the size of the trade-off you are making for mental arithmetic.</p>
+<p>72 is used instead because it divides cleanly by 2, 3, 4, 6, 8, 9 and 12, which are the rates people actually talk about, and because ln(1 + r) is a little below r at everyday rates. That gap nudges the practical constant from 69.3 up to about 72 for rates between roughly 5 and 12 percent. Above 20 percent the rule overshoots; below 3 percent it undershoots.</p>
 
 <h2 id="uses">Where the rule of 72 earns its keep</h2>
-<p>Investors use it to compare funds with different expense ratios, because a 0.5 percent fee quietly pushes the doubling time out by a few months per doubling. Savers use it to judge whether a promotional rate is worth moving an account. Students use it to check compound interest homework in seconds. Borrowers use it on debt, where the same maths runs in reverse and hurts: a credit card at 24 percent doubles an unpaid balance in about three years, which is a far more vivid way to describe interest than an APR figure.</p>
-<p>It is also a quick way to reason about inflation. At 3 percent inflation, the purchasing power of money halves in about 24 years. At 6 percent it halves in 12. That framing makes long-horizon planning far more concrete than a percentage change per year.</p>
+<p>Investors use it to compare funds with different expense ratios, because a 0.5 percent fee quietly pushes the doubling time out by a few months per doubling. Savers use it to judge whether a promotional rate is worth moving an account. Borrowers use it on debt, where the same maths runs in reverse and hurts: a credit card at 24 percent doubles an unpaid balance in about three years, a far more vivid way to describe interest than an APR figure. It also frames inflation well &mdash; at 3 percent, purchasing power halves in about 24 years; at 6 percent it halves in 12.</p>
 
 <h2 id="tips">Pro tips for using it well</h2>
 <ul>
 <li><strong>Subtract fees and inflation first.</strong> The rule works on the rate you actually keep. A 7 percent gross return with 1.5 percent in fees and 3 percent inflation is closer to 2.5 percent net, which nearly triples the doubling time.</li>
 <li><strong>Remember it is approximate.</strong> Treat the output as a planning estimate, not a projection. Use the exact figure when the decision is large.</li>
 <li><strong>Use 69.3 for continuous compounding.</strong> The 72 constant was tuned for annual and periodic compounding at common rates.</li>
-<li><strong>Do not stretch it past about 20 percent.</strong> The error grows quickly at high rates, and at very high rates the answer is better handled with exact maths.</li>
+<li><strong>Do not stretch it past about 20 percent.</strong> The error grows quickly at high rates, where exact maths serves you better.</li>
 <li><strong>Apply it to real outcomes.</strong> Doubling a portfolio after inflation is a much stronger claim than doubling it in nominal terms.</li>
 </ul>
 
@@ -192,12 +190,10 @@
 <h3 class="h6 font-weight-bold">How long does it take to double at 7 percent?</h3>
 <p>The rule of 72 gives about 10.3 years. The exact answer with monthly compounding is about 10.2 years, so the shortcut is within a couple of months.</p>
 <h3 class="h6 font-weight-bold">What about tripling?</h3>
-<p>The constant changes because ln(3) is 1.0986 rather than 0.6931. The practical rule of 114 is a reasonable companion to the rule of 72 for tripling time, though it is less accurate across the same range of rates.</p>
-<h3 class="h6 font-weight-bold">Does compounding frequency matter much?</h3>
-<p>Far less than the rate. Moving from annual to monthly compounding shortens doubling time by only a few weeks at typical rates, and daily compounding barely improves on monthly. The nominal rate and the fees are the variables worth arguing about.</p>
+<p>The constant changes because ln(3) is 1.0986 rather than 0.6931. The rule of 114 is a reasonable companion to the rule of 72 for tripling time, though it is less accurate across the same range of rates.</p>
 
 <h2 id="disclaimer">Disclaimer</h2>
-<p class="small">This rule of 72 calculator is an educational and planning tool. It does not provide financial, investment or tax advice, and its output is a mathematical estimate rather than a forecast of any particular investment. Real returns vary, may be negative, and are reduced by fees, taxes and inflation. Interest rates and compounding terms differ between products and jurisdictions. Always read the terms of a financial product and consider speaking to a qualified adviser before making decisions about your money.</p>
+<p class="small">This rule of 72 calculator is an educational and planning tool. It does not provide financial, investment or tax advice, and its output is a mathematical estimate rather than a forecast. Real returns vary, may be negative, and are reduced by fees, taxes and inflation. Always read the terms of a financial product and consider speaking to a qualified adviser before making decisions about your money.</p>
 
 <section aria-labelledby="authorBio" class="mt-4">
 <h3 id="authorBio" class="h5 font-weight-bold">About the author</h3>

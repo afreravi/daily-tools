@@ -160,7 +160,7 @@
       var cum = perDouble * i;
       var exactValue = 1000 * Math.pow(2, i); // exact doubling by definition
       rows += '<tr><td>' + i + (i === 1 ? 'st' : i === 2 ? 'nd' : i === 3 ? 'rd' : 'th') + ' double</td>' +
-        '<td>' + fmt(cum, 1) + '</td>' +
+        '<td>' + fmt(perDouble, 1) + '</td>' +
         '<td>' + fmt(cum, 1) + '</td>' +
         '<td>$' + exactValue.toLocaleString('en-US', { maximumFractionDigits: 0 }) + '</td></tr>';
     }
