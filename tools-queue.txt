@@ -24,7 +24,7 @@
 [done] Watts to Amps Calculator
 [done] Random Movie Generator
 [done] Rule of 72 calculator
-Instagram Caption Character Counter
+[done] Instagram Caption Character Counter
 Prorate rent calculator
 Random Team Name Generator
 Line Break Remover
