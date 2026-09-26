@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instagram Caption Character Counter &mdash; 2,200 Limit Checker</title>
+<meta name="description" content="Count Instagram caption characters as you type, check the 2,200 limit, see the 125-character preview cut-off and hashtag limits before you post.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/social">Social Media</a></li>
+<li class="breadcrumb-item active" aria-current="page">Instagram Caption Counter</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Instagram Caption Character Counter</h1>
+<p class="lead mb-0">Draft your caption and watch the counters live: total characters against Instagram's 2,200 limit, the first 125 characters that appear before &ldquo;more&rdquo;, word count, line breaks and hashtags. Nothing is uploaded &mdash; everything runs in your browser.</p>
+</header>
+
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4 p-md-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Your caption</h2>
+
+<div class="form-group mb-2">
+<label for="caption">Caption text</label>
+<textarea id="caption" class="form-control caption-input" rows="8" placeholder="Paste or type your Instagram caption here&hellip;" aria-describedby="captionHelp"></textarea>
+<small id="captionHelp" class="form-text">Emoji count as more than one character, and each new line counts too &mdash; the tool handles both.</small>
+</div>
+
+<div class="d-flex flex-wrap align-items-center mb-3">
+<button type="button" id="copyBtn" class="btn btn-brand btn-sm mr-2 mb-2">Copy caption</button>
+<button type="button" id="clearBtn" class="btn btn-outline-brand btn-sm mr-2 mb-2">Clear</button>
+<button type="button" id="sampleBtn" class="btn btn-outline-brand btn-sm mb-2">Load example</button>
+<span id="copyStatus" class="small text-muted ml-1 mb-2" role="status" aria-live="polite"></span>
+</div>
+
+<div class="alert alert-danger py-2 mb-3 d-none" id="errorBox" role="alert" aria-live="assertive"></div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Live results</h2>
+
+<div class="row">
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-card h-100" id="statTotal">
+<span class="stat-label">Characters</span>
+<span class="stat-value" id="outChars">0</span>
+<span class="stat-sub" id="outCharsOf">of 2,200</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-card h-100" id="statRemaining">
+<span class="stat-label">Remaining</span>
+<span class="stat-value" id="outRemaining">2,200</span>
+<span class="stat-sub">characters left</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-card h-100">
+<span class="stat-label">Words</span>
+<span class="stat-value" id="outWords">0</span>
+<span class="stat-sub" id="outLines">0 lines</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-card h-100">
+<span class="stat-label">Hashtags</span>
+<span class="stat-value" id="outTags">0</span>
+<span class="stat-sub" id="outTagsNote">no hashtags yet</span>
+</div>
+</div>
+</div>
+
+<div class="progress caption-progress mb-2" aria-hidden="true">
+<div class="progress-bar" id="progressBar" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="2200"></div>
+</div>
+<p class="small mb-4" id="limitStatus" role="status" aria-live="polite">Your caption is well inside the Instagram caption limit.</p>
+
+<h3 class="h6 font-weight-bold mb-2">Caption preview &mdash; what shows before &ldquo;more&rdquo;</h3>
+<p class="small text-muted mb-2">Instagram cuts the visible caption at roughly 125 characters on most feed layouts. Everything after that sits behind the &ldquo;more&rdquo; link.</p>
+<div class="preview-box mb-2" id="previewBox"></div>
+<p class="small mb-4" id="previewNote">0 of 125 visible characters used.</p>
+
+<h3 class="h6 font-weight-bold mb-2">Hashtag checklist</h3>
+<ul class="checklist list-unstyled mb-4">
+<li id="checkLimit"><span class="dot" aria-hidden="true"></span><span class="check-text">Caption length within 2,200 characters</span></li>
+<li id="checkTags"><span class="dot" aria-hidden="true"></span><span class="check-text">30 or fewer hashtags</span></li>
+<li id="checkPreview"><span class="dot" aria-hidden="true"></span><span class="check-text">Key message appears in the first 125 characters</span></li>
+</ul>
+
+<h3 class="h6 font-weight-bold mb-2">Where your caption would break</h3>
+<canvas id="breakChart" width="900" height="280" role="img" aria-label="Chart showing where the caption text ends inside each Instagram field limit: caption 2200 characters, bio 150 characters, and username 30 characters."></canvas>
+<p class="small text-muted mb-0">Bar length shows how far your text reaches into each Instagram field limit. A full bar means that field would reject or truncate the text.</p>
+
+</div>
+</div>
+
+<article class="tool-article">
+<h2 id="how">How the Instagram caption counter works</h2>
+<p>The counter runs on the raw text you paste. It measures the caption against Instagram's 2,200-character cap, which is the limit the platform applies to a single feed caption. Alongside that headline number it tracks the practical numbers that decide whether a caption gets read: word count, line breaks, hashtag count and the first 125 characters that stay visible before the &ldquo;more&rdquo; link appears.</p>
+<p>The character count is not simply the number of letters you see. Instagram counts UTF-16 code units, the same way most JavaScript-based tools do. An emoji outside the basic multilingual plane, such as a camera or a sparkle, occupies two code units, so a caption with twenty emoji can measure forty characters longer than a quick visual estimate suggests. Accented letters, curly quotes and the ellipsis character each count as one, which is worth remembering when you paste from a word processor that has converted straight quotes into typographic ones.</p>
+<p>Line breaks are counted too, because Instagram preserves them. Each press of return adds a character. A caption built from a hook line, three short benefit lines and a hashtag block can lose ten or more characters to formatting alone, and that matters when you are trimming a draft that has crept past the limit. The tool shows the line count separately so you can see how much of your budget is structural rather than editorial.</p>
+<p>Hashtags are detected with a straightforward rule: a hash followed by letters, numbers or underscores. That keeps the count close to what Instagram itself treats as a tag, and it ignores a hash used as punctuation. The checklist below the results combines all of these signals into three plain pass or fail checks, so you can fix the caption without doing arithmetic.</p>
+
+<h2 id="limits">Instagram limits worth knowing before you write</h2>
+<p>The 2,200-character caption limit is the one people hit most often, but it is not the only ceiling. Instagram's bio field holds 150 characters, and a username is capped at 30. Instagram's own help documentation has carried these figures for years, and they are also the numbers the platform enforces when you try to save a change. Hashtags are a separate case: the documented figure is up to 30 per post, and while some creators report success with more, Instagram has warned that posts with too many tags can look like spam and be suppressed. Treating 30 as a hard ceiling is the safer habit.</p>
+<p>Post length is not the same as reach, but the two interact. A caption that sits comfortably under 2,200 characters gives you room for a story, a call to action and a hashtag block without forcing awkward cuts. A caption that fights the limit usually ends up losing its punch at exactly the point where a reader would have acted.</p>
+
+<h2 id="uses">When to reach for a caption counter</h2>
+<p>Anyone running an Instagram account will find a use for a live counter, but a few situations make it essential. Social media managers writing a week of captions in one sitting need to keep every post consistent in length, and a counter makes that visible. Small business owners adding product details, sizes and price notes often run long without realising it, because the caption is written in a notes app that hides the total. Creators who repurpose a blog paragraph into a caption frequently start above the limit and need to cut the right words rather than the last ones. Agencies reviewing a client's draft benefit from the preview cut, since it shows exactly what a scrolling reader will see before deciding whether to tap &ldquo;more&rdquo;.</p>
+<p>It is also useful for the opposite problem. If your captions are consistently well under the limit and engagement is flat, the preview checker may show that your hook is buried past the 125-character mark. That is a fix a counter reveals instantly and a word processor never will.</p>
+
+<h2 id="tips">Pro tips for captions that fit and perform</h2>
+<ul>
+<li><strong>Front-load the hook.</strong> Assume only the first 125 characters get read. Put the promise, the question or the punchline there and let the details follow.</li>
+<li><strong>Use line breaks deliberately.</strong> Short lines are easier to scan, but each one costs a character. Break for rhythm, not habit.</li>
+<li><strong>Keep the hashtag block tight.</strong> Ten to fifteen relevant tags usually beat thirty loose ones, and they leave more room for the caption itself.</li>
+<li><strong>Count emoji before you commit.</strong> A row of decorative emoji can silently cost twenty or thirty characters.</li>
+<li><strong>Write in plain text first.</strong> Pasting from a word processor drags in curly quotes and non-breaking spaces that inflate the count.</li>
+<li><strong>Leave a small buffer.</strong> Aim for 2,100 characters rather than 2,200 so a last-second edit does not push you over the line.</li>
+</ul>
+
+<h2 id="faq">Common mistakes and FAQ</h2>
+<h3 class="h6 font-weight-bold">What is the Instagram caption character limit?</h3>
+<p>A single Instagram caption can hold up to 2,200 characters. That figure applies to feed posts and Reels captions. If you pass it, Instagram will stop accepting input rather than silently trimming the text, so the counter turns red before you reach that point.</p>
+<h3 class="h6 font-weight-bold">How many characters show before &ldquo;more&rdquo;?</h3>
+<p>Around 125 characters on most feed layouts, which works out to roughly two lines on a phone. The exact cut varies slightly with the device and the text, so treat 125 as a planning guide and put your most important words well inside it.</p>
+<h3 class="h6 font-weight-bold">Do emoji count as one character?</h3>
+<p>No. Instagram measures captions in UTF-16 code units, so most emoji count as two. Emoji with skin-tone modifiers or zero-width joiners, such as family and flag sequences, can count as several. The counter reflects that, which is why a caption with many emoji measures longer than it looks.</p>
+<h3 class="h6 font-weight-bold">How many hashtags should I use?</h3>
+<p>Instagram supports up to 30 hashtags per post, and the tool flags anything above that. In practice, a focused set of five to fifteen tags that describe the content tends to work better than a wall of generic ones, and it leaves more of your character budget for the caption.</p>
+<h3 class="h6 font-weight-bold">Does the caption limit apply to comments and bios too?</h3>
+<p>Each field has its own ceiling. A comment is capped at 2,200 characters, the bio at 150 and a username at 30. The chart above compares your current text against all three so you can see at a glance whether a caption is being reused in the wrong field.</p>
+<h3 class="h6 font-weight-bold">Is my caption text stored anywhere?</h3>
+<p>No. The counter runs entirely in your browser with JavaScript. Nothing is sent to a server, saved to an account or logged, so you can paste client copy or unreleased product details without worrying about where it goes.</p>
+
+<h2 id="disclaimer">Disclaimer</h2>
+<p class="small">This Instagram caption character counter is an independent, educational tool. It is not affiliated with, endorsed by or sponsored by Instagram or Meta Platforms, Inc. Character and hashtag limits are the figures published by Instagram and may change without notice, and the 125-character preview point is an approximation of what typical feed layouts show. Always confirm final copy in the Instagram app before publishing.</p>
+
+<section aria-labelledby="authorBio" class="mt-4">
+<h3 id="authorBio" class="h5 font-weight-bold">About the author</h3>
+<div class="media p-3 bio-block rounded">
+<div class="media-body">
+<p class="mb-1"><strong>Afree Tools Team</strong> &mdash; we build free, no-signup utilities for everyday writing and social media work. The counts on this page follow Instagram's published limits of 2,200 characters for captions, 150 for bios and 30 for usernames, and emoji handling follows the UTF-16 length rule that browser and app text fields use.</p>
+</div>
+</div>
+<p class="small text-muted mt-3">Last updated: September 26, 2026</p>
+</section>
+</article>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
