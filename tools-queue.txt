@@ -25,7 +25,7 @@
 [done] Random Movie Generator
 [done] Rule of 72 calculator
 [done] Instagram Caption Character Counter
-Prorate rent calculator
+[done] Prorate rent calculator
 Random Team Name Generator
 Line Break Remover
 Random Emoji Generator
