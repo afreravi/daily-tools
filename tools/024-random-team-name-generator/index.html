@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Random Team Name Generator &mdash; Free Name Ideas for Any Squad</title>
+<meta name="description" content="Generate random team names for sports, work, quizzes or games. Pick a style, add alliteration or a squad tag, and copy your favourite ideas in seconds.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/generators">Generators</a></li>
+<li class="breadcrumb-item active" aria-current="page">Random Team Name Generator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Random Team Name Generator</h1>
+<p class="lead mb-0">Stuck naming a squad? Choose a style, set a few options, and this generator spins out fresh team names you can copy straight into a league sheet, a group chat or a game lobby.</p>
+</header>
+
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4">
+
+<div class="row">
+<div class="col-12 col-lg-5 mb-4 mb-lg-0">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. Pick a style</h2>
+<fieldset>
+<legend class="sr-only">Team name style</legend>
+<div class="chip-row mb-4" role="radiogroup" aria-label="Team name style">
+<input class="chip-input" type="radio" name="category" id="cat-corporate" value="corporate" checked>
+<label class="chip" for="cat-corporate">Corporate</label>
+<input class="chip-input" type="radio" name="category" id="cat-sports" value="sports">
+<label class="chip" for="cat-sports">Sports</label>
+<input class="chip-input" type="radio" name="category" id="cat-funny" value="funny">
+<label class="chip" for="cat-funny">Funny</label>
+<input class="chip-input" type="radio" name="category" id="cat-fantasy" value="fantasy">
+<label class="chip" for="cat-fantasy">Fantasy</label>
+<input class="chip-input" type="radio" name="category" id="cat-tech" value="tech">
+<label class="chip" for="cat-tech">Tech &amp; Startup</label>
+</div>
+</fieldset>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">2. Fine-tune it</h2>
+<div class="form-group">
+<label for="count">How many names?</label>
+<input type="number" class="form-control" id="count" value="12" min="1" max="50" step="1" inputmode="numeric" aria-describedby="countHelp">
+<small id="countHelp" class="form-text">Anywhere from 1 to 50 names per run.</small>
+</div>
+
+<div class="custom-control custom-checkbox mb-2">
+<input type="checkbox" class="custom-control-input" id="optAllit" checked>
+<label class="custom-control-label" for="optAllit">Force alliteration <span class="text-muted">&mdash; e.g. Crimson Comets</span></label>
+</div>
+<div class="custom-control custom-checkbox mb-2">
+<input type="checkbox" class="custom-control-input" id="optTag">
+<label class="custom-control-label" for="optTag">Add a squad tag <span class="text-muted">&mdash; e.g. Squad, Crew, FC</span></label>
+</div>
+<div class="custom-control custom-checkbox mb-4">
+<input type="checkbox" class="custom-control-input" id="optThe">
+<label class="custom-control-label" for="optThe">Start with &ldquo;The&rdquo; <span class="text-muted">&mdash; e.g. The Iron Wolves</span></label>
+</div>
+
+<div class="d-flex flex-wrap">
+<button type="button" class="btn btn-brand mr-2 mb-2" id="genBtn">Generate names</button>
+<button type="button" class="btn btn-outline-brand mb-2" id="resetBtn">Reset</button>
+</div>
+
+<div id="errorBox" class="alert alert-danger mt-3 mb-0 d-none" role="alert" aria-live="assertive"></div>
+</div>
+
+<div class="col-12 col-lg-7">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Your names</h2>
+<div class="row mb-3">
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Generated</span><span class="stat-value stat-value-sm" id="statCount">&mdash;</span><span class="stat-note">this run</span></div></div>
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Avg length</span><span class="stat-value stat-value-sm" id="statAvg">&mdash;</span><span class="stat-note">characters</span></div></div>
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Shortest</span><span class="stat-value stat-value-sm" id="statMin">&mdash;</span><span class="stat-note">characters</span></div></div>
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Longest</span><span class="stat-value stat-value-sm" id="statMax">&mdash;</span><span class="stat-note">characters</span></div></div>
+</div>
+
+<div id="results" class="name-grid mb-3" aria-live="polite" aria-label="Generated team names">
+<p class="text-muted mb-0">Your team names will appear here &mdash; hit <strong>Generate names</strong> to start.</p>
+</div>
+
+<div class="d-flex flex-wrap align-items-center mb-4">
+<button type="button" class="btn btn-outline-brand btn-sm mr-2 mb-2" id="copyAllBtn" disabled>Copy all names</button>
+<button type="button" class="btn btn-outline-brand btn-sm mb-2" id="clearBtn" disabled>Clear shortlist</button>
+<span class="small text-muted ml-1 mb-2" id="shortlistNote">Shortlist: 0 saved</span>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker">Name length spread</h2>
+<canvas id="nameChart" width="820" height="250" role="img" aria-label="Bar chart showing how many generated team names fall into each character-length band"></canvas>
+<p class="small text-muted mt-2 mb-0" id="chartCaption">Generate a batch and the length distribution appears here &mdash; handy for checking what will fit on a shirt or scoreboard.</p>
+</div>
+</div>
+
+<p class="small text-muted mt-4 mb-0">Everything runs in your browser. Nothing you type is uploaded or stored.</p>
+</div>
+</div>
+
+<article class="article">
+<h2 id="why">Why the name you pick actually matters</h2>
+<p>A team name is the first thing anyone learns about a group. It shows up on scoreboards, in group chats, on jerseys and at the top of a shared spreadsheet before a single point is scored or a single line of code is written. A name that lands well does quiet work: it signals whether you are serious or playful, gives people something to rally behind, and becomes shorthand for the group itself. A name that lands badly does the opposite &mdash; it is awkward to say out loud, easy to mock, or so generic that nobody remembers it.</p>
+<p>Naming is also surprisingly hard to do from scratch. Most people reach for the same handful of ideas, then stall. That is exactly where a random team name generator earns its keep: instead of waiting for inspiration, you get a batch of concrete options in seconds, then keep the two or three that make you smile. This tool is built for that first draft.</p>
+
+<h2 id="how">How this random team name generator works</h2>
+<p>The generator builds names from two-part word banks that suit a chosen style, then applies the options you switch on. Each run is fresh, so pressing <strong>Generate names</strong> again reshuffles the pool.</p>
+<p><strong>Five styles.</strong> <em>Corporate</em> pairs confident, boardroom-friendly words such as Apex, Summit and Vanguard with nouns like Partners and Collective. <em>Sports</em> leans on competitive adjectives and animal mascots &mdash; Thunder, Iron, Vipers. <em>Funny</em> mixes absurd modifiers with silly plural nouns, so you get things like Soggy Waffles. <em>Fantasy</em> reaches for dark, mythic vocabulary such as Obsidian, Rune and Wardens. <em>Tech &amp; Startup</em> uses product-flavoured words like Pixel, Quantum and Forge.</p>
+<p><strong>Alliteration.</strong> With this on, the generator deliberately matches the first letters of both halves &mdash; Crimson Comets, Rapid Ravens, Pixel Partners. Alliterative names are easier to remember and stick in the ear, which is why so many real clubs and brands use them.</p>
+<p><strong>Squad tag and article.</strong> The optional tag appends a finishing word such as Squad, Crew, Club or FC, and the optional article puts &ldquo;The&rdquo; in front. Together they turn a two-word phrase into something that reads like an established club: The Iron Wolves FC.</p>
+<p><strong>Copy and shortlist.</strong> Every name has a copy button, and a star button saves it to a shortlist you can copy in one go. Nothing is sent anywhere; the whole thing runs locally in your browser.</p>
+
+<h2 id="uses">When you will need it</h2>
+<ul>
+<li><strong>Rec league and office sports.</strong> Register a side for five-a-side, softball or a charity tournament without another round of group-chat debate.</li>
+<li><strong>Corporate offsites and hackathons.</strong> Give break-out groups and coding teams instant identities so scores and shared docs are easy to follow.</li>
+<li><strong>Pub quiz and trivia nights.</strong> A funny team name is half the fun, and it is what the quizmaster reads out.</li>
+<li><strong>Classroom and workshop groups.</strong> Teachers and facilitators can name table groups quickly and fairly.</li>
+<li><strong>Games, streams and fantasy leagues.</strong> Fill a lobby, a guild roster or a fantasy roster with something better than &ldquo;Team 7&rdquo;.</li>
+<li><strong>Creative writing and world-building.</strong> Novelists and game designers can seed factions, guilds and sports clubs with plausible names.</li>
+</ul>
+
+<h2 id="tips">Pro tips for choosing a keeper</h2>
+<ul>
+<li><strong>Say it out loud.</strong> A name that is awkward to shout across a field will not survive the season.</li>
+<li><strong>Keep it short.</strong> Two or three words fit on a shirt, a scoreboard and a chat handle; the length chart above shows how your batch spreads.</li>
+<li><strong>Test the initials.</strong> Check the acronym before you commit &mdash; some combinations are unfortunate.</li>
+<li><strong>Check availability.</strong> If the team is public, search the name and glance at domain or social handles so you are not clashing with an existing club or business.</li>
+<li><strong>Avoid trademarks.</strong> Steer clear of real franchise names and protected mascots; the generated words are generic on purpose.</li>
+<li><strong>Vote, do not dictate.</strong> Shortlist three or four and let the group choose &mdash; people back a name they helped pick.</li>
+</ul>
+
+<h2 id="faq">Common mistakes and FAQ</h2>
+<h3 class="h6 font-weight-bold">How do I come up with a team name?</h3>
+<p>Start broad, then narrow. Generate a batch in the style closest to your group, star the ones that stand out, and test them out loud. Most people land on a keeper within two or three runs.</p>
+<h3 class="h6 font-weight-bold">What makes a good team name?</h3>
+<p>Short, easy to pronounce, memorable and a little bit distinctive. Alliteration helps, and a clear mascot or theme gives people something to visualise. Avoid anything that needs explaining.</p>
+<h3 class="h6 font-weight-bold">Is this generator really random?</h3>
+<p>Yes. Names are drawn at random from the word banks each time you press generate, so the same batch rarely repeats. The alliteration option narrows the pool deliberately, but the choice within it is still random.</p>
+<h3 class="h6 font-weight-bold">Can I use these names for a business or club?</h3>
+<p>The words are ordinary dictionary terms, so you are free to adapt them. Even so, run a quick search before you register anything &mdash; another club or company may already use a similar name, and trademarks can apply even to generic-sounding phrases.</p>
+<h3 class="h6 font-weight-bold">Why do some names not alliterate when I switch the option on?</h3>
+<p>Alliteration needs a matching pair in the chosen style. The generator prefers adjectives that have a partner starting with the same letter, and falls back gracefully when a style has none for a given letter.</p>
+
+<h2 id="disclaimer">Disclaimer</h2>
+<p class="small">This random team name generator is provided for entertainment and brainstorming. The names it produces are random combinations of common words and are not checked against existing trademarks, business names, club names or domain registrations. You are responsible for verifying that any name you adopt is free to use in your jurisdiction and context. Nothing here is legal advice.</p>
+
+<section aria-labelledby="authorBio" class="mt-4">
+<h3 id="authorBio" class="h5 font-weight-bold">About the author</h3>
+<div class="media p-3 bio-block rounded">
+<div class="media-body">
+<p class="mb-1"><strong>Afree Tools Team</strong> &mdash; we build free, no-signup generators and calculators for everyday decisions. The word banks behind this tool were written from scratch and grouped by tone, and the alliteration logic was tested across every style to make sure each category can produce a genuine matching pair.</p>
+</div>
+</div>
+<p class="small text-muted mt-3">Last updated: September 28, 2026</p>
+</section>
+</article>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
