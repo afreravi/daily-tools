@@ -26,7 +26,7 @@
 [done] Rule of 72 calculator
 [done] Instagram Caption Character Counter
 [done] Prorate rent calculator
-Random Team Name Generator
+[done] Random Team Name Generator
 Line Break Remover
 Random Emoji Generator
 Markdown to HTML Converter

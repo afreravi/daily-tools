@@ -49,3 +49,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 021 | rule-of-72-calculator | Doubling time from an annual rate, with rule of 72 vs 70 vs exact compounding, chart and milestone table |
 | 022 | instagram-caption-character-counter | Live character, word, line and hashtag counts against Instagram's 2,200-character caption limit, with 125-character preview cut-off |
 | 023 | prorate-rent-calculator | Prorates rent for a partial month, comparing days-in-month, flat 30-day and days-in-year methods with a bar chart and breakdown |
+| 024 | random-team-name-generator | Random team names by style (corporate, sports, funny, fantasy, tech) with alliteration, squad tags, shortlist and a length chart |
