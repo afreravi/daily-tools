@@ -151,7 +151,7 @@ aria-label="Bar chart comparing characters, words and lines before and after cle
 
 <h2>Everyday use cases</h2>
 <p>The most common trigger is moving text between two systems that disagree about formatting. Paste a paragraph from a PDF into a CMS and you inherit a break at every printed line. Paste a multi-line address into a form that expects a single line and the field rejects it. Copy bullet points out of a chat app and each one arrives with stray whitespace attached.</p>
-<p>Writers use it to normalise drafts before counting words, because a hard return in the middle of a sentence can confuse word counters that treat every line as a separate entry. Developers use it to flatten log excerpts and JSON fragments into one line before pasting them into a terminal or an issue tracker. Marketers use it to turn a stack of short LinkedIn lines into a paragraph that fits a meta description. Students use it to tidy quotes pulled from e-books so citations read cleanly.</p>
+<p>Writers use it to normalise drafts before counting words, because a hard return can confuse word counters that treat every line as a separate entry. Developers use it to flatten log excerpts and JSON fragments into one line before pasting them into a terminal or an issue tracker. Marketers use it to turn a stack of short social lines into a paragraph that fits a meta description.</p>
 
 <h2>Pro tips for clean text</h2>
 <p>Work in two passes. First join the wrapped lines with the space mode, then look at the result and decide whether you want paragraph structure back. Trying to do both at once on badly broken text usually produces a wall of words.</p>
@@ -159,7 +159,7 @@ aria-label="Bar chart comparing characters, words and lines before and after cle
 
 <h2>Common mistakes to avoid</h2>
 <p>The biggest mistake is choosing the strip mode when you meant the space mode. Removing breaks without a replacement character fuses the last word of one line to the first word of the next, which is almost never what you want outside of raw data. Read the preview before copying.</p>
-<p>Second, people run the cleaner on text that still contains meaningful structure. A script, a recipe list or a set of steps relies on line breaks; flattening it destroys the logic. Third, some editors store a non-breaking space or a zero-width character alongside a normal space, so text can look clean yet still fail validation elsewhere. Finally, remember that &ldquo;remove all line breaks&rdquo; also removes the final newline that some systems expect &mdash; if a downstream tool complains, add one back manually.</p>
+<p>Second, people run the cleaner on text that still contains meaningful structure. A script, a recipe list or a set of steps relies on line breaks; flattening it destroys the logic. Third, some editors store a non-breaking space or a zero-width character alongside a normal space, so text can look clean yet still fail validation elsewhere. Finally, remember that removing every break also strips the final newline some systems expect &mdash; add one back if a downstream tool complains.</p>
 
 <h2>Frequently asked questions</h2>
 <h3>Does this tool upload my text anywhere?</h3>

@@ -50,3 +50,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 022 | instagram-caption-character-counter | Live character, word, line and hashtag counts against Instagram's 2,200-character caption limit, with 125-character preview cut-off |
 | 023 | prorate-rent-calculator | Prorates rent for a partial month, comparing days-in-month, flat 30-day and days-in-year methods with a bar chart and breakdown |
 | 024 | random-team-name-generator | Random team names by style (corporate, sports, funny, fantasy, tech) with alliteration, squad tags, shortlist and a length chart |
+| 025 | line-break-remover | Removes line breaks, blank lines and repeated spaces from pasted text, with space/strip/paragraph modes and a before-after chart |

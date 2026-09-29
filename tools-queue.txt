@@ -27,7 +27,7 @@
 [done] Instagram Caption Character Counter
 [done] Prorate rent calculator
 [done] Random Team Name Generator
-Line Break Remover
+[done] Line Break Remover
 Random Emoji Generator
 Markdown to HTML Converter
 Twitter Post Character Counter
