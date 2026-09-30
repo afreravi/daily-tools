@@ -28,6 +28,6 @@
 [done] Prorate rent calculator
 [done] Random Team Name Generator
 [done] Line Break Remover
-Random Emoji Generator
+[done] Random Emoji Generator
 Markdown to HTML Converter
 Twitter Post Character Counter
