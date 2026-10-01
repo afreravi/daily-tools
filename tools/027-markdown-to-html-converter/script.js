@@ -295,31 +295,45 @@
     var tokens = html.split(/(<pre[\s\S]*?<\/pre>|<[^>]+>)/g).filter(function (t) { return t !== ""; });
     var indent = 0;
     var lines = [];
-    var voidTags = /^<(hr|br|img|input|meta|link)\b/i;
-    var blockOpen = /^<(h[1-6]|p|ul|ol|li|blockquote|table|thead|tbody|tr|th|td|div|section|article)\b/i;
+    var buf = "";
+    var blockTags = /^(h[1-6]|p|ul|ol|li|blockquote|table|thead|tbody|tr|th|td|hr|pre)$/;
+    var voidTags = /^(hr|br|img|input|meta|link)$/;
+
+    function flush() {
+      if (buf.trim()) lines.push(spaces(indent) + buf.trim());
+      buf = "";
+    }
 
     tokens.forEach(function (tok) {
       if (/^<pre[\s\S]*<\/pre>$/.test(tok)) {
+        flush();
         lines.push(spaces(indent) + tok.replace(/\n/g, "\n" + spaces(indent)));
         return;
       }
-      if (/^<\//.test(tok)) {
+      if (/^<!--/.test(tok)) {
+        flush();
+        lines.push(spaces(indent) + tok);
+        return;
+      }
+      var m = tok.match(/^<(\/?)([a-zA-Z0-9]+)/);
+      if (!m) { buf += tok; return; } // plain text stays with the current line
+
+      var closing = m[1] === "/";
+      var name = m[2].toLowerCase();
+      if (!blockTags.test(name)) { buf += tok; return; } // inline tag stays with the current line
+
+      flush();
+      if (closing) {
         indent = Math.max(indent - 1, 0);
         lines.push(spaces(indent) + tok);
-      } else if (/^<[^>]+>$/.test(tok)) {
-        if (voidTags.test(tok) || /\/>$/.test(tok)) {
-          lines.push(spaces(indent) + tok);
-        } else if (blockOpen.test(tok)) {
-          lines.push(spaces(indent) + tok);
-          indent += 1;
-        } else {
-          lines.push(spaces(indent) + tok);
-        }
+      } else if (voidTags.test(name) || /\/>$/.test(tok)) {
+        lines.push(spaces(indent) + tok);
       } else {
-        var text = tok.trim();
-        if (text) lines.push(spaces(indent) + text);
+        lines.push(spaces(indent) + tok);
+        indent += 1;
       }
     });
+    flush();
     return lines.join("\n");
   }
 

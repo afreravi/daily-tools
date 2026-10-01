@@ -29,5 +29,5 @@
 [done] Random Team Name Generator
 [done] Line Break Remover
 [done] Random Emoji Generator
-Markdown to HTML Converter
+[done] Markdown to HTML Converter
 Twitter Post Character Counter
