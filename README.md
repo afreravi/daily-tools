@@ -52,3 +52,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 024 | random-team-name-generator | Random team names by style (corporate, sports, funny, fantasy, tech) with alliteration, squad tags, shortlist and a length chart |
 | 025 | line-break-remover | Removes line breaks, blank lines and repeated spaces from pasted text, with space/strip/paragraph modes and a before-after chart |
 | 026 | random-emoji-generator | Random emoji picker by category and count, with no-repeat option, click-to-copy chips and a category-mix chart |
+| 027 | markdown-to-html-converter | Converts Markdown to clean, sanitised HTML with live output, rendered preview, element-mix chart and copy/download |
