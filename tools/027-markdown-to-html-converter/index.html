@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Markdown to HTML Converter &mdash; Free Online MD to HTML Tool</title>
+<meta name="description" content="Convert Markdown to clean HTML instantly with this free online converter. Paste MD, preview rendered output, sanitise and copy semantic markup. No sign-up.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/developer-tools">Developer Tools</a></li>
+<li class="breadcrumb-item active" aria-current="page">Markdown to HTML Converter</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Markdown to HTML Converter</h1>
+<p class="lead mb-0">Paste your Markdown on the left and get clean, semantic HTML on the right &mdash; rendered live as you type. Copy the markup, download it, or preview exactly how it will look on a web page.</p>
+</header>
+
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4">
+
+<div class="row">
+<div class="col-12 col-lg-6 mb-4 mb-lg-0">
+<div class="d-flex justify-content-between align-items-center mb-2">
+<label for="markdown" class="h6 font-weight-bold text-uppercase section-kicker mb-0">Markdown input</label>
+<button type="button" class="btn btn-sm btn-outline-secondary" id="btnSample">Load sample</button>
+</div>
+<textarea id="markdown" class="form-control code-area" rows="16" spellcheck="false" aria-describedby="mdHelp"
+placeholder="# Hello world
+
+Write **Markdown** here and watch the HTML appear on the right."></textarea>
+<small id="mdHelp" class="form-text">Supports headings, bold, italics, links, images, lists, blockquotes, tables, code blocks and horizontal rules.</small>
+
+<div class="form-row mt-3">
+<div class="col-6">
+<label for="headingStyle" class="small font-weight-bold text-uppercase mb-1">Heading style</label>
+<select id="headingStyle" class="custom-select custom-select-sm">
+<option value="semantic" selected>Semantic tags (h1&ndash;h6)</option>
+<option value="classed">Classed tags for Bootstrap</option>
+</select>
+</div>
+<div class="col-6">
+<label for="listStyle" class="small font-weight-bold text-uppercase mb-1">List style</label>
+<select id="listStyle" class="custom-select custom-select-sm">
+<option value="plain" selected>Plain tags</option>
+<option value="bootstrap">Bootstrap classes</option>
+</select>
+</div>
+</div>
+
+<div class="custom-control custom-checkbox mt-3">
+<input type="checkbox" class="custom-control-input" id="sanitize" checked>
+<label class="custom-control-label" for="sanitize">Strip raw HTML tags from the input (safer output)</label>
+</div>
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="pretty" checked>
+<label class="custom-control-label" for="pretty">Pretty-print with indentation</label>
+</div>
+</div>
+
+<div class="col-12 col-lg-6">
+<div class="d-flex justify-content-between align-items-center mb-2">
+<label for="output" class="h6 font-weight-bold text-uppercase section-kicker mb-0">HTML output</label>
+<span class="badge badge-light border" id="outStats">0 chars</span>
+</div>
+<textarea id="output" class="form-control code-area" rows="16" readonly spellcheck="false" aria-live="polite"></textarea>
+
+<div class="d-flex flex-wrap mt-3">
+<button type="button" class="btn btn-theme mr-2 mb-2" id="btnCopy">Copy HTML</button>
+<button type="button" class="btn btn-outline-theme mr-2 mb-2" id="btnDownload">Download .html</button>
+<button type="button" class="btn btn-outline-secondary mr-2 mb-2" id="btnClear">Clear</button>
+<button type="button" class="btn btn-outline-secondary mb-2" id="btnPreview">Preview rendered</button>
+</div>
+</div>
+</div>
+
+<div id="alertBox" class="alert d-none mt-3 mb-0" role="alert" aria-live="polite"></div>
+
+</div>
+</div>
+
+<div class="card shadow-sm border-0 mb-5 d-none" id="previewCard">
+<div class="card-body">
+<h2 class="h5 font-weight-bold mb-3">Rendered preview</h2>
+<div id="preview" class="preview-body"></div>
+</div>
+</div>
+
+<section class="card shadow-sm border-0 mb-5">
+<div class="card-body">
+<h2 class="h5 font-weight-bold mb-3">Element mix in your document</h2>
+<p class="text-muted small mb-3">A quick visual of how many of each block type your Markdown produced.</p>
+<canvas id="mixChart" width="640" height="240" role="img" aria-label="Bar chart showing counts of headings, paragraphs, list items, links and code blocks"></canvas>
+</div>
+</section>
+
+<section class="article mb-5">
+<h2 class="h4 font-weight-bold">What a Markdown to HTML converter actually does</h2>
+<p>Markdown is a lightweight way to write formatted text using plain characters. A single hash makes a heading, double asterisks make text bold, and a dash at the start of a line creates a bullet. It is fast to type and easy to read even before it is rendered. Browsers, however, do not understand Markdown &mdash; they understand HTML. A <strong>Markdown to HTML converter</strong> bridges that gap by translating your shorthand into the tags a web page needs, such as <code>&lt;h1&gt;</code>, <code>&lt;p&gt;</code>, <code>&lt;strong&gt;</code> and <code>&lt;ul&gt;</code>.</p>
+<p>This <strong>MD to HTML</strong> tool runs entirely in your browser. Nothing you paste is uploaded anywhere, which matters when your notes contain drafts, private links or client copy. As you type, the parser reads each block and inline span, builds a small document tree, then serialises that tree back into HTML. You can see both the source and the result side by side, which makes the relationship between the two formats much easier to learn.</p>
+
+<h2 class="h4 font-weight-bold mt-4">How to convert Markdown to HTML</h2>
+<ol>
+<li><strong>Paste or type your Markdown</strong> into the left panel. The converter handles headings, bold, italics, inline code, links, images, blockquotes, ordered and unordered lists, tables, fenced code blocks and horizontal rules.</li>
+<li><strong>Choose your options.</strong> Semantic headings give you clean <code>h1</code>&ndash;<code>h6</code> tags. The Bootstrap style maps them to utility classes so they drop straight into a Bootstrap page. You can also strip raw HTML for safety and pretty-print the output for readability.</li>
+<li><strong>Review the HTML</strong> on the right, then hit <em>Preview rendered</em> to confirm it looks the way you expect. Copy the markup or download it as a <code>.html</code> file.</li>
+</ol>
+<p>The converter is deliberately forgiving. Empty input shows a gentle hint instead of an error, malformed tables fall back to plain paragraphs, and an unclosed code fence still renders what it can rather than failing silently. That behaviour is intentional: a <strong>markdown converter</strong> should help you fix problems, not hide them.</p>
+
+<h2 class="h4 font-weight-bold mt-4">When you would reach for this tool</h2>
+<p>The most common use is preparing content for a website. Writers draft in Markdown because it is distraction-free, then convert to <strong>HTML markup</strong> before pasting into a CMS that expects tags. Developers use it to turn README files into documentation pages, to check how a snippet will render in a comment system, or to build email templates where every tag has to be valid.</p>
+<p>It is also a teaching aid. If you are learning web development, watching your Markdown turn into HTML shows exactly which tag each symbol produces. Students preparing blog posts, technical writers migrating from a wiki, and support teams converting a plain-text knowledge base all get value from a quick, reliable <strong>MD to HTML</strong> pass. Because the tool never leaves the page, it works offline once the tab is open.</p>
+
+<h2 class="h4 font-weight-bold mt-4">Pro tips for cleaner output</h2>
+<ul>
+<li>Leave a blank line between blocks. Markdown treats a single line break as part of the same paragraph, so spacing keeps your structure predictable.</li>
+<li>Use fenced code blocks with three backticks and a language name &mdash; the converter adds a class you can style later.</li>
+<li>Keep one <code>h1</code> per page for accessibility and SEO. Use <code>h2</code> and <code>h3</code> for the sections beneath it.</li>
+<li>Turn on sanitising when the Markdown comes from someone else. It removes raw tags before they ever reach your published page.</li>
+<li>Prefer semantic headings for production markup, and the Bootstrap style when you are pasting into a framework that already ships those classes.</li>
+</ul>
+
+<h2 class="h4 font-weight-bold mt-4">Common mistakes to avoid</h2>
+<p>The first trap is mixing raw HTML into Markdown and expecting it to be tidied. Most parsers pass raw tags through untouched, which is why the sanitise option exists. The second is forgetting that two spaces at the end of a line create a hard break, while one space does not. The third is nesting lists with inconsistent indentation; keep two or four spaces per level and stay consistent. Finally, remember that a converter produces a fragment, not a full page &mdash; if you need a complete document, wrap the output in the HTML, head and body tags yourself, or download the file this tool generates and add them.</p>
+
+<h2 class="h4 font-weight-bold mt-4">Frequently asked questions</h2>
+<div class="faq">
+<h3 class="h6 font-weight-bold mb-1">Is this Markdown to HTML converter free?</h3>
+<p>Yes. There is no sign-up, no rate limit and no watermark on the output. Everything runs in your browser.</p>
+
+<h3 class="h6 font-weight-bold mb-1">Does it send my text to a server?</h3>
+<p>No. The conversion happens locally in JavaScript, so your content stays on your device.</p>
+
+<h3 class="h6 font-weight-bold mb-1">Which Markdown features are supported?</h3>
+<p>Headings, bold, italics, strikethrough, inline code, fenced code blocks, links, images, ordered and unordered lists, blockquotes, tables, horizontal rules and line breaks.</p>
+
+<h3 class="h6 font-weight-bold mb-1">Why does my output look different from GitHub?</h3>
+<p>GitHub adds its own flavour, such as task lists and auto-linked mentions. This tool implements the widely used CommonMark-style core, which is the safest baseline for a web page.</p>
+
+<h3 class="h6 font-weight-bold mb-1">Can I convert HTML back to Markdown?</h3>
+<p>Not here &mdash; this tool is one-directional by design. Keeping it focused makes the output cleaner and the behaviour easier to predict.</p>
+</div>
+
+<h2 class="h4 font-weight-bold mt-4">About the author</h2>
+<p>This tool is maintained by the A Free Tools team, a small group of front-end developers and technical writers who build browser-based utilities for everyday work. We test each converter against real documentation, README files and CMS content before publishing, and we keep the parsing rules documented so the output stays predictable. If a Markdown feature behaves unexpectedly, that is feedback we want to hear &mdash; the aim is markup you can trust without a second pass.</p>
+</section>
+
+<p class="text-muted small"><strong>Last updated:</strong> <span id="lastUpdated">1 October 2026</span></p>
+
+<p class="disclaimer small text-muted border-top pt-3">Disclaimer: This Markdown to HTML converter is provided for general informational and development use. The output is generated automatically and may need review before it is published. Always check converted markup in your own environment, and do not paste confidential content you would not otherwise process in a browser.</p>
+
+</main>
+
+<footer class="border-top py-4">
+<div class="container text-center small text-muted">
+<p class="mb-1"><a href="/">A Free Tools</a> &middot; Free browser-based utilities</p>
+<p class="mb-0">Built with vanilla JavaScript &mdash; no data leaves your device.</p>
+</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
