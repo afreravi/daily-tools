@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Twitter Post Character Counter &mdash; Free 280 Character Limit Checker</title>
+<meta name="description" content="Free Twitter post character counter. Check your tweet length against the 280 character limit, count words and hashtags, see URL weighting and get a live preview.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/social-media-tools">Social Media Tools</a></li>
+<li class="breadcrumb-item active" aria-current="page">Twitter Post Character Counter</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Twitter Post Character Counter</h1>
+<p class="lead mb-0">Draft your next post with confidence. Paste your tweet below to see exactly how many characters X (Twitter) will count, how close you are to the 280 limit, and how links and hashtags affect your budget.</p>
+</header>
+
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4">
+
+<div class="row">
+<div class="col-12 col-lg-7 mb-4 mb-lg-0">
+<div class="d-flex justify-content-between align-items-center mb-2">
+<label for="tweetInput" class="h6 font-weight-bold text-uppercase section-kicker mb-0">Your post</label>
+<button type="button" class="btn btn-sm btn-outline-secondary" id="btnSample">Load sample</button>
+</div>
+<textarea id="tweetInput" class="form-control tweet-area" rows="7" aria-describedby="tweetHelp"
+placeholder="What is happening?!" maxlength="1200"></textarea>
+<small id="tweetHelp" class="form-text">Links are weighted as 23 characters by X, even when they are longer. Hashtags, mentions and emoji count as typed.</small>
+</div>
+
+<div class="col-12 col-lg-5">
+<div class="d-flex justify-content-between align-items-center mb-2">
+<span class="h6 font-weight-bold text-uppercase section-kicker mb-0">Live preview</span>
+<span class="badge badge-light border" id="limitBadge">280 limit</span>
+</div>
+<div class="preview-card" id="previewCard">
+<div class="preview-head">
+<div class="preview-avatar" aria-hidden="true">AT</div>
+<div>
+<div class="preview-name">A Free Tools <span class="preview-handle">@afreetools</span></div>
+<div class="preview-meta">now</div>
+</div>
+</div>
+<div class="preview-body" id="previewBody" aria-live="polite"><span class="preview-empty">Your post preview appears here as you type.</span></div>
+<div class="preview-actions" aria-hidden="true">
+<span>Reply</span><span>Repost</span><span>Like</span><span>Share</span>
+</div>
+</div>
+</div>
+</div>
+
+<div class="row mt-4">
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile" id="tileCount">
+<div class="stat-value" id="statCount">0</div>
+<div class="stat-label">Characters used</div>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile" id="tileRemaining">
+<div class="stat-value" id="statRemaining">280</div>
+<div class="stat-label">Characters left</div>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile">
+<div class="stat-value" id="statWords">0</div>
+<div class="stat-label">Words</div>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile">
+<div class="stat-value" id="statTags">0</div>
+<div class="stat-label">Hashtags / mentions</div>
+</div>
+</div>
+</div>
+
+<div class="progress-wrap mt-2">
+<div class="d-flex justify-content-between small text-muted mb-1">
+<span>0</span><span>280 character limit</span>
+</div>
+<div class="progress" style="height: 14px;">
+<div class="progress-bar" id="progressBar" role="progressbar" style="width: 0%;" aria-valuemin="0" aria-valuemax="280" aria-valuenow="0"></div>
+</div>
+</div>
+
+<div id="alertBox" class="alert d-none mt-3 mb-0" role="alert" aria-live="polite"></div>
+
+<div class="d-flex flex-wrap mt-3">
+<button type="button" class="btn btn-theme mr-2 mb-2" id="btnCopy">Copy post</button>
+<button type="button" class="btn btn-outline-theme mr-2 mb-2" id="btnShorten">Suggest trim</button>
+<button type="button" class="btn btn-outline-secondary mb-2" id="btnClear">Clear</button>
+</div>
+
+</div>
+</div>
+
+<section class="card shadow-sm border-0 mb-5">
+<div class="card-body">
+<h2 class="h5 font-weight-bold mb-3">How your 280 characters are spent</h2>
+<p class="text-muted small mb-3">Each block below shows how much of the limit that part of your post consumes, using X&rsquo;s own weighting rules.</p>
+<canvas id="breakdownChart" width="660" height="240" role="img" aria-label="Horizontal bar chart showing characters used by text, links, hashtags, mentions and emoji"></canvas>
+<div id="chartLegend" class="chart-legend small mt-3"></div>
+</div>
+</section>
+
+<section class="card shadow-sm border-0 mb-5">
+<div class="card-body">
+<h2 class="h5 font-weight-bold mb-3">What changes when you post a thread</h2>
+<p class="small text-muted mb-3">Longer thoughts are often split across multiple posts. This table shows how many posts your draft needs if you split it at the limit.</p>
+<div class="table-responsive">
+<table class="table table-sm table-bordered mb-0" id="threadTable">
+<thead class="thead-light">
+<tr><th scope="col">Post</th><th scope="col">Characters</th><th scope="col">Preview</th></tr>
+</thead>
+<tbody></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<section class="article mb-5">
+<h2 class="h4 font-weight-bold">Why a Twitter character counter still matters</h2>
+<p>X, the platform formerly known as Twitter, gives every post a hard budget of 280 characters. That number is generous compared with the original 140, but it is still easy to blow through. A strong hook, a short link and a couple of hashtags can fill the limit before you have said anything useful. A <strong>Twitter post character counter</strong> removes the guesswork: instead of posting and discovering your sentence was cut off, you watch the count in real time and edit with intent.</p>
+<p>What makes counting on X different from counting in a word processor is that not every character is weighted equally. The platform rewrites some content before it measures it, so the number you see in a plain text editor is rarely the number X uses. This <strong>tweet character counter</strong> applies those same rules so your draft matches what the composer will actually show.</p>
+
+<h2 class="h4 font-weight-bold mt-4">How the 280 character limit is calculated</h2>
+<p>Most characters cost exactly one. Letters, numbers, punctuation and spaces all count as typed. The exceptions are what trip people up:</p>
+<ul>
+<li><strong>Links.</strong> X wraps every URL in its own shortener and counts it as a flat 23 characters, regardless of how long the original address is. A 90-character tracking link and a tidy 30-character link both cost 23.</li>
+<li><strong>Emoji.</strong> A single emoji is usually one character, but many modern emoji are built from several code points joined together. A flag or a family emoji can quietly consume four or five characters.</li>
+<li><strong>Hashtags and mentions.</strong> These are counted like ordinary text. They are not free, which is why a wall of hashtags eats a post alive.</li>
+<li><strong>CJK and other wide scripts.</strong> Japanese, Chinese and Korean characters are permitted more per post on X, but within this tool they are counted one-to-one so the arithmetic stays simple and transparent.</li>
+</ul>
+<p>Because of this weighting, a draft that reads 260 characters in your notes app might actually post at 285 once a link is expanded. Checking here first is the difference between a clean post and an edit you did not plan for.</p>
+
+<h2 class="h4 font-weight-bold mt-4">How to use this character counter</h2>
+<ol>
+<li><strong>Type or paste your post</strong> into the box. The counters, progress bar and preview update on every keystroke &mdash; there is no submit button to press.</li>
+<li><strong>Watch the characters-left figure.</strong> It turns amber as you approach the limit and red once you pass it, and the preview marks the exact point where X would cut your text.</li>
+<li><strong>Check the breakdown chart.</strong> It shows how much of your budget went to plain text, links, hashtags, mentions and emoji, so you can see at a glance what is expensive.</li>
+<li><strong>Fix a long draft.</strong> If you are over, use <em>Suggest trim</em> for a trimmed version, or read the thread table to see how the post splits into a two- or three-part thread.</li>
+<li><strong>Copy and post.</strong> Hit <em>Copy post</em> to lift the text back into X, or into your scheduling tool of choice.</li>
+</ol>
+
+<h2 class="h4 font-weight-bold mt-4">Practical use cases</h2>
+<p>Social media managers batch a week of posts at once and need every one to fit before it is scheduled. Founders and marketers writing launch announcements want the hook in the first line without the link pushing them over. Community managers replying to customers need to know whether a quoted handle plus a link still leaves room for a helpful sentence. Writers repurposing a newsletter paragraph use the counter to see how much has to be cut for the social version.</p>
+<p>It is also handy for students and job seekers polishing a bio or a pinned post, and for anyone who has ever watched a carefully worded sentence disappear behind an ellipsis. The tool works entirely in your browser, so drafts stay on your device.</p>
+
+<h2 class="h4 font-weight-bold mt-4">Pro tips for staying under 280</h2>
+<ul>
+<li>Lead with the point. Put the most important words first so a truncated post still reads well.</li>
+<li>Keep one idea per post. If you need two, you probably have a thread.</li>
+<li>Use two or three hashtags at most. More than that reads as spam and eats your budget.</li>
+<li>Shorten links before you paste them; even though X counts 23 characters, a clean link looks better and is easier to trust.</li>
+<li>Replace long phrases with shorter ones &mdash; &ldquo;because&rdquo; becomes &ldquo;since&rdquo;, &ldquo;in order to&rdquo; becomes &ldquo;to&rdquo;.</li>
+<li>Use line breaks to separate ideas, but remember each break still counts as a character.</li>
+</ul>
+
+<h2 class="h4 font-weight-bold mt-4">Common mistakes to avoid</h2>
+<p>The most frequent error is trusting the character count of a word processor. It does not know about the 23-character link rule or multi-code-point emoji, so its total drifts from X&rsquo;s. The second is forgetting that a reply adds the handles of everyone you mention, which are counted against your own limit. The third is pasting from a document that carries hidden characters or smart quotes &mdash; they count too, and they can push a post over the edge invisibly. Finally, do not assume an image or a poll is free: while media does not consume characters, the alt text and poll options are measured separately and still have their own limits.</p>
+
+<h2 class="h4 font-weight-bold mt-4">Frequently asked questions</h2>
+<div class="faq">
+<h3 class="h6 font-weight-bold mb-1">How many characters can a Twitter post have?</h3>
+<p>280 characters for a standard post on X. Verified accounts can publish longer posts, but 280 remains the limit most people work to and the one this counter checks against.</p>
+
+<h3 class="h6 font-weight-bold mb-1">How many characters is a link on Twitter?</h3>
+<p>Every link is counted as 23 characters through X&rsquo;s link shortener, no matter how long the original URL is. That is why a long tracking link does not blow your budget the way it would in a plain counter.</p>
+
+<h3 class="h6 font-weight-bold mb-1">Do hashtags count toward the 280 limit?</h3>
+<p>Yes. Hashtags and @mentions are counted like any other text. They are useful for reach, but each one you add takes characters away from your message.</p>
+
+<h3 class="h6 font-weight-bold mb-1">Do emoji count as more than one character?</h3>
+<p>Sometimes. Simple emoji count as one, but emoji made from several combined code points &mdash; flags, skin-tone variants and family emoji &mdash; can use four or more. This counter measures them the way X does.</p>
+
+<h3 class="h6 font-weight-bold mb-1">Is this Twitter character counter free?</h3>
+<p>Yes. There is no sign-up, no limit and no watermark. Everything runs in your browser and nothing you type is uploaded.</p>
+</div>
+
+<h2 class="h4 font-weight-bold mt-4">About the author</h2>
+<p>This tool is maintained by the A Free Tools team, a small group of front-end developers and social media practitioners who build browser-based utilities for everyday work. We test each counter against real posts, link-shortener behaviour and multi-code-point emoji before publishing, and we document the counting rules so the numbers stay predictable. If a post counts differently on X than it does here, that is feedback we want to hear &mdash; the goal is a count you can trust before you hit send.</p>
+</section>
+
+<p class="text-muted small"><strong>Last updated:</strong> <span id="lastUpdated">2 October 2026</span></p>
+
+<p class="disclaimer small text-muted border-top pt-3">Disclaimer: This Twitter post character counter is provided for general informational use. X (Twitter) may change its counting rules, link weighting or posting limits at any time, so treat the count here as a guide and confirm important posts in the official composer. Do not paste confidential content you would not otherwise process in a browser.</p>
+
+</main>
+
+<footer class="border-top py-4">
+<div class="container text-center small text-muted">
+<p class="mb-1"><a href="/">A Free Tools</a> &middot; Free browser-based utilities</p>
+<p class="mb-0">Built with vanilla JavaScript &mdash; no data leaves your device.</p>
+</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
