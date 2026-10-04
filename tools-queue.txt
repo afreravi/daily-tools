@@ -31,7 +31,7 @@
 [done] Random Emoji Generator
 [done] Markdown to HTML Converter
 [done] Twitter Post Character Counter
-random nba team generator
+[done] random nba team generator
 grade calculator | refer this website https://easygradecalculator.com
 random nfl team generator
 Phonetic Spelling Generator
