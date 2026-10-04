@@ -297,7 +297,7 @@
     copyText(text, function () { flash(copyBtn, "Copied!"); });
   });
 
-  clearBtn.addEventListener("click", function () {
+  function clearDraw() {
     currentDraw = [];
     resultsEl.innerHTML = '<p class="text-muted mb-0">Your team will appear here &mdash; press <strong>Draw teams</strong> to spin.</p>';
     copyBtn.disabled = true;
@@ -305,9 +305,11 @@
     statCount.textContent = "\u2014";
     statSplit.textContent = "\u2014";
     statTitle.textContent = "\u2014";
-    updatePoolOnly();
+    statPool.textContent = selectedPool().length;
     drawChart([]);
-  });
+  }
+
+  clearBtn.addEventListener("click", clearDraw);
 
   resetBtn.addEventListener("click", function () {
     divisionEl.value = "all";
@@ -318,12 +320,11 @@
     drawHistory = [];
     historyNote.textContent = "Draw history: 0";
     clearError();
-    clearBtn.click();
+    clearDraw();
   });
 
   function updatePoolOnly() {
-    var pool = selectedPool();
-    statPool.textContent = pool.length;
+    statPool.textContent = selectedPool().length;
   }
 
   /* live pool stats + chart whenever filters change */
