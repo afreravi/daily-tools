@@ -1,0 +1,243 @@
+:root {
+  --brand: #60089c;
+  --brand-deep: #3d0566;
+  --brand-bright: #8f38d1;
+  --brand-wash: #f8f2fe;
+  --brand-edge: #e4d5f6;
+  --ink: #201c28;
+  --muted: #67626f;
+  --rule: #e9e3f2;
+  --court: #d97706;
+  --court-wash: #fdf4e7;
+}
+
+body {
+  color: var(--ink);
+  background: #ffffff;
+  background-image: linear-gradient(180deg, var(--brand-wash) 0%, #ffffff 320px);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.68;
+}
+
+a { color: var(--brand); }
+a:hover, a:focus { color: var(--brand-deep); }
+
+.breadcrumb { font-size: .875rem; }
+.breadcrumb a { color: var(--brand); }
+.breadcrumb-item.active { color: var(--muted); }
+
+h1, h2, h3, h4 { color: var(--ink); }
+.lead { color: var(--muted); max-width: 64ch; }
+
+/* ---------- section labels ---------- */
+.section-kicker {
+  color: var(--brand-deep);
+  letter-spacing: .09em;
+  font-size: .75rem;
+  border-left: 3px solid var(--brand);
+  padding-left: .55rem;
+}
+
+label, .field-label { font-weight: 600; font-size: .95rem; }
+.form-text { color: var(--muted); font-size: .82rem; }
+
+/* ---------- form controls ---------- */
+.form-control {
+  border-color: var(--rule);
+  border-radius: .3rem;
+  color: var(--ink);
+  font-size: 1.05rem;
+  background-color: #fff;
+}
+.form-control:focus {
+  border-color: var(--brand-bright);
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .14);
+}
+select.form-control { height: auto; }
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  border-color: var(--brand);
+  background-color: var(--brand);
+}
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .16);
+}
+.custom-control-label { font-size: .95rem; }
+
+/* ---------- chips ---------- */
+.chip-row { display: flex; flex-wrap: wrap; gap: .5rem; }
+.chip-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+.chip {
+  display: inline-block;
+  margin: 0;
+  padding: .42rem 1rem;
+  border: 1px solid var(--brand-edge);
+  border-radius: 999px;
+  background: #fff;
+  color: var(--brand-deep);
+  font-weight: 600;
+  font-size: .92rem;
+  cursor: pointer;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+.chip:hover { border-color: var(--brand-bright); }
+.chip-input:checked + .chip {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+.chip-input:focus + .chip {
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .2);
+}
+
+/* ---------- buttons ---------- */
+.btn-brand {
+  background: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  font-weight: 600;
+  padding: .55rem 1.35rem;
+}
+.btn-brand:hover, .btn-brand:focus {
+  background: var(--brand-deep);
+  border-color: var(--brand-deep);
+  color: #fff;
+}
+.btn-outline-brand {
+  color: var(--brand);
+  border-color: var(--brand-edge);
+  font-weight: 600;
+}
+.btn-outline-brand:hover, .btn-outline-brand:focus {
+  background: var(--brand-wash);
+  color: var(--brand-deep);
+  border-color: var(--brand);
+}
+.btn-outline-brand:disabled { opacity: .5; }
+
+/* ---------- stat tiles ---------- */
+.stat-tile {
+  display: flex;
+  flex-direction: column;
+  padding: .75rem .85rem;
+  border: 1px solid var(--rule);
+  border-radius: .4rem;
+  background: #fff;
+}
+.stat-label {
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: .68rem;
+  color: var(--muted);
+  font-weight: 700;
+}
+.stat-value {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--brand-deep);
+  line-height: 1.25;
+}
+.stat-value-sm { font-size: 1.15rem; }
+.stat-note { font-size: .72rem; color: var(--muted); }
+
+/* ---------- team result cards ---------- */
+.team-stack { display: flex; flex-direction: column; gap: .85rem; }
+
+.team-card {
+  border: 1px solid var(--rule);
+  border-left: 5px solid var(--brand);
+  border-radius: .5rem;
+  background: #fff;
+  padding: 1rem 1.1rem;
+  box-shadow: 0 1px 2px rgba(32, 28, 40, .04);
+  animation: rise .28s ease both;
+}
+.team-card .team-top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: .5rem;
+}
+.team-card .team-city {
+  font-size: .82rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--muted);
+  font-weight: 700;
+}
+.team-card .team-name {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin: .1rem 0 .35rem;
+}
+.team-card .team-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  margin-bottom: .55rem;
+}
+.pill {
+  display: inline-block;
+  padding: .16rem .6rem;
+  border-radius: 999px;
+  font-size: .76rem;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+.pill-conf-east { background: var(--brand-wash); color: var(--brand-deep); border: 1px solid var(--brand-edge); }
+.pill-conf-west { background: var(--court-wash); color: #92500a; border: 1px solid #f0d9b0; }
+.pill-div { background: #f1eef6; color: #4a4457; border: 1px solid #e2dcee; }
+.pill-ring {
+  background: var(--brand);
+  color: #fff;
+  border: 1px solid var(--brand);
+}
+.team-card .team-arena {
+  font-size: .9rem;
+  color: var(--muted);
+  margin: 0;
+}
+.team-card .team-arena strong { color: var(--ink); }
+
+.team-card .ring-note {
+  font-size: .82rem;
+  color: var(--court);
+  font-weight: 600;
+  margin: .35rem 0 0;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- article ---------- */
+.article { max-width: 78ch; }
+.article h2 { font-size: 1.35rem; margin-top: 1.9rem; }
+.article h2:first-child { margin-top: 0; }
+.article p, .article li { color: #35313d; }
+.article ul { padding-left: 1.15rem; }
+.article li { margin-bottom: .4rem; }
+
+.bio-block { background: var(--brand-wash); border: 1px solid var(--brand-edge); }
+.bio-block p { color: var(--ink); }
+
+#titleChart {
+  width: 100%;
+  height: auto;
+  border: 1px solid var(--rule);
+  border-radius: .4rem;
+  background: #fff;
+}
+
+@media (max-width: 575.98px) {
+  .team-card .team-name { font-size: 1.2rem; }
+  .stat-value { font-size: 1.3rem; }
+}
