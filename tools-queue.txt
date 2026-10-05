@@ -32,7 +32,7 @@
 [done] Markdown to HTML Converter
 [done] Twitter Post Character Counter
 [done] random nba team generator
-grade calculator | refer this website https://easygradecalculator.com
+[done] grade calculator | refer this website https://easygradecalculator.com
 random nfl team generator
 Phonetic Spelling Generator
 random nfl player generator
