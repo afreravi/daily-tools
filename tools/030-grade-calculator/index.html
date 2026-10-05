@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Grade Calculator &mdash; Weighted Average &amp; Final Exam Score Needed</title>
+<meta name="description" content="Free grade calculator: turn assignment scores and weights into a weighted average, see your letter grade, and work out the final exam score you still need.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/education">Education</a></li>
+<li class="breadcrumb-item active" aria-current="page">Grade Calculator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Grade Calculator</h1>
+<p class="lead mb-0">Add each assignment, quiz or exam with its score and its weight, and the tool works out your weighted average, your letter grade, and how much each piece is really pulling your mark up or down. A second panel answers the question every student asks late in term: what score do I need on the final to reach the grade I want?</p>
+</header>
+
+<div class="card shadow-sm border-0 mb-4" id="toolCard">
+<div class="card-body p-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Your coursework</h2>
+
+<div class="table-responsive mb-2">
+<table class="table table-sm grade-table mb-0">
+<thead>
+<tr>
+<th scope="col" class="w-name">Assignment</th>
+<th scope="col" class="w-score">Score (%)</th>
+<th scope="col" class="w-weight">Weight (%)</th>
+<th scope="col" class="w-del"><span class="sr-only">Remove</span></th>
+</tr>
+</thead>
+<tbody id="gradeRows"></tbody>
+</table>
+</div>
+
+<div class="d-flex flex-wrap align-items-center mb-3">
+<button type="button" class="btn btn-outline-brand btn-sm mr-2 mb-2" id="addRowBtn">+ Add row</button>
+<span class="small text-muted mb-2" id="weightTotal">Total weight: 0%</span>
+</div>
+
+<div class="d-flex flex-wrap align-items-center mb-2">
+<button type="button" class="btn btn-brand mr-2 mb-2" id="calcBtn">Calculate grade</button>
+<button type="button" class="btn btn-outline-brand mr-2 mb-2" id="resetBtn">Reset</button>
+<button type="button" class="btn btn-outline-brand mr-2 mb-2" id="scaleBtn" data-toggle="collapse" data-target="#scalePanel" aria-expanded="false" aria-controls="scalePanel">Grade scale</button>
+</div>
+
+<p class="alert alert-danger py-2 px-3 mb-3 d-none" id="errorBox" role="alert"></p>
+
+<div class="collapse mb-3" id="scalePanel">
+<div class="scale-panel p-3 rounded">
+<h3 class="h6 font-weight-bold mb-2">Letter grade scale</h3>
+<p class="small text-muted mb-2">Adjust the cut-offs if your school uses a different scale. The calculator applies them to your weighted average.</p>
+<div class="row" id="scaleInputs"></div>
+</div>
+</div>
+
+<div id="resultPanel" class="d-none" aria-live="polite">
+<div class="row">
+<div class="col-12 col-md-5 mb-3">
+<div class="stat-tile h-100">
+<span class="stat-label">Weighted average</span>
+<span class="stat-value" id="statAverage">&mdash;</span>
+<span class="stat-note" id="statAverageNote">based on the rows above</span>
+</div>
+</div>
+<div class="col-12 col-md-7 mb-3">
+<div class="stat-tile h-100">
+<span class="stat-label">Letter grade</span>
+<span class="stat-value stat-value-sm" id="statLetter">&mdash;</span>
+<span class="stat-note" id="statLetterNote">&mdash;</span>
+</div>
+</div>
+</div>
+
+<div class="progress grade-progress mb-2" aria-hidden="true">
+<div class="progress-bar" id="gradeBar" role="progressbar" style="width:0%"></div>
+</div>
+<p class="small text-muted mb-4" id="barNote">Each marker shows a letter-grade cut-off.</p>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mt-2">What each component contributes</h2>
+<canvas id="gradeChart" width="860" height="280" role="img" aria-label="Bar chart showing the weighted points each assignment contributes to the final grade"></canvas>
+<p class="small text-muted mt-2 mb-4" id="chartCaption">Run the calculation and the bars appear here.</p>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker">Component breakdown</h2>
+<div class="table-responsive mb-3">
+<table class="table table-sm table-striped mb-0" id="breakdownTable">
+<thead>
+<tr><th scope="col">Assignment</th><th scope="col">Score</th><th scope="col">Weight</th><th scope="col">Weighted points</th><th scope="col">Share of grade</th></tr>
+</thead>
+<tbody id="breakdownBody">
+<tr><td colspan="5" class="text-muted">Run the calculation to fill this table.</td></tr>
+</tbody>
+</table>
+</div>
+<p class="small text-muted mb-0">Everything runs in your browser. Nothing you type is uploaded or stored.</p>
+</div>
+</div>
+
+<div class="card shadow-sm border-0 mb-5" id="finalCard">
+<div class="card-body p-4">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Final exam planner &mdash; what do I need?</h2>
+<p class="text-muted mb-3">Enter your current grade, the weight of the final exam, and the grade you are aiming for. The tool returns the score you need on the final, or tells you plainly when the target is out of reach.</p>
+<div class="row">
+<div class="col-12 col-md-3 mb-3">
+<div class="form-group mb-0">
+<label for="currentGrade">Current grade</label>
+<div class="input-group">
+<input type="number" class="form-control" id="currentGrade" value="82" min="0" max="150" step="any" inputmode="decimal" aria-describedby="currentHelp">
+<div class="input-group-append"><span class="input-group-text">%</span></div>
+</div>
+<small id="currentHelp" class="form-text">Your grade so far, before the final.</small>
+</div>
+</div>
+<div class="col-12 col-md-3 mb-3">
+<div class="form-group mb-0">
+<label for="finalWeight">Final exam weight</label>
+<div class="input-group">
+<input type="number" class="form-control" id="finalWeight" value="20" min="1" max="100" step="any" inputmode="decimal" aria-describedby="fwHelp">
+<div class="input-group-append"><span class="input-group-text">%</span></div>
+</div>
+<small id="fwHelp" class="form-text">How much the final counts.</small>
+</div>
+</div>
+<div class="col-12 col-md-3 mb-3">
+<div class="form-group mb-0">
+<label for="targetGrade">Target grade</label>
+<div class="input-group">
+<input type="number" class="form-control" id="targetGrade" value="90" min="0" max="150" step="any" inputmode="decimal" aria-describedby="tgHelp">
+<div class="input-group-append"><span class="input-group-text">%</span></div>
+</div>
+<small id="tgHelp" class="form-text">The average you want to finish with.</small>
+</div>
+</div>
+<div class="col-12 col-md-3 mb-3 d-flex align-items-start">
+<button type="button" class="btn btn-brand mr-2 mt-2" id="finalBtn">Find the score</button>
+</div>
+</div>
+
+<p class="alert alert-danger py-2 px-3 mb-3 d-none" id="finalErrorBox" role="alert"></p>
+
+<div id="finalPanel" class="d-none" aria-live="polite">
+<div class="row">
+<div class="col-12 col-md-6 mb-3">
+<div class="stat-tile h-100">
+<span class="stat-label">Score needed on the final</span>
+<span class="stat-value" id="statNeeded">&mdash;</span>
+<span class="stat-note" id="statNeededNote">&mdash;</span>
+</div>
+</div>
+<div class="col-12 col-md-6 mb-3">
+<div class="stat-tile h-100">
+<span class="stat-label">Best and worst possible</span>
+<span class="stat-value stat-value-sm" id="statRange">&mdash;</span>
+<span class="stat-note" id="statRangeNote">&mdash;</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<article class="article">
+<h2 id="what">What a weighted grade actually is</h2>
+<p>A weighted grade is not the average of your scores. It is the average of your scores after each one has been scaled by how much it counts. A final exam worth 30 percent can move your grade far more than a quiz worth 5 percent, even if you scored the same on both. The weighted average multiplies each score by its weight, adds the products together, and divides by the total weight. When the weights add up to 100 percent, the division is a formality and the weighted points simply add to your final mark. When they do not &mdash; because you have not listed every item yet &mdash; dividing by the running total keeps the estimate honest, and this calculator does that for you.</p>
+<p>Students often confuse the two ideas and it costs them. If your homework average is 95 and your exam average is 70, the unweighted mean of those two numbers is 82.5, which sounds reassuring. If homework counts for 20 percent and exams for 80 percent, the real grade is closer to 75. Knowing which items carry the most weight tells you where an extra hour of study buys the most points.</p>
+
+<h2 id="how">How this grade calculator works</h2>
+<p>Each row holds three things: a name, a score as a percentage, and a weight as a percentage. The calculator follows four steps.</p>
+<p><strong>Multiply.</strong> For every row, score times weight gives the weighted points that item contributes. A 90 scored on a 25 percent assignment contributes 22.5 points toward a 100-point grade.</p>
+<p><strong>Sum.</strong> The weighted points are added together, and the weights are added separately.</p>
+<p><strong>Divide.</strong> Weighted points divided by total weight gives the weighted average as a percentage. If your weights already total 100, this is your grade out of 100.</p>
+<p><strong>Translate.</strong> The percentage is matched against a letter scale. The default uses the common cut-offs of 90 for an A, 80 for a B, 70 for a C, 60 for a D, with plus and minus bands in between, and you can edit every cut-off in the grade scale panel to match your school.</p>
+<p>The bar chart shows each component's weighted points side by side, so you can see at a glance whether a weak quiz or a strong project is doing the heavy lifting. The breakdown table repeats the same figures with each item's share of the total, which is useful when you want to explain the number to a parent or a teacher.</p>
+
+<h2 id="final">Working backwards from a target grade</h2>
+<p>The second panel runs the weighted average in reverse. You give it your current grade, the weight of the final exam, and the average you want to finish with. The score you need is the target minus the part of the grade you have already banked, all divided by the final's weight. In symbols, needed equals target minus current times one minus the final weight, divided by the final weight, with the weights written as decimals.</p>
+<p>The result is honest about the limits. If the arithmetic asks for more than 100 percent, the target cannot be reached by the final alone, and the tool says so instead of printing a fictional number. If it asks for a negative score, the target is already locked in no matter what happens on the final. The panel also shows the best and worst grades still possible, which is often the most calming figure a worried student can see.</p>
+
+<h2 id="uses">Where people use a grade calculator</h2>
+<p>High school and university students use it to track a running average through a term, then to decide whether a course is still salvageable. Teachers use the same maths when they build a syllabus, checking that the weights add to 100 and that no single item quietly dominates the grade. Parents use it during a report-card conversation to see which subject needs attention first. Scholarship and admissions applicants use it to estimate a term GPA before official transcripts arrive.</p>
+<p>It is also a planning tool. If you can see that a midterm worth 30 percent is dragging you down, you know exactly how many points the final has to recover, and whether that is realistic. That beats guessing.</p>
+
+<h2 id="tips">Pro tips for getting the most from it</h2>
+<ul>
+<li><strong>Enter weights that total 100.</strong> The calculator divides by whatever total you give it, so a partial list still produces a valid running average &mdash; but a complete list gives you the grade you will actually receive.</li>
+<li><strong>Watch the share column.</strong> The item with the largest share of the grade is the one worth the most study time, and it is not always the one with the lowest score.</li>
+<li><strong>Match the scale to your school.</strong> A 92.5 is an A&minus; on many scales and an A on others. Set your own cut-offs once and the letter grade will be right.</li>
+<li><strong>Use the final planner early.</strong> The sooner you know the score you need, the more room you have to change the outcome.</li>
+<li><strong>Keep extra credit separate.</strong> If a bonus item pushes your total above 100 percent, enter it as its own row so the weighting stays clear.</li>
+</ul>
+
+<h2 id="faq">Common mistakes and FAQ</h2>
+<h3 class="h6 font-weight-bold">How do I calculate my weighted grade?</h3>
+<p>Multiply each score by its weight as a decimal, add the results, then divide by the sum of the weights. If the weights already add to 100 percent, the sum of the weighted scores is your grade and no division is needed. This calculator performs the full calculation automatically as you fill in the rows.</p>
+<h3 class="h6 font-weight-bold">What is the difference between a weighted and an unweighted grade?</h3>
+<p>An unweighted grade treats every item as equally important and is simply the mean of the scores. A weighted grade scales each score by its importance, so a major exam counts more than a short quiz. Most courses report a weighted grade, which is why a strong homework record cannot always rescue a weak exam average.</p>
+<h3 class="h6 font-weight-bold">What score do I need on the final exam?</h3>
+<p>Subtract the part of the grade already earned from your target, then divide by the final's weight. For example, a current grade of 82 with a final worth 20 percent and a target of 90 needs 90 minus 82 times 0.8, all divided by 0.2, which is 122 percent &mdash; impossible, and the tool will tell you so. Lower the target or raise the current grade and the required score falls.</p>
+<h3 class="h6 font-weight-bold">Can my grade go above 100 percent?</h3>
+<p>Yes, if extra credit is available or a bonus is added on top. Enter bonus points as a separate row with the weight your teacher assigns. The calculator will show a weighted average above 100 and will still map it to the highest letter on your scale.</p>
+<h3 class="h6 font-weight-bold">Why does the tool divide by the total weight instead of 100?</h3>
+<p>So a partial list still gives a usable number. If you have only entered items worth 60 percent of the course so far, dividing by 60 tells you your average across the work completed, which is exactly what you want for a running estimate. Once all weights are in, the total is 100 and the two approaches agree.</p>
+<h3 class="h6 font-weight-bold">Is this grade calculator accurate for GPA?</h3>
+<p>The weighted average it produces is the percentage you would convert to a GPA using your school's own scale. GPA conversion varies widely between institutions, so use the percentage output alongside your official grade-point table rather than assuming a fixed mapping.</p>
+
+<h2 id="disclaimer">Disclaimer</h2>
+<p class="small">This grade calculator is an educational tool. It estimates a weighted average from the numbers you enter and does not represent an official grade from any school, college or university. Always confirm your standing with your teacher or registrar, and treat the results as a planning aid rather than a record. Rounding, dropped scores, curving and school-specific rules can change a final grade.</p>
+
+<section aria-labelledby="authorBio" class="mt-4">
+<h3 id="authorBio" class="h5 font-weight-bold">About the author</h3>
+<div class="media p-3 bio-block rounded">
+<div class="media-body">
+<p class="mb-1"><strong>Afree Tools Team</strong> &mdash; we publish free, no-signup calculators for everyday school, money and maths decisions. The weighted-average method used here is the standard sum of score times weight divided by total weight, and the final-exam formula is the algebraic rearrangement of that same equation solved for the unknown score.</p>
+</div>
+</div>
+<p class="small text-muted mt-3">Last updated: October 5, 2026</p>
+</section>
+</article>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
