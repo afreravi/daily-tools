@@ -55,3 +55,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 027 | markdown-to-html-converter | Converts Markdown to clean, sanitised HTML with live output, rendered preview, element-mix chart and copy/download |
 | 028 | twitter-post-character-counter | Live character, word and hashtag counts against the 280-character X (Twitter) limit, with URL weighting, preview cut-off, budget chart and thread split |
 | 029 | random-nba-team-generator | Draws random NBA teams with conference/division filters, no-repeats mode, arena and title facts, and a championship chart |
+| 030 | grade-calculator | Weighted grade from assignment scores and weights, with editable letter scale, contribution chart, and a final exam score planner |
