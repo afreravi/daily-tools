@@ -33,7 +33,7 @@
 [done] Twitter Post Character Counter
 [done] random nba team generator
 [done] grade calculator | refer this website https://easygradecalculator.com
-random nfl team generator
+[done] random nfl team generator
 Phonetic Spelling Generator
 random nfl player generator
 facebook ad cost calculator​
