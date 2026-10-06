@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Random NFL Team Generator &mdash; Pick a Random Football Team</title>
+<meta name="description" content="Use this random NFL team generator to pick a random football team in one click. Filter by conference, division or Super Bowl wins and draw instantly.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/generators">Generators</a></li>
+<li class="breadcrumb-item active" aria-current="page">Random NFL Team Generator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Random NFL Team Generator</h1>
+<p class="lead mb-0">Need a football team picked for you? Hit draw for a random NFL team, or narrow the pool to a conference, a division or a stack of Super Bowl wins &mdash; then spin a fresh random football team instantly.</p>
+</header>
+
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4">
+<div class="row">
+<div class="col-12 col-lg-5 mb-4 mb-lg-0">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. Set the pool</h2>
+<fieldset>
+<legend class="sr-only">Which teams can be drawn</legend>
+<div class="chip-row mb-4" role="radiogroup" aria-label="Conference pool">
+<input class="chip-input" type="radio" name="pool" id="pool-all" value="all" checked>
+<label class="chip" for="pool-all">All 32</label>
+<input class="chip-input" type="radio" name="pool" id="pool-afc" value="AFC">
+<label class="chip" for="pool-afc">AFC</label>
+<input class="chip-input" type="radio" name="pool" id="pool-nfc" value="NFC">
+<label class="chip" for="pool-nfc">NFC</label>
+</div>
+</fieldset>
+
+<div class="form-group">
+<label for="division">Division filter <span class="text-muted font-weight-normal">(optional)</span></label>
+<select class="form-control" id="division">
+<option value="all">Any division</option>
+<option value="AFC East">AFC East</option>
+<option value="AFC North">AFC North</option>
+<option value="AFC South">AFC South</option>
+<option value="AFC West">AFC West</option>
+<option value="NFC East">NFC East</option>
+<option value="NFC North">NFC North</option>
+<option value="NFC South">NFC South</option>
+<option value="NFC West">NFC West</option>
+</select>
+<small class="form-text">A division overrides the conference choice above.</small>
+</div>
+
+<div class="form-group">
+<label for="titles">Super Bowl wins <span class="text-muted font-weight-normal">(minimum)</span></label>
+<select class="form-control" id="titles">
+<option value="0">Any team</option>
+<option value="1">At least 1 title</option>
+<option value="2">At least 2 titles</option>
+<option value="3">At least 3 titles</option>
+<option value="4">At least 4 titles</option>
+</select>
+<small class="form-text">Filter the pool to teams with championship pedigree.</small>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">2. Draw your teams</h2>
+<div class="form-group">
+<label for="count">How many draws?</label>
+<input type="number" class="form-control" id="count" value="1" min="1" max="32" step="1" inputmode="numeric" aria-describedby="countHelp">
+<small id="countHelp" class="form-text">1 to 32 teams. Turn on no repeats for a draft-style draw.</small>
+</div>
+
+<div class="custom-control custom-checkbox mb-2">
+<input type="checkbox" class="custom-control-input" id="optRepeat" checked>
+<label class="custom-control-label" for="optRepeat">No repeats <span class="text-muted">&mdash; every team drawn once</span></label>
+</div>
+<div class="custom-control custom-checkbox mb-4">
+<input type="checkbox" class="custom-control-input" id="optSound">
+<label class="custom-control-label" for="optSound">Sound on draw <span class="text-muted">&mdash; a short whistle</span></label>
+</div>
+
+<div class="d-flex flex-wrap">
+<button type="button" class="btn btn-brand mr-2 mb-2" id="drawBtn">Draw teams</button>
+<button type="button" class="btn btn-outline-brand mb-2" id="resetBtn">Reset</button>
+</div>
+
+<div id="errorBox" class="alert alert-danger mt-3 mb-0 d-none" role="alert" aria-live="assertive"></div>
+</div>
+
+<div class="col-12 col-lg-7">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Your draw</h2>
+<div class="row mb-3">
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Teams</span><span class="stat-value stat-value-sm" id="statCount">&mdash;</span><span class="stat-note">drawn</span></div></div>
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Pool</span><span class="stat-value stat-value-sm" id="statPool">&mdash;</span><span class="stat-note">eligible</span></div></div>
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">AFC / NFC</span><span class="stat-value stat-value-sm" id="statSplit">&mdash;</span><span class="stat-note">in draw</span></div></div>
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Most rings</span><span class="stat-value stat-value-sm" id="statTitle">&mdash;</span><span class="stat-note">in draw</span></div></div>
+</div>
+
+<div id="results" class="team-stack mb-3" aria-live="polite" aria-label="Drawn NFL teams">
+<p class="text-muted mb-0">Your team will appear here &mdash; press <strong>Draw teams</strong> to spin.</p>
+</div>
+
+<div class="d-flex flex-wrap align-items-center mb-4">
+<button type="button" class="btn btn-outline-brand btn-sm mr-2 mb-2" id="copyBtn" disabled>Copy draw</button>
+<button type="button" class="btn btn-outline-brand btn-sm mb-2" id="clearBtn" disabled>Clear</button>
+<span class="small text-muted ml-1 mb-2" id="historyNote">Draw history: 0</span>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker">Super Bowl wins by conference</h2>
+<canvas id="titleChart" width="820" height="240" role="img" aria-label="Bar chart of Super Bowl wins held by the teams currently in the draw pool"></canvas>
+<p class="small text-muted mt-2 mb-0" id="chartCaption">The chart updates with your pool &mdash; handy for seeing how much championship pedigree a conference, division or title filter carries.</p>
+</div>
+</div>
+
+<p class="small text-muted mt-4 mb-0">Everything runs in your browser. Nothing you type is uploaded or stored.</p>
+</div>
+</div>
+
+<article class="article">
+<h2 id="why">Why a random NFL team generator earns its place</h2>
+<p>Football is a sport of sides, and somebody always has to pick them. From fantasy drafts and Madden franchise modes to office pools, playground two-hand-touch and long-running group-chat debates, a random NFL team generator ends the argument before it starts. Instead of the loudest voice in the room grabbing the Chiefs, everyone watches the same draw and lives with the result. It is quick, it is transparent, and there is a genuine little thrill in hitting the button and seeing which city pops up.</p>
+<p>What makes a good picker more than a name-puller is the context wrapped around the result. This tool shows the conference, the division, the stadium and the Super Bowl count, so the team you land on feels like a real franchise rather than a random word. That context also makes the draw useful for reasons beyond fairness &mdash; previews, rebuild challenges, quizzes and sweepstakes all benefit from a well-labelled pick.</p>
+
+<h2 id="how">How this random football team picker works</h2>
+<p>The generator holds a list of all thirty-two current NFL franchises, each with its city, team name, conference, division, home stadium and number of Super Bowl wins. When you press <strong>Draw teams</strong>, it filters that list to your chosen pool and picks at random with no favouritism toward any market or brand.</p>
+<p><strong>Conference and division filters.</strong> Choose <em>All 32</em> for a league-wide draw, or lock the pool to the AFC or the NFC. The division selector overrides the conference chips, so picking the NFC East or AFC West gives you a tighter, more regional draw of four teams.</p>
+<p><strong>Super Bowl filter.</strong> Slide the minimum-titles selector to keep only teams with championship pedigree. Ask for at least four rings and you are drawing from the true dynasties; leave it on any team for a fully open spin.</p>
+<p><strong>No repeats.</strong> With this on, a multi-draw never returns the same team twice, which is ideal for assigning franchises to a group, running a snake draft or building a quiz with unique answers. Turn it off when you want an independent spin each time.</p>
+<p><strong>Draw history and copy.</strong> Every draw is logged in a short history panel so you can look back at what came up, and the whole result copies to your clipboard in one click for pasting into a group chat or spreadsheet.</p>
+<p><strong>Championship chart.</strong> The bar chart groups the Super Bowl wins of the teams in your current pool by conference, so a division or title-filtered draw doubles as a quick snapshot of football pedigree.</p>
+
+<h2 id="uses">When you will reach for it</h2>
+<ul>
+<li><strong>Fantasy and Madden leagues.</strong> Assign franchises fairly when a group kicks off a new season or a video-game rebuild.</li>
+<li><strong>Classroom and youth coaching.</strong> Split a gym class or practice squad into sides without anyone feeling singled out.</li>
+<li><strong>Office pools and sweepstakes.</strong> Draw a team per colleague for a playoff bracket or a friendly wager.</li>
+<li><strong>Content and streaming.</strong> Streamers and writers use a random team as the prompt for a rebuild challenge, a preview or a hot-take debate.</li>
+<li><strong>Trivia and games.</strong> Pull a random franchise as a category for a quiz night or a football-themed board game.</li>
+<li><strong>Breaking a tie.</strong> When two friends cannot agree, let the generator settle it &mdash; the draw does not play favourites.</li>
+</ul>
+
+<h2 id="tips">Pro tips for a better draw</h2>
+<ul>
+<li><strong>Agree the pool first.</strong> Settle on the conference or division before you spin so nobody can claim the draw was rigged.</li>
+<li><strong>Use no repeats for groups.</strong> If you are handing teams to people, keep the checkbox on so each person gets a different franchise.</li>
+<li><strong>Draw more than you need.</strong> Pulling five or six options gives you room to trade or veto before the season starts.</li>
+<li><strong>Copy the history early.</strong> Refreshing the page clears the on-screen history, so grab the result while it is there.</li>
+<li><strong>Weigh the context, not just the badge.</strong> A team with a deep title history is not always the easiest rebuild; check the division and stadium for a fuller picture.</li>
+</ul>
+
+<h2 id="faq">Common mistakes and FAQ</h2>
+<h3 class="h6 font-weight-bold">How many teams are in the NFL?</h3>
+<p>There are 32 franchises, split evenly into two conferences of 16. Each conference is made up of four divisions of four teams, which is why a division draw here always returns a pool of four.</p>
+<h3 class="h6 font-weight-bold">Is this generator truly random?</h3>
+<p>Yes. Each press picks at random from the filtered pool using the browser's random number generator, so the same result rarely repeats in back-to-back spins. No-repeats mode narrows the pool as you draw, but the choice inside it stays random.</p>
+<h3 class="h6 font-weight-bold">Can I pick a random team from just one conference?</h3>
+<p>Absolutely. Choose the AFC or NFC chip for a conference draw, or select a division to go even tighter. The stat tiles update to show how many teams are eligible.</p>
+<h3 class="h6 font-weight-bold">Which team has the most Super Bowl wins?</h3>
+<p>The chart above ranks your pool by title count, so if you want pedigree, draw with the title filter set high. The Steelers and Patriots lead the all-time list, but a smaller-market team often makes the more interesting rebuild challenge.</p>
+<h3 class="h6 font-weight-bold">Do the team names and stadiums stay up to date?</h3>
+<p>The list reflects the current 32-franchise league, including recent moves such as the Rams and Chargers in Los Angeles and the Raiders in Las Vegas. Relocations and rebrands are rare, but the data can be refreshed in a single list.</p>
+
+<h2 id="disclaimer">Disclaimer</h2>
+<p class="small">This random NFL team generator is an independent, fan-made tool for entertainment and fair team selection. It is not affiliated with, endorsed by, or connected to the National Football League, its teams or its partners. Team names, city names and Super Bowl counts are provided for information and may change over time. Verify any league or commercial decision against official sources.</p>
+
+<section aria-labelledby="authorBio" class="mt-4">
+<h3 id="authorBio" class="h5 font-weight-bold">About the author</h3>
+<div class="media p-3 bio-block rounded">
+<div class="media-body">
+<p class="mb-1"><strong>Afree Tools Team</strong> &mdash; we build free, no-signup generators and calculators for everyday decisions. The franchise list behind this tool was compiled by hand and grouped by conference and division, and the draw logic was tested so that no-repeats mode always returns a full, unique set even when you draw all 32.</p>
+</div>
+</div>
+<p class="small text-muted mt-3">Last updated: October 6, 2026</p>
+</section>
+</article>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
