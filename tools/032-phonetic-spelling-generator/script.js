@@ -35,18 +35,25 @@
 
   function syllabify(word) {
     var w = word.toLowerCase();
-    if (w.length <= 3) return [w];
+    // A final silent "e" (cake, shire) is not its own vowel nucleus — pull it
+    // out before splitting, then reattach it to the last syllable.
+    var silentE = false;
+    if (/[^aeiouy]e$/.test(w) && w.length > 3) {
+      silentE = true;
+      w = w.slice(0, -1);
+    }
+    if (w.length <= 3) {
+      return [silentE ? w + 'e' : w];
+    }
     var groups = vowelGroups(w);
-    if (groups.length <= 1) return [w];
+    if (groups.length <= 1) return [silentE ? w + 'e' : w];
     var cuts = [];
     for (var g = 0; g < groups.length - 1; g++) {
       var endOfFirst = groups[g].end;
       var startOfNext = groups[g + 1].start;
       var consonants = startOfNext - endOfFirst - 1;
       var cut;
-      if (consonants <= 0) {
-        cut = endOfFirst + 1;
-      } else if (consonants === 1) {
+      if (consonants <= 1) {
         cut = endOfFirst + 1;
       } else if (consonants === 2) {
         cut = endOfFirst + 2;
@@ -62,6 +69,7 @@
       prev = cuts[c];
     }
     syllables.push(w.slice(prev));
+    if (silentE) syllables[syllables.length - 1] += 'e';
     // A final silent "e" on its own makes no syllable — merge it back.
     if (syllables.length > 1 && syllables[syllables.length - 1] === 'e') {
       syllables.pop();
