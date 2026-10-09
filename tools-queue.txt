@@ -35,7 +35,7 @@
 [done] grade calculator | refer this website https://easygradecalculator.com
 [done] random nfl team generator
 [done] Phonetic Spelling Generator
-random nfl player generator
+[done] random nfl player generator
 facebook ad cost calculator​
 artist name generator
 random nba player generator

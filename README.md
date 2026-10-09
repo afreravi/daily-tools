@@ -58,3 +58,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 030 | grade-calculator | Weighted grade from assignment scores and weights, with editable letter scale, contribution chart, and a final exam score planner |
 | 031 | random-nfl-team-generator | Draws random NFL teams with conference, division and Super Bowl filters, no-repeats mode and a conference title chart |
 | 032 | phonetic-spelling-generator | Turns any word or name into a sound-it-out respelling with syllable breaks, stress marks, a NATO alphabet spelling and a sounds-per-syllable chart |
+| 033 | random-nfl-player-generator | Draws random NFL players by position, team and career tier, with no-repeats mode, a legend count and a position-group chart |
