@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Random NFL Player Generator &mdash; Spin a Football Player</title>
+<meta name="description" content="Random NFL player generator that spins football legends, All-Pros and rising stars by position or team. Draw a random NFL player instantly, free and no sign-up.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/generators">Generators</a></li>
+<li class="breadcrumb-item active" aria-current="page">Random NFL Player Generator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Random NFL Player Generator</h1>
+<p class="lead mb-0">Let the generator call the next name off the board. Spin a random NFL player, filter the pool by position, team or career tier, and watch a fresh random football player land on your screen.</p>
+</header>
+
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4">
+<div class="row">
+<div class="col-12 col-lg-5 mb-4 mb-lg-0">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. Set the pool</h2>
+<fieldset>
+<legend class="sr-only">Which side of the ball to draw from</legend>
+<div class="chip-row mb-4" role="radiogroup" aria-label="Position group">
+<input class="chip-input" type="radio" name="group" id="group-all" value="all" checked>
+<label class="chip" for="group-all">All players</label>
+<input class="chip-input" type="radio" name="group" id="group-offense" value="Offense">
+<label class="chip" for="group-offense">Offense</label>
+<input class="chip-input" type="radio" name="group" id="group-defense" value="Defense">
+<label class="chip" for="group-defense">Defense</label>
+<input class="chip-input" type="radio" name="group" id="group-special" value="Special teams">
+<label class="chip" for="group-special">Special teams</label>
+</div>
+</fieldset>
+
+<div class="form-group">
+<label for="position">Position filter <span class="text-muted font-weight-normal">(optional)</span></label>
+<select class="form-control" id="position">
+<option value="all">Any position</option>
+<option value="QB">QB &mdash; Quarterback</option>
+<option value="RB">RB &mdash; Running Back</option>
+<option value="WR">WR &mdash; Wide Receiver</option>
+<option value="TE">TE &mdash; Tight End</option>
+<option value="OL">OL &mdash; Offensive Line</option>
+<option value="DL">DL &mdash; Defensive Line</option>
+<option value="LB">LB &mdash; Linebacker</option>
+<option value="DB">DB &mdash; Defensive Back</option>
+<option value="K">K &mdash; Kicker</option>
+<option value="P">P &mdash; Punter</option>
+</select>
+<small class="form-text">A single position overrides the position-group choice above.</small>
+</div>
+
+<div class="form-group">
+<label for="team">Team filter <span class="text-muted font-weight-normal">(optional)</span></label>
+<select class="form-control" id="team">
+<option value="all">Any team</option>
+</select>
+<small class="form-text">Uses each player's best-known or primary franchise.</small>
+</div>
+
+<div class="form-group">
+<label for="tier">Career tier <span class="text-muted font-weight-normal">(minimum)</span></label>
+<select class="form-control" id="tier">
+<option value="any">Any tier</option>
+<option value="All-Pro">At least All-Pro</option>
+<option value="Legend">Legends only</option>
+</select>
+<small class="form-text">Keep only players with an elite career resume.</small>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">2. Make your draw</h2>
+<div class="form-group">
+<label for="count">How many draws?</label>
+<input type="number" class="form-control" id="count" value="1" min="1" max="10" step="1" inputmode="numeric" aria-describedby="countHelp">
+<small id="countHelp" class="form-text">1 to 10 players. Turn on no repeats for roster-style draws.</small>
+</div>
+
+<div class="custom-control custom-checkbox mb-2">
+<input type="checkbox" class="custom-control-input" id="optRepeat" checked>
+<label class="custom-control-label" for="optRepeat">No repeats <span class="text-muted">&mdash; every player drawn once</span></label>
+</div>
+<div class="custom-control custom-checkbox mb-4">
+<input type="checkbox" class="custom-control-input" id="optSound">
+<label class="custom-control-label" for="optSound">Sound on draw <span class="text-muted">&mdash; a short whistle</span></label>
+</div>
+
+<div class="d-flex flex-wrap">
+<button type="button" class="btn btn-brand mr-2 mb-2" id="drawBtn">Draw players</button>
+<button type="button" class="btn btn-outline-brand mb-2" id="resetBtn">Reset</button>
+</div>
+
+<div id="errorBox" class="alert alert-danger mt-3 mb-0 d-none" role="alert" aria-live="assertive"></div>
+</div>
+
+<div class="col-12 col-lg-7">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Your draw</h2>
+<div class="row mb-3">
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Drawn</span><span class="stat-value stat-value-sm" id="statCount">&mdash;</span><span class="stat-note">players</span></div></div>
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Pool</span><span class="stat-value stat-value-sm" id="statPool">&mdash;</span><span class="stat-note">eligible</span></div></div>
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Positions</span><span class="stat-value stat-value-sm" id="statPos">&mdash;</span><span class="stat-note">in draw</span></div></div>
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Legends</span><span class="stat-value stat-value-sm" id="statLegend">&mdash;</span><span class="stat-note">in draw</span></div></div>
+</div>
+
+<div id="results" class="player-stack mb-3" aria-live="polite" aria-label="Drawn NFL players">
+<p class="text-muted mb-0">Your player will appear here &mdash; press <strong>Draw players</strong> to spin.</p>
+</div>
+
+<div class="d-flex flex-wrap align-items-center mb-4">
+<button type="button" class="btn btn-outline-brand btn-sm mr-2 mb-2" id="copyBtn" disabled>Copy draw</button>
+<button type="button" class="btn btn-outline-brand btn-sm mb-2" id="clearBtn" disabled>Clear</button>
+<span class="small text-muted ml-1 mb-2" id="historyNote">Draw history: 0</span>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker">Eligible pool by position group</h2>
+<canvas id="poolChart" width="820" height="240" role="img" aria-label="Bar chart of how many players in the current pool play offense, defense and special teams"></canvas>
+<p class="small text-muted mt-2 mb-0" id="chartCaption">The chart redraws with your filters &mdash; a quick way to see how deep each side of the ball runs in the pool you have chosen.</p>
+</div>
+</div>
+
+<p class="small text-muted mt-4 mb-0">Everything runs in your browser. Nothing you type is uploaded or stored.</p>
+</div>
+</div>
+
+<article class="article">
+<h2 id="why">Why a random NFL player generator is useful</h2>
+<p>Sometimes you do not need a whole team &mdash; you need one name. A random NFL player generator settles the small arguments that pop up all the time: who to build a fantasy roster around, which player to feature in a video, or who gets the last spot in a friendly debate. Instead of the same five superstars coming up again and again, the generator reaches across the whole league and hands you a name you might not have thought of. That surprise is the whole point.</p>
+<p>What separates a good picker from a boring one is the surrounding detail. This tool does not just print a name. Each draw shows the position, the primary team, the era the player starred in and a career tier, so the result feels like a real scouting note rather than a lucky dip. That context turns a party trick into something you can actually use for drafting, content planning, quizzes and teaching.</p>
+
+<h2 id="how">How this random football player picker works</h2>
+<p>Behind the page sits a hand-built list of well-known NFL players, each tagged with a position, a position group, a primary franchise, the years they played and a career tier. When you press <strong>Draw players</strong>, the tool filters that list to the pool you have chosen and selects at random with no weighting toward any team or position.</p>
+<p><strong>Position group.</strong> Choose all players for a wide-open draw, or restrict the pool to offense, defense or special teams. It is a fast way to force an offensive or defensive name.</p>
+<p><strong>Position filter.</strong> The dropdown narrows the list to a single spot on the field, from quarterback and running back to kicker and punter. It overrides the group buttons, so asking for a kicker always returns a specialist.</p>
+<p><strong>Team filter.</strong> Pick a franchise to draw only from players associated with it. This is handy when you want a name that fits a colour scheme, a city or a rivalry. Each player is tied to the team they are best known for, so a journeyman may appear once rather than everywhere he played.</p>
+<p><strong>Career tier.</strong> Ask for at least All-Pro to skip the journeymen, or legends only to keep the pool to the all-time greats. Combined with a position filter, this makes for a tight, high-quality draw.</p>
+<p><strong>No repeats.</strong> With this on, a multi-draw never returns the same player twice, which suits rosters, drafts and lists. Turn it off when you want an independent spin each press.</p>
+<p><strong>Pool chart.</strong> The bar chart groups the eligible players by position group, so a filtered pool doubles as a snapshot of how deep each side of the ball runs.</p>
+
+<h2 id="uses">When you will reach for it</h2>
+<ul>
+<li><strong>Fantasy football.</strong> Spin a random player as the anchor for a build, or use no-repeats mode to assign one name per manager.</li>
+<li><strong>Content and streaming.</strong> Creators use a random player as the prompt for a career retrospective, a skills challenge or a hot-take segment.</li>
+<li><strong>Classroom and coaching.</strong> Hand out a name to study, or sort a group into offences and defences without anyone feeling picked on.</li>
+<li><strong>Trivia nights.</strong> Pull a random player as a category, then let the room guess the team, the position or the era.</li>
+<li><strong>Games and wagers.</strong> Settle a bet on who wins a game, makes a list or gets bragging rights by drawing a name and letting it ride.</li>
+<li><strong>Writing prompts.</strong> Bloggers and students use a real player as the hook for an essay on legacy, statistics or the history of the game.</li>
+</ul>
+
+<h2 id="tips">Pro tips for a better draw</h2>
+<ul>
+<li><strong>Mix tiers deliberately.</strong> A draw of legends is great for debate, but a mixed pool of legends and rising stars makes a better conversation.</li>
+<li><strong>Use a group, then a position.</strong> Start broad with offense, then lock to a single position once you know the flavour you want.</li>
+<li><strong>Keep no repeats on for lists.</strong> For rosters, drafts and quizzes, uniqueness matters far more than an extra spin.</li>
+<li><strong>Copy the draw straight away.</strong> Refreshing the page clears the on-screen history, so grab the result while it is fresh.</li>
+<li><strong>Check the era.</strong> A legend from the sixties and a current star are not directly comparable, so read the years before you argue about who was better.</li>
+</ul>
+
+<h2 id="faq">Common mistakes and FAQ</h2>
+<h3 class="h6 font-weight-bold">Is this NFL player generator random?</h3>
+<p>Yes. Every press selects at random from the filtered pool using the browser's random number generator, so the same name rarely appears twice in a row. No-repeats mode shrinks the pool as you draw, but the choice inside it stays random.</p>
+<h3 class="h6 font-weight-bold">Can I draw a player from one position or one team?</h3>
+<p>Both. The position dropdown narrows the pool to a single spot on the field, and the team selector keeps only players tied to one franchise. The stat tiles update to show exactly how many players are eligible.</p>
+<h3 class="h6 font-weight-bold">What do the career tiers mean?</h3>
+<p>Tiers are a simple, plain-English guide. Legends are the all-time greats, All-Pro covers established stars and award winners, and rising stars are newer names on the way up. They are a filter for drawing well-known players, not a formal ranking, and reasonable fans will disagree at the edges.</p>
+<h3 class="h6 font-weight-bold">How many players are in the list?</h3>
+<p>The pool holds around one hundred well-known players spanning the modern era, chosen for name recognition rather than to be exhaustive. That keeps every draw interesting while staying manageable to maintain.</p>
+<h3 class="h6 font-weight-bold">Is the player list kept up to date?</h3>
+<p>The list is refreshed by hand and favours careers that are widely recognised, including recent stars. Rosters, team names and awards change over time, so treat the details as a guide and check official sources before quoting them.</p>
+
+<h2 id="disclaimer">Disclaimer</h2>
+<p class="small">This random NFL player generator is an independent, fan-made tool for entertainment, drafting and discussion. It is not affiliated with, endorsed by, or connected to the National Football League, the NFL Players Association, any team or any player. Names, positions, teams, eras and tiers are provided for information only and may change over time. Verify anything important against official sources.</p>
+
+<section aria-labelledby="authorBio" class="mt-4">
+<h3 id="authorBio" class="h5 font-weight-bold">About the author</h3>
+<div class="media p-3 bio-block rounded">
+<div class="media-body">
+<p class="mb-1"><strong>Afree Tools Team</strong> &mdash; we build free, no-signup generators and calculators for everyday decisions. The player list behind this tool was compiled by hand and tagged by position, team, era and tier, and the draw logic was tested so that no-repeats mode always returns a full, unique set even when the pool is small.</p>
+</div>
+</div>
+<p class="small text-muted mt-3">Last updated: October 9, 2026</p>
+</section>
+</article>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
