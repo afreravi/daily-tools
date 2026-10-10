@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Facebook Ad Cost Calculator &mdash; CPC, CPM, CTR &amp; CPA Budget Planner</title>
+<meta name="description" content="Facebook ad cost calculator: turn budget, impressions, clicks and conversions into CPM, CPC, CTR, CPA and ROAS, then see what budget your target CPA needs.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/marketing">Marketing</a></li>
+<li class="breadcrumb-item active" aria-current="page">Facebook Ad Cost Calculator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Facebook Ad Cost Calculator</h1>
+<p class="lead mb-0">Enter what you spent and what it bought &mdash; impressions, clicks, conversions &mdash; and this calculator returns the four numbers that decide whether a Meta campaign is worth scaling: CPM, CPC, CTR and cost per acquisition. It then shows the daily budget your target CPA would require.</p>
+</header>
+
+<div class="card shadow-sm border-0 mb-4" id="toolCard">
+<div class="card-body p-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Campaign inputs</h2>
+
+<form id="adForm" novalidate>
+<div class="row">
+<div class="col-12 col-md-6">
+<div class="form-group">
+<label for="spend">Ad spend (USD)</label>
+<div class="input-group">
+<div class="input-group-prepend"><span class="input-group-text">$</span></div>
+<input type="number" class="form-control" id="spend" min="0" step="0.01" value="1500" inputmode="decimal" aria-describedby="spendHelp">
+</div>
+<small class="form-text" id="spendHelp">Total amount spent on the campaign over the period you are measuring.</small>
+</div>
+</div>
+<div class="col-12 col-md-6">
+<div class="form-group">
+<label for="impressions">Impressions</label>
+<input type="number" class="form-control" id="impressions" min="0" step="1" value="250000" inputmode="numeric" aria-describedby="imprHelp">
+<small class="form-text" id="imprHelp">How many times your ad was shown. Find this in Ads Manager under Reach &amp; Frequency.</small>
+</div>
+</div>
+<div class="col-12 col-md-6">
+<div class="form-group">
+<label for="clicks">Clicks (link clicks)</label>
+<input type="number" class="form-control" id="clicks" min="0" step="1" value="3200" inputmode="numeric" aria-describedby="clicksHelp">
+<small class="form-text" id="clicksHelp">All clicks, or link clicks only if you want a cleaner cost-per-click figure.</small>
+</div>
+</div>
+<div class="col-12 col-md-6">
+<div class="form-group">
+<label for="conversions">Conversions</label>
+<input type="number" class="form-control" id="conversions" min="0" step="1" value="64" inputmode="numeric" aria-describedby="convHelp">
+<small class="form-text" id="convHelp">Purchases, leads or sign-ups attributed to the campaign.</small>
+</div>
+</div>
+<div class="col-12 col-md-4">
+<div class="form-group">
+<label for="revenue">Revenue from ads (optional)</label>
+<div class="input-group">
+<div class="input-group-prepend"><span class="input-group-text">$</span></div>
+<input type="number" class="form-control" id="revenue" min="0" step="0.01" value="4800" inputmode="decimal" aria-describedby="revHelp">
+</div>
+<small class="form-text" id="revHelp">Leave blank to skip return on ad spend.</small>
+</div>
+</div>
+<div class="col-12 col-md-4">
+<div class="form-group">
+<label for="days">Campaign length (days)</label>
+<input type="number" class="form-control" id="days" min="1" step="1" value="14" inputmode="numeric" aria-describedby="daysHelp">
+<small class="form-text" id="daysHelp">Used to work out the daily spend and the budget a target CPA would need.</small>
+</div>
+</div>
+<div class="col-12 col-md-4">
+<div class="form-group">
+<label for="targetCpa">Target CPA (optional)</label>
+<div class="input-group">
+<div class="input-group-prepend"><span class="input-group-text">$</span></div>
+<input type="number" class="form-control" id="targetCpa" min="0" step="0.01" value="25" inputmode="decimal" aria-describedby="targetHelp">
+</div>
+<small class="form-text" id="targetHelp">The most you are willing to pay for one conversion.</small>
+</div>
+</div>
+</div>
+
+<div class="d-flex flex-wrap align-items-center mb-2">
+<button type="button" class="btn btn-brand mr-2 mb-2" id="calcBtn">Calculate ad costs</button>
+<button type="button" class="btn btn-outline-brand mr-2 mb-2" id="resetBtn">Reset example</button>
+<button type="button" class="btn btn-outline-brand mr-2 mb-2" id="copyBtn">Copy summary</button>
+</div>
+
+<p class="alert alert-danger py-2 px-3 mb-3 d-none" id="errorBox" role="alert"></p>
+<p class="alert alert-success py-2 px-3 mb-3 d-none" id="copyMsg" role="status"></p>
+</form>
+
+<div id="resultPanel" class="d-none" aria-live="polite">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Results</h2>
+<div class="row">
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile h-100">
+<span class="stat-label">CPM</span>
+<span class="stat-value" id="statCpm">&mdash;</span>
+<span class="stat-note">cost per 1,000 impressions</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile h-100">
+<span class="stat-label">CPC</span>
+<span class="stat-value" id="statCpc">&mdash;</span>
+<span class="stat-note">cost per click</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile h-100">
+<span class="stat-label">CTR</span>
+<span class="stat-value" id="statCtr">&mdash;</span>
+<span class="stat-note">click-through rate</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile h-100">
+<span class="stat-label">CPA</span>
+<span class="stat-value" id="statCpa">&mdash;</span>
+<span class="stat-note">cost per acquisition</span>
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-12 col-md-4 mb-3">
+<div class="stat-tile stat-tile-alt h-100">
+<span class="stat-label">Conversion rate</span>
+<span class="stat-value stat-value-sm" id="statCvr">&mdash;</span>
+<span class="stat-note">clicks that converted</span>
+</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<div class="stat-tile stat-tile-alt h-100">
+<span class="stat-label">ROAS</span>
+<span class="stat-value stat-value-sm" id="statRoas">&mdash;</span>
+<span class="stat-note" id="statRoasNote">revenue per dollar spent</span>
+</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<div class="stat-tile stat-tile-alt h-100">
+<span class="stat-label">Daily spend</span>
+<span class="stat-value stat-value-sm" id="statDaily">&mdash;</span>
+<span class="stat-note" id="statDailyNote">average per day</span>
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-12 col-lg-7 mb-3">
+<div class="panel-box h-100">
+<h3 class="h6 font-weight-bold mb-3">Cost funnel &mdash; cost at each stage</h3>
+<canvas id="funnelChart" height="240" role="img" aria-label="Bar chart of cost per thousand impressions, cost per click, cost per conversion and cost per dollar of revenue"></canvas>
+<p class="chart-caption mb-0" id="funnelCaption">Lower bars mean cheaper stages of the funnel.</p>
+</div>
+</div>
+<div class="col-12 col-lg-5 mb-3">
+<div class="panel-box h-100">
+<h3 class="h6 font-weight-bold mb-3">Full breakdown</h3>
+<div class="table-responsive">
+<table class="table table-sm metric-table mb-0">
+<tbody id="breakdownBody"></tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<div class="panel-box mb-2" id="plannerBox">
+<h3 class="h6 font-weight-bold mb-2">Budget to hit your target CPA</h3>
+<p class="mb-2" id="plannerText">&mdash;</p>
+<div class="progress planner-progress mb-2">
+<div class="progress-bar" id="plannerBar" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<p class="small text-muted mb-0" id="plannerNote">&mdash;</p>
+</div>
+</div>
+</div>
+
+<section class="article mt-5">
+<h2 class="h4 font-weight-bold mb-3">What a Facebook ad actually costs, and why one number is never enough</h2>
+<p>Ask five advertisers what a Facebook ad costs and you will get five different answers, because "cost" means something different at every stage of the funnel. The amount you pay to show your ad is not the amount you pay for a click, which is not the amount you pay for a customer. A campaign can look cheap on one metric and expensive on another. The Facebook ad cost calculator above lines those numbers up side by side so you can see which stage is eating your budget.</p>
+<p>Meta reports these figures in Ads Manager, but the raw fields are scattered across columns and rarely sit next to the budget you set. Pulling them into one place makes the trade-offs obvious: you can see, for instance, that a low cost per click means nothing if almost nobody converts after the click.</p>
+
+<h2 class="h5 font-weight-bold mt-4 mb-2">How the calculator works</h2>
+<p>The tool takes five core inputs &mdash; spend, impressions, clicks, conversions and campaign length &mdash; and derives the rest. Impressions and spend give <strong>CPM</strong>, the cost per thousand views, which is really a measure of how competitive your audience is. Spend and clicks give <strong>CPC</strong>, the price of a visit. Clicks divided by impressions is <strong>CTR</strong>, the share of people who saw the ad and acted on it. Spend divided by conversions is <strong>CPA</strong>, the cost per acquisition, and this is the figure that ultimately decides whether a campaign is profitable. Add revenue and the tool returns <strong>ROAS</strong>, the return on ad spend.</p>
+<p>Every formula used here is the same one Meta applies in Ads Manager: CPM is spend divided by impressions, multiplied by 1,000; CPC is spend divided by clicks; CTR is clicks divided by impressions, as a percentage; and CPA is spend divided by conversions. The funnel chart below the results plots the cost at each stage on a common axis so the jump from a two-dollar click to a fifty-dollar customer is visible rather than abstract.</p>
+
+<h2 class="h5 font-weight-bold mt-4 mb-2">When to use it</h2>
+<p>Run these numbers in four situations. First, before you set a daily budget, to check that your target CPA is even reachable at your expected conversion rate. Second, after a week of testing, to compare two audiences or two creatives fairly rather than by gut feel. Third, when a campaign is scaling and your CPA starts to drift upward, so you can tell whether the problem is rising CPM or a falling conversion rate. Fourth, at the end of a month, to present performance to a client or a founder without hand-waving.</p>
+<p>Agencies use a version of this before pitching, to sanity-check whether a proposed budget can plausibly hit the results a client wants. E-commerce sellers use it to compare a broad prospecting campaign against a retargeting one, where CPM is usually higher but conversion rates are far better.</p>
+
+<h2 class="h5 font-weight-bold mt-4 mb-2">Pro tips for reading the results</h2>
+<p>Watch CPM and CPA together, never in isolation. A high CPM is fine if your audience converts strongly; a low CPM is a trap if the people it reaches never buy. Treat CTR as a creative signal rather than a targeting one: when CTR falls while CPM holds steady, your ad is getting stale and needs a new hook or image. Track the conversion rate from click to action &mdash; if it drops, the fault is usually the landing page, not the ad.</p>
+<p>Give a campaign enough conversions before judging it. Ad platforms need data to optimise, and a CPA based on three purchases is noise. Aim for at least fifty conversions per campaign before making a scaling decision, and always compare like-for-like date ranges. Remember that reported figures are attributed: a conversion Meta claims may have come from another channel, so cross-check against your own analytics or store data.</p>
+
+<h2 class="h5 font-weight-bold mt-4 mb-2">Common mistakes</h2>
+<p>The most common error is optimising for a metric that does not matter. Chasing a low CPC by switching to cheap placements can quietly destroy your conversion rate and raise the real cost per customer. A close second is forgetting the rest of the funnel: the ad is only one line in your unit economics, and a healthy CPA still needs to sit below your gross margin once you add the cost of goods, fulfilment and returns.</p>
+<p>Others mix up CPM and CPC when comparing reports, or compare a week of broad targeting against a week of retargeting as if they were the same test. Finally, many advertisers treat a rising cost as a failure, when it is often just competition or seasonal demand &mdash; the fix is a better offer, not always a bigger budget.</p>
+
+<h2 class="h5 font-weight-bold mt-4 mb-2">Frequently asked questions</h2>
+<p><strong>How much should a Facebook ad cost?</strong> There is no single figure. In many markets CPM runs between five and twenty dollars, CPC between fifty cents and three dollars, and CPA anywhere from ten to a hundred dollars depending on the product. What matters is that your CPA stays below the profit each customer brings.</p>
+<p><strong>What is a good CTR on Facebook?</strong> Around one percent is a reasonable benchmark for many campaigns, though top-performing creative often clears two percent. A CTR well under half a percent usually means the ad is being shown to the wrong people or the hook is weak.</p>
+<p><strong>Is a higher ROAS always better?</strong> Higher is better in principle, but a very high ROAS on a tiny budget may mean you are under-investing. Most businesses look for a break-even ROAS based on their margins and then scale while it holds.</p>
+<p><strong>Why does my CPA differ from Ads Manager?</strong> Attribution windows, currency conversion and the way Meta counts a "conversion" can all shift the number slightly. Small differences are normal; large ones usually mean a tracking or pixel problem.</p>
+
+<h2 class="h5 font-weight-bold mt-4 mb-2">About the author</h2>
+<p>This tool is maintained by the team behind A Free Tools, who build and test paid-media spreadsheets and calculators for small businesses and in-house marketing teams. The formulas here mirror Meta's own Ads Manager definitions so the numbers you get match the platform you are optimising. Figures are for planning only and are not a guarantee of performance.</p>
+
+<p class="small text-muted mt-4 mb-1">Last updated: <time datetime="2026-10-10">10 October 2026</time></p>
+</section>
+
+<section class="disclaimer mt-4 mb-2">
+<h2 class="h6 font-weight-bold mb-2">Disclaimer</h2>
+<p class="small mb-0">This calculator is provided for general informational and planning purposes only. Advertising costs, exchange rates and platform metrics change constantly, and results depend on your audience, creative and offer. Always confirm figures inside Meta Ads Manager before making budgeting decisions. This tool is not affiliated with, endorsed by or sponsored by Meta Platforms, Inc.</p>
+</section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
