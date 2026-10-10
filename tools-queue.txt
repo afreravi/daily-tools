@@ -36,7 +36,7 @@
 [done] random nfl team generator
 [done] Phonetic Spelling Generator
 [done] random nfl player generator
-facebook ad cost calculator​
+[done] facebook ad cost calculator
 artist name generator
 random nba player generator
 Ship Name Generator | Create Perfect Couple Names

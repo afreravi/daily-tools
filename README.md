@@ -59,3 +59,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 031 | random-nfl-team-generator | Draws random NFL teams with conference, division and Super Bowl filters, no-repeats mode and a conference title chart |
 | 032 | phonetic-spelling-generator | Turns any word or name into a sound-it-out respelling with syllable breaks, stress marks, a NATO alphabet spelling and a sounds-per-syllable chart |
 | 033 | random-nfl-player-generator | Draws random NFL players by position, team and career tier, with no-repeats mode, a legend count and a position-group chart |
+| 034 | facebook-ad-cost-calculator | CPM, CPC, CTR, CPA and ROAS from spend and results, with a target-CPA budget planner |
