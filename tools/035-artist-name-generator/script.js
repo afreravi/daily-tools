@@ -104,18 +104,21 @@
       function () { return "The " + cap(adj) + " " + cap(plural); },
       function () { return cap(adj) + " " + cap(noun); },
       function () { return cap(adj) + " " + cap(plural); },
-      function () { return cap(noun) + " " + cap(plural); },
       function () { return "The " + cap(plural); },
-      function () { return cap(noun) + " & the " + cap(plural); }
+      function () { return cap(noun) + " " + cap(pick(bank.noun)); },
+      function () { return cap(adj) + " & the " + cap(plural); }
     ];
     var soloShapes = [
       function () { return cap(noun); },
       function () { return cap(adj); },
       function () { return first + " " + last; },
-      function () { return first.charAt(0) + ". " + last; },
       function () { return cap(noun) + " " + last; },
       function () { return first; }
     ];
+    // A single initial reads oddly with a chosen word, so only add it then.
+    if (!custom) {
+      soloShapes.push(function () { return first.charAt(0) + ". " + last; });
+    }
 
     var useBand = kind === "band" ? true : kind === "solo" ? false : Math.random() < 0.5;
     var shapes = useBand ? bandShapes : soloShapes;
