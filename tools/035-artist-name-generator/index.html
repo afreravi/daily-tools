@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Artist Name Generator &mdash; Create Unique Band &amp; Stage Names</title>
+<meta name="description" content="Free artist name generator that creates unique band names, stage names and musician aliases. Pick a style, generate artist names instantly, no sign-up.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/generators">Generators</a></li>
+<li class="breadcrumb-item active" aria-current="page">Artist Name Generator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Artist Name Generator</h1>
+<p class="lead mb-0">Finding a name that sounds like you is half the battle. Pick a style, generate a batch of artist names, and keep the one that clicks &mdash; band names, solo stage names and musician aliases, all in one place.</p>
+</header>
+
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4">
+<div class="row">
+<div class="col-12 col-lg-5 mb-4 mb-lg-0">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. Choose a style</h2>
+<fieldset>
+<legend class="sr-only">Name style</legend>
+<div class="chip-row mb-4" role="radiogroup" aria-label="Name style">
+<input class="chip-input" type="radio" name="style" id="style-all" value="all" checked>
+<label class="chip" for="style-all">Surprise me</label>
+<input class="chip-input" type="radio" name="style" id="style-indie" value="Indie">
+<label class="chip" for="style-indie">Indie</label>
+<input class="chip-input" type="radio" name="style" id="style-rock" value="Rock">
+<label class="chip" for="style-rock">Rock</label>
+<input class="chip-input" type="radio" name="style" id="style-electronic" value="Electronic">
+<label class="chip" for="style-electronic">Electronic</label>
+<input class="chip-input" type="radio" name="style" id="style-pop" value="Pop">
+<label class="chip" for="style-pop">Pop</label>
+<input class="chip-input" type="radio" name="style" id="style-hiphop" value="Hip-Hop">
+<label class="chip" for="style-hiphop">Hip-Hop</label>
+<input class="chip-input" type="radio" name="style" id="style-jazz" value="Jazz">
+<label class="chip" for="style-jazz">Jazz</label>
+<input class="chip-input" type="radio" name="style" id="style-metal" value="Metal">
+<label class="chip" for="style-metal">Metal</label>
+</div>
+</fieldset>
+
+<div class="form-group">
+<label for="kind">Type of name</label>
+<select class="form-control" id="kind">
+<option value="both">Band or solo</option>
+<option value="band">Band names</option>
+<option value="solo">Solo stage names</option>
+</select>
+<small class="form-text">Bands lean on plural and collective shapes; solo names lean on initials, one-word mononyms and artist handles.</small>
+</div>
+
+<div class="form-group">
+<label for="keyword">Add your own word <span class="text-muted font-weight-normal">(optional)</span></label>
+<input type="text" class="form-control" id="keyword" placeholder="e.g. midnight, violet, echo" maxlength="24" autocomplete="off" aria-describedby="keywordHelp">
+<small id="keywordHelp" class="form-text">Weave a word you love into every generated name. Letters only, up to 24 characters.</small>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">2. Generate</h2>
+<div class="form-group">
+<label for="count">How many names?</label>
+<input type="number" class="form-control" id="count" value="8" min="1" max="20" step="1" inputmode="numeric" aria-describedby="countHelp">
+<small id="countHelp" class="form-text">1 to 20 names per batch. Turn on no repeats for a longer list.</small>
+</div>
+
+<div class="custom-control custom-checkbox mb-4">
+<input type="checkbox" class="custom-control-input" id="optRepeat" checked>
+<label class="custom-control-label" for="optRepeat">No repeats <span class="text-muted">&mdash; never show the same name twice</span></label>
+</div>
+
+<div class="d-flex flex-wrap">
+<button type="button" class="btn btn-brand mr-2 mb-2" id="drawBtn">Generate names</button>
+<button type="button" class="btn btn-outline-brand mb-2" id="resetBtn">Reset</button>
+</div>
+
+<div id="errorBox" class="alert alert-danger mt-3 mb-0 d-none" role="alert" aria-live="assertive"></div>
+</div>
+
+<div class="col-12 col-lg-7">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Your names</h2>
+<div class="row mb-3">
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Shown</span><span class="stat-value stat-value-sm" id="statCount">&mdash;</span><span class="stat-note">names</span></div></div>
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Style</span><span class="stat-value stat-value-sm" id="statStyle">&mdash;</span><span class="stat-note">pool</span></div></div>
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Avg length</span><span class="stat-value stat-value-sm" id="statAvg">&mdash;</span><span class="stat-note">characters</span></div></div>
+<div class="col-6 col-md-3 mb-3"><div class="stat-tile h-100"><span class="stat-label">Batches</span><span class="stat-value stat-value-sm" id="statRuns">&mdash;</span><span class="stat-note">this session</span></div></div>
+</div>
+
+<div id="results" class="name-stack mb-3" aria-live="polite" aria-label="Generated artist names">
+<p class="text-muted mb-0">Your names will appear here &mdash; press <strong>Generate names</strong> to start.</p>
+</div>
+
+<div class="d-flex flex-wrap align-items-center mb-4">
+<button type="button" class="btn btn-outline-brand btn-sm mr-2 mb-2" id="copyBtn" disabled>Copy list</button>
+<button type="button" class="btn btn-outline-brand btn-sm mb-2" id="clearBtn" disabled>Clear</button>
+<span class="small text-muted ml-1 mb-2" id="historyNote">Names generated: 0</span>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker">Name length by style</h2>
+<canvas id="styleChart" width="820" height="240" role="img" aria-label="Bar chart comparing the average length of generated names in the current batch against the longest and shortest"></canvas>
+<p class="small text-muted mt-2 mb-0" id="chartCaption">The chart compares each generated name's length so you can spot the short, punchy options and the longer, descriptive ones at a glance.</p>
+</div>
+</div>
+
+<p class="small text-muted mt-4 mb-0">Everything runs in your browser. Nothing you type is uploaded or stored.</p>
+</div>
+</div>
+
+<article class="article">
+<h2 id="why">Why an artist name generator helps you start</h2>
+<p>Naming yourself is one of the hardest parts of making music. You can write a dozen songs and still freeze when the release form asks for an artist name. The pressure is real: the name sits on every cover, every streaming profile, every poster and every search result. A good artist name generator removes that pressure by handing you a pile of finished options to react to. It is far easier to point at something and say "that one, but shorter" than to invent a name from nothing.</p>
+<p>This tool is built for that first spark. It blends word fragments, real words, invented spellings and the shapes that musicians actually use &mdash; plural nouns for bands, single-word mononyms for solo acts, initials and handles for producers. You choose a style, decide whether you are naming a band or a solo artist, and the generator produces a batch you can scroll through in seconds.</p>
+
+<h2 id="how">How this artist name generator works</h2>
+<p>Behind the page sits a set of word banks grouped by musical style. When you press <strong>Generate names</strong>, the tool draws pieces from the relevant banks and assembles them into name shapes, then filters out anything that does not read cleanly.</p>
+<p><strong>Style.</strong> Choose a genre to steer the vocabulary. Indie names lean on soft, natural and abstract words, while electronic names favour sleek, futuristic and technical sounds. Rock pulls toward bold and physical words, hip-hop toward confident and slick ones, jazz toward warm and classic, and metal toward dark and heavy. Leave it on Surprise me to mix everything.</p>
+<p><strong>Band or solo.</strong> Band names favour the collective shapes &mdash; <em>The</em> plus a plural noun, a noun joined to a noun, or a phrase that sounds like a group. Solo names favour one strong word, an initial-led handle, or a first-name-meets-instrument construction.</p>
+<p><strong>Your own word.</strong> Type a word you love and the generator weaves it into every result. This is the fastest way to get names that feel personal, and it is a neat trick for matching a name to a lyrical theme or a visual identity.</p>
+<p><strong>No repeats.</strong> With this on, the tool tracks what it has already produced and will not show the same name twice, so a long session keeps giving you fresh options. Turn it off for a quick independent spin each time.</p>
+<p><strong>Length chart.</strong> The bar chart ranks your batch by character count, which helps you compare short, easy-to-type names against longer, more descriptive ones.</p>
+
+<h2 id="uses">When you will reach for it</h2>
+<ul>
+<li><strong>New projects.</strong> Starting a band, a solo project or a producer alias? Generate a batch before you commit and see which names survive a second read.</li>
+<li><strong>Release planning.</strong> A name that reads well on a cover and fits a streaming profile is worth testing early, before the artwork is designed.</li>
+<li><strong>Songwriting prompts.</strong> A striking name can spark a concept album, a character or a whole visual world.</li>
+<li><strong>Content and playlists.</strong> Creators use a generated name for a channel, a playlist series or a DJ set.</li>
+<li><strong>Games and roleplay.</strong> Tabletop players and writers use it to name bards, fictional bands and in-world musicians fast.</li>
+<li><strong>Just for fun.</strong> Sometimes you want a funny band name for a group chat or a t-shirt. A generator is the quickest route there.</li>
+</ul>
+
+<h2 id="tips">Pro tips for choosing an artist name</h2>
+<ul>
+<li><strong>Say it out loud.</strong> A name that is awkward to pronounce will be awkward to introduce on stage. Read every option aloud before you fall for it.</li>
+<li><strong>Test the spelling.</strong> If people will misspell it when they search, you will lose traffic. Short and phonetic usually wins.</li>
+<li><strong>Check it is free.</strong> Search the name on streaming platforms, social handles and a domain registrar before you get attached. A great name already taken is a dead end.</li>
+<li><strong>Keep the keyword.</strong> If you add your own word, try two or three before you settle; the same word reacts differently in a band shape versus a solo shape.</li>
+<li><strong>Give it a day.</strong> Names grow on you or wear off. Save a shortlist and revisit it the next morning before committing.</li>
+</ul>
+
+<h2 id="faq">Common mistakes and FAQ</h2>
+<h3 class="h6 font-weight-bold">Is this artist name generator free and random?</h3>
+<p>Yes. Every press builds names at random from the style banks using the browser's random number generator, and nothing is uploaded or stored. The same session rarely repeats a name when no-repeats mode is on.</p>
+<h3 class="h6 font-weight-bold">Can I use a generated name commercially?</h3>
+<p>The names are assembled from common words and word parts, so a generated name is not owned by anyone here. That said, you are responsible for clearing a name before you use it. Always check that it is not already a trademark or an active artist in your territory.</p>
+<h3 class="h6 font-weight-bold">What is the difference between a band name and a solo name?</h3>
+<p>Band names lean on plural and collective shapes that imply a group, while solo names lean on single words, initials and artist handles that suit one performer. The generator switches its word shapes based on your choice, so pick the one that matches your setup.</p>
+<h3 class="h6 font-weight-bold">Can I add my own word to the names?</h3>
+<p>Yes. Type a word into the optional field and every generated name will weave it in. Letters only, up to 24 characters, so the results stay clean and readable.</p>
+<h3 class="h6 font-weight-bold">How many names can I generate at once?</h3>
+<p>Between 1 and 20 per batch. With no-repeats mode on you can run several batches in a row to build a long shortlist without seeing duplicates.</p>
+
+<h2 id="disclaimer">Disclaimer</h2>
+<p class="small">This artist name generator is an independent tool for creative brainstorming. It does not check names against trademark registers, domain availability or existing artists, and it makes no claim that any generated name is legally clear or unique. Always verify a name with the relevant music, business and trademark authorities before you adopt it commercially.</p>
+
+<section aria-labelledby="authorBio" class="mt-4">
+<h3 id="authorBio" class="h5 font-weight-bold">About the author</h3>
+<div class="media p-3 bio-block rounded">
+<div class="media-body">
+<p class="mb-1"><strong>Afree Tools Team</strong> &mdash; we build free, no-signup generators and calculators for everyday creative decisions. The word banks behind this artist name generator were assembled by hand and grouped by genre, and the naming shapes were tested so that band names and solo names read cleanly across every style.</p>
+</div>
+</div>
+<p class="small text-muted mt-3">Last updated: October 11, 2026</p>
+</section>
+</article>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
