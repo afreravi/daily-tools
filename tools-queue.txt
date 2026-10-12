@@ -38,7 +38,7 @@
 [done] random nfl player generator
 [done] facebook ad cost calculator
 [done] artist name generator
-random nba player generator
+[done] random nba player generator
 Ship Name Generator | Create Perfect Couple Names
 Random anime character generator
 Quirk Generator

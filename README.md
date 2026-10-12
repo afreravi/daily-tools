@@ -61,3 +61,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 033 | random-nfl-player-generator | Draws random NFL players by position, team and career tier, with no-repeats mode, a legend count and a position-group chart |
 | 034 | facebook-ad-cost-calculator | CPM, CPC, CTR, CPA and ROAS from spend and results, with a target-CPA budget planner |
 | 035 | artist-name-generator | Generates band names and solo stage names by genre, with a custom keyword, no-repeats mode and a length chart |
+| 036 | random-nba-player-generator | Draws random NBA players with position, franchise, era and resume filters, a depth chart and copy-to-clipboard |
