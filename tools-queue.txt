@@ -39,7 +39,7 @@
 [done] facebook ad cost calculator
 [done] artist name generator
 [done] random nba player generator
-Ship Name Generator | Create Perfect Couple Names
+[done] Ship Name Generator | Create Perfect Couple Names
 Random anime character generator
 Quirk Generator
 random animal facts
