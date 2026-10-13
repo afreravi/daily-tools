@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ship Name Generator &mdash; Create Perfect Couple Names</title>
+<meta name="description" content="Ship name generator blends two first names into perfect couple names. Get romantic, celebrity and cute ship names with a live compatibility score in seconds.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/generators">Generators</a></li>
+<li class="breadcrumb-item active" aria-current="page">Ship Name Generator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Ship Name Generator</h1>
+<p class="lead mb-0">A ship name is the mash-up of two names into one &mdash; Brad and Angelina become <em>Brangelina</em>. Type two names below and this generator blends them into a set of couple names, from classic half-and-half joins to celebrity-style blends, each with a playful compatibility score.</p>
+</header>
+
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4">
+<div class="row">
+<div class="col-12 col-lg-5 mb-4 mb-lg-0">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. Enter two names</h2>
+<div class="form-group">
+<label for="nameA">First name</label>
+<input type="text" class="form-control" id="nameA" placeholder="e.g. Alex" autocomplete="off" maxlength="24" aria-describedby="nameHelp">
+</div>
+<div class="form-group">
+<label for="nameB">Second name</label>
+<input type="text" class="form-control" id="nameB" placeholder="e.g. Jordan" autocomplete="off" maxlength="24">
+<small id="nameHelp" class="form-text">Letters only &mdash; spaces, numbers and symbols are ignored.</small>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3 mt-4">2. Choose a style</h2>
+<fieldset>
+<legend class="sr-only">Ship name style</legend>
+<div class="chip-row mb-4" role="radiogroup" aria-label="Ship name style">
+<input class="chip-input" type="radio" name="style" id="style-classic" value="classic" checked>
+<label class="chip" for="style-classic">Classic</label>
+<input class="chip-input" type="radio" name="style" id="style-romantic" value="romantic">
+<label class="chip" for="style-romantic">Romantic</label>
+<input class="chip-input" type="radio" name="style" id="style-celebrity" value="celebrity">
+<label class="chip" for="style-celebrity">Celebrity</label>
+<input class="chip-input" type="radio" name="style" id="style-cute" value="cute">
+<label class="chip" for="style-cute">Cute</label>
+<input class="chip-input" type="radio" name="style" id="style-nature" value="nature">
+<label class="chip" for="style-nature">Nature</label>
+<input class="chip-input" type="radio" name="style" id="style-funny" value="funny">
+<label class="chip" for="style-funny">Funny</label>
+</div>
+</fieldset>
+
+<div class="form-group">
+<label for="count">How many names?</label>
+<select class="form-control" id="count">
+<option value="6">6 ship names</option>
+<option value="9" selected>9 ship names</option>
+<option value="12">12 ship names</option>
+</select>
+</div>
+
+<button type="button" class="btn btn-primary btn-block btn-lg" id="generateBtn">Create ship names</button>
+<button type="button" class="btn btn-outline-secondary btn-block mt-2" id="resetBtn">Reset</button>
+<div class="alert alert-danger mt-3 mb-0 d-none" role="alert" id="errorBox"></div>
+</div>
+
+<div class="col-12 col-lg-7">
+<div class="d-flex justify-content-between align-items-center mb-2">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-0">Your ship names</h2>
+<button type="button" class="btn btn-sm btn-outline-primary" id="copyAllBtn">Copy all</button>
+</div>
+<div id="results" class="results-grid" aria-live="polite" aria-atomic="true">
+<p class="text-muted placeholder-text mb-0">Enter two names and press <strong>Create ship names</strong>. Your couple names will appear here.</p>
+</div>
+
+<div class="row stat-row mt-4">
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-box">
+<span class="stat-value" id="statBest">--</span>
+<span class="stat-label">Best match</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-box">
+<span class="stat-value" id="statScore">--</span>
+<span class="stat-label">Compatibility</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-box">
+<span class="stat-value" id="statCount">0</span>
+<span class="stat-label">Names made</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-box">
+<span class="stat-value" id="statStyle">Classic</span>
+<span class="stat-label">Style</span>
+</div>
+</div>
+</div>
+
+<div class="chart-wrap mt-2">
+<h3 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Compatibility by name length</h3>
+<canvas id="shipChart" width="600" height="260" role="img" aria-label="Bar chart showing the compatibility score of each generated ship name"></canvas>
+<p class="small text-muted mb-0" id="chartCaption">Scores are a playful blend of name balance and length, not a scientific measure.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<article class="article">
+<h2 class="h4 font-weight-bold">What is a ship name?</h2>
+<p>A ship name &mdash; also written "shipname" or called a <strong>couple name</strong> or <strong>relationship name</strong> &mdash; is a single word made by combining two people's names. Fans of a TV show might ship two characters and give them a name; a couple might use one as a pet name, a shared social handle, or a hashtag. The idea is simple: take part of one name, part of another, and fuse them until they sound like a word that belongs to both people at once.</p>
+<p>The most famous example is <em>Brangelina</em>, the blend of Brad Pitt and Angelina Jolie. That single word shaped how the whole internet talks about celebrity couples. The pattern spread quickly: <em>Bennifer</em> for Ben Affleck and Jennifer Lopez, <em>Kimye</em> for Kim Kardashian and Kanye West, <em>TomKat</em> for Tom Cruise and Katie Holmes. Once you notice the shape, you see it everywhere, from fan forums to wedding invitations.</p>
+
+<h2 class="h4 font-weight-bold mt-4">How the ship name generator works</h2>
+<p>This generator reads the letters in both names and builds a set of candidates using several classic blending rules. A <strong>classic blend</strong> keeps the start of the first name and the end of the second, which is how <em>Brangelina</em> works: "Br" from Brad plus "angelina" from Angelina. A <strong>reverse blend</strong> flips that, keeping the start of the second name, which often produces a different rhythm and can sound more natural depending on the syllables involved.</p>
+<p>Other rules cover the shapes people actually use. <strong>Celebrity-style</strong> blends favour the shortest, punchiest join, the kind a headline writer would reach for. <strong>Romantic</strong> blends add a soft connecting letter so the join reads smoothly. <strong>Cute</strong> blends keep a repeated sound or a doubled syllable, which is why so many couple nicknames sound like baby talk. <strong>Nature</strong> blends nudge the result toward words that feel like flowers, weather or the outdoors, and <strong>funny</strong> blends lean into the accidental word a join can create.</p>
+<p>Every candidate is scored for balance and length. The generator favours names that are easy to say: not too long, not too short, and split roughly evenly between the two original names. The score is deliberately playful. It is a conversation starter, not a compatibility test.</p>
+
+<h2 class="h4 font-weight-bold mt-4">How to use it</h2>
+<ol>
+<li>Type both first names into the two boxes. Nicknames work best &mdash; "Alex" blends more cleanly than "Alexander".</li>
+<li>Pick a style, or start with Classic and try the others to compare.</li>
+<li>Choose how many names you want, then press <strong>Create ship names</strong>.</li>
+<li>Tap any name to copy it, or use <strong>Copy all</strong> to grab the whole set for a group chat or caption.</li>
+</ol>
+<p>The bar chart under the results shows how each name scored, so you can see at a glance which blends landed best. Shorter, balanced joins usually sit at the top, which is a useful hint if you are hunting for one name to use everywhere.</p>
+
+<h2 class="h4 font-weight-bold mt-4">Ways people use ship names</h2>
+<p><strong>Couples.</strong> A shared handle on social media, a name for a joint photo album, or a playful signature on cards. A good ship name doubles as a brand for the two of you.</p>
+<p><strong>Fandom.</strong> Readers, viewers and gamers ship characters and need names for them. Fan-fiction tags, ship weeks and community wikis all lean on these blends to label a pairing fast.</p>
+<p><strong>Parties and games.</strong> Baby showers, bachelorette parties and wedding showers use couple names as a guessing game. Print a few blends and let guests vote on the best one.</p>
+<p><strong>Pets and projects.</strong> Two cats named after a famous duo, a joint side project, a shared playlist &mdash; a ship name gives any pairing a quick identity.</p>
+
+<h2 class="h4 font-weight-bold mt-4">Pro tips for better ship names</h2>
+<ul>
+<li><strong>Use the names people actually call you.</strong> A nickname almost always blends better than a full legal name.</li>
+<li><strong>Protect the vowel.</strong> Blends that keep a vowel at the join ("Br-angelina") sound smoother than ones that collide two consonants.</li>
+<li><strong>Say it out loud.</strong> If you stumble reading it, others will too. A ship name should roll off the tongue in one breath.</li>
+<li><strong>Check the accidental word.</strong> Sometimes a blend creates a real word or an awkward one. Try the Funny style to see the funnier options, then pick a clean one for daily use.</li>
+<li><strong>Keep a shortlist.</strong> Generate a dozen, copy the three you like, and live with them for a day before deciding.</li>
+</ul>
+
+<h2 class="h4 font-weight-bold mt-4">Common mistakes to avoid</h2>
+<p>The biggest one is forcing a blend that ignores how the names sound. A ship name is meant to be said, not just written, so a technically neat letter swap that is hard to pronounce defeats the purpose. Another common slip is making it too long; a name with four or five syllables gets shortened in practice anyway, so you may as well start short. Finally, do not agonise over it. The best ship names are quick, warm and a little silly, and they are easy to change if the first pick does not stick.</p>
+
+<h2 class="h4 font-weight-bold mt-4">Frequently asked questions</h2>
+<div class="faq">
+<h3 class="h6 font-weight-bold">How do I make a ship name?</h3>
+<p>Combine part of one name with part of the other. The classic method keeps the start of the first name and the end of the second, like Brad + Angelina becoming Brangelina. This generator builds several variations at once so you can compare them.</p>
+<h3 class="h6 font-weight-bold mt-4">What is the most famous ship name?</h3>
+<p>Brangelina is the best known, the blend of Brad Pitt and Angelina Jolie. Others like Bennifer and Kimye show how the pattern moved from fan communities into everyday headlines.</p>
+<h3 class="h6 font-weight-bold mt-4">Is a ship name the same as a couple name?</h3>
+<p>Yes. "Ship name", "couple name" and "relationship name" describe the same thing. "Ship" comes from the word "relationship" and is also used as a verb &mdash; to ship two people is to want them together.</p>
+<h3 class="h6 font-weight-bold mt-4">Does the compatibility score mean anything?</h3>
+<p>It is a light-hearted number based on name balance and length. It is not a personality test and has no bearing on a real relationship. Treat it as a tiebreaker when two blends sound equally good.</p>
+<h3 class="h6 font-weight-bold mt-4">Can I use a ship name for a social media handle?</h3>
+<p>Often, yes, but check availability first. Popular blends are taken quickly, so a slightly less obvious variant from the generator may be easier to claim.</p>
+</div>
+
+<div class="alert alert-light border mt-4 mb-4 small" role="note">
+<strong>Disclaimer:</strong> This ship name generator is provided for fun and entertainment. The compatibility score is a playful estimate and not a measure of any real relationship. Names are generated on your device; nothing you type is stored or sent anywhere.
+</div>
+
+<section class="author-box p-4 mb-4" aria-label="About the author">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-2">About the author</h2>
+<p class="mb-0 small">Written and maintained by the <strong>A Free Tools</strong> editorial team. We build small, focused web utilities and explain the thinking behind each one, so you can see exactly how a result is worked out. Every tool is reviewed for accuracy and updated as the underlying rules or limits change. This page was last reviewed by a human editor before publishing.</p>
+</section>
+
+<p class="text-muted small mb-0">Last updated: <time datetime="2026-10-13">13 October 2026</time></p>
+</article>
+</main>
+
+<footer class="container pb-5 small text-muted">
+<p class="mb-0">&copy; 2026 A Free Tools. Built as a single-page HTML, CSS and JavaScript tool.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
