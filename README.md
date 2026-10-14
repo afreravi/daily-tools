@@ -63,3 +63,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 035 | artist-name-generator | Generates band names and solo stage names by genre, with a custom keyword, no-repeats mode and a length chart |
 | 036 | random-nba-player-generator | Draws random NBA players with position, franchise, era and resume filters, a depth chart and copy-to-clipboard |
 | 037 | ship-name-generator | Blends two names into couple ship names by style, with a compatibility score and length chart |
+| 038 | random-anime-character-generator | Rolls original anime OCs with name, age, archetype, power, signature move, catchphrase and a stat chart |

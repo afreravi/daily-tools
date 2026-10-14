@@ -40,6 +40,6 @@
 [done] artist name generator
 [done] random nba player generator
 [done] Ship Name Generator | Create Perfect Couple Names
-Random anime character generator
+[done] Random anime character generator
 Quirk Generator
 random animal facts
