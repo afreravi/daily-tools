@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Random Anime Character Generator &mdash; OCs, Names &amp; Stats</title>
+<meta name="description" content="Free random anime character generator: roll instant OCs with a name, age, power, signature move and backstory seed, then copy, reroll or save to a shortlist.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/generators">Generators</a></li>
+<li class="breadcrumb-item active" aria-current="page">Random Anime Character Generator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Random Anime Character Generator</h1>
+<p class="lead mb-0">Roll a complete original anime character in one click &mdash; a fitting name, age, archetype, special power, signature move, catchphrase and a short backstory seed. Perfect for stories, tabletop games, drawing prompts and beating blank-page block.</p>
+</header>
+
+<!-- ================= TOOL ================= -->
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. Set your roll</h2>
+<div class="row">
+<div class="col-12 col-md-4 mb-3">
+<label for="genreSelect">Genre</label>
+<select id="genreSelect" class="form-control">
+<option value="any" selected>Any genre</option>
+<option value="shonen">Shonen / action</option>
+<option value="shojo">Shojo / romance</option>
+<option value="isekai">Isekai / fantasy</option>
+<option value="scifi">Sci-fi / mecha</option>
+<option value="slice">Slice of life</option>
+<option value="villain">Villain / rival</option>
+</select>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<label for="vibeSelect">Tone</label>
+<select id="vibeSelect" class="form-control">
+<option value="any" selected>Any tone</option>
+<option value="heroic">Heroic</option>
+<option value="mysterious">Mysterious</option>
+<option value="comedic">Comedic</option>
+<option value="tragic">Tragic</option>
+<option value="cool">Cool / stoic</option>
+</select>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<label for="genderSelect">Name style</label>
+<select id="genderSelect" class="form-control">
+<option value="any" selected>Any</option>
+<option value="feminine">Feminine</option>
+<option value="masculine">Masculine</option>
+<option value="neutral">Gender-neutral</option>
+</select>
+</div>
+</div>
+
+<div class="d-flex flex-wrap align-items-center">
+<button type="button" id="generateBtn" class="btn btn-primary btn-lg mr-2 mb-2">Generate character</button>
+<button type="button" id="saveBtn" class="btn btn-outline-primary mb-2" disabled>Save to shortlist</button>
+<span id="countBadge" class="badge-pill-soft ml-1 mb-2">0 characters rolled</span>
+</div>
+<p id="formError" class="text-danger small mb-0 mt-2 d-none" role="alert"></p>
+</div>
+</div>
+
+<!-- ================= RESULT ================= -->
+<div class="card shadow-sm border-0 mb-5 d-none" id="resultCard" aria-live="polite">
+<div class="card-body p-4">
+<div class="d-flex justify-content-between align-items-start flex-wrap mb-3">
+<div>
+<span class="badge badge-genre mr-2" id="genreTag">Shonen</span>
+<span class="badge badge-vibe" id="vibeTag">Heroic</span>
+</div>
+<button type="button" id="copyBtn" class="btn btn-sm btn-outline-secondary">Copy as text</button>
+</div>
+
+<div class="row">
+<div class="col-12 col-lg-4 mb-4 mb-lg-0">
+<div class="portrait" id="portrait" aria-hidden="true">?</div>
+<p class="small text-muted text-center mt-2 mb-0" id="portraitCaption">Generated monogram</p>
+</div>
+<div class="col-12 col-lg-8">
+<h2 class="h3 font-weight-bold mb-1" id="charName">&nbsp;</h2>
+<p class="text-muted mb-3" id="charTagline">&nbsp;</p>
+
+<dl class="row mb-3 character-facts">
+<dt class="col-sm-4">Age</dt><dd class="col-sm-8" id="charAge">&mdash;</dd>
+<dt class="col-sm-4">Archetype</dt><dd class="col-sm-8" id="charArchetype">&mdash;</dd>
+<dt class="col-sm-4">Power</dt><dd class="col-sm-8" id="charPower">&mdash;</dd>
+<dt class="col-sm-4">Signature move</dt><dd class="col-sm-8" id="charMove">&mdash;</dd>
+<dt class="col-sm-4">Weapon</dt><dd class="col-sm-8" id="charWeapon">&mdash;</dd>
+<dt class="col-sm-4">Catchphrase</dt><dd class="col-sm-8" id="charCatch">&mdash;</dd>
+</dl>
+
+<p class="mb-0" id="charBio">&mdash;</p>
+</div>
+</div>
+
+<hr class="my-4">
+
+<div class="row">
+<div class="col-12 col-md-6 mb-4 mb-md-0">
+<h3 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Stat profile</h3>
+<div class="chart-wrap">
+<canvas id="statChart" width="420" height="240" role="img" aria-label="Bar chart of the character's power, speed, technique, wisdom and charisma stats"></canvas>
+</div>
+</div>
+<div class="col-12 col-md-6">
+<h3 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Character sheet</h3>
+<div class="table-responsive">
+<table class="table table-sm table-bordered mb-0 sheet-table">
+<caption class="sr-only">Stat values for the generated character, out of 100</caption>
+<thead>
+<tr><th scope="col">Stat</th><th scope="col">Score</th></tr>
+</thead>
+<tbody id="statTableBody"></tbody>
+</table>
+</div>
+<p class="small text-muted mt-2 mb-0">Stats are rolled for flavour, not balance. Reroll for a different spread.</p>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ================= SHORTLIST ================= -->
+<div class="card shadow-sm border-0 mb-5 d-none" id="listCard">
+<div class="card-body p-4">
+<div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-0">Shortlist</h2>
+<button type="button" id="clearBtn" class="btn btn-sm btn-outline-danger">Clear shortlist</button>
+</div>
+<ul class="list-group" id="shortlist"></ul>
+</div>
+</div>
+
+<!-- ================= ARTICLE ================= -->
+<article class="article mb-4">
+<h2 class="h3 font-weight-bold mt-2">How the random anime character generator works</h2>
+<p>Every press of the <strong>Generate character</strong> button assembles a fresh original character from several independent pools. The generator picks a given name and a family name that share a cultural root, then draws an age band, an archetype, a power, a signature move, a weapon and a catchphrase that match the genre and tone you selected. Because the parts are drawn separately, two rolls almost never land on the same combination &mdash; there are thousands of possible outcomes before you ever touch the filters.</p>
+<p>The result panel is deliberately structured like a character bible page rather than a wall of text. You get a name and tagline at the top, a short fact sheet in the middle, and a two-sentence backstory seed at the bottom that hints at a motivation and a flaw. The bar chart on the right turns the five rolled stats into a quick visual profile, so a high-technique, low-power build reads at a glance as a strategist rather than a brawler. Nothing here is a rule system; the numbers exist to spark a scene, not to settle a fight.</p>
+<p>The genre filter narrows the pools. Choosing <em>Shonen</em> leans toward loud, growth-driven protagonists and attack names that shout; <em>Shojo</em> favours emotional stakes and gentle powers; <em>Isekai</em> mixes in otherworldly titles and system-like abilities; <em>Sci-fi</em> swaps magic for technology; and <em>Villain</em> draws from the sharper end of the archetype list. Leave it on <strong>Any genre</strong> and the generator will happily cross-pollinate, which is often where the strangest and best ideas come from.</p>
+
+<h2 class="h3 font-weight-bold">Ways to use a generated character</h2>
+<p>Writers use the tool to break a dead stop. When a chapter needs a rival who walks on stage for three pages, rolling one takes a second and gives you a name, a look and a reason to be there. Because the backstory seed states a want and a wound, it is usually enough to write the scene without inventing a whole biography first.</p>
+<p>Tabletop and role-playing groups use it for non-player characters. A random innkeeper, a masked antagonist or a mysterious stranger can be rolled live at the table, and the catchphrase gives you an instant voice to perform. If you keep the shortlist open, you can bank a handful of extras before a session and pull one out when the party wanders somewhere you did not plan.</p>
+<p>Artists and cosplayers use the result as a drawing prompt. The fact sheet names a weapon and an archetype, which is often all a sketch needs: a stoic sniper with a folding bow and a tragic tone suggests a very different silhouette from a comedic brawler with gauntlets. Rolling five characters in a row and picking the strongest silhouette is a fast way to fill a practice page.</p>
+<p>Game masters and hobby designers use the stat chart to seed a roster. Sort a dozen rolls by their highest stat and you have a rough party composition &mdash; a couple of power builds, a technician, a face. It is a starting sketch, not a balance pass, but it saves the blank-page problem at the very beginning of a project.</p>
+
+<h2 class="h3 font-weight-bold">Pro tips for better rolls</h2>
+<ul>
+<li><strong>Lock the genre, free the tone.</strong> A fixed genre keeps names and powers coherent, while a free tone lets a serious premise pick up a comic or tragic edge. That mismatch is where memorable characters live.</li>
+<li><strong>Reroll the name, keep the rest.</strong> If the name does not fit, roll again and mentally transplant the previous power and catchphrase onto the new name. The pools are independent, so mixing two rolls is easy and gives you finer control.</li>
+<li><strong>Use the catchphrase as a hook.</strong> A line like &ldquo;I already saw how this ends&rdquo; tells you more about a character's confidence and history than a paragraph of description.</li>
+<li><strong>Treat stats as contrast, not power.</strong> A high-charisma character with a low power score is more interesting than an all-rounder. Let the lowest stat explain a flaw in the backstory.</li>
+<li><strong>Roll a shortlist, then choose.</strong> Generate five, save the best two, and only then start writing. Committing to the first roll is the fastest way to a boring character.</li>
+</ul>
+
+<h2 class="h3 font-weight-bold">Common mistakes to avoid</h2>
+<p>The biggest one is treating a random roll as finished. A generated character is a seed, not a script &mdash; the name and power are there to give you traction, and the story still has to come from you. The second is collecting traits instead of a contradiction. A character becomes interesting when two rolled facts pull against each other: a healer with a killer's weapon, a comedic tone on a tragic backstory, a stoic archetype with a loud catchphrase. Look for that friction and lean into it. Finally, do not ignore the flaw buried in the backstory seed. A want with no wound is a cardboard hero; a want that costs something is a person.</p>
+
+<h2 class="h3 font-weight-bold">Frequently asked questions</h2>
+<div class="faq">
+<h3 class="h6 font-weight-bold mb-1">Is this random anime character generator free?</h3>
+<p>Yes. The tool runs entirely in your browser with no account, no sign-up and no limit on how many characters you roll.</p>
+<h3 class="h6 font-weight-bold mb-1">Are these existing anime characters?</h3>
+<p>No. Names, powers, moves and catchphrases are drawn from original word pools and combined on the fly, so the result is a new original character rather than a copy of any published one.</p>
+<h3 class="h6 font-weight-bold mb-1">Can I use the characters I generate?</h3>
+<p>Yes. Anything you roll here is yours to use in stories, games, art and personal projects. A quick credit back to this page is appreciated but never required.</p>
+<h3 class="h6 font-weight-bold mb-1">How do I get a specific kind of character?</h3>
+<p>Set the genre, tone and name style first, then reroll until the archetype and power land where you want. Because the pools are independent, a few rolls usually get you close, and you can always keep a name and swap the rest.</p>
+<h3 class="h6 font-weight-bold mb-1">What does the stat chart mean?</h3>
+<p>The five stats &mdash; power, speed, technique, wisdom and charisma &mdash; are rolled for inspiration only. They describe a vibe, not a game balance, so feel free to ignore or rewrite them.</p>
+<h3 class="h6 font-weight-bold mb-1">Does it work on mobile?</h3>
+<p>Yes. The layout is responsive and the buttons are keyboard-accessible, so you can roll characters on a phone, tablet or desktop.</p>
+</div>
+
+<h2 class="h3 font-weight-bold">About the author</h2>
+<p>This tool is built and maintained by the team behind A Free Tools. We spend our time on small, genuinely useful browser utilities that do one job well and respect your time &mdash; no sign-ups, no dark patterns and no tracking beyond what is needed to serve the page. The anime character pools here were written and curated by hand, informed by years of reading, watching and running games across shonen, shojo, isekai and sci-fi genres. If a pool feels thin or a name rings wrong, tell us and we will improve it.</p>
+
+<p class="small text-muted">Last updated: 14 October 2026</p>
+</article>
+
+<div class="alert disclaimer" role="note">
+<strong>Disclaimer:</strong> This random anime character generator is an entertainment and creativity aid. All names, powers, catchphrases and backstory seeds are fictional and randomly combined; any resemblance to existing characters, persons or works is coincidental. Generated output is provided as-is and you are responsible for how you use it.
+</div>
+
+<footer class="text-center text-muted small py-4">
+<p class="mb-1"><a href="/">A Free Tools</a> &middot; Random Anime Character Generator</p>
+<p class="mb-0">Made for writers, artists and game masters.</p>
+</footer>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

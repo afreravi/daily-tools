@@ -1,0 +1,191 @@
+/* Random Anime Character Generator — light theme, primary #60089c */
+
+:root {
+  --primary: #60089c;
+  --primary-dark: #46006f;
+  --primary-light: #8a3fc0;
+  --primary-soft: #f3e9fa;
+  --primary-soft-2: #e6d4f5;
+  --ink: #241a2e;
+  --muted: #6b6277;
+  --line: #e4dcf0;
+}
+
+body {
+  background: #ffffff;
+  color: var(--ink);
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4 { color: var(--ink); }
+
+a { color: var(--primary); }
+a:hover { color: var(--primary-dark); }
+
+.container { max-width: 1040px; }
+
+.breadcrumb-item + .breadcrumb-item::before { color: var(--muted); }
+
+/* ---------- Kickers ---------- */
+.section-kicker {
+  color: var(--primary);
+  letter-spacing: .06em;
+  font-size: .78rem;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  border-radius: 14px;
+  border: 1px solid var(--line) !important;
+}
+#toolCard { border-top: 4px solid var(--primary) !important; }
+#resultCard { border-top: 4px solid var(--primary-light) !important; }
+
+/* ---------- Form controls ---------- */
+label { font-weight: 600; font-size: .9rem; color: var(--ink); }
+
+.form-control {
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  height: calc(1.5em + .9rem + 2px);
+  color: var(--ink);
+}
+.form-control:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .18);
+}
+
+/* ---------- Buttons ---------- */
+.btn { border-radius: 10px; font-weight: 600; }
+
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:not(:disabled):not(.disabled):active {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+.btn-primary:focus { box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .35); }
+
+.btn-outline-primary {
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.btn-outline-primary:hover,
+.btn-outline-primary:focus,
+.btn-outline-primary:not(:disabled):not(.disabled):active {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+
+.badge-pill-soft {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  border-radius: 999px;
+  padding: .35rem .8rem;
+  font-size: .78rem;
+  font-weight: 600;
+}
+
+/* ---------- Result badges ---------- */
+.badge-genre {
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  letter-spacing: .02em;
+  border-radius: 6px;
+  padding: .35rem .6rem;
+}
+.badge-vibe {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  border: 1px solid var(--primary-soft-2);
+  font-weight: 600;
+  border-radius: 6px;
+  padding: .35rem .6rem;
+}
+
+/* ---------- Portrait ---------- */
+.portrait {
+  width: 100%;
+  max-width: 220px;
+  margin: 0 auto;
+  aspect-ratio: 1 / 1;
+  border-radius: 18px;
+  background: linear-gradient(140deg, var(--primary) 0%, var(--primary-light) 60%, var(--primary-soft-2) 100%);
+  color: #fff;
+  font-size: 4.5rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: .04em;
+  box-shadow: 0 8px 22px rgba(96, 8, 156, .22);
+}
+
+/* ---------- Character facts ---------- */
+.character-facts dt { color: var(--muted); font-weight: 600; }
+.character-facts dd { color: var(--ink); margin-bottom: .5rem; }
+
+/* ---------- Chart ---------- */
+.chart-wrap { position: relative; width: 100%; }
+#statChart { width: 100%; height: auto; display: block; }
+
+/* ---------- Sheet table ---------- */
+.sheet-table thead th {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  border-color: var(--line);
+  font-size: .85rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.sheet-table td { border-color: var(--line); }
+.sheet-table tbody tr:hover { background: var(--primary-soft); }
+
+/* ---------- Shortlist ---------- */
+#shortlist .list-group-item {
+  border-color: var(--line);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: .5rem;
+  flex-wrap: wrap;
+}
+#shortlist .list-group-item .name { font-weight: 600; color: var(--primary-dark); }
+#shortlist .list-group-item .meta { color: var(--muted); font-size: .85rem; }
+
+/* ---------- Article ---------- */
+.article p { color: #332a3d; }
+.article h2 { margin-top: 1.8rem; }
+.article ul { padding-left: 1.15rem; }
+.article ul li { margin-bottom: .5rem; }
+.faq p { margin-bottom: 1rem; color: #332a3d; }
+
+/* ---------- Disclaimer ---------- */
+.disclaimer {
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-soft-2);
+  border-left: 4px solid var(--primary);
+  border-radius: 10px;
+  color: #3c2a4d;
+  font-size: .92rem;
+}
+
+footer a { text-decoration: none; }
+
+/* ---------- Accessibility ---------- */
+:focus-visible {
+  outline: 3px solid var(--primary-light);
+  outline-offset: 2px;
+}
+
+@media (max-width: 575.98px) {
+  .portrait { max-width: 150px; font-size: 3rem; }
+  h1.h2 { font-size: 1.5rem; }
+}
