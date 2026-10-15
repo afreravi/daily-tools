@@ -213,7 +213,7 @@
       Object.keys(tones).forEach(function (t) {
         if (dominant === null || tones[t] > tones[dominant]) { dominant = t; }
       });
-      var opponents = shuffle(pool.filter(function (q) {
+      var opponents = shuffle(QUIRKS.filter(function (q) {
         return q.tone !== dominant && !used[q.text] && drawn.indexOf(q) === -1;
       }));
       if (opponents.length > 0) {
@@ -227,6 +227,7 @@
     });
 
     current = kept.concat(fresh);
+    syncLockToggle();
     render();
 
     var name = rawName ? rawName : "your character";
@@ -297,9 +298,13 @@
       el.list.appendChild(li);
     });
 
-    el.lockToggle.setAttribute("aria-pressed", "false");
-    el.lockToggle.textContent = "Lock the ones I like";
     drawCharts();
+  }
+
+  function syncLockToggle() {
+    var allLocked = current.length > 0 && current.every(function (q) { return q.locked; });
+    el.lockToggle.setAttribute("aria-pressed", allLocked ? "true" : "false");
+    el.lockToggle.textContent = allLocked ? "Unlock all" : "Lock the ones I like";
   }
 
   function makeTag(label, extraClass) {
@@ -316,6 +321,7 @@
     el.status.textContent = lockedCount === 0
       ? "No quirks locked. Generate again to replace the whole set."
       : lockedCount + " quirk" + (lockedCount === 1 ? "" : "s") + " locked and kept on the next roll.";
+    syncLockToggle();
     render();
   }
 
@@ -457,15 +463,16 @@
   el.generate.addEventListener("click", generate);
 
   el.lockToggle.addEventListener("click", function () {
-    var allLocked = current.length > 0 && current.every(function (q) { return q.locked; });
+    if (current.length === 0) {
+      el.status.textContent = "Nothing to lock yet. Generate some quirks first.";
+      return;
+    }
+    var allLocked = current.every(function (q) { return q.locked; });
     current.forEach(function (q) { q.locked = !allLocked; });
-    var pressed = !allLocked;
-    el.lockToggle.setAttribute("aria-pressed", pressed ? "true" : "false");
-    el.lockToggle.textContent = pressed ? "Unlock all" : "Lock the ones I like";
-    el.status.textContent = current.length === 0
-      ? "Nothing to lock yet. Generate some quirks first."
-      : (pressed ? "All quirks locked. Generate again to keep them all."
-        : "All quirks unlocked.");
+    el.status.textContent = allLocked
+      ? "All quirks unlocked."
+      : "All quirks locked. Generate again to keep them all.";
+    syncLockToggle();
     render();
   });
 
@@ -475,6 +482,7 @@
     el.subject.classList.remove("is-invalid");
     el.copyStatus.textContent = "";
     el.status.textContent = "Cleared. Choose a tone and press Generate quirks to begin.";
+    syncLockToggle();
     render();
   });
 
