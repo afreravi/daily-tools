@@ -41,5 +41,5 @@
 [done] random nba player generator
 [done] Ship Name Generator | Create Perfect Couple Names
 [done] Random anime character generator
-Quirk Generator
+[done] Quirk Generator
 random animal facts
