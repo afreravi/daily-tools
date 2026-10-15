@@ -64,3 +64,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 036 | random-nba-player-generator | Draws random NBA players with position, franchise, era and resume filters, a depth chart and copy-to-clipboard |
 | 037 | ship-name-generator | Blends two names into couple ship names by style, with a compatibility score and length chart |
 | 038 | random-anime-character-generator | Rolls original anime OCs with name, age, archetype, power, signature move, catchphrase and a stat chart |
+| 039 | quirk-generator | Rolls random character quirks by tone and category, with contradictions, locking and per-quirk play prompts |
