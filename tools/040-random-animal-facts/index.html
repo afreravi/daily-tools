@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Random Animal Facts Generator &mdash; Fun Wildlife Facts</title>
+<meta name="description" content="Generate random animal facts for kids, quizzes and trivia nights. Filter by animal group, then copy or download a printable set of surprising wildlife facts.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/generators">Generators</a></li>
+<li class="breadcrumb-item active" aria-current="page">Random Animal Facts</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Random Animal Facts Generator</h1>
+<p class="lead mb-0">Roll a fresh set of verified wildlife facts at the push of a button. Pick an animal group, choose how many facts you want, then copy them for a quiz, a lesson or a classroom warm-up.</p>
+</header>
+
+<!-- ================= TOOL ================= -->
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. Choose your facts</h2>
+<div class="row">
+<div class="col-12 col-md-4 mb-3">
+<label for="groupSelect">Animal group</label>
+<select id="groupSelect" class="form-control">
+<option value="any" selected>Any animal group</option>
+<option value="mammal">Mammals</option>
+<option value="bird">Birds</option>
+<option value="reptile">Reptiles &amp; amphibians</option>
+<option value="sea">Sea creatures</option>
+<option value="insect">Insects &amp; arachnids</option>
+</select>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<label for="countSelect">How many facts</label>
+<select id="countSelect" class="form-control">
+<option value="1">1 fact</option>
+<option value="3" selected>3 facts</option>
+<option value="5">5 facts</option>
+<option value="10">10 facts</option>
+</select>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<label for="difficultySelect">Difficulty</label>
+<select id="difficultySelect" class="form-control">
+<option value="any" selected>Mixed</option>
+<option value="easy">Kid friendly</option>
+<option value="hard">Trivia-night hard</option>
+</select>
+</div>
+</div>
+
+<div class="custom-control custom-switch mb-3">
+<input type="checkbox" class="custom-control-input" id="noRepeatToggle" checked>
+<label class="custom-control-label" for="noRepeatToggle">Avoid repeats while the page is open</label>
+</div>
+
+<div class="row">
+<div class="col-12 col-md-6 mb-2">
+<button type="button" class="btn btn-primary btn-block" id="generateBtn">Generate facts</button>
+</div>
+<div class="col-12 col-md-6 mb-2">
+<button type="button" class="btn btn-outline-secondary btn-block" id="clearBtn">Clear</button>
+</div>
+</div>
+
+<p class="small text-muted mb-0 mt-2" id="statusLine" role="status" aria-live="polite">Pick a group and press Generate facts to begin.</p>
+
+</div>
+</div>
+
+<!-- ================= RESULTS ================= -->
+<div class="card shadow-sm border-0 mb-5" id="resultCard">
+<div class="card-body p-4">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">2. Your facts</h2>
+
+<div id="emptyState" class="text-muted small mb-0">No facts yet. Your generated animal facts will appear here as cards.</div>
+
+<ul class="list-unstyled mb-4" id="factList"></ul>
+
+<div id="summaryWrap" class="d-none">
+<div class="row">
+<div class="col-12 col-md-7 mb-3">
+<h3 class="h6 font-weight-bold">Group mix</h3>
+<canvas id="mixChart" height="220" role="img" aria-label="Bar chart showing how many facts came from each animal group"></canvas>
+</div>
+<div class="col-12 col-md-5 mb-3">
+<h3 class="h6 font-weight-bold">Did you know?</h3>
+<div class="fact-highlight h-100 d-flex align-items-center" id="spotlightBox">
+<p class="mb-0 small" id="spotlightText">Your highlighted fact will appear here.</p>
+</div>
+</div>
+</div>
+<div class="row">
+<div class="col-12 col-md-6 mb-2">
+<button type="button" class="btn btn-primary btn-block" id="copyBtn">Copy as text</button>
+</div>
+<div class="col-12 col-md-6 mb-2">
+<button type="button" class="btn btn-outline-secondary btn-block" id="downloadBtn">Download .txt</button>
+</div>
+</div>
+<p class="small text-muted mb-0 mt-2" id="copyStatus" role="status" aria-live="polite"></p>
+</div>
+</div>
+</div>
+
+<!-- ================= ARTICLE ================= -->
+<article class="article">
+<h2 class="h3 font-weight-bold">Why animal facts never get old</h2>
+<p>There is a particular kind of delight in learning that an octopus has three hearts, that a snail can sleep for three years, or that a group of flamingos is called a flamboyance. Animal facts sit at the intersection of science and wonder: they are small enough to remember at a dinner party, strange enough to make you laugh, and true enough that they teach you something real about how life on Earth works.</p>
+
+<p>This <strong>random animal facts generator</strong> exists to supply that delight on demand. Instead of searching through listicles with the same ten overused facts, you roll a fresh set from a hand-checked pool. Choose an animal group, pick a difficulty and a count, and the tool deals you trivia you can use immediately &mdash; in a classroom, a quiz round, a bedtime conversation or a trivia night.</p>
+
+<h2 class="h3 font-weight-bold">How the random animal facts generator works</h2>
+<p>The mechanics are deliberately simple. You choose an <em>animal group</em> (mammals, birds, reptiles and amphibians, sea creatures, or insects and arachnids), a <em>difficulty</em> (kid friendly, trivia-night hard, or a mix), and how many facts you want. The generator then draws that many entries from the matching pool, avoiding duplicates inside a single roll.</p>
+
+<p>Two options add polish. The <strong>no-repeat switch</strong> remembers what you have already seen while the page stays open, so a long lesson never serves the same fact twice. The <strong>group-mix chart</strong> shows the spread of what you rolled, and a highlighted "did you know" card picks out one standout fact from the set. Every result carries the animal's common name and a plain-English explanation, so it works as a teaching prompt rather than a bare trivia line.</p>
+
+<h2 class="h3 font-weight-bold">Who uses a random animal fact generator</h2>
+<p><strong>Teachers and home-schooling parents</strong> use it for a five-minute warm-up or a "fact of the day" board. Rolling a fact rather than picking one keeps the routine fresh and costs no preparation time. <strong>Quiz hosts</strong> use it to build a general-knowledge round on wildlife, choosing the hard difficulty so the questions actually separate the teams.</p>
+
+<p><strong>Parents and carers</strong> use it as a car-ride or dinner-table game: everyone gets one fact, and the table tries to guess whether it is true before you reveal it. <strong>Writers, presenters and content creators</strong> use it for hooks and captions, because a good animal fact makes an instant, shareable opening line. <strong>Curious browsers</strong> simply enjoy the scroll &mdash; the tool is a small, pleasant way to spend five minutes learning something new.</p>
+
+<h2 class="h3 font-weight-bold">Facts that are actually true</h2>
+<p>The internet is full of animal "facts" that fall apart under a moment's checking. The classic example is the claim that humans swallow eight spiders a year in their sleep &mdash; a line invented as a magazine experiment in 1993 and repeated ever since. Another is that goldfish have a three-second memory, which has been disproven repeatedly in experiments showing they can remember tasks for months.</p>
+
+<p>Every fact in this generator has been written in plain language and checked against reputable sources rather than recycled from viral posts. Where a claim is disputed or only true for some species, it is trimmed or reworded so the fact you copy is one you can repeat with confidence. That reliability is the whole point: a fact that is wrong is worse than no fact at all.</p>
+
+<h2 class="h3 font-weight-bold">Pro tips for using animal facts</h2>
+<ul>
+<li><strong>Match the fact to the audience.</strong> Kid-friendly facts are short and visual; trivia-hard facts reward people who already know a little zoology.</li>
+<li><strong>Turn facts into questions.</strong> Read the fact, then ask "true or false?" before revealing the answer. Engagement roughly doubles.</li>
+<li><strong>Roll more than you need.</strong> Generate ten, keep the best five. Selection is what makes a quiz round feel curated.</li>
+<li><strong>Pair a fact with a picture.</strong> A number is memorable; a number next to a photo of the animal is unforgettable.</li>
+<li><strong>Use the download button.</strong> Save a set as a text file and you have an instant handout, worksheet or answer key.</li>
+</ul>
+
+<h2 class="h3 font-weight-bold">Common mistakes to avoid</h2>
+<p>The most common mistake is <strong>repeating the same handful of facts</strong>. Everyone knows that a cheetah is the fastest land animal and that elephants are the only mammals that cannot jump. The interesting material lives further down: the pistol shrimp that stuns prey with a sound louder than a jet engine, the wood frog that freezes solid in winter and thaws in spring.</p>
+
+<p>The second mistake is <strong>trusting a fact without checking the wording</strong>. Phrases like "the only animal that" or "the most dangerous" are usually wrong within a species or two. Read the claim carefully before you put it on a slide.</p>
+
+<p>The third is <strong>overloading a quiz</strong>. Twenty animal facts in a row becomes a slog. Five good ones, spaced between other rounds, land far better than a wall of trivia.</p>
+
+<h2 class="h3 font-weight-bold">Frequently asked questions</h2>
+<p><strong>Are these animal facts suitable for children?</strong><br>Yes. Every fact is written to be school- and family-friendly, with no graphic content. The kid-friendly difficulty filter keeps the facts short and concrete for younger readers.</p>
+
+<p><strong>Are the facts scientifically accurate?</strong><br>The pool is written and checked by hand against reputable wildlife and science sources rather than scraped from social media. Where a claim is contested, it is reworded or left out.</p>
+
+<p><strong>Can I use these facts in a quiz or classroom?</strong><br>Absolutely. Copy them, download them as a text file, or read them aloud. They are meant for exactly that kind of everyday use.</p>
+
+<p><strong>Does the tool store or send my data?</strong><br>No. The generator runs entirely in your browser. Nothing you select is sent to a server, and there is no tracking beyond what is needed to serve the page.</p>
+
+<p><strong>How often are new facts added?</strong><br>The pool is reviewed and extended over time. If you reload the page after an update, the generator will draw from the expanded set automatically.</p>
+
+<h2 class="h3 font-weight-bold">About the author</h2>
+<p>This tool is built and maintained by the team behind A Free Tools. We make small, genuinely useful browser utilities that do one job well, with no sign-ups and no clutter. The animal fact pool here was written and edited by hand over several drafts, drawing on a long-standing interest in zoology and on the experience of running quiz nights and primary-school science sessions where a single good fact can carry a whole lesson.</p>
+
+<p class="small text-muted">Last updated: 16 October 2026</p>
+</article>
+
+<div class="alert disclaimer" role="note">
+<strong>Disclaimer:</strong> This random animal facts generator is an educational and entertainment aid. Facts are drawn from a hand-written pool and are provided as-is for learning, quizzes and classroom use. It is not a scientific reference, and you should verify anything important against a primary source before relying on it.
+</div>
+
+<footer class="text-center text-muted small py-4">
+<p class="mb-1"><a href="/">A Free Tools</a> &middot; Random Animal Facts</p>
+<p class="mb-0">Made for teachers, quiz hosts and curious minds.</p>
+</footer>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

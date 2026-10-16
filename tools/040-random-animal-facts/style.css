@@ -1,0 +1,174 @@
+/* Random Animal Facts Generator — light theme, primary #60089c */
+
+:root {
+  --primary: #60089c;
+  --primary-dark: #43006d;
+  --primary-mid: #7a1fbd;
+  --primary-light: #9d5ad4;
+  --primary-soft: #f5eefb;
+  --primary-soft-2: #e8d8f7;
+  --ink: #241a2e;
+  --muted: #6b6277;
+  --line: #e5dcf0;
+  --green: #0e7c66;
+  --amber: #b45309;
+}
+
+body {
+  background: #ffffff;
+  color: var(--ink);
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4 { color: var(--ink); }
+
+a { color: var(--primary); }
+a:hover { color: var(--primary-dark); }
+
+.container { max-width: 1040px; }
+
+.breadcrumb { font-size: .82rem; }
+.breadcrumb-item + .breadcrumb-item::before { color: var(--muted); }
+
+/* ---------- Kickers ---------- */
+.section-kicker {
+  color: var(--primary);
+  letter-spacing: .06em;
+  font-size: .78rem;
+}
+
+/* ---------- Cards ---------- */
+.card {
+  border-radius: .5rem;
+}
+
+#toolCard, #resultCard {
+  border-top: 3px solid var(--primary);
+}
+
+label {
+  font-weight: 600;
+  font-size: .88rem;
+  color: var(--ink);
+}
+
+.form-control {
+  border-color: var(--line);
+  border-radius: .35rem;
+}
+
+.form-control:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .15);
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.btn-primary:focus {
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .28);
+}
+
+.btn-outline-secondary {
+  color: var(--primary-dark);
+  border-color: var(--primary-soft-2);
+}
+
+.btn-outline-secondary:hover {
+  background-color: var(--primary-soft);
+  color: var(--primary-dark);
+  border-color: var(--primary-light);
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .2);
+}
+
+/* ---------- Fact cards ---------- */
+.fact-item {
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--primary-light);
+  border-radius: .5rem;
+  padding: .9rem 1rem;
+  margin-bottom: .8rem;
+  background: #ffffff;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+
+.fact-item:hover {
+  border-left-color: var(--primary);
+  box-shadow: 0 2px 10px rgba(96, 8, 156, .08);
+}
+
+.fact-item .animal-name {
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+.fact-item .fact-text {
+  margin-bottom: .35rem;
+}
+
+.tag {
+  display: inline-block;
+  font-size: .7rem;
+  font-weight: 700;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+  padding: .12rem .5rem;
+  border-radius: 1rem;
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  border: 1px solid var(--primary-soft-2);
+}
+
+.tag-easy { background: #e6f4ef; color: var(--green); border-color: #c7e6dc; }
+.tag-hard { background: #fdf1e2; color: var(--amber); border-color: #f3ddc0; }
+
+/* ---------- Spotlight ---------- */
+.fact-highlight {
+  background: var(--primary-soft);
+  border: 1px dashed var(--primary-light);
+  border-radius: .5rem;
+  padding: 1.1rem;
+  color: var(--primary-dark);
+}
+
+/* ---------- Article ---------- */
+.article { max-width: 780px; margin: 0 auto; }
+.article h2 { margin-top: 2rem; margin-bottom: .75rem; }
+.article p, .article li { color: #322b3d; }
+.article ul { padding-left: 1.25rem; }
+.article li { margin-bottom: .4rem; }
+
+/* ---------- Disclaimer ---------- */
+.disclaimer {
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-soft-2);
+  border-radius: .5rem;
+  color: #3a2a4a;
+  font-size: .9rem;
+  max-width: 780px;
+  margin: 2rem auto 0;
+}
+
+footer a { color: var(--primary-dark); }
+
+@media (max-width: 575.98px) {
+  .display-5 { font-size: 2rem; }
+}
