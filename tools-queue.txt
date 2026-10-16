@@ -42,4 +42,4 @@
 [done] Ship Name Generator | Create Perfect Couple Names
 [done] Random anime character generator
 [done] Quirk Generator
-random animal facts
+[done] random animal facts
