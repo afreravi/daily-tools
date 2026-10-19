@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YouTube Title Generator &mdash; Catchy Video Title Ideas That Get Clicks</title>
+<meta name="description" content="Free YouTube title generator. Enter your topic, pick a format and tone, and get click-worthy video title ideas with live character counts and copy-ready results.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/generators">Generators</a></li>
+<li class="breadcrumb-item active" aria-current="page">YouTube Title Generator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">YouTube Title Generator</h1>
+<p class="lead mb-0">Type in what your video is about, choose the format and tone, and this generator writes a batch of click-worthy YouTube title ideas. Every idea is measured live against the 100-character limit, scored for the habits that drive clicks, and ready to copy.</p>
+</header>
+
+<!-- ================= TOOL ================= -->
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. Describe your video</h2>
+<div class="row">
+<div class="col-12 mb-3">
+<label for="topicInput">Video topic or main keyword <span class="text-danger">*</span></label>
+<input type="text" id="topicInput" class="form-control" maxlength="90" placeholder="e.g. beginner sourdough bread, home studio acoustics, budget gaming PC">
+<div class="invalid-feedback" id="topicError">Please enter a topic of at least 2 characters.</div>
+<small class="form-text text-muted">Keep it short and specific &mdash; this becomes the keyword inside every title.</small>
+</div>
+
+<div class="col-12 col-md-6 mb-3">
+<label for="formatSelect">Video format</label>
+<select id="formatSelect" class="form-control">
+<option value="auto" selected>Auto (mix of everything)</option>
+<option value="howto">How-to / tutorial</option>
+<option value="listicle">Listicle (numbers)</option>
+<option value="review">Review / comparison</option>
+<option value="vlog">Vlog / story</option>
+<option value="gaming">Gaming / challenge</option>
+<option value="education">Explainer / education</option>
+<option value="news">News / commentary</option>
+</select>
+</div>
+
+<div class="col-12 col-md-6 mb-3">
+<label for="toneSelect">Tone</label>
+<select id="toneSelect" class="form-control">
+<option value="clear" selected>Clear and useful</option>
+<option value="curiosity">Curiosity gap</option>
+<option value="bold">Bold and direct</option>
+<option value="friendly">Friendly and warm</option>
+<option value="professional">Professional</option>
+</select>
+</div>
+
+<div class="col-12 col-md-6 mb-3">
+<label for="countSelect">How many titles</label>
+<select id="countSelect" class="form-control">
+<option value="5">5 titles</option>
+<option value="8" selected>8 titles</option>
+<option value="12">12 titles</option>
+</select>
+</div>
+
+<div class="col-12 col-md-6 mb-3">
+<label for="audienceInput">Audience (optional)</label>
+<input type="text" id="audienceInput" class="form-control" maxlength="40" placeholder="e.g. beginners, teachers, small business owners">
+<small class="form-text text-muted">Used in patterns like &ldquo;&hellip; for beginners&rdquo;.</small>
+</div>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">2. Options</h2>
+<div class="row mb-3">
+<div class="col-12 col-md-6">
+<div class="custom-control custom-switch mb-2">
+<input type="checkbox" class="custom-control-input" id="numbersToggle" checked>
+<label class="custom-control-label" for="numbersToggle">Allow numbers and lists</label>
+</div>
+<div class="custom-control custom-switch mb-2">
+<input type="checkbox" class="custom-control-input" id="yearToggle" checked>
+<label class="custom-control-label" for="yearToggle">Allow the current year</label>
+</div>
+</div>
+<div class="col-12 col-md-6">
+<div class="custom-control custom-switch mb-2">
+<input type="checkbox" class="custom-control-input" id="capsToggle">
+<label class="custom-control-label" for="capsToggle">Title Case Every Word</label>
+</div>
+<div class="custom-control custom-switch mb-2">
+<input type="checkbox" class="custom-control-input" id="norepeatToggle" checked>
+<label class="custom-control-label" for="norepeatToggle">Avoid repeating titles</label>
+</div>
+</div>
+</div>
+
+<div class="d-flex flex-wrap align-items-center">
+<button type="button" id="generateBtn" class="btn btn-primary btn-lg mr-2 mb-2">Generate titles</button>
+<button type="button" id="clearBtn" class="btn btn-outline-secondary btn-lg mb-2">Clear</button>
+</div>
+</div>
+</div>
+
+<!-- ================= RESULTS ================= -->
+<div class="card shadow-sm border-0 mb-5" id="resultCard">
+<div class="card-body p-4">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">3. Your title ideas</h2>
+
+<div id="emptyState" class="text-center text-muted py-4">
+<p class="mb-0">Enter a topic above and press <strong>Generate titles</strong> to see ideas here.</p>
+</div>
+
+<div id="resultsWrap" class="d-none">
+<div id="alertBox" class="alert d-none" role="alert"></div>
+
+<div class="row mb-3">
+<div class="col-6 col-md-3 mb-2">
+<div class="stat-tile">
+<span class="stat-value" id="statCount">0</span>
+<span class="stat-label">Titles generated</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-2">
+<div class="stat-tile">
+<span class="stat-value" id="statAvg">0</span>
+<span class="stat-label">Average characters</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-2">
+<div class="stat-tile">
+<span class="stat-value" id="statScore">0</span>
+<span class="stat-label">Average score</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-2">
+<div class="stat-tile">
+<span class="stat-value" id="statFit">0</span>
+<span class="stat-label">Within 100 chars</span>
+</div>
+</div>
+</div>
+
+<div class="d-flex flex-wrap mb-3">
+<button type="button" id="copyAllBtn" class="btn btn-primary mr-2 mb-2">Copy all titles</button>
+<button type="button" id="downloadBtn" class="btn btn-outline-secondary mb-2">Download as .txt</button>
+</div>
+
+<div class="table-responsive mb-4">
+<table class="table table-sm table-hover title-table mb-0">
+<caption class="small text-muted px-1">Character counts are measured against YouTube&rsquo;s 100-character title limit.</caption>
+<thead>
+<tr>
+<th scope="col">#</th>
+<th scope="col">Title idea</th>
+<th scope="col" class="text-center">Chars</th>
+<th scope="col" class="text-center">Score</th>
+<th scope="col" class="text-right">Copy</th>
+</tr>
+</thead>
+<tbody id="titleBody"></tbody>
+</table>
+</div>
+
+<h3 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Length at a glance</h3>
+<figure class="chart-figure mb-4">
+<canvas id="lengthChart" height="220" aria-label="Bar chart of title lengths compared with the 100 character limit" role="img"></canvas>
+<figcaption class="small text-muted mt-2">Each bar is one generated title. The dashed line marks YouTube&rsquo;s 100-character ceiling; bars that stay under it display in full without truncation.</figcaption>
+</figure>
+
+<h3 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Best pick right now</h3>
+<div id="bestPick" class="best-pick mb-2"></div>
+</div>
+</div>
+</div>
+
+<!-- ================= ARTICLE ================= -->
+<article class="article mb-4">
+<h2 class="h3 font-weight-bold">Why the title decides whether your video gets watched</h2>
+<p>A YouTube title is not a label. It is the first half of a two-part advertisement, and its only job is to make the right viewer stop scrolling. The thumbnail carries the visual hook; the title carries the promise. Get the promise wrong and even a beautifully shot video dies at 200 views.</p>
+
+<p>That is the problem this <strong>YouTube title generator</strong> is built to solve. Most creators stare at an empty box, type something flat like &ldquo;My New Camera Setup&rdquo;, and move on. Instead, this tool takes your topic and produces a batch of structured, tested title patterns &mdash; how-to framings, listicles, curiosity gaps, comparison angles &mdash; each measured against the platform&rsquo;s character limit and scored against the habits that separate a click from a scroll.</p>
+
+<h2 class="h3 font-weight-bold">How the YouTube title generator works</h2>
+<p>Start with the topic. The tool treats that phrase as your primary keyword and reuses it inside every title so the idea stays searchable, not just clickable. Next pick a <em>format</em> (or leave it on auto for a mix) and a <em>tone</em>. Then choose how many ideas you want, from five to twelve.</p>
+
+<p>Each generated title is scored on five signals: it stays under 100 characters, it contains your keyword, it uses a number or a list when the format calls for one, it creates a reason to click (a question, a contrast, a promise), and it avoids the dead weight of filler words like &ldquo;just&rdquo; and &ldquo;really&rdquo;. You get the character count, a 0&ndash;100 score, a colour-coded bar chart of every title&rsquo;s length, and a &ldquo;best pick&rdquo; callout highlighting the strongest of the batch.</p>
+
+<p>Everything runs in your browser in plain JavaScript. No account, no upload, no waiting on a server round-trip &mdash; the ideas appear the instant you press the button.</p>
+
+<h2 class="h3 font-weight-bold">Real use cases</h2>
+<p><strong>New creators</strong> use it to break the blank-page habit. Generating twelve variations takes three seconds and usually surfaces an angle you would never have written yourself.</p>
+
+<p><strong>Established channels</strong> use it as a second opinion. Paste in a topic you have already covered, and compare your working title against the generated set. If three of the suggestions feel stronger than yours, that is useful information before you publish, not after.</p>
+
+<p><strong>Social media managers and agencies</strong> use it to batch-produce titles for a client&rsquo;s upload calendar, keeping a consistent voice across a month of videos without burning creative energy on every single one.</p>
+
+<p><strong>Teachers, coaches and course sellers</strong> use it for lesson and module titles, where the same click-worthiness rules apply to a video that students have to choose from a library.</p>
+
+<h2 class="h3 font-weight-bold">Pro tips for better video titles</h2>
+<ul>
+<li><strong>Front-load the keyword.</strong> The first 40&ndash;50 characters are what viewers see on mobile before truncation. If your hook is at the end, most people never read it.</li>
+<li><strong>Write the title before you film.</strong> A strong title is a promise, and a promise sharpens the video. Writing it first stops you from making a video nobody asked for.</li>
+<li><strong>Pick one promise, not three.</strong> Titles that try to cover a tutorial, a review and a vlog in one line read as noise.</li>
+<li><strong>Use numbers when they are real.</strong> &ldquo;7 mistakes&rdquo; works because it sets an expectation. Inventing a number that the video does not deliver trains viewers to distrust you.</li>
+<li><strong>Test in the wild.</strong> Generate a shortlist, then check which one holds attention after 48 hours. Your audience is the only reliable judge.</li>
+</ul>
+
+<h2 class="h3 font-weight-bold">Common mistakes to avoid</h2>
+<p>The most damaging habit is <strong>clickbait that the video cannot pay off</strong>. A curiosity gap is a loan against your credibility, and the interest is charged in unsubscribes and vanishing watch time.</p>
+
+<p>The second is <strong>ignoring the character limit</strong>. YouTube allows 100 characters, but search results and mobile feeds cut far earlier. Anything important past roughly 60 characters may as well not exist.</p>
+
+<p>The third is <strong>keyword stuffing</strong>. &ldquo;Best Camera Setup Best Camera Review Best Camera 2026&rdquo; reads as spam to a human and does nothing for ranking that a single clean mention would not do.</p>
+
+<p>The fourth is <strong>all caps and emoji overload</strong>. One emoji can add colour; five make a title look like a scam. Punctuation is a seasoning, not a meal.</p>
+
+<h2 class="h3 font-weight-bold">Frequently asked questions</h2>
+<p><strong>What is the ideal YouTube title length?</strong><br>There is no single perfect number, but 50&ndash;70 characters is the sweet spot for most videos. It fits the mobile feed, leaves room for a keyword near the front, and still allows a second clause for the hook.</p>
+
+<p><strong>Is this YouTube title generator free?</strong><br>Yes, completely. There is no sign-up, no paywall and no usage cap. Generate as many batches as you like.</p>
+
+<p><strong>Will a generated title rank in YouTube search?</strong><br>Ranking depends on watch time, click-through rate, relevance and competition. The generator helps with relevance and click appeal, which are two of the levers you control. It cannot promise a position.</p>
+
+<p><strong>Does the tool store the topics I type?</strong><br>No. Everything is processed locally in your browser and nothing is transmitted or saved.</p>
+
+<p><strong>Can I use the titles commercially?</strong><br>Yes. The ideas are generated on the fly from generic patterns and your own input, so they are yours to use, edit and publish without attribution.</p>
+
+<h2 class="h3 font-weight-bold">About the author</h2>
+<p>This tool is built and maintained by the team behind A Free Tools. We write small browser utilities that solve one problem properly, with no sign-ups and no clutter. The title patterns here come from years of running and analysing YouTube channels across education, tech and hobby niches, plus a long-standing interest in the copywriting craft behind headlines that inform rather than mislead.</p>
+
+<p class="small text-muted">Last updated: 19 October 2026</p>
+</article>
+
+<div class="alert disclaimer" role="note">
+<strong>Disclaimer:</strong> This YouTube title generator is a writing aid. It produces suggestions based on common title patterns and does not guarantee views, rankings or revenue. YouTube&rsquo;s own title rules, community guidelines and character limits apply to anything you publish, so review each title before you use it.
+</div>
+
+<footer class="text-center text-muted small py-4">
+<p class="mb-1"><a href="/">A Free Tools</a> &middot; YouTube Title Generator</p>
+<p class="mb-0">Made for creators who would rather publish than stare at a blank box.</p>
+</footer>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

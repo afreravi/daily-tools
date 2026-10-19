@@ -1,0 +1,226 @@
+/* YouTube Title Generator — light theme, primary #60089c */
+
+:root {
+  --primary: #60089c;
+  --primary-dark: #43006d;
+  --primary-mid: #7a1fbd;
+  --primary-light: #9d5ad4;
+  --primary-soft: #f5eefb;
+  --primary-soft-2: #e8d8f7;
+  --ink: #241a2e;
+  --muted: #6b6277;
+  --line: #e5dcf0;
+  --green: #0e7c66;
+  --amber: #b45309;
+  --red: #b91c1c;
+}
+
+body {
+  background: #ffffff;
+  color: var(--ink);
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4 { color: var(--ink); }
+
+a { color: var(--primary); }
+a:hover { color: var(--primary-dark); }
+
+.container { max-width: 1040px; }
+
+.breadcrumb { font-size: .82rem; }
+.breadcrumb-item + .breadcrumb-item::before { color: var(--muted); }
+
+/* ---------- Kickers ---------- */
+.section-kicker {
+  color: var(--primary);
+  letter-spacing: .06em;
+  font-size: .78rem;
+}
+
+/* ---------- Cards ---------- */
+.card { border-radius: .5rem; }
+
+#toolCard, #resultCard {
+  border-top: 3px solid var(--primary);
+}
+
+label {
+  font-weight: 600;
+  font-size: .88rem;
+  color: var(--ink);
+}
+
+.form-control {
+  border-color: var(--line);
+  border-radius: .35rem;
+}
+
+.form-control:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .15);
+}
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.btn-primary:focus {
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .28);
+}
+
+.btn-outline-secondary {
+  color: var(--primary);
+  border-color: var(--primary-soft-2);
+}
+
+.btn-outline-secondary:hover,
+.btn-outline-secondary:focus {
+  background-color: var(--primary-soft);
+  color: var(--primary-dark);
+  border-color: var(--primary-light);
+}
+
+/* ---------- Switches ---------- */
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .2);
+}
+
+/* ---------- Stat tiles ---------- */
+.stat-tile {
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-soft-2);
+  border-radius: .5rem;
+  padding: .7rem .8rem;
+  height: 100%;
+}
+
+.stat-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  line-height: 1.2;
+}
+
+.stat-label {
+  display: block;
+  font-size: .74rem;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  color: var(--muted);
+}
+
+/* ---------- Results table ---------- */
+.title-table thead th {
+  border-top: 0;
+  font-size: .76rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.title-table td {
+  vertical-align: middle;
+}
+
+.title-text {
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.title-note {
+  display: block;
+  font-weight: 400;
+  font-size: .78rem;
+  color: var(--muted);
+}
+
+.char-cell { white-space: nowrap; font-variant-numeric: tabular-nums; }
+
+.badge-ok { background: var(--green); }
+.badge-warn { background: var(--amber); }
+.badge-over { background: var(--red); }
+
+.score-pill {
+  display: inline-block;
+  min-width: 2.4rem;
+  padding: .12rem .45rem;
+  border-radius: 999px;
+  font-size: .76rem;
+  font-weight: 700;
+  color: #fff;
+  background: var(--primary);
+}
+
+.score-pill.is-low { background: var(--amber); }
+.score-pill.is-mid { background: var(--primary-light); }
+
+.copy-btn {
+  padding: .12rem .5rem;
+  font-size: .74rem;
+  line-height: 1.5;
+}
+
+/* ---------- Chart ---------- */
+.chart-figure { margin: 0; }
+
+/* ---------- Best pick ---------- */
+.best-pick {
+  border-left: 4px solid var(--primary);
+  background: var(--primary-soft);
+  border-radius: .35rem;
+  padding: .85rem 1rem;
+}
+
+.best-pick .bp-title {
+  font-weight: 700;
+  color: var(--primary-dark);
+}
+
+/* ---------- Article ---------- */
+.article p, .article li { color: #33283f; }
+
+.article h2 { margin-top: 1.9rem; }
+
+.article ul { padding-left: 1.2rem; }
+
+.article ul li { margin-bottom: .45rem; }
+
+/* ---------- Disclaimer ---------- */
+.disclaimer {
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-soft-2);
+  border-left: 4px solid var(--primary);
+  color: #3b2f48;
+  font-size: .9rem;
+  border-radius: .35rem;
+}
+
+/* ---------- Footer ---------- */
+footer a { color: var(--primary); }
+
+/* ---------- Accessibility ---------- */
+.btn:focus-visible,
+.form-control:focus-visible,
+.custom-control-input:focus-visible ~ .custom-control-label::before {
+  outline: 2px solid var(--primary-dark);
+  outline-offset: 2px;
+}
+
+.sr-only-focusable:focus { position: static; }
