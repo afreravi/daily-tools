@@ -43,7 +43,7 @@
 [done] Random anime character generator
 [done] Quirk Generator
 [done] random animal facts
-youTube title Generator 
+[done] youTube title Generator
 Random String Generator
 UTM link builder
 TVM Calculator

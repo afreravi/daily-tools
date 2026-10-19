@@ -66,3 +66,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 038 | random-anime-character-generator | Rolls original anime OCs with name, age, archetype, power, signature move, catchphrase and a stat chart |
 | 039 | quirk-generator | Rolls random character quirks by tone and category, with contradictions, locking and per-quirk play prompts |
 | 040 | random-animal-facts | Generates random animal facts by group and difficulty, with a group-mix chart and copy/download |
+| 041 | youtube-title-generator | Generates scored, click-worthy YouTube title ideas by format and tone, with live character counts, a length chart and copy/download |
