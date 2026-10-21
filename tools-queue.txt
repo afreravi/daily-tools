@@ -44,7 +44,7 @@
 [done] Quirk Generator
 [done] random animal facts
 [done] youTube title Generator
-Random String Generator
+[done] Random String Generator
 UTM link builder
 TVM Calculator
 Password Generator

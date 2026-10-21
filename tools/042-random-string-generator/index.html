@@ -160,48 +160,47 @@ Select at least one character set (or add extra characters) before generating.
 <!-- ================= ARTICLE ================= -->
 <article class="article">
 <h2 class="h4 font-weight-bold mb-3">What a random string generator is actually for</h2>
-<p>A random string generator turns a length and a set of allowed characters into text that nobody can predict in advance. That sounds trivial, but the whole point is the <em>unpredictability</em>. If you can guess the next string your system will issue, then so can everyone else, and anything built on top of those strings &mdash; a reset link, an order reference, a discount code &mdash; becomes forgeable. This page gives you a fast way to produce random alphanumeric strings, numeric strings, hex-style IDs and symbol-heavy secrets, straight in the browser, with no account and no server round trip.</p>
-<p>Under the hood the generator reads from <code>crypto.getRandomValues()</code>, the browser&rsquo;s cryptographically secure pseudo-random number generator. It is the same source browsers use for session keys and one-time tokens, and it is a different thing entirely from <code>Math.random()</code>, which is tuned for speed rather than secrecy and can be predicted from a handful of earlier outputs. For throwaway test data either would do. For anything a stranger might try to guess, the difference matters.</p>
+<p>A random string generator turns a length and a set of allowed characters into text nobody can predict in advance. That sounds trivial, but the whole point is the <em>unpredictability</em>. If you can guess the next string your system will issue, so can everyone else, and anything built on those strings &mdash; a reset link, an order reference, a discount code &mdash; becomes forgeable. This page produces random alphanumeric strings, numeric strings, hex-style IDs and symbol-heavy secrets straight in the browser, with no account and no server round trip.</p>
+<p>Under the hood the generator reads from <code>crypto.getRandomValues()</code>, the browser&rsquo;s cryptographically secure pseudo-random number generator &mdash; the same source browsers use for session keys and one-time tokens. It is a different thing entirely from <code>Math.random()</code>, which is tuned for speed rather than secrecy and can be predicted from a handful of earlier outputs. For throwaway test data either would do; for anything a stranger might guess, the difference matters.</p>
 
 <h2 class="h4 font-weight-bold mb-3 mt-4">How the generator works, step by step</h2>
 <ol>
-<li><strong>Build the character pool.</strong> Every option you tick contributes characters to one pool: letters, digits, symbols, and whatever you paste into the extra-characters box. Ticking &ldquo;exclude look-alike characters&rdquo; removes <code>0</code>, <code>O</code>, <code>l</code>, <code>1</code> and <code>I</code>, which is the single most useful option if a human will ever read the string aloud or retype it from a screenshot.</li>
-<li><strong>Draw one character at a time.</strong> For each position the script picks a random index into the pool. Because the index comes from the secure random source, every character in the pool is equally likely, so the string carries the full entropy of the pool size.</li>
-<li><strong>Apply your constraints.</strong> If you asked for no repeated characters, a drawn character is discarded and redrawn when it is already in the string. Letter-case and length rules are applied at this stage too.</li>
+<li><strong>Build the character pool.</strong> Every option you tick contributes to one pool: letters, digits, symbols, and whatever you paste into the extra-characters box. Ticking &ldquo;exclude look-alike characters&rdquo; removes <code>0</code>, <code>O</code>, <code>l</code>, <code>1</code> and <code>I</code> &mdash; the most useful option if a human will read the string aloud or retype it from a screenshot.</li>
+<li><strong>Draw one character at a time.</strong> For each position the script picks a random index into the pool. Because that index comes from the secure random source, every character is equally likely, so the string carries the full entropy of the pool size.</li>
+<li><strong>Apply your constraints.</strong> With no-repeats on, a drawn character is discarded and redrawn if it already appears. Letter-case and length rules apply here too.</li>
 <li><strong>Wrap it.</strong> Your prefix and suffix are attached after generation. They are treated as fixed decoration, not as random characters, so they do not add entropy &mdash; a point worth remembering when you size a token.</li>
-<li><strong>Report the maths.</strong> The panel above shows the size of the search space (pool size raised to the power of the length) and the Shannon entropy in bits, so you can judge whether a string is long enough for its job rather than guessing.</li>
+<li><strong>Report the maths.</strong> The panel above shows the search space (pool size raised to the power of the length) and the Shannon entropy in bits, so you can judge whether a string is long enough rather than guessing.</li>
 </ol>
 
 <h2 class="h4 font-weight-bold mb-3 mt-4">Practical ways people use it</h2>
-<p><strong>Test and seed data.</strong> Populating a database with realistic-looking rows is the most common use by far. A batch of two hundred 12-character strings will fill a fixture table in one click, and the download button saves the batch as a plain text file that most test frameworks can read line by line.</p>
-<p><strong>Tokens, salts and nonces.</strong> A 32-character string drawn from letters and digits sits around 190 bits of entropy, comfortably beyond anything brute force will reach. Add symbols when the value is going into a password field or a URL parameter where the wider pool is welcome.</p>
+<p><strong>Test and seed data.</strong> Filling a database with realistic-looking rows is the most common use. A batch of two hundred 12-character strings populates a fixture table in one click, and Download .txt saves it as a plain text file most test frameworks can read line by line.</p>
+<p><strong>Tokens, salts and nonces.</strong> A 32-character string drawn from letters and digits sits around 190 bits of entropy, comfortably beyond brute force. Add symbols when the value goes into a password field where the wider pool is welcome.</p>
 <p><strong>Order references and coupon codes.</strong> Human-facing codes should be short, unambiguous and prefixed. Turn on the look-alike filter, set the case to upper case only, add a prefix such as <code>ORD-</code>, and the result is something a support agent can read over the phone without a second attempt.</p>
-<p><strong>Placeholder identifiers.</strong> UUID-shaped strings, session keys for staging environments, and dummy API keys for documentation screenshots are all one generation away.</p>
 
 <h2 class="h4 font-weight-bold mb-3 mt-4">Pro tips for stronger strings</h2>
 <ul>
-<li><strong>Length beats complexity.</strong> Going from 8 to 16 characters multiplies the search space far more than adding a dozen symbols to a short string. If you can only change one thing, change the length.</li>
-<li><strong>Size the pool to the job.</strong> A six-digit numeric code has a million possibilities &mdash; fine for a one-hour expiry, hopeless for a permanent account identifier.</li>
+<li><strong>Length beats complexity.</strong> Going from 8 to 16 characters multiplies the search space far more than adding a dozen symbols. If you can change only one thing, change the length.</li>
+<li><strong>Size the pool to the job.</strong> A six-digit code has a million possibilities &mdash; fine for a one-hour expiry, hopeless for a permanent identifier.</li>
 <li><strong>Never reuse a string across systems.</strong> Two services sharing a token pattern means one leak compromises both.</li>
-<li><strong>Keep the look-alike filter on for anything a person touches</strong> and off for machine-only values where the extra two or three characters of pool size are free.</li>
-<li><strong>Treat generated secrets as secrets.</strong> This tool runs entirely in your browser and nothing is uploaded, but once you paste a token into a chat message, an issue tracker or a screenshot, it is public. Rotate anything that has been shared.</li>
+<li><strong>Keep the look-alike filter on for anything a person touches,</strong> and off for machine-only values.</li>
+<li><strong>Treat generated secrets as secrets.</strong> Nothing is uploaded, but once you paste a token into a chat message or screenshot it is public. Rotate anything shared.</li>
 </ul>
 
 <h2 class="h4 font-weight-bold mb-3 mt-4">Common mistakes to avoid</h2>
-<p>The classic error is generating a token with <code>Math.random()</code> or a timestamp, then wondering why two users received the same reset link. The second is trimming a string after generation &mdash; a substring of a random string is still random, but if you cut it to eight characters you have quietly dropped most of the entropy you paid for. The third is padding a weak value with a prefix and calling it secure; <code>USER-</code> plus four digits is a guessable sequence wearing a costume. Finally, watch out for character sets that break their container: a symbol-heavy string pasted into a URL, CSV or JSON field needs escaping, so generate URL-safe or alphanumeric values when the destination is fussy.</p>
+<p>The classic error is generating a token with <code>Math.random()</code> or a timestamp, then wondering why two users got the same reset link. The second is trimming a string after generation: a substring is still random, but cutting it to eight characters quietly drops most of the entropy you paid for. The third is padding a weak value with a prefix and calling it secure &mdash; <code>USER-</code> plus four digits is a guessable sequence wearing a costume. Finally, watch out for character sets that break their container: a symbol-heavy string pasted into a URL, CSV or JSON field needs escaping, so generate alphanumeric values when the destination is fussy.</p>
 
 <h2 class="h4 font-weight-bold mb-3 mt-4">Frequently asked questions</h2>
 <div class="faq">
 <h3 class="h6 font-weight-bold">Is this random string generator really random?</h3>
-<p>Yes. It uses <code>crypto.getRandomValues()</code>, the browser&rsquo;s cryptographically secure random number generator, not <code>Math.random()</code>. There is no server involved and no pattern is stored between runs, so refreshing the page gives you a fresh draw.</p>
+<p>Yes. It uses <code>crypto.getRandomValues()</code>, the browser&rsquo;s cryptographically secure random number generator, not <code>Math.random()</code>. No server is involved and nothing is stored between runs, so refreshing gives a fresh draw.</p>
 <h3 class="h6 font-weight-bold">How long should a random string be?</h3>
-<p>For a password or API token, 16 characters from letters, digits and symbols is a reasonable floor, and 24 to 32 is better. For short-lived codes, 6 to 8 digits is acceptable when they expire quickly and are rate limited. The entropy figure in the results panel tells you where you stand.</p>
+<p>For a password or API token, 16 characters from letters, digits and symbols is a reasonable floor, and 24 to 32 is better. For short-lived codes, 6 to 8 digits is acceptable if they expire quickly and are rate limited.</p>
 <h3 class="h6 font-weight-bold">What is the difference between a random string and a UUID?</h3>
-<p>A UUID is a random string with a fixed 128-bit layout and dashes in set positions. This generator produces free-form strings, which is more flexible for codes and test data; use a dedicated UUID generator when a system expects the standard format.</p>
+<p>A UUID is a random string with a fixed 128-bit layout and dashes in set positions. This generator produces free-form strings, which is more flexible for codes and test data; use a dedicated UUID tool when a system expects the standard format.</p>
 <h3 class="h6 font-weight-bold">Can I generate several strings at once?</h3>
-<p>Yes. Set the count to anything from 1 to 200, generate, then use Copy all or Download .txt to take the whole batch into your editor or test suite.</p>
+<p>Yes. Set the count from 1 to 200, generate, then use Copy all or Download .txt to move the batch into your editor.</p>
 <h3 class="h6 font-weight-bold">Is the data I type sent anywhere?</h3>
-<p>No. The tool is plain HTML, CSS and JavaScript that runs in your browser. Prefixes, suffixes and generated strings never leave your device.</p>
+<p>No. The tool is plain HTML, CSS and JavaScript running in your browser, so prefixes, suffixes and generated strings never leave your device.</p>
 </div>
 
 <section class="author-box mt-4 p-3">
