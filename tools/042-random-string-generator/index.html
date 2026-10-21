@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Random String Generator &mdash; Secure Random Text, Passwords &amp; IDs</title>
+<meta name="description" content="Generate random strings online with cryptographically secure randomness. Choose length, characters, prefixes and symbols, then copy or download the results instantly.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/generators">Generators</a></li>
+<li class="breadcrumb-item active" aria-current="page">Random String Generator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Random String Generator</h1>
+<p class="lead mb-0">Create unpredictable random strings for test data, tokens, coupon codes and identifiers. Pick your length and character sets, add an optional prefix or suffix, and generate a whole batch at once &mdash; each string drawn from your browser&rsquo;s cryptographic random source.</p>
+</header>
+
+<!-- ================= TOOL ================= -->
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. Set the shape of the string</h2>
+<div class="row">
+<div class="col-6 col-md-4 mb-3">
+<label for="lengthInput">Length <span class="text-danger">*</span></label>
+<input type="number" id="lengthInput" class="form-control" min="1" max="512" step="1" value="24" inputmode="numeric">
+<div class="invalid-feedback" id="lengthError">Enter a whole number between 1 and 512.</div>
+</div>
+<div class="col-6 col-md-4 mb-3">
+<label for="countInput">How many strings</label>
+<input type="number" id="countInput" class="form-control" min="1" max="200" step="1" value="10" inputmode="numeric">
+<div class="invalid-feedback" id="countError">Enter a whole number between 1 and 200.</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<label for="caseSelect">Letter case</label>
+<select id="caseSelect" class="form-control">
+<option value="both" selected>Upper and lower case</option>
+<option value="upper">Upper case only</option>
+<option value="lower">Lower case only</option>
+</select>
+</div>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3 mt-2">2. Choose the characters</h2>
+<div class="row">
+<div class="col-12 col-md-6">
+<div class="custom-control custom-checkbox mb-2">
+<input type="checkbox" class="custom-control-input" id="chkLetters" checked>
+<label class="custom-control-label" for="chkLetters">Letters (A&ndash;Z, a&ndash;z)</label>
+</div>
+<div class="custom-control custom-checkbox mb-2">
+<input type="checkbox" class="custom-control-input" id="chkDigits" checked>
+<label class="custom-control-label" for="chkDigits">Digits (0&ndash;9)</label>
+</div>
+<div class="custom-control custom-checkbox mb-2">
+<input type="checkbox" class="custom-control-input" id="chkSymbols">
+<label class="custom-control-label" for="chkSymbols">Symbols (!@#$%^&amp;*&hellip;)</label>
+</div>
+<div class="custom-control custom-checkbox mb-2">
+<input type="checkbox" class="custom-control-input" id="chkSafe" checked>
+<label class="custom-control-label" for="chkSafe">Exclude look-alike characters (0, O, l, 1, I)</label>
+</div>
+<div class="custom-control custom-checkbox mb-3">
+<input type="checkbox" class="custom-control-input" id="chkUnique">
+<label class="custom-control-label" for="chkUnique">No repeated characters inside a string</label>
+</div>
+</div>
+<div class="col-12 col-md-6">
+<div class="form-group mb-3">
+<label for="prefixInput">Prefix (optional)</label>
+<textarea id="prefixInput" class="form-control" rows="2" maxlength="40" placeholder="e.g. ORD-"></textarea>
+<small class="form-text text-muted">Added to the start of every string.</small>
+</div>
+<div class="form-group mb-3">
+<label for="suffixInput">Suffix (optional)</label>
+<textarea id="suffixInput" class="form-control" rows="2" maxlength="40" placeholder="e.g. -X"></textarea>
+<small class="form-text text-muted">Added to the end of every string.</small>
+</div>
+<div class="form-group mb-3">
+<label for="customInput">Extra characters to include</label>
+<textarea id="customInput" class="form-control" rows="2" maxlength="80" placeholder="e.g. -_"></textarea>
+<small class="form-text text-muted">Spaces are ignored; duplicates are merged.</small>
+</div>
+</div>
+</div>
+
+<div class="alert alert-danger py-2 mb-3 d-none" id="charsetError" role="alert">
+Select at least one character set (or add extra characters) before generating.
+</div>
+
+<div class="row align-items-end">
+<div class="col-12 col-md-6 mb-2 mb-md-0">
+<button type="button" class="btn btn-primary btn-lg btn-block" id="generateBtn">Generate strings</button>
+</div>
+<div class="col-6 col-md-3 mb-2 mb-md-0">
+<button type="button" class="btn btn-outline-primary btn-block" id="copyAllBtn" disabled>Copy all</button>
+</div>
+<div class="col-6 col-md-3">
+<button type="button" class="btn btn-outline-secondary btn-block" id="downloadBtn" disabled>Download .txt</button>
+</div>
+</div>
+
+<div class="small text-muted mt-3" id="strengthLine" aria-live="polite"></div>
+</div>
+</div>
+
+<!-- ================= RESULTS ================= -->
+<div class="card shadow-sm border-0 mb-5 d-none" id="resultsCard">
+<div class="card-body p-4">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Your random strings</h2>
+
+<div class="row mb-3">
+<div class="col-6 col-md-3 mb-2">
+<div class="stat-tile">
+<div class="stat-label">Strings</div>
+<div class="stat-value" id="statCount">&mdash;</div>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-2">
+<div class="stat-tile">
+<div class="stat-label">Total length</div>
+<div class="stat-value" id="statTotal">&mdash;</div>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-2">
+<div class="stat-tile">
+<div class="stat-label">Possible combinations</div>
+<div class="stat-value" id="statSpace">&mdash;</div>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-2">
+<div class="stat-tile">
+<div class="stat-label">Shannon entropy</div>
+<div class="stat-value" id="statEntropy">&mdash;</div>
+</div>
+</div>
+</div>
+
+<label class="small font-weight-bold text-uppercase text-muted mb-1" for="outputBox">Click any string to copy it</label>
+<textarea id="outputBox" class="form-control output-box" rows="10" readonly spellcheck="false" aria-label="Generated random strings"></textarea>
+<div class="small text-success mt-2 d-none" id="copyNote" role="status">Copied to clipboard.</div>
+
+<div class="mt-4">
+<h3 class="h6 font-weight-bold text-uppercase section-kicker mb-2">Character mix of the batch</h3>
+<canvas id="mixChart" height="150" aria-label="Bar chart showing how many letters, digits and symbols were generated" role="img"></canvas>
+<p class="small text-muted mb-0" id="mixSummary"></p>
+</div>
+</div>
+</div>
+
+<!-- ================= ARTICLE ================= -->
+<article class="article">
+<h2 class="h4 font-weight-bold mb-3">What a random string generator is actually for</h2>
+<p>A random string generator turns a length and a set of allowed characters into text that nobody can predict in advance. That sounds trivial, but the whole point is the <em>unpredictability</em>. If you can guess the next string your system will issue, then so can everyone else, and anything built on top of those strings &mdash; a reset link, an order reference, a discount code &mdash; becomes forgeable. This page gives you a fast way to produce random alphanumeric strings, numeric strings, hex-style IDs and symbol-heavy secrets, straight in the browser, with no account and no server round trip.</p>
+<p>Under the hood the generator reads from <code>crypto.getRandomValues()</code>, the browser&rsquo;s cryptographically secure pseudo-random number generator. It is the same source browsers use for session keys and one-time tokens, and it is a different thing entirely from <code>Math.random()</code>, which is tuned for speed rather than secrecy and can be predicted from a handful of earlier outputs. For throwaway test data either would do. For anything a stranger might try to guess, the difference matters.</p>
+
+<h2 class="h4 font-weight-bold mb-3 mt-4">How the generator works, step by step</h2>
+<ol>
+<li><strong>Build the character pool.</strong> Every option you tick contributes characters to one pool: letters, digits, symbols, and whatever you paste into the extra-characters box. Ticking &ldquo;exclude look-alike characters&rdquo; removes <code>0</code>, <code>O</code>, <code>l</code>, <code>1</code> and <code>I</code>, which is the single most useful option if a human will ever read the string aloud or retype it from a screenshot.</li>
+<li><strong>Draw one character at a time.</strong> For each position the script picks a random index into the pool. Because the index comes from the secure random source, every character in the pool is equally likely, so the string carries the full entropy of the pool size.</li>
+<li><strong>Apply your constraints.</strong> If you asked for no repeated characters, a drawn character is discarded and redrawn when it is already in the string. Letter-case and length rules are applied at this stage too.</li>
+<li><strong>Wrap it.</strong> Your prefix and suffix are attached after generation. They are treated as fixed decoration, not as random characters, so they do not add entropy &mdash; a point worth remembering when you size a token.</li>
+<li><strong>Report the maths.</strong> The panel above shows the size of the search space (pool size raised to the power of the length) and the Shannon entropy in bits, so you can judge whether a string is long enough for its job rather than guessing.</li>
+</ol>
+
+<h2 class="h4 font-weight-bold mb-3 mt-4">Practical ways people use it</h2>
+<p><strong>Test and seed data.</strong> Populating a database with realistic-looking rows is the most common use by far. A batch of two hundred 12-character strings will fill a fixture table in one click, and the download button saves the batch as a plain text file that most test frameworks can read line by line.</p>
+<p><strong>Tokens, salts and nonces.</strong> A 32-character string drawn from letters and digits sits around 190 bits of entropy, comfortably beyond anything brute force will reach. Add symbols when the value is going into a password field or a URL parameter where the wider pool is welcome.</p>
+<p><strong>Order references and coupon codes.</strong> Human-facing codes should be short, unambiguous and prefixed. Turn on the look-alike filter, set the case to upper case only, add a prefix such as <code>ORD-</code>, and the result is something a support agent can read over the phone without a second attempt.</p>
+<p><strong>Placeholder identifiers.</strong> UUID-shaped strings, session keys for staging environments, and dummy API keys for documentation screenshots are all one generation away.</p>
+
+<h2 class="h4 font-weight-bold mb-3 mt-4">Pro tips for stronger strings</h2>
+<ul>
+<li><strong>Length beats complexity.</strong> Going from 8 to 16 characters multiplies the search space far more than adding a dozen symbols to a short string. If you can only change one thing, change the length.</li>
+<li><strong>Size the pool to the job.</strong> A six-digit numeric code has a million possibilities &mdash; fine for a one-hour expiry, hopeless for a permanent account identifier.</li>
+<li><strong>Never reuse a string across systems.</strong> Two services sharing a token pattern means one leak compromises both.</li>
+<li><strong>Keep the look-alike filter on for anything a person touches</strong> and off for machine-only values where the extra two or three characters of pool size are free.</li>
+<li><strong>Treat generated secrets as secrets.</strong> This tool runs entirely in your browser and nothing is uploaded, but once you paste a token into a chat message, an issue tracker or a screenshot, it is public. Rotate anything that has been shared.</li>
+</ul>
+
+<h2 class="h4 font-weight-bold mb-3 mt-4">Common mistakes to avoid</h2>
+<p>The classic error is generating a token with <code>Math.random()</code> or a timestamp, then wondering why two users received the same reset link. The second is trimming a string after generation &mdash; a substring of a random string is still random, but if you cut it to eight characters you have quietly dropped most of the entropy you paid for. The third is padding a weak value with a prefix and calling it secure; <code>USER-</code> plus four digits is a guessable sequence wearing a costume. Finally, watch out for character sets that break their container: a symbol-heavy string pasted into a URL, CSV or JSON field needs escaping, so generate URL-safe or alphanumeric values when the destination is fussy.</p>
+
+<h2 class="h4 font-weight-bold mb-3 mt-4">Frequently asked questions</h2>
+<div class="faq">
+<h3 class="h6 font-weight-bold">Is this random string generator really random?</h3>
+<p>Yes. It uses <code>crypto.getRandomValues()</code>, the browser&rsquo;s cryptographically secure random number generator, not <code>Math.random()</code>. There is no server involved and no pattern is stored between runs, so refreshing the page gives you a fresh draw.</p>
+<h3 class="h6 font-weight-bold">How long should a random string be?</h3>
+<p>For a password or API token, 16 characters from letters, digits and symbols is a reasonable floor, and 24 to 32 is better. For short-lived codes, 6 to 8 digits is acceptable when they expire quickly and are rate limited. The entropy figure in the results panel tells you where you stand.</p>
+<h3 class="h6 font-weight-bold">What is the difference between a random string and a UUID?</h3>
+<p>A UUID is a random string with a fixed 128-bit layout and dashes in set positions. This generator produces free-form strings, which is more flexible for codes and test data; use a dedicated UUID generator when a system expects the standard format.</p>
+<h3 class="h6 font-weight-bold">Can I generate several strings at once?</h3>
+<p>Yes. Set the count to anything from 1 to 200, generate, then use Copy all or Download .txt to take the whole batch into your editor or test suite.</p>
+<h3 class="h6 font-weight-bold">Is the data I type sent anywhere?</h3>
+<p>No. The tool is plain HTML, CSS and JavaScript that runs in your browser. Prefixes, suffixes and generated strings never leave your device.</p>
+</div>
+
+<section class="author-box mt-4 p-3">
+<h2 class="h6 font-weight-bold mb-1">About the author</h2>
+<p class="mb-1">Written and maintained by the <strong>AfreeTools engineering team</strong>, who build small browser-based utilities for developers, marketers and anyone who needs a quick answer without signing up. Each tool is hand-coded, tested against awkward inputs, and kept free of trackers.</p>
+<p class="small text-muted mb-0">Last updated: 21 October 2026 &middot; Reviewed for accuracy of the entropy and character-pool explanations.</p>
+</section>
+
+<p class="disclaimer small text-muted mt-4 mb-0"><strong>Disclaimer:</strong> This random string generator is provided for convenience and educational use. Strings are generated locally in your browser with the Web Crypto API; while the randomness is cryptographically strong, you are responsible for storing and rotating any secrets you create here. The authors accept no liability for loss arising from the use of values produced by this tool. Always follow your organisation&rsquo;s security policy for production credentials.</p>
+</article>
+
+</main>
+
+<footer class="container pb-4 small text-muted">
+<p class="mb-0">&copy; <span id="year">2026</span> AfreeTools &middot; Free browser-based tools.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
