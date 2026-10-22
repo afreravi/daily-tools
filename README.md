@@ -68,3 +68,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 040 | random-animal-facts | Generates random animal facts by group and difficulty, with a group-mix chart and copy/download |
 | 041 | youtube-title-generator | Generates scored, click-worthy YouTube title ideas by format and tone, with live character counts, a length chart and copy/download |
 | 042 | random-string-generator | Cryptographically secure random strings with length, character set, prefix/suffix, batch export and an entropy read-out |
+| 043 | utm-link-builder | Builds UTM-tagged campaign URLs with presets, validation, a parameter breakdown table and a link-length chart |
