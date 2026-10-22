@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UTM Link Builder &mdash; Create Trackable Campaign URLs Free</title>
+<meta name="description" content="Build UTM tracking links in seconds. Add source, medium and campaign tags, validate them, preview the tagged URL and copy it for Google Analytics reports.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/marketing">Marketing</a></li>
+<li class="breadcrumb-item active" aria-current="page">UTM Link Builder</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">UTM Link Builder</h1>
+<p class="lead mb-0">Tag any destination URL with UTM parameters so Google Analytics, Matomo or Adobe Analytics can attribute the visit to the right campaign. Fill in the form, watch the tagged URL build itself, then copy it straight into your ad, email or social post.</p>
+</header>
+
+<!-- ================= TOOL ================= -->
+<div class="card shadow-sm border-0 mb-5" id="toolCard">
+<div class="card-body p-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. Destination</h2>
+<div class="form-group mb-4">
+<label for="baseUrl">Landing page URL <span class="text-danger">*</span></label>
+<input type="text" id="baseUrl" class="form-control" placeholder="https://example.com/pricing" autocomplete="off" spellcheck="false">
+<div class="invalid-feedback" id="baseUrlError">Enter a valid absolute URL, for example https://example.com/pricing</div>
+<small class="form-text text-muted">Use the full address including https://. Existing query parameters are kept and merged.</small>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">2. Campaign parameters</h2>
+<div class="row">
+<div class="col-12 col-md-6 mb-3">
+<label for="utmSource">Campaign source <span class="text-danger">*</span> <span class="badge badge-light text-muted">utm_source</span></label>
+<input type="text" id="utmSource" class="form-control" placeholder="google, newsletter, linkedin" autocomplete="off" spellcheck="false">
+<div class="invalid-feedback" id="utmSourceError">Campaign source is required. Use lowercase words without spaces.</div>
+</div>
+<div class="col-12 col-md-6 mb-3">
+<label for="utmMedium">Campaign medium <span class="text-danger">*</span> <span class="badge badge-light text-muted">utm_medium</span></label>
+<input type="text" id="utmMedium" class="form-control" placeholder="cpc, email, social" autocomplete="off" spellcheck="false">
+<div class="invalid-feedback" id="utmMediumError">Campaign medium is required. Use lowercase words without spaces.</div>
+</div>
+<div class="col-12 col-md-6 mb-3">
+<label for="utmCampaign">Campaign name <span class="text-danger">*</span> <span class="badge badge-light text-muted">utm_campaign</span></label>
+<input type="text" id="utmCampaign" class="form-control" placeholder="spring_sale_2026" autocomplete="off" spellcheck="false">
+<div class="invalid-feedback" id="utmCampaignError">Campaign name is required. Use lowercase words without spaces.</div>
+</div>
+<div class="col-12 col-md-6 mb-3">
+<label for="utmId">Campaign ID <span class="text-muted small font-weight-normal">(optional)</span></label>
+<input type="text" id="utmId" class="form-control" placeholder="abc123" autocomplete="off" spellcheck="false">
+<div class="invalid-feedback" id="utmIdError">Campaign ID cannot contain spaces.</div>
+</div>
+<div class="col-12 col-md-6 mb-3">
+<label for="utmTerm">Paid keyword term <span class="text-muted small font-weight-normal">(optional)</span></label>
+<input type="text" id="utmTerm" class="form-control" placeholder="running shoes" autocomplete="off" spellcheck="false">
+<small class="form-text text-muted">Used mainly for paid search. Spaces become %20 automatically.</small>
+</div>
+<div class="col-12 col-md-6 mb-3">
+<label for="utmContent">Content variant <span class="text-muted small font-weight-normal">(optional)</span></label>
+<input type="text" id="utmContent" class="form-control" placeholder="blue_banner" autocomplete="off" spellcheck="false">
+<small class="form-text text-muted">Great for A/B tests: name each creative differently.</small>
+</div>
+</div>
+
+<div class="row align-items-end mb-2">
+<div class="col-12 col-md-6 mb-3">
+<label for="presetSelect">Quick preset</label>
+<select id="presetSelect" class="form-control">
+<option value="">Choose a preset&hellip;</option>
+<option value="google-cpc">Google Ads &mdash; paid search</option>
+<option value="facebook-paid">Facebook &mdash; paid social</option>
+<option value="newsletter">Email newsletter</option>
+<option value="linkedin-organic">LinkedIn &mdash; organic post</option>
+<option value="youtube-video">YouTube &mdash; video description</option>
+<option value="affiliate">Affiliate / partner link</option>
+</select>
+</div>
+<div class="col-12 col-md-6 mb-3">
+<label for="caseMode">Letter case of the tags</label>
+<select id="caseMode" class="form-control">
+<option value="lower" selected>Force lowercase (recommended)</option>
+<option value="keep">Keep exactly as typed</option>
+</select>
+</div>
+</div>
+
+<div class="custom-control custom-checkbox mb-3">
+<input type="checkbox" class="custom-control-input" id="chkSpaces" checked>
+<label class="custom-control-label" for="chkSpaces">Replace spaces with underscores (safest for analytics tools)</label>
+</div>
+
+<div class="row">
+<div class="col-12 col-md-6 mb-2">
+<button type="button" id="buildBtn" class="btn btn-primary btn-block">Build tracking link</button>
+</div>
+<div class="col-12 col-md-6 mb-2">
+<button type="button" id="resetBtn" class="btn btn-outline-secondary btn-block">Reset form</button>
+</div>
+</div>
+</div>
+</div>
+
+<!-- ================= RESULT ================= -->
+<div class="card shadow-sm border-0 mb-5" id="resultCard">
+<div class="card-body p-4">
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Your tagged URL</h2>
+
+<div id="emptyState" class="text-muted small mb-0">Fill in the destination URL and the three required campaign fields, then press <strong>Build tracking link</strong>.</div>
+
+<div id="resultWrap" class="d-none">
+<div class="form-group mb-3">
+<label for="outputUrl" class="sr-only">Generated tracking URL</label>
+<textarea id="outputUrl" class="form-control output-box" rows="3" readonly></textarea>
+</div>
+
+<div class="row mb-3">
+<div class="col-12 col-md-6 mb-2">
+<button type="button" id="copyBtn" class="btn btn-primary btn-block">Copy URL</button>
+</div>
+<div class="col-12 col-md-6 mb-2">
+<a href="#" id="openBtn" class="btn btn-outline-primary btn-block" target="_blank" rel="noopener">Open in new tab</a>
+</div>
+</div>
+<div id="copyNote" class="small text-success mb-3" role="status" aria-live="polite"></div>
+
+<div class="row mb-4">
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile">
+<div class="stat-label">URL length</div>
+<div class="stat-value" id="statLength">0</div>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile">
+<div class="stat-label">Parameters</div>
+<div class="stat-value" id="statParams">0</div>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile">
+<div class="stat-label">Link status</div>
+<div class="stat-value" id="statStatus">&mdash;</div>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile">
+<div class="stat-label">Tagged with</div>
+<div class="stat-value" id="statTags">0</div>
+</div>
+</div>
+</div>
+
+<h3 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Parameter breakdown</h3>
+<div class="table-responsive mb-4">
+<table class="table table-sm breakdown-table mb-0">
+<thead>
+<tr><th scope="col">Parameter</th><th scope="col">Value sent</th><th scope="col">Characters added</th></tr>
+</thead>
+<tbody id="breakdownBody"></tbody>
+</table>
+</div>
+
+<h3 class="h6 font-weight-bold text-uppercase section-kicker mb-2">How each tag grows the URL</h3>
+<p class="small text-muted mb-2">Long links break in email clients and some chat apps. This chart shows how many characters the base address and each tag contribute.</p>
+<canvas id="urlChart" width="720" height="240" role="img" aria-label="Bar chart of characters contributed by the base URL and each UTM parameter"></canvas>
+<div id="chartFallback" class="small text-muted mt-2 d-none">Your browser cannot draw the chart, but the numbers in the table above are complete.</div>
+
+<div id="warnBox" class="alert alert-warning small mt-4 mb-0 d-none" role="alert"></div>
+</div>
+</div>
+</div>
+
+<!-- ================= ARTICLE ================= -->
+<article class="article mb-5">
+<h2 class="h4 font-weight-bold mb-3">What a UTM link builder actually does</h2>
+<p>A UTM link builder takes a plain destination address and appends a small set of query parameters that describe where a visit came from. UTM stands for Urchin Tracking Module, a naming leftover from Urchin Software, the analytics company Google acquired in 2005. The idea survived the acquisition because it works: instead of guessing why a spike of traffic appeared, you attach the reason to the link itself and let your analytics platform read it back.</p>
+<p>When a visitor clicks a tagged link, the analytics script on your page reads five possible parameters and stores them with the session. In Google Analytics 4 they land in the traffic source dimensions as session source, session medium and session campaign. In Universal Analytics and Matomo the names were slightly different but the values were the same. This tool builds those parameters for you, checks them for the mistakes that silently break reports, and shows how much length each tag adds.</p>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">The five standard parameters</h3>
+<p><strong>utm_source</strong> names the platform or publication the click came from, such as google, newsletter or linkedin. <strong>utm_medium</strong> names the channel type, such as cpc, email, social or organic. <strong>utm_campaign</strong> names the specific initiative, for example spring_sale_2026. Together these three are the minimum set most teams agree on, which is why this builder requires them.</p>
+<p><strong>utm_term</strong> records the paid keyword that triggered an ad and is mainly useful for paid search. <strong>utm_content</strong> distinguishes two creatives inside the same campaign, which makes it the workhorse of A/B testing. A newer parameter, utm_id, links a click to an internal campaign identifier, often used when you reconcile ad platform spend with analytics conversions.</p>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">Naming conventions are the real product</h3>
+<p>Building the URL is easy. Keeping it consistent across a team of ten marketers is not. Analytics tools treat google, Google and GOOGLE as three separate sources, and they treat spring-sale, spring_sale and spring sale as three separate campaigns. Every variant splits your report into thinner slices and makes month-over-month comparison unreliable.</p>
+<p>The single most valuable habit is a written naming convention: lowercase everywhere, underscores between words, and a fixed order of words inside a campaign name, for instance product_audience_channel_date. This builder&rsquo;s lowercase option enforces the first half of that rule automatically. The rest is a shared document and a little discipline during campaign planning.</p>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">Practical ways teams use tracking links</h3>
+<p>Paid search teams tag each ad group with a distinct utm_content value so they can compare a headline change without touching the destination page. Email marketers tag every link in a newsletter with the same source and medium but a per-link content value, which reveals whether the hero button or the footer link earned the click. Partnership managers tag an affiliate link so the partner receives credit while the same landing page keeps its organic performance intact.</p>
+<p>Social teams often need to separate paid from organic traffic on the same platform. The clean split is utm_medium=cpc for promoted posts and utm_medium=social for unpaid ones, while utm_source stays the platform name. When the two are muddled, a paid campaign looks like an unexpected surge of organic success and budgets get reallocated on bad evidence.</p>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">Common mistakes this builder checks for</h3>
+<ul class="mistake-list">
+<li><strong>Capitalised values.</strong> Google, Google and google are three sources. Lowercasing is the cheapest fix in analytics.</li>
+<li><strong>Spaces left raw.</strong> A space in a query string is technically invalid and is often encoded as %20 or turned into a plus sign. Underscores avoid the ambiguity entirely.</li>
+<li><strong>Tagging internal links.</strong> Clicking a tagged link from your own site starts a new session and overwrites the original source, so an internal campaign ends up credited for traffic that never left. Tag outbound placements only.</li>
+<li><strong>Reusing one campaign name forever.</strong> A permanent value such as newsletter makes it impossible to compare two sends. Add a month or edition number.</li>
+<li><strong>Tagging a redirect.</strong> If the tagged URL immediately redirects, most analytics setups drop the parameters. Tag the final destination instead.</li>
+<li><strong>Forgetting the required three.</strong> Without source, medium and campaign, GA4 buckets the visit as direct or unassigned and the campaign disappears from reports.</li>
+</ul>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">Frequently asked questions</h3>
+<div class="faq">
+<div class="faq-item">
+<h4 class="h6 font-weight-bold mb-1">Do UTM parameters hurt SEO?</h4>
+<p class="mb-0">Tagged URLs are not indexed as separate pages when a canonical tag is present, so they do not create duplicate content problems. The practical risk is different: tagging internal links creates extra sessions and distorts your own source data. Tag external placements, not links inside your site.</p>
+</div>
+<div class="faq-item">
+<h4 class="h6 font-weight-bold mb-1">How long should a UTM link be?</h4>
+<p class="mb-0">Under roughly 2,000 characters is the technical ceiling for most browsers, but the practical limit is much lower. Keep the whole link under about 300 characters so it survives email clients and chat previews without wrapping or truncation. This tool shows the running total as you type.</p>
+</div>
+<div class="faq-item">
+<h4 class="h6 font-weight-bold mb-1">Should I use utm_source or the referrer?</h4>
+<p class="mb-0">The referrer is automatic but fragile: privacy settings, apps and redirects strip it often. UTM parameters are explicit and survive those hops, which is why paid and email traffic is nearly always tagged. Use the referrer for organic discovery, and tag anything you control or pay for.</p>
+</div>
+<div class="faq-item">
+<h4 class="h6 font-weight-bold mb-1">Does capitalisation really matter?</h4>
+<p class="mb-0">Yes. GA4 compares parameter values as plain text, so Email and email become two rows in the report. Force lowercase as a habit and your channel groupings stay clean.</p>
+</div>
+<div class="faq-item">
+<h4 class="h6 font-weight-bold mb-1">Can I tag a URL that already has parameters?</h4>
+<p class="mb-0">Yes, and this builder handles it. Existing query strings are preserved and the UTM parameters are appended, or merged when a name is already present. Nothing you send to the server is lost.</p>
+</div>
+</div>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">About the author</h3>
+<p class="author-bio">This tool is maintained by the Afree Tools editorial team, a group of analysts and front-end developers who have spent the last decade building measurement dashboards for marketing teams. We wrote this builder after one too many client audits where three spellings of the same source had split a campaign report into useless fragments. Every calculation on this page runs in your browser; nothing you type is uploaded or stored. Last updated: <time datetime="2026-10-22">22 October 2026</time>.</p>
+
+<div class="disclaimer mt-4" role="note">
+<p class="mb-0"><strong>Disclaimer:</strong> This tool is provided for general informational and planning purposes. Analytics platforms change their parameter handling, report naming and retention rules over time, and every property is configured differently. Always confirm how your own analytics setup processes a tagged link before you rely on the numbers in a business decision. The Afree Tools team accepts no liability for decisions made on the basis of these generated links.</p>
+</div>
+</article>
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
