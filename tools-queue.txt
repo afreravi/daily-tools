@@ -45,7 +45,7 @@
 [done] random animal facts
 [done] youTube title Generator
 [done] Random String Generator
-UTM link builder
+[done] UTM link builder
 TVM Calculator
 Password Generator
 IRR calculator
