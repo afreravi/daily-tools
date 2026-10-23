@@ -46,7 +46,7 @@
 [done] youTube title Generator
 [done] Random String Generator
 [done] UTM link builder
-TVM Calculator
+[done] TVM Calculator
 Password Generator
 IRR calculator
 Random Color Generator

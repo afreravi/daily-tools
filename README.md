@@ -69,3 +69,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 041 | youtube-title-generator | Generates scored, click-worthy YouTube title ideas by format and tone, with live character counts, a length chart and copy/download |
 | 042 | random-string-generator | Cryptographically secure random strings with length, character set, prefix/suffix, batch export and an entropy read-out |
 | 043 | utm-link-builder | Builds UTM-tagged campaign URLs with presets, validation, a parameter breakdown table and a link-length chart |
+| 044 | tvm-calculator | Solves the time value of money equation for any one unknown (FV, PV, PMT, N or I/Y), with a balance chart and period-by-period schedule |
