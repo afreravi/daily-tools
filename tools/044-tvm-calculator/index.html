@@ -176,69 +176,68 @@
 <!-- ================= ARTICLE ================= -->
 <article class="article mb-5">
 <h2 class="h4 font-weight-bold mb-3">What the time value of money really measures</h2>
-<p>Money has a price attached to time. A hundred dollars handed over today can be deposited, invested or used to avoid borrowing, so by next year it is worth more than a hundred dollars. That single idea, usually called the time value of money or TVM, is the foundation under almost every financial decision you make: taking a mortgage, funding a retirement account, leasing a car, or choosing between a lump sum and a monthly payout.</p>
-<p>This TVM calculator applies the standard five-variable equation used by financial calculators and spreadsheets. You supply four known values and pick the fifth, and the solver returns it along with a period-by-period balance table and a chart so the answer is not a number you have to trust blindly.</p>
+<p>Money has a price attached to time. A hundred dollars handed over today can be deposited, invested or used to avoid borrowing, so by next year it is worth more. That idea, the time value of money, sits under almost every financial decision: taking a mortgage, funding a retirement account, leasing a car, or choosing between a lump sum and a monthly payout.</p>
+<p>This TVM calculator applies the standard five-variable equation used by financial calculators and spreadsheets. Supply four known values, pick the fifth, and the solver returns it with a period-by-period balance table and a chart.</p>
 
 <h3 class="h5 font-weight-bold mt-4 mb-2">The five variables, and how they relate</h3>
-<p>Every TVM problem is a variation of one equation. The variables are:</p>
+<p>Every TVM problem is a variation of one equation:</p>
 <ul class="var-list">
-<li><strong>N</strong> &mdash; the number of compounding periods, not the number of years. A thirty-year mortgage paid monthly has N = 360.</li>
-<li><strong>I/Y</strong> &mdash; the annual interest rate, quoted as a percentage. The calculator converts it to a rate per payment period.</li>
+<li><strong>N</strong> &mdash; periods, not years. A thirty-year mortgage paid monthly has N = 360.</li>
+<li><strong>I/Y</strong> &mdash; the annual interest rate. The calculator converts it to a rate per payment period.</li>
 <li><strong>PV</strong> &mdash; present value, the lump sum sitting at time zero. For a loan this is the amount borrowed.</li>
-<li><strong>PMT</strong> &mdash; the payment made every period. It is constant, which is what makes this an annuity rather than a general cash-flow problem.</li>
+<li><strong>PMT</strong> &mdash; the payment made every period. It is constant, which makes this an annuity rather than a general cash-flow problem.</li>
 <li><strong>FV</strong> &mdash; future value, the balance left after the last period. A savings goal is a future value; a paid-off loan ends at FV = 0.</li>
 </ul>
-<p>The relationship is <em>FV + PV &times; (1 + r)<sup>N</sup> + PMT &times; ((1 + r)<sup>N</sup> &minus; 1) / r = 0</em> for ordinary payments, where r is the rate per period. Multiply the payment term by (1 + r) and you have the annuity-due version used when payments happen at the start of each period, such as rent or a lease.</p>
+<p>The relationship is <em>FV + PV &times; (1 + r)<sup>N</sup> + PMT &times; ((1 + r)<sup>N</sup> &minus; 1) / r = 0</em> for ordinary payments, where r is the rate per period. Multiply the payment term by (1 + r) for the annuity-due version used when payments fall at the start of each period, such as rent.</p>
 
 <h3 class="h5 font-weight-bold mt-4 mb-2">Why one number must be negative</h3>
-<p>Financial calculators borrow a convention from double-entry bookkeeping: cash leaving your pocket is negative and cash arriving is positive. If you save $10,000 today and add $500 a month, the deposit and the payments are negative because they leave you, and the future value comes back positive because you eventually receive it. Break that rule and the solver will happily return a number that describes no real situation.</p>
-<p>If you are unsure which sign to use, ask a simple question: is this money I hand over, or money I get back? Hand over, type a minus sign. Get back, type it plain.</p>
+<p>Financial calculators borrow a convention from bookkeeping: cash leaving your pocket is negative, cash arriving is positive. Save $10,000 today and add $500 a month, and the deposit and payments are negative while the future value comes back positive because you eventually receive it. Break that rule and the solver returns a number that describes no real situation. If you are unsure, ask whether the money is handed over (type a minus) or received (type it plain).</p>
 
 <h3 class="h5 font-weight-bold mt-4 mb-2">A worked example: growing a retirement pot</h3>
-<p>Suppose you deposit $10,000 today into an account earning 7% a year, then add $500 at the end of every month for ten years, with monthly compounding. Set N = 120, I/Y = 7, PV = &minus;10,000, PMT = &minus;500, and solve for FV. The result is roughly $106,600. Of that, $70,000 is money you contributed and the rest is growth &mdash; a useful reminder that the two levers you control are the amount and the number of years, and the second one is usually easier to pull.</p>
-<p>Now flip the problem. You want $250,000 in fifteen years and expect 6% a year. Solve for PMT with N = 180, I/Y = 6, PV = 0, FV = 250,000, and the calculator tells you the monthly deposit needed. That is the shape of most real planning: fix the goal, then solve for the payment.</p>
+<p>Deposit $10,000 today into an account earning 7% a year, then add $500 at the end of every month for ten years with monthly compounding. Set N = 120, I/Y = 7, PV = &minus;10,000, PMT = &minus;500 and solve for FV. The result is about $106,600 &mdash; $70,000 of it your own contributions and the rest growth. The two levers you control are the amount and the years; the second is easier to pull.</p>
+<p>Flip it: you want $250,000 in fifteen years at 6% a year. Solve for PMT with N = 180, I/Y = 6, PV = 0, FV = 250,000 and the calculator returns the monthly deposit. That is the shape of most planning &mdash; fix the goal, then solve for the payment.</p>
 
 <h3 class="h5 font-weight-bold mt-4 mb-2">Payment frequency versus compounding frequency</h3>
-<p>Most people treat these as the same thing, and most of the time they are. But they genuinely differ. A Canadian mortgage, for example, is often compounded semi-annually while payments are monthly. If you set C/Y = 2 and P/Y = 12, this tool converts the nominal rate into the effective rate that actually applies over each monthly payment period, which is why the answer is slightly different from simply dividing the annual rate by twelve.</p>
+<p>Most people treat these as identical, and usually they are, but they genuinely differ. A Canadian mortgage is often compounded semi-annually while payments are monthly. Set C/Y = 2 and P/Y = 12 and the tool converts the nominal rate into the effective rate that applies over each payment period &mdash; which is why the answer differs from dividing the annual rate by twelve.</p>
 
 <h3 class="h5 font-weight-bold mt-4 mb-2">How TVM differs from NPV and IRR</h3>
-<p>TVM assumes every payment is identical. Net present value and internal rate of return drop that assumption and let each period carry its own cash flow. Use TVM when the cash flow is level &mdash; a fixed mortgage payment, a lease, a bond coupon, a steady savings deposit. Move to NPV or IRR the moment the amounts change from period to period, because forcing uneven cash flows into a PMT value produces a number that means nothing.</p>
+<p>TVM assumes every payment is identical; net present value and internal rate of return let each period carry its own cash flow. Use TVM when the flow is level &mdash; a fixed mortgage payment, a lease, a bond coupon. Move to NPV or IRR the moment the amounts change, because forcing uneven cash flows into a PMT value produces a meaningless number.</p>
 
 <h3 class="h5 font-weight-bold mt-4 mb-2">Common mistakes to avoid</h3>
 <ul class="mistake-list">
-<li><strong>Mixing years and periods.</strong> A monthly rate with an annual N understates everything. Divide the rate by the payment frequency and multiply the years by it.</li>
-<li><strong>Using the nominal rate as the period rate.</strong> 12% compounded monthly is not 1% per month in every context; it depends on the compounding convention your product actually uses.</li>
-<li><strong>Solving for a rate that cannot exist.</strong> If your cash flows never change sign, there is no internal rate. If they change sign more than once, there may be several, and the solver reports the sensible one.</li>
-<li><strong>Forgetting that FV must be zero for a loan.</strong> Leaving a residual balance quietly turns a payoff calculation into a balloon calculation.</li>
-<li><strong>Ignoring fees and taxes.</strong> The rate you type is the rate the account pays after nothing. Expense ratios, taxes and insurance all live outside this equation.</li>
+<li><strong>Mixing years and periods.</strong> A monthly rate with an annual N understates everything. Divide the rate by the payment frequency, and multiply the years by it.</li>
+<li><strong>Using the nominal rate as the period rate.</strong> 12% compounded monthly is not 1% per month in every context; it depends on the convention your product uses.</li>
+<li><strong>Solving for a rate that cannot exist.</strong> If the cash flows never change sign there is no internal rate; if they change sign more than once there may be several, and the solver reports the sensible one.</li>
+<li><strong>Forgetting that FV must be zero for a loan.</strong> A residual balance quietly turns a payoff calculation into a balloon calculation.</li>
+<li><strong>Ignoring fees and taxes.</strong> Expense ratios, taxes and insurance all live outside this equation.</li>
 </ul>
 
 <h3 class="h5 font-weight-bold mt-4 mb-2">Frequently asked questions</h3>
 <div class="faq">
 <div class="faq-item">
 <h4 class="h6 font-weight-bold mb-1">What does TVM mean in finance?</h4>
-<p class="mb-0">Time value of money is the principle that a sum of money is worth more the sooner it is received, because it can earn a return in the meantime. The TVM calculator quantifies that difference for a level series of payments at a constant interest rate.</p>
+<p class="mb-0">Money is worth more the sooner it is received, because it can earn a return in the meantime. This calculator measures that difference for a level series of payments at a constant rate.</p>
 </div>
 <div class="faq-item">
 <h4 class="h6 font-weight-bold mb-1">How do I know which variable to leave blank?</h4>
-<p class="mb-0">Leave blank the one thing you are trying to learn. If you want to know how much to save each month, solve for PMT. If you want to know how long the money lasts, solve for N. The calculator refuses to solve when two variables are missing, because the problem is then underdetermined.</p>
+<p class="mb-0">Leave blank the one thing you want to learn: PMT to find a monthly saving, N to find how long money lasts. Solving is refused when two variables are missing, because the problem is then underdetermined.</p>
 </div>
 <div class="faq-item">
 <h4 class="h6 font-weight-bold mb-1">Can I use TVM for a car loan or mortgage?</h4>
-<p class="mb-0">Yes. Enter the amount borrowed as a positive PV, set FV to zero, and solve for PMT. That returns the level payment that clears the loan in exactly N periods at the stated rate.</p>
+<p class="mb-0">Yes. Enter the amount borrowed as a positive PV, set FV to zero and solve for PMT. That returns the payment that clears the loan in exactly N periods at the stated rate.</p>
 </div>
 <div class="faq-item">
 <h4 class="h6 font-weight-bold mb-1">Why is the interest rate shown per year but N per period?</h4>
-<p class="mb-0">Because interest rates are conventionally quoted annually while payments arrive monthly, quarterly or weekly. This calculator converts between the two using your P/Y and C/Y settings so the numbers stay consistent.</p>
+<p class="mb-0">Because rates are quoted annually while payments arrive monthly, quarterly or weekly. The P/Y and C/Y settings convert between the two.</p>
 </div>
 <div class="faq-item">
 <h4 class="h6 font-weight-bold mb-1">Does this calculator store my numbers?</h4>
-<p class="mb-0">No. Every calculation runs in your browser with plain JavaScript. Nothing is sent to a server, logged or saved between visits.</p>
+<p class="mb-0">No. Every calculation runs in your browser with plain JavaScript, and nothing is saved between visits.</p>
 </div>
 </div>
 
 <h3 class="h5 font-weight-bold mt-4 mb-2">About the author</h3>
-<p class="author-bio">This calculator is maintained by the Afree Tools editorial team, a group of analysts who have spent years building valuation and budgeting models for lenders, advisers and small businesses. The formulas here mirror the TVM worksheet found on standard financial calculators, including the annuity-due adjustment and the separation of payment and compounding frequency, because that is where most spreadsheet models quietly go wrong. Last updated: <time datetime="2026-10-23">23 October 2026</time>.</p>
+<p class="author-bio">This calculator is maintained by the Afree Tools editorial team, analysts who have spent years building valuation and budgeting models for lenders, advisers and small businesses. The formulas mirror the TVM worksheet on standard financial calculators, including the annuity-due adjustment and the split between payment and compounding frequency, because that is where most spreadsheet models quietly go wrong. Last updated: <time datetime="2026-10-23">23 October 2026</time>.</p>
 
 <div class="disclaimer mt-4" role="note">
 <p class="mb-0"><strong>Disclaimer:</strong> This tool is provided for general informational and educational purposes only. It is not financial, tax, investment or legal advice. Real products add fees, taxes, insurance and rate changes that a constant-rate model cannot capture, and rounding differences exist between lenders and calculators. Always confirm figures with your lender, broker or a qualified adviser before making a financial decision. The Afree Tools team accepts no liability for decisions made on the basis of these results.</p>
