@@ -1,0 +1,181 @@
+/* TVM Calculator — light theme built around primary #60089c */
+
+:root {
+  --primary: #60089c;
+  --primary-dark: #43006d;
+  --primary-mid: #7a1fbd;
+  --primary-light: #9d5ad4;
+  --primary-soft: #f7f1fc;
+  --primary-soft-2: #ecdcfa;
+  --ink: #241a2e;
+  --muted: #6b6277;
+  --line: #e6ddf1;
+  --green: #0e7c66;
+  --amber: #b45309;
+  --red: #b91c1c;
+}
+
+body {
+  background: #ffffff;
+  color: var(--ink);
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4 { color: var(--ink); }
+a { color: var(--primary); }
+a:hover { color: var(--primary-dark); }
+.container { max-width: 1040px; }
+
+.breadcrumb { font-size: .82rem; }
+.breadcrumb-item + .breadcrumb-item::before { color: var(--muted); }
+
+.section-kicker {
+  color: var(--primary);
+  letter-spacing: .06em;
+  font-size: .78rem;
+}
+
+/* ---------- Cards ---------- */
+.card { border-radius: .6rem; }
+#toolCard { border-top: .28rem solid var(--primary) !important; }
+#resultCard { border-top: .28rem solid var(--primary-light) !important; }
+
+/* ---------- Forms ---------- */
+.form-control {
+  border-color: var(--line);
+  border-radius: .4rem;
+}
+.form-control:focus {
+  border-color: var(--primary-light);
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .15);
+}
+label { font-weight: 600; font-size: .93rem; }
+.badge-light {
+  background: var(--primary-soft);
+  color: var(--primary-dark) !important;
+  font-weight: 600;
+  font-size: .68rem;
+  letter-spacing: .02em;
+}
+input[aria-invalid="true"] { border-color: var(--red); }
+
+/* ---------- Buttons ---------- */
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  font-weight: 600;
+}
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:not(:disabled):not(.disabled):active {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+.btn-outline-primary {
+  color: var(--primary);
+  border-color: var(--primary-light);
+  font-weight: 600;
+  font-size: .88rem;
+}
+.btn-outline-primary:hover,
+.btn-outline-primary.active,
+.btn-outline-primary:not(:disabled):not(.disabled).active {
+  background-color: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
+}
+.btn-link { color: var(--primary); font-weight: 600; }
+.btn-link:hover { color: var(--primary-dark); }
+.btn-group-toggle .btn { text-align: left; }
+
+/* ---------- Result hero ---------- */
+.result-hero {
+  background: linear-gradient(135deg, var(--primary-soft) 0%, var(--primary-soft-2) 100%);
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  padding: 1.25rem 1.4rem;
+}
+.result-value {
+  font-size: 2.1rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  line-height: 1.15;
+  word-break: break-word;
+}
+
+/* ---------- Stat tiles ---------- */
+.stat-tile {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: .5rem;
+  padding: .85rem .95rem;
+  height: 100%;
+}
+.stat-label {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  font-weight: 700;
+  margin-bottom: .2rem;
+}
+.stat-value {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--ink);
+  word-break: break-word;
+}
+
+/* ---------- Tables ---------- */
+.breakdown-table thead th {
+  border-top: 0;
+  border-bottom: 2px solid var(--primary-soft-2);
+  font-size: .74rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.breakdown-table td {
+  font-size: .86rem;
+  vertical-align: middle;
+  border-top: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+.breakdown-table tbody tr:hover { background: var(--primary-soft); }
+.breakdown-table .row-neg { color: var(--red); }
+
+/* ---------- Article ---------- */
+.article { max-width: 100%; }
+.article p { margin-bottom: 1rem; }
+.article .var-list,
+.article .mistake-list { padding-left: 1.15rem; margin-bottom: 1rem; }
+.article .var-list li,
+.article .mistake-list li { margin-bottom: .45rem; }
+.article .faq-item {
+  border-left: 3px solid var(--primary-soft-2);
+  padding: .1rem 0 .1rem .9rem;
+  margin-bottom: 1rem;
+}
+.author-bio {
+  background: var(--primary-soft);
+  border-radius: .5rem;
+  padding: 1rem 1.1rem;
+  font-size: .95rem;
+}
+.disclaimer {
+  background: #fdfaf2;
+  border: 1px solid #f0e4c8;
+  border-radius: .5rem;
+  padding: .9rem 1.05rem;
+  font-size: .85rem;
+  color: #5a4a2c;
+}
+
+canvas { max-width: 100%; }
+
+@media (max-width: 575.98px) {
+  .result-value { font-size: 1.6rem; }
+  .btn-group-toggle .btn { font-size: .82rem; }
+}

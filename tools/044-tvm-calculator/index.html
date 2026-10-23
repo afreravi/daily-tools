@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TVM Calculator &mdash; Time Value of Money Solver for PV, FV &amp; PMT</title>
+<meta name="description" content="Free TVM calculator solves the time value of money equation for any one unknown: present value, future value, payment, number of periods or interest rate.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/finance">Finance</a></li>
+<li class="breadcrumb-item active" aria-current="page">TVM Calculator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">TVM Calculator</h1>
+<p class="lead mb-0">The time value of money says a dollar today is worth more than a dollar later. Enter four of the five TVM variables, choose the one you want solved, and this calculator finds it &mdash; then shows the period-by-period balance so you can see where the number comes from.</p>
+</header>
+
+<!-- ================= TOOL ================= -->
+<div class="card shadow-sm border-0 mb-4" id="toolCard">
+<div class="card-body p-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. What should be solved?</h2>
+<div class="row">
+<div class="col-12 col-md-5 mb-3">
+<label for="solveFor">Solve for</label>
+<select id="solveFor" class="form-control">
+<option value="fv" selected>Future value (FV)</option>
+<option value="pv">Present value (PV)</option>
+<option value="pmt">Payment (PMT)</option>
+<option value="n">Number of periods (N)</option>
+<option value="rate">Interest rate (I/Y)</option>
+</select>
+<small class="form-text text-muted">The selected variable is computed; the other four are your inputs.</small>
+</div>
+<div class="col-12 col-md-7 mb-3">
+<label id="cashFlowLabel">Cash-flow sign convention</label>
+<div class="btn-group btn-group-toggle d-block" data-toggle="buttons" role="group" aria-labelledby="cashFlowLabel">
+<label class="btn btn-outline-primary active" id="hintEndWrap">
+<input type="radio" name="timing" value="end" checked> Payments at end of period
+</label>
+<label class="btn btn-outline-primary" id="hintBeginWrap">
+<input type="radio" name="timing" value="begin"> Payments at start (annuity due)
+</label>
+</div>
+</div>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">2. Frequency settings</h2>
+<div class="row">
+<div class="col-6 col-md-3 mb-3">
+<label for="payPerYear">Payments per year (P/Y)</label>
+<input type="number" id="payPerYear" class="form-control" value="12" min="1" max="365" step="1" inputmode="numeric">
+<div class="invalid-feedback" id="payPerYearError">Enter a whole number between 1 and 365.</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<label for="compPerYear">Compounds per year (C/Y)</label>
+<input type="number" id="compPerYear" class="form-control" value="12" min="1" max="365" step="1" inputmode="numeric">
+<div class="invalid-feedback" id="compPerYearError">Enter a whole number between 1 and 365.</div>
+</div>
+<div class="col-12 col-md-6 mb-3 d-flex align-items-end">
+<p class="small text-muted mb-2">Mortgages and savings usually use P/Y = C/Y = 12. Set C/Y = 1 for annual compounding with monthly payments.</p>
+</div>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">3. The five variables</h2>
+<div class="row">
+<div class="col-12 col-md-6 mb-3">
+<label for="periods">Number of periods (N) <span class="badge badge-light text-muted">years &times; P/Y</span></label>
+<input type="number" id="periods" class="form-control" value="10" step="any" inputmode="decimal" autocomplete="off">
+<div class="invalid-feedback" id="periodsError">N must be greater than zero when it is an input.</div>
+</div>
+<div class="col-12 col-md-6 mb-3">
+<label for="rate">Annual interest rate I/Y (%)</label>
+<input type="number" id="rate" class="form-control" value="7" step="any" inputmode="decimal" autocomplete="off">
+<div class="invalid-feedback" id="rateError">Rate must be greater than &minus;100% and no more than 1,000%.</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<label for="pv">Present value (PV)</label>
+<input type="number" id="pv" class="form-control" value="-10000" step="any" inputmode="decimal" autocomplete="off">
+<div class="invalid-feedback" id="pvError">Enter a number. Use a minus sign for money paid out.</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<label for="pmt">Payment per period (PMT)</label>
+<input type="number" id="pmt" class="form-control" value="-500" step="any" inputmode="decimal" autocomplete="off">
+<div class="invalid-feedback" id="pmtError">Enter a number. Use a minus sign for money paid out.</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<label for="fv">Future value (FV) <span class="text-muted small font-weight-normal" id="fvOptional">(leave blank to solve)</span></label>
+<input type="number" id="fv" class="form-control" step="any" inputmode="decimal" autocomplete="off" placeholder="solved for you">
+<div class="invalid-feedback" id="fvError">Enter a number or leave this field blank.</div>
+</div>
+</div>
+
+<div class="d-flex flex-wrap align-items-center mb-2">
+<button type="button" class="btn btn-primary mr-2 mb-2" id="calcBtn">Calculate</button>
+<button type="button" class="btn btn-outline-primary mr-2 mb-2" id="resetBtn">Reset</button>
+<button type="button" class="btn btn-link px-0 mb-2" id="exampleBtn">Load a worked example</button>
+</div>
+<div id="formAlert" class="alert alert-danger small mt-3 mb-0 d-none" role="alert"></div>
+</div>
+</div>
+
+<!-- ================= RESULT ================= -->
+<div class="card shadow-sm border-0 mb-5 d-none" id="resultCard">
+<div class="card-body p-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">Result</h2>
+<div class="result-hero mb-4">
+<p class="mb-1 small text-uppercase text-muted font-weight-bold" id="resultLabel">Future value</p>
+<p class="result-value mb-1" id="resultValue">&mdash;</p>
+<p class="mb-0 small text-muted" id="resultNote"></p>
+</div>
+
+<div class="row" id="statRow">
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile">
+<div class="stat-label">Total paid in</div>
+<div class="stat-value" id="statPaid">&mdash;</div>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile">
+<div class="stat-label">Total received</div>
+<div class="stat-value" id="statReceived">&mdash;</div>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile">
+<div class="stat-label">Growth / cost</div>
+<div class="stat-value" id="statGrowth">&mdash;</div>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="stat-tile">
+<div class="stat-label">Effective annual rate</div>
+<div class="stat-value" id="statEar">&mdash;</div>
+</div>
+</div>
+</div>
+
+<h3 class="h6 font-weight-bold text-uppercase section-kicker mb-2">Balance over time</h3>
+<p class="small text-muted mb-2" id="chartCaption">The balance grows each period as interest is added and payments are applied.</p>
+<canvas id="balanceChart" width="760" height="260" role="img" aria-label="Line chart of the account balance at the end of each period"></canvas>
+<div id="chartFallback" class="small text-muted mt-2 d-none">Your browser cannot draw the chart, but the table below carries the same numbers.</div>
+
+<h3 class="h6 font-weight-bold text-uppercase section-kicker mt-4 mb-3">Period-by-period breakdown</h3>
+<div class="table-responsive">
+<table class="table table-sm breakdown-table mb-0">
+<thead>
+<tr>
+<th scope="col">Period</th>
+<th scope="col">Payment</th>
+<th scope="col">Interest</th>
+<th scope="col">Principal</th>
+<th scope="col">Balance</th>
+</tr>
+</thead>
+<tbody id="scheduleBody"></tbody>
+</table>
+</div>
+<p class="small text-muted mt-2 mb-0" id="scheduleNote"></p>
+
+<div id="warnBox" class="alert alert-warning small mt-4 mb-0 d-none" role="alert"></div>
+</div>
+</div>
+
+<!-- ================= ARTICLE ================= -->
+<article class="article mb-5">
+<h2 class="h4 font-weight-bold mb-3">What the time value of money really measures</h2>
+<p>Money has a price attached to time. A hundred dollars handed over today can be deposited, invested or used to avoid borrowing, so by next year it is worth more than a hundred dollars. That single idea, usually called the time value of money or TVM, is the foundation under almost every financial decision you make: taking a mortgage, funding a retirement account, leasing a car, or choosing between a lump sum and a monthly payout.</p>
+<p>This TVM calculator applies the standard five-variable equation used by financial calculators and spreadsheets. You supply four known values and pick the fifth, and the solver returns it along with a period-by-period balance table and a chart so the answer is not a number you have to trust blindly.</p>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">The five variables, and how they relate</h3>
+<p>Every TVM problem is a variation of one equation. The variables are:</p>
+<ul class="var-list">
+<li><strong>N</strong> &mdash; the number of compounding periods, not the number of years. A thirty-year mortgage paid monthly has N = 360.</li>
+<li><strong>I/Y</strong> &mdash; the annual interest rate, quoted as a percentage. The calculator converts it to a rate per payment period.</li>
+<li><strong>PV</strong> &mdash; present value, the lump sum sitting at time zero. For a loan this is the amount borrowed.</li>
+<li><strong>PMT</strong> &mdash; the payment made every period. It is constant, which is what makes this an annuity rather than a general cash-flow problem.</li>
+<li><strong>FV</strong> &mdash; future value, the balance left after the last period. A savings goal is a future value; a paid-off loan ends at FV = 0.</li>
+</ul>
+<p>The relationship is <em>FV + PV &times; (1 + r)<sup>N</sup> + PMT &times; ((1 + r)<sup>N</sup> &minus; 1) / r = 0</em> for ordinary payments, where r is the rate per period. Multiply the payment term by (1 + r) and you have the annuity-due version used when payments happen at the start of each period, such as rent or a lease.</p>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">Why one number must be negative</h3>
+<p>Financial calculators borrow a convention from double-entry bookkeeping: cash leaving your pocket is negative and cash arriving is positive. If you save $10,000 today and add $500 a month, the deposit and the payments are negative because they leave you, and the future value comes back positive because you eventually receive it. Break that rule and the solver will happily return a number that describes no real situation.</p>
+<p>If you are unsure which sign to use, ask a simple question: is this money I hand over, or money I get back? Hand over, type a minus sign. Get back, type it plain.</p>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">A worked example: growing a retirement pot</h3>
+<p>Suppose you deposit $10,000 today into an account earning 7% a year, then add $500 at the end of every month for ten years, with monthly compounding. Set N = 120, I/Y = 7, PV = &minus;10,000, PMT = &minus;500, and solve for FV. The result is roughly $106,600. Of that, $70,000 is money you contributed and the rest is growth &mdash; a useful reminder that the two levers you control are the amount and the number of years, and the second one is usually easier to pull.</p>
+<p>Now flip the problem. You want $250,000 in fifteen years and expect 6% a year. Solve for PMT with N = 180, I/Y = 6, PV = 0, FV = 250,000, and the calculator tells you the monthly deposit needed. That is the shape of most real planning: fix the goal, then solve for the payment.</p>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">Payment frequency versus compounding frequency</h3>
+<p>Most people treat these as the same thing, and most of the time they are. But they genuinely differ. A Canadian mortgage, for example, is often compounded semi-annually while payments are monthly. If you set C/Y = 2 and P/Y = 12, this tool converts the nominal rate into the effective rate that actually applies over each monthly payment period, which is why the answer is slightly different from simply dividing the annual rate by twelve.</p>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">How TVM differs from NPV and IRR</h3>
+<p>TVM assumes every payment is identical. Net present value and internal rate of return drop that assumption and let each period carry its own cash flow. Use TVM when the cash flow is level &mdash; a fixed mortgage payment, a lease, a bond coupon, a steady savings deposit. Move to NPV or IRR the moment the amounts change from period to period, because forcing uneven cash flows into a PMT value produces a number that means nothing.</p>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">Common mistakes to avoid</h3>
+<ul class="mistake-list">
+<li><strong>Mixing years and periods.</strong> A monthly rate with an annual N understates everything. Divide the rate by the payment frequency and multiply the years by it.</li>
+<li><strong>Using the nominal rate as the period rate.</strong> 12% compounded monthly is not 1% per month in every context; it depends on the compounding convention your product actually uses.</li>
+<li><strong>Solving for a rate that cannot exist.</strong> If your cash flows never change sign, there is no internal rate. If they change sign more than once, there may be several, and the solver reports the sensible one.</li>
+<li><strong>Forgetting that FV must be zero for a loan.</strong> Leaving a residual balance quietly turns a payoff calculation into a balloon calculation.</li>
+<li><strong>Ignoring fees and taxes.</strong> The rate you type is the rate the account pays after nothing. Expense ratios, taxes and insurance all live outside this equation.</li>
+</ul>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">Frequently asked questions</h3>
+<div class="faq">
+<div class="faq-item">
+<h4 class="h6 font-weight-bold mb-1">What does TVM mean in finance?</h4>
+<p class="mb-0">Time value of money is the principle that a sum of money is worth more the sooner it is received, because it can earn a return in the meantime. The TVM calculator quantifies that difference for a level series of payments at a constant interest rate.</p>
+</div>
+<div class="faq-item">
+<h4 class="h6 font-weight-bold mb-1">How do I know which variable to leave blank?</h4>
+<p class="mb-0">Leave blank the one thing you are trying to learn. If you want to know how much to save each month, solve for PMT. If you want to know how long the money lasts, solve for N. The calculator refuses to solve when two variables are missing, because the problem is then underdetermined.</p>
+</div>
+<div class="faq-item">
+<h4 class="h6 font-weight-bold mb-1">Can I use TVM for a car loan or mortgage?</h4>
+<p class="mb-0">Yes. Enter the amount borrowed as a positive PV, set FV to zero, and solve for PMT. That returns the level payment that clears the loan in exactly N periods at the stated rate.</p>
+</div>
+<div class="faq-item">
+<h4 class="h6 font-weight-bold mb-1">Why is the interest rate shown per year but N per period?</h4>
+<p class="mb-0">Because interest rates are conventionally quoted annually while payments arrive monthly, quarterly or weekly. This calculator converts between the two using your P/Y and C/Y settings so the numbers stay consistent.</p>
+</div>
+<div class="faq-item">
+<h4 class="h6 font-weight-bold mb-1">Does this calculator store my numbers?</h4>
+<p class="mb-0">No. Every calculation runs in your browser with plain JavaScript. Nothing is sent to a server, logged or saved between visits.</p>
+</div>
+</div>
+
+<h3 class="h5 font-weight-bold mt-4 mb-2">About the author</h3>
+<p class="author-bio">This calculator is maintained by the Afree Tools editorial team, a group of analysts who have spent years building valuation and budgeting models for lenders, advisers and small businesses. The formulas here mirror the TVM worksheet found on standard financial calculators, including the annuity-due adjustment and the separation of payment and compounding frequency, because that is where most spreadsheet models quietly go wrong. Last updated: <time datetime="2026-10-23">23 October 2026</time>.</p>
+
+<div class="disclaimer mt-4" role="note">
+<p class="mb-0"><strong>Disclaimer:</strong> This tool is provided for general informational and educational purposes only. It is not financial, tax, investment or legal advice. Real products add fees, taxes, insurance and rate changes that a constant-rate model cannot capture, and rounding differences exist between lenders and calculators. Always confirm figures with your lender, broker or a qualified adviser before making a financial decision. The Afree Tools team accepts no liability for decisions made on the basis of these results.</p>
+</div>
+</article>
+
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
