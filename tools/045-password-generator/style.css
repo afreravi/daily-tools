@@ -1,0 +1,146 @@
+:root {
+  --brand: #60089c;
+  --brand-dark: #45046f;
+  --brand-mid: #7b1fbd;
+  --brand-light: #a55fdc;
+  --brand-pale: #f3e9fb;
+  --brand-pale-2: #e6d3f7;
+}
+
+body {
+  background-color: #fbf9fd;
+  color: #241a2e;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+a { color: var(--brand); }
+a:hover { color: var(--brand-dark); }
+
+.breadcrumb-item + .breadcrumb-item::before { color: #a99bb8; }
+
+h1, h2, h3 { color: #1d1327; }
+
+.lead { color: #4b3d59; }
+
+.section-kicker {
+  color: var(--brand);
+  letter-spacing: .06em;
+  font-size: .78rem;
+}
+
+.card { border-radius: .6rem; }
+
+/* ---------- Tool ---------- */
+#toolCard { border-top: 4px solid var(--brand); }
+
+.custom-range::-webkit-slider-thumb { background: var(--brand); }
+.custom-range::-moz-range-thumb { background: var(--brand); }
+.custom-range:focus::-webkit-slider-thumb { box-shadow: 0 0 0 .2rem var(--brand-pale-2); }
+.custom-range:focus::-moz-range-thumb { box-shadow: 0 0 0 .2rem var(--brand-pale-2); }
+
+.btn-primary {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  background-color: var(--brand-dark) !important;
+  border-color: var(--brand-dark) !important;
+}
+.btn-outline-primary { color: var(--brand); border-color: var(--brand); }
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+  background-color: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+}
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 .2rem var(--brand-pale-2);
+}
+.custom-switch .custom-control-input:checked ~ .custom-control-label::after {
+  background-color: #fff;
+}
+
+.form-control:focus {
+  border-color: var(--brand-light);
+  box-shadow: 0 0 0 .2rem var(--brand-pale-2);
+}
+
+.font-monospace {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 1.05rem;
+  letter-spacing: .02em;
+  background-color: #fff;
+}
+
+/* ---------- Stats ---------- */
+.stat-box {
+  background-color: var(--brand-pale);
+  border: 1px solid var(--brand-pale-2);
+  border-radius: .5rem;
+  padding: .9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.stat-label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  font-size: .7rem;
+  font-weight: 700;
+  color: var(--brand-dark);
+  margin-bottom: .15rem;
+}
+.stat-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.15;
+  color: #2c1c3a;
+  word-break: break-word;
+}
+.stat-unit {
+  display: block;
+  font-size: .78rem;
+  color: #6a5a79;
+}
+
+.strength-bar { border-radius: 999px; background-color: #ece3f4; }
+.strength-bar .progress-bar { transition: width .35s ease, background-color .35s ease; }
+
+.chart-wrap {
+  background-color: #fff;
+  border: 1px solid var(--brand-pale-2);
+  border-radius: .5rem;
+  padding: .9rem 1rem;
+}
+#entropyChart { width: 100%; height: auto; display: block; }
+
+/* ---------- Article ---------- */
+.article { border-top: 4px solid var(--brand-light); }
+.article p, .article li { color: #3a2d47; line-height: 1.7; }
+.article code {
+  background-color: var(--brand-pale);
+  color: var(--brand-dark);
+  padding: .1rem .3rem;
+  border-radius: .25rem;
+}
+
+.disclaimer {
+  background-color: #f6f3f9;
+  border: 1px solid #e0d6ea;
+  color: #4b3d59;
+  font-size: .9rem;
+  border-radius: .5rem;
+}
+
+footer a { font-weight: 600; }
+
+@media (max-width: 575.98px) {
+  .stat-value { font-size: 1.25rem; }
+  .font-monospace { font-size: .95rem; }
+}

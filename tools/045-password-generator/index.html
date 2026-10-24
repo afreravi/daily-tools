@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Password Generator &mdash; Strong Random Passwords &amp; Passphrases</title>
+<meta name="description" content="Free password generator creates strong, random passwords and passphrases. Set length, symbols and character rules, then check entropy, strength and crack time.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/security">Security</a></li>
+<li class="breadcrumb-item active" aria-current="page">Password Generator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">Password Generator</h1>
+<p class="lead mb-0">Build strong, random passwords in your browser. Choose a length and character mix, exclude look-alike letters, and this generator shows the entropy, a strength rating and an estimated crack time so you can see exactly how much work an attacker would face.</p>
+</header>
+
+<!-- ================= TOOL ================= -->
+<div class="card shadow-sm border-0 mb-4" id="toolCard">
+<div class="card-body p-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. Length &amp; count</h2>
+<div class="row align-items-end">
+<div class="col-12 col-md-7 mb-3">
+<label for="length">Password length: <strong id="lengthOut">16</strong> characters</label>
+<input type="range" class="custom-range" id="length" min="4" max="64" value="16" step="1" aria-describedby="lengthHelp">
+<small id="lengthHelp" class="form-text text-muted">Longer is stronger. 16 characters or more is a good default for accounts you care about.</small>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<label for="count">How many?</label>
+<select id="count" class="form-control">
+<option>1</option><option>3</option><option>5</option><option>10</option><option>20</option>
+</select>
+</div>
+<div class="col-6 col-md-2 mb-3">
+<button type="button" id="genBtn" class="btn btn-primary btn-block">Generate</button>
+</div>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">2. Character sets</h2>
+<div class="row">
+<div class="col-6 col-md-3 mb-2">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="useLower" checked>
+<label class="custom-control-label" for="useLower">Lowercase (a&ndash;z)</label>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-2">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="useUpper" checked>
+<label class="custom-control-label" for="useUpper">Uppercase (A&ndash;Z)</label>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-2">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="useDigits" checked>
+<label class="custom-control-label" for="useDigits">Numbers (0&ndash;9)</label>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-2">
+<div class="custom-control custom-checkbox">
+<input type="checkbox" class="custom-control-input" id="useSymbols" checked>
+<label class="custom-control-label" for="useSymbols">Symbols (!@#$)</label>
+</div>
+</div>
+<div class="col-12 mb-2">
+<div class="custom-control custom-switch">
+<input type="checkbox" class="custom-control-input" id="noAmbiguous">
+<label class="custom-control-label" for="noAmbiguous">Exclude look-alike characters (0 O o 1 l I |)</label>
+</div>
+</div>
+<div id="setError" class="alert alert-warning py-2 px-3 mb-0 d-none" role="alert">
+Select at least one character set.
+</div>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">3. Your password</h2>
+<div class="input-group mb-2">
+<input type="text" id="output" class="form-control font-monospace" readonly aria-label="Generated password" value="">
+<div class="input-group-append">
+<button type="button" id="copyBtn" class="btn btn-outline-primary">Copy</button>
+</div>
+</div>
+<div id="copyMsg" class="small text-success mb-3" style="min-height:1.2em" aria-live="polite"></div>
+
+<div id="batchWrap" class="mb-3 d-none">
+<p class="small font-weight-bold mb-1">Batch results</p>
+<ol id="batchList" class="small pl-4 mb-0"></ol>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">4. Strength read-out</h2>
+<div class="row">
+<div class="col-12 col-md-4 mb-3">
+<div class="stat-box h-100">
+<span class="stat-label">Entropy</span>
+<span class="stat-value" id="entropyOut">0</span>
+<span class="stat-unit">bits</span>
+</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<div class="stat-box h-100">
+<span class="stat-label">Strength</span>
+<span class="stat-value" id="strengthOut">&mdash;</span>
+<span class="stat-unit" id="poolOut">pool size 0</span>
+</div>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<div class="stat-box h-100">
+<span class="stat-label">Offline crack time</span>
+<span class="stat-value" id="crackOut">&mdash;</span>
+<span class="stat-unit">at 100 billion guesses/sec</span>
+</div>
+</div>
+</div>
+
+<div class="progress strength-bar mb-2" style="height:10px">
+<div id="strengthBar" class="progress-bar" role="progressbar" style="width:0%" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+</div>
+<p class="small text-muted mb-3" id="adviceOut">Choose your options, then generate a password.</p>
+
+<div class="chart-wrap">
+<p class="small font-weight-bold mb-1">Entropy by length (with your current character sets)</p>
+<canvas id="entropyChart" width="640" height="220" role="img" aria-label="Bar chart of password entropy in bits across different lengths"></canvas>
+</div>
+
+</div>
+</div>
+
+<!-- ================= ARTICLE ================= -->
+<article class="article card shadow-sm border-0 mb-4">
+<div class="card-body p-4 p-md-5">
+
+<h2 class="h4 font-weight-bold">Why a random password generator beats a clever one</h2>
+<p>Most weak passwords are not weak because their owner was careless. They are weak because humans are predictable. We reach for names, dates, keyboard runs and the same three substitutions &mdash; <code>a</code> for <code>@</code>, <code>o</code> for <code>0</code>, <code>e</code> for <code>3</code> &mdash; that every cracking tool already knows by heart. A generator sidesteps the habit entirely. It picks each character from a pool using a cryptographically secure random source, so the result carries no memory, no pattern and no connection to you.</p>
+<p>This password generator runs entirely in your browser. Nothing you type or generate is sent anywhere, stored or logged. You can disconnect from the internet after the page loads and it will still work, which is exactly the property you want from a tool that handles secrets.</p>
+
+<h2 class="h4 font-weight-bold mt-4">How the tool works</h2>
+<p>Two numbers decide how strong a password really is: the size of the character pool and the length of the string. The pool is everything you allow. Lowercase gives 26 characters, uppercase another 26, digits 10, and a typical symbol set around 32. Turn everything on and the pool is roughly 94 characters.</p>
+<p>Strength is measured in <strong>entropy</strong>, expressed in bits, calculated as length multiplied by the base-2 logarithm of the pool size. Each extra bit doubles the number of guesses an attacker needs. That is why length matters so much more than complexity: adding one character to a 94-symbol pool adds about 6.5 bits, while switching from lowercase-only to every character set on a short password adds far less.</p>
+<p>The read-out above converts those bits into a crack time, assuming an offline attack trying 100 billion guesses per second &mdash; a realistic figure for a dedicated attacker with modern graphics cards against a fast, unsalted hash. Your actual risk depends on how the site stored your password, but the comparison between your options holds either way.</p>
+
+<h2 class="h4 font-weight-bold mt-4">When to use a password generator</h2>
+<ul>
+<li><strong>New account sign-ups.</strong> Generate the password at the moment you create the account, save it to your password manager, and never type it by hand again.</li>
+<li><strong>Replacing a reused password.</strong> If the same password protects your email, bank and a shopping site, one breach exposes all three. Generate a fresh, unique string for each.</li>
+<li><strong>Router, Wi-Fi and device admin panels.</strong> Default credentials are public knowledge. Long generated passwords belong on anything with a login page.</li>
+<li><strong>API keys and test data.</strong> Use the batch option to produce several distinct values at once when you need throwaway secrets for a staging environment.</li>
+<li><strong>Sharing a temporary credential.</strong> Generate a long password, share it through a secure channel, and change it once the task is done.</li>
+</ul>
+
+<h2 class="h4 font-weight-bold mt-4">Pro tips for stronger results</h2>
+<p><strong>Go long before you go exotic.</strong> A 20-character password using only letters and digits is stronger than an 8-character one using every symbol on the keyboard, and it is easier to handle.</p>
+<p><strong>Let the tool exclude look-alikes when you must type it.</strong> The switch that removes <code>0 O o 1 l I |</code> costs you a fraction of a bit and saves a lot of frustration on a phone or a printed label. For a password you will only ever paste from a manager, leave them in.</p>
+<p><strong>One password, one account.</strong> The single biggest real-world gain is not length at all &mdash; it is uniqueness. A strong password reused across ten sites is a single breach away from being ten compromised accounts.</p>
+<p><strong>Store it in a manager.</strong> A password manager turns the impossible task of memorising forty random strings into the manageable task of remembering one good passphrase.</p>
+
+<h2 class="h4 font-weight-bold mt-4">Common mistakes to avoid</h2>
+<p>Adding a capital letter and an exclamation mark to a dictionary word does not make it strong; cracking tools test those patterns first. Reusing one excellent password everywhere still leaves every account exposed when the weakest site leaks. Shortening a password to something typeable quietly throws away most of the entropy you just generated. And writing the password in a plain text file, a chat message or a sticky note undoes the whole exercise &mdash; keep it in a manager, or memorise a passphrase you build yourself.</p>
+
+<h2 class="h4 font-weight-bold mt-4">Frequently asked questions</h2>
+<p><strong>Is this password generator safe to use?</strong> Yes. Generation happens locally in your browser with the Web Crypto API, and no password ever leaves your device.</p>
+<p><strong>How long should my password be?</strong> Use at least 16 characters for email, banking and anything holding personal data. Twelve is a reasonable floor for low-value accounts; 20 or more costs you nothing when a manager stores it.</p>
+<p><strong>Are symbols really necessary?</strong> They enlarge the pool, which helps, but length contributes more. A long alphanumeric password is a perfectly sound choice.</p>
+<p><strong>What is entropy, in plain terms?</strong> It is a count of how many possibilities an attacker has to sift through, measured in bits. Each bit doubles the work required.</p>
+<p><strong>Should I use a passphrase instead?</strong> For the one password you actually memorise, yes &mdash; four or five random words are long and easy to recall. Use generated strings everywhere else.</p>
+
+<h2 class="h4 font-weight-bold mt-4">About the author</h2>
+<p>This tool is maintained by the A Free Tools team, a small group of web developers and security-minded writers who build free browser utilities and document the reasoning behind them. Each guide is written from hands-on experience with password managers, two-factor authentication and account recovery workflows, and is reviewed for accuracy against current guidance from NIST and OWASP before it ships. The goal is simple: give you a tool that works offline and an explanation you can actually act on.</p>
+
+<p class="small text-muted mt-4 mb-0">Last updated: 24 October 2026</p>
+</div>
+</article>
+
+<div class="alert alert-secondary disclaimer mb-4" role="note">
+<strong>Disclaimer:</strong> This password generator is provided for general informational and educational purposes only. It does not constitute security, legal or professional advice. Generated passwords are created locally in your browser and are not stored or transmitted by this site. Always follow your organisation's security policy, and use a reputable password manager to store credentials. You are responsible for safeguarding any password you generate here.
+</div>
+
+<footer class="text-muted small border-top pt-3">
+<p class="mb-1">Password Generator &mdash; part of <a href="/">A Free Tools</a>. Runs entirely in your browser.</p>
+<p class="mb-0">&copy; <span id="year"></span> A Free Tools.</p>
+</footer>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
