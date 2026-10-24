@@ -70,3 +70,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 042 | random-string-generator | Cryptographically secure random strings with length, character set, prefix/suffix, batch export and an entropy read-out |
 | 043 | utm-link-builder | Builds UTM-tagged campaign URLs with presets, validation, a parameter breakdown table and a link-length chart |
 | 044 | tvm-calculator | Solves the time value of money equation for any one unknown (FV, PV, PMT, N or I/Y), with a balance chart and period-by-period schedule |
+| 045 | password-generator | Cryptographically secure password generator with length, character-set and look-alike controls, batch output, copy-to-clipboard and an entropy/crack-time read-out |
