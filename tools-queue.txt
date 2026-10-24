@@ -47,7 +47,7 @@
 [done] Random String Generator
 [done] UTM link builder
 [done] TVM Calculator
-Password Generator
+[done] Password Generator
 IRR calculator
 Random Color Generator
 NPV calculator
