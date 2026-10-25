@@ -1,0 +1,175 @@
+/* IRR Calculator — light theme built around primary #60089c */
+
+:root {
+  --primary: #60089c;
+  --primary-dark: #43006d;
+  --primary-mid: #7a1fbd;
+  --primary-light: #9d5ad4;
+  --primary-soft: #f7f1fc;
+  --primary-soft-2: #ecdcfa;
+  --ink: #241a2e;
+  --muted: #6b6277;
+  --line: #e6ddf1;
+  --green: #0e7c66;
+  --amber: #b45309;
+  --red: #b91c1c;
+}
+
+body {
+  background: #ffffff;
+  color: var(--ink);
+  font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.65;
+}
+
+h1, h2, h3, h4 { color: var(--ink); }
+a { color: var(--primary); }
+a:hover { color: var(--primary-dark); }
+.container { max-width: 1040px; }
+
+.breadcrumb { font-size: .82rem; }
+.breadcrumb-item + .breadcrumb-item::before { color: var(--muted); }
+
+.section-kicker {
+  color: var(--primary);
+  letter-spacing: .06em;
+  font-size: .78rem;
+}
+
+/* ---------- Cards ---------- */
+.card { border-radius: .6rem; }
+#toolCard { border-top: 4px solid var(--primary); }
+
+/* ---------- Cash flow table ---------- */
+.cashflow-table th {
+  border-top: 0;
+  font-size: .74rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  font-weight: 600;
+}
+.cashflow-table td { vertical-align: middle; padding: .35rem .5rem; }
+.cashflow-table .period-label {
+  font-weight: 600;
+  color: var(--primary-dark);
+  font-variant-numeric: tabular-nums;
+}
+.cashflow-table input.form-control {
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+.cashflow-table tr.is-negative input { color: var(--red); }
+.cashflow-table tr.is-positive input { color: var(--green); }
+
+.btn-remove {
+  line-height: 1;
+  padding: .2rem .45rem;
+  border-radius: 50%;
+  color: var(--muted);
+  border: 1px solid var(--line);
+  background: #fff;
+}
+.btn-remove:hover { color: var(--red); border-color: var(--red); }
+
+/* ---------- Form controls ---------- */
+.form-control:focus {
+  border-color: var(--primary-mid);
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .18);
+}
+label { font-weight: 600; font-size: .88rem; }
+.form-text { font-size: .78rem; }
+
+.btn-primary {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+  background-color: var(--primary-dark) !important;
+  border-color: var(--primary-dark) !important;
+}
+.btn-primary:focus { box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .3); }
+.btn-outline-primary { color: var(--primary); border-color: var(--primary-light); }
+.btn-outline-primary:hover, .btn-outline-primary:focus {
+  background-color: var(--primary);
+  border-color: var(--primary);
+}
+.btn-outline-secondary { color: var(--muted); border-color: var(--line); }
+.btn-outline-secondary:hover { background: var(--primary-soft); color: var(--primary-dark); border-color: var(--primary-light); }
+
+/* ---------- Metric tiles ---------- */
+.metric {
+  border: 1px solid var(--line);
+  border-radius: .55rem;
+  padding: .85rem .95rem;
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  height: 100%;
+}
+.metric-primary {
+  background: var(--primary-soft);
+  border-color: var(--primary-soft-2);
+}
+.metric-plain { background: #fcfbfe; }
+.metric-label {
+  font-size: .74rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--muted);
+  font-weight: 600;
+}
+.metric-value {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--primary-dark);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.25;
+}
+.metric-plain .metric-value { font-size: 1.25rem; color: var(--ink); }
+.metric-sub { font-size: .75rem; color: var(--muted); }
+
+/* ---------- Tables ---------- */
+#pvBody td, #pvBody th { font-variant-numeric: tabular-nums; }
+#pvBody .neg { color: var(--red); }
+#pvBody .pos { color: var(--green); }
+#pvBody tr.cum-row td { border-top: 1px solid var(--line); }
+
+/* ---------- Charts ---------- */
+.chart-wrap { position: relative; width: 100%; height: 300px; }
+.chart-wrap-sm { height: 210px; }
+.chart-wrap canvas { width: 100%; height: 100%; display: block; }
+
+/* ---------- Verdict ---------- */
+#verdict {
+  border-left: 4px solid var(--primary-light);
+  background: var(--primary-soft);
+  padding: .65rem .85rem;
+  border-radius: .35rem;
+  color: var(--ink);
+}
+#verdict.verdict-good { border-left-color: var(--green); background: #eef8f4; }
+#verdict.verdict-bad { border-left-color: var(--red); background: #fdf1f1; }
+#verdict.verdict-warn { border-left-color: var(--amber); background: #fdf6ec; }
+
+/* ---------- Article ---------- */
+.article { margin-top: 1rem; }
+.article p { color: #332b3d; }
+.article ul { padding-left: 1.1rem; }
+.article li { margin-bottom: .5rem; }
+
+.disclaimer {
+  background: var(--primary-soft);
+  border: 1px solid var(--primary-soft-2);
+  border-radius: .5rem;
+  color: #4a3b5c;
+}
+
+/* ---------- Misc ---------- */
+.table thead th { border-top: 0; }
+.table-sm td, .table-sm th { padding: .45rem .5rem; }
+
+@media (max-width: 575.98px) {
+  .metric-value { font-size: 1.35rem; }
+  .chart-wrap { height: 240px; }
+}
