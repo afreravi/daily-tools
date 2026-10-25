@@ -48,7 +48,7 @@
 [done] UTM link builder
 [done] TVM Calculator
 [done] Password Generator
-IRR calculator
+[done] IRR calculator
 Random Color Generator
 NPV calculator
 Random Word Generator
