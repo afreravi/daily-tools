@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IRR Calculator &mdash; Internal Rate of Return &amp; NPV Profile Chart</title>
+<meta name="description" content="Free IRR calculator finds the internal rate of return for any cash flow series, with an NPV profile chart, MIRR and payback period comparison in seconds.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main class="container py-4 py-md-5">
+
+<nav aria-label="breadcrumb" class="small">
+<ol class="breadcrumb bg-transparent px-0 mb-3">
+<li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+<li class="breadcrumb-item"><a href="/finance">Finance</a></li>
+<li class="breadcrumb-item active" aria-current="page">IRR Calculator</li>
+</ol>
+</nav>
+
+<header class="mb-4">
+<h1 class="h2 mb-1 font-weight-bold">IRR Calculator</h1>
+<p class="lead mb-0">Enter a stream of cash flows and this calculator solves for the internal rate of return &mdash; the discount rate that makes the project break exactly even. You also get net present value, MIRR, payback period and an NPV profile chart so the single number has context.</p>
+</header>
+
+<!-- ================= TOOL ================= -->
+<div class="card shadow-sm border-0 mb-4" id="toolCard">
+<div class="card-body p-4">
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">1. Cash flow series</h2>
+<p class="small text-muted mb-3">Year&nbsp;0 is usually your initial outlay and should be negative. Add a row for each period. The series needs at least one negative and one positive value for an IRR to exist.</p>
+
+<div class="table-responsive mb-2">
+<table class="table table-sm cashflow-table mb-0" id="cfTable">
+<thead>
+<tr>
+<th scope="col" style="width:22%">Period</th>
+<th scope="col">Cash flow</th>
+<th scope="col" class="text-right" style="width:70px"><span class="sr-only">Remove</span></th>
+</tr>
+</thead>
+<tbody id="cfBody">
+</tbody>
+</table>
+</div>
+
+<div class="d-flex flex-wrap mb-4">
+<button type="button" class="btn btn-outline-primary btn-sm mr-2 mb-2" id="addRowBtn">+ Add period</button>
+<button type="button" class="btn btn-outline-secondary btn-sm mr-2 mb-2" id="removeRowBtn">&minus; Remove last</button>
+<button type="button" class="btn btn-link btn-sm mb-2 px-0" id="resetBtn">Reset example</button>
+</div>
+
+<h2 class="h6 font-weight-bold text-uppercase section-kicker mb-3">2. Comparison assumptions</h2>
+<div class="row">
+<div class="col-12 col-md-4 mb-3">
+<label for="discountRate">Discount rate for NPV (%)</label>
+<input type="number" step="any" class="form-control" id="discountRate" value="10" inputmode="decimal">
+<small class="form-text text-muted">Used for NPV, the bar of the profile chart and the MIRR reinvestment rate.</small>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<label for="financeRate">Finance rate for MIRR (%)</label>
+<input type="number" step="any" class="form-control" id="financeRate" value="8" inputmode="decimal">
+<small class="form-text text-muted">Rate charged on negative cash flows while they are funded.</small>
+</div>
+<div class="col-12 col-md-4 mb-3">
+<label for="periodsPerYear">Periods per year</label>
+<select class="form-control" id="periodsPerYear">
+<option value="1" selected>1 &mdash; annual</option>
+<option value="2">2 &mdash; semi-annual</option>
+<option value="4">4 &mdash; quarterly</option>
+<option value="12">12 &mdash; monthly</option>
+</select>
+<small class="form-text text-muted">Annualises the IRR so you can compare projects with different cycles.</small>
+</div>
+</div>
+
+<div class="d-flex flex-wrap align-items-center">
+<button type="button" class="btn btn-primary btn-lg mr-3 mb-2" id="calcBtn">Calculate IRR</button>
+<button type="button" class="btn btn-outline-secondary mb-2" id="exampleBtn">Load a sample project</button>
+</div>
+</div>
+</div>
+
+<!-- ================= RESULTS ================= -->
+<div class="card shadow-sm border-0 mb-4 d-none" id="resultsCard" aria-live="polite">
+<div class="card-body p-4">
+<h2 class="h5 font-weight-bold mb-3">Results</h2>
+
+<div class="row mb-3">
+<div class="col-12 col-md-4 mb-3">
+<div class="metric metric-primary h-100">
+<span class="metric-label">Internal rate of return</span>
+<span class="metric-value" id="irrValue">&mdash;</span>
+<span class="metric-sub" id="irrAnnual">&nbsp;</span>
+</div>
+</div>
+<div class="col-6 col-md-4 mb-3">
+<div class="metric h-100">
+<span class="metric-label">Net present value</span>
+<span class="metric-value" id="npvValue">&mdash;</span>
+<span class="metric-sub" id="npvSub">&nbsp;</span>
+</div>
+</div>
+<div class="col-6 col-md-4 mb-3">
+<div class="metric h-100">
+<span class="metric-label">MIRR</span>
+<span class="metric-value" id="mirrValue">&mdash;</span>
+<span class="metric-sub">Modified internal rate of return</span>
+</div>
+</div>
+</div>
+
+<div class="row mb-2">
+<div class="col-6 col-md-3 mb-3">
+<div class="metric metric-plain h-100">
+<span class="metric-label">Payback period</span>
+<span class="metric-value" id="paybackValue">&mdash;</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="metric metric-plain h-100">
+<span class="metric-label">Discounted payback</span>
+<span class="metric-value" id="dpaybackValue">&mdash;</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="metric metric-plain h-100">
+<span class="metric-label">Profitability index</span>
+<span class="metric-value" id="piValue">&mdash;</span>
+</div>
+</div>
+<div class="col-6 col-md-3 mb-3">
+<div class="metric metric-plain h-100">
+<span class="metric-label">Total invested</span>
+<span class="metric-value" id="investedValue">&mdash;</span>
+</div>
+</div>
+</div>
+
+<p class="small mb-4" id="verdict">&nbsp;</p>
+
+<h3 class="h6 font-weight-bold text-uppercase section-kicker mb-2">Cash flows and their present values</h3>
+<div class="table-responsive mb-4">
+<table class="table table-sm mb-0">
+<thead>
+<tr>
+<th scope="col">Period</th>
+<th scope="col" class="text-right">Cash flow</th>
+<th scope="col" class="text-right">Present value</th>
+<th scope="col" class="text-right">Cumulative</th>
+</tr>
+</thead>
+<tbody id="pvBody"></tbody>
+</table>
+</div>
+
+<h3 class="h6 font-weight-bold text-uppercase section-kicker mb-2">NPV profile</h3>
+<p class="small text-muted mb-2">Net present value at every discount rate. The curve crosses zero at the IRR.</p>
+<div class="chart-wrap mb-2">
+<canvas id="profileChart" role="img" aria-label="Line chart of net present value against discount rate, crossing zero at the internal rate of return."></canvas>
+</div>
+<p class="small text-muted mb-4" id="profileNote">&nbsp;</p>
+
+<h3 class="h6 font-weight-bold text-uppercase section-kicker mb-2">Cash flow shape</h3>
+<div class="chart-wrap chart-wrap-sm mb-2">
+<canvas id="flowChart" role="img" aria-label="Bar chart showing each period's cash flow, with outflows below the axis and inflows above it."></canvas>
+</div>
+<p class="small text-muted mb-0">Inflows above the axis, outflows below.</p>
+</div>
+</div>
+
+<div class="alert alert-danger d-none" id="errorBox" role="alert"></div>
+
+<!-- ================= ARTICLE ================= -->
+<article class="article">
+<h2 class="h4 font-weight-bold mb-3">What the internal rate of return actually tells you</h2>
+
+<p>The internal rate of return (IRR) is the discount rate at which a project's future cash flows are worth exactly as much as the money you put in. Put another way, it is the break-even cost of capital: if your funding costs less than the IRR, the project adds value; if it costs more, the project destroys value. That single percentage is why IRR shows up in almost every investment memo, capital request and venture pitch.</p>
+
+<p>This calculator takes any series of cash flows, solves for the IRR numerically, and then surrounds that number with the figures a decision actually needs &mdash; net present value at your own discount rate, a modified IRR that removes the reinvestment assumption, payback and discounted payback, and the profitability index. The NPV profile chart below the results is the most useful of all: it shows how sensitive the project is to the rate you assume.</p>
+
+<h2 class="h5 font-weight-bold mt-4 mb-3">How the tool works</h2>
+
+<p>Enter your cash flows period by period, starting with period 0. The initial outlay is normally negative because it is money leaving your pocket; later periods can be positive or negative as the project earns and then spends again. Choose how many periods make a year so the result can be annualised, set your own discount rate for the NPV comparison, and press <strong>Calculate IRR</strong>.</p>
+
+<p>Under the hood the calculator searches for the rate where the sum of every cash flow divided by (1 + rate) to the power of its period equals zero. Because that equation has no clean algebraic answer, the tool narrows the range by bisection until the NPV is effectively zero &mdash; accurate to many decimal places and, unlike the textbook Newton&ndash;Raphson method, reliable even when the cash flow pattern is awkward. If your series never changes sign (all inflows or all outflows), no IRR exists, and the tool says so instead of inventing a number.</p>
+
+<p>Every period's present value and running cumulative total appears in the results table, so you can trace exactly which years carry the project and which drag on it.</p>
+
+<h2 class="h5 font-weight-bold mt-4 mb-3">Where IRR earns its keep</h2>
+
+<p><strong>Capital budgeting.</strong> When two machines do the same job but cost and save differently, IRR lets you rank them against the hurdle rate your finance team set. Compare IRR to the cost of capital, not to another project's IRR, unless the projects are the same size and duration.</p>
+
+<p><strong>Real estate.</strong> A rental purchase is a negative cash flow at closing followed by rent, expenses and a sale. Solving for IRR turns that messy schedule into one number you can compare with a mortgage rate or a REIT fund.</p>
+
+<p><strong>Equipment and energy projects.</strong> Solar arrays, HVAC replacements and fleet upgrades are usually sold on payback, but IRR captures the whole life of the asset, including the residual value at the end.</p>
+
+<p><strong>Fund and deal evaluation.</strong> Lenders and investors quote target IRRs constantly. Building the cash flow schedule yourself is the fastest way to test whether a quoted number depends on optimistic exit assumptions.</p>
+
+<h2 class="h5 font-weight-bold mt-4 mb-3">Pro tips from practice</h2>
+
+<ul>
+<li><strong>Always read IRR next to NPV.</strong> A project can show a handsome 40% IRR on a tiny investment while adding very little absolute value. If the two disagree, NPV is the better arbiter of wealth.</li>
+<li><strong>Watch for multiple IRRs.</strong> When cash flows flip between negative and positive more than once, the mathematics can produce more than one answer. The NPV profile chart exposes this immediately: a curve that crosses zero twice means the IRR is ambiguous.</li>
+<li><strong>Use MIRR when the reinvestment assumption bothers you.</strong> Plain IRR quietly assumes every interim cash flow is reinvested at the IRR itself, which is unrealistic. MIRR reinvests inflows at your discount rate and funds outflows at the finance rate.</li>
+<li><strong>Keep the time base consistent.</strong> Mixing monthly flows with an annual discount rate is the most common error. Use the periods-per-year setting so the annualised figure matches your hurdle rate.</li>
+<li><strong>Include everything.</strong> Working capital, taxes, disposal costs and the salvage value all belong in the schedule. Leaving out the final year is the fastest way to overstate a return.</li>
+</ul>
+
+<h2 class="h5 font-weight-bold mt-4 mb-3">Common mistakes and FAQ</h2>
+
+<p><strong>Is a higher IRR always better?</strong> Not automatically. It is better than your cost of capital, and it is a fair ranking tool between similar projects. Between a small high-IRR project and a large modest-IRR one, NPV tells you which adds more money.</p>
+
+<p><strong>Why does the calculator refuse to give me an IRR?</strong> The cash flow series must contain at least one negative and one positive value. A series that only ever flows one way has no rate at which it breaks even.</p>
+
+<p><strong>What is a good IRR?</strong> There is no universal threshold. Companies typically use a hurdle rate a few points above their weighted average cost of capital to compensate for execution risk, so the answer depends on your funding cost and the project's risk, not on a fixed benchmark.</p>
+
+<p><strong>Why is my IRR so extreme?</strong> Very small initial investments paired with long-dated payoffs produce huge percentages that are mathematically correct but practically meaningless. Sanity-check the magnitude of the cash flows, not just the ratio.</p>
+
+<p><strong>Can I compare IRR across different currencies or tax regimes?</strong> Only after normalising both. Convert the flows to one currency at a consistent rate and apply the same tax treatment before comparing rates.</p>
+
+<h2 class="h5 font-weight-bold mt-4 mb-3">About the author</h2>
+
+<p class="small text-muted">This calculator was built by the A Free Tools team, who write and maintain the finance and productivity utilities on this site. The formulas follow the standard discounted cash flow conventions used in corporate finance and are checked against worked textbook examples before release. Suggestions and corrections are welcome through the repository that hosts this page.</p>
+
+<p class="small text-muted mb-1"><strong>Last updated:</strong> <span id="lastUpdated">25 October 2026</span></p>
+</article>
+
+<div class="alert disclaimer small mt-4 mb-0" role="note">
+<strong>Disclaimer:</strong> This IRR calculator is provided for educational and informational purposes only. It does not constitute financial, investment, tax or legal advice, and results depend entirely on the cash flows you enter. Verify all figures against your own financial model and consult a qualified professional before making investment decisions.
+</div>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
