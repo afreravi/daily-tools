@@ -169,15 +169,16 @@
     return (lo + hi) / 2;
   }
 
-  function countIrrRoots(flows) {
-    // Count sign changes of NPV across a coarse grid to flag multiple IRRs.
-    var roots = 0, prev = npvAt(-0.99, flows);
-    for (var r = -0.98; r <= 3.0001; r += 0.01) {
-      var v = npvAt(r, flows);
-      if (isFinite(prev) && isFinite(v) && prev * v < 0) roots++;
-      prev = v;
+  function signChanges(flows) {
+    // Descartes-style count: each change of sign in the series can add a root.
+    var changes = 0, prevSign = 0;
+    for (var i = 0; i < flows.length; i++) {
+      var s = flows[i] > 0 ? 1 : (flows[i] < 0 ? -1 : 0);
+      if (s === 0) continue;
+      if (prevSign !== 0 && s !== prevSign) changes++;
+      prevSign = s;
     }
-    return roots;
+    return changes;
   }
 
   function mirr(flows, financeRate, reinvestRate) {
@@ -200,10 +201,10 @@
       var v = rate === 0 ? flows[i] : flows[i] / Math.pow(1 + rate, i);
       var prev = cum;
       cum += v;
-      if (cum >= 0 && (prev < 0 || i === 0)) {
-        if (v === 0) return i;
+      if (cum >= 0 && i > 0 && prev < 0) {
         return (i - 1) + (v !== 0 ? Math.abs(prev) / v : 0);
       }
+      if (i === 0 && cum >= 0) return 0;
     }
     return null;
   }
@@ -296,8 +297,8 @@
       verdictClass = 'verdict-bad';
       verdictText = 'The IRR of ' + pct(irr * 100) + ' is below your ' + pct(discountPct) + ' discount rate, so at these cash flows the project falls short of the return you require.';
     }
-    var roots = countIrrRoots(flows);
-    if (roots > 1) {
+    var changes = signChanges(flows);
+    if (changes > 1) {
       verdictClass = 'verdict-warn';
       verdictText += ' Note: this cash flow pattern changes sign more than once, which can produce multiple IRRs \u2014 check the NPV profile chart before relying on the figure.';
     }
