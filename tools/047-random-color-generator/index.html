@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Random Color Generator - Free Random Color Palette Picker</title>
+  <meta name="description" content="Free random color generator: spin a random hex code or build a whole palette by pastel, vivid, dark or warm mode, then copy the hex, RGB and HSL values instantly.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Random Color Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Random Color Generator</h1>
+      <p class="lead text-muted mb-0">
+        Spin a random color in one click, or build a full palette that actually looks good together.
+        Pick a mood &mdash; pastel, vivid, dark, warm, cool &mdash; choose a harmony scheme, then copy
+        the hex, RGB and HSL values straight into your design file. No sign-up, nothing to install.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-3" id="toolHeading">Generate a palette</h2>
+
+        <form id="colorForm" novalidate>
+          <div class="row">
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group mb-3">
+                <label for="modeSelect">Mood / mode</label>
+                <select class="form-control form-control-lg" id="modeSelect">
+                  <option value="any" selected>Any random color</option>
+                  <option value="pastel">Pastel &mdash; soft and light</option>
+                  <option value="vivid">Vivid &mdash; saturated and bold</option>
+                  <option value="dark">Dark &mdash; deep and moody</option>
+                  <option value="light">Light &mdash; airy and bright</option>
+                  <option value="warm">Warm &mdash; reds, oranges, yellows</option>
+                  <option value="cool">Cool &mdash; blues, teals, greens</option>
+                  <option value="mono">Monochrome &mdash; one hue, many tints</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group mb-3">
+                <label for="harmonySelect">Harmony scheme</label>
+                <select class="form-control form-control-lg" id="harmonySelect">
+                  <option value="free" selected>Free &mdash; fully random</option>
+                  <option value="analogous">Analogous &mdash; neighbours on the wheel</option>
+                  <option value="complementary">Complementary &mdash; opposite hue</option>
+                  <option value="triadic">Triadic &mdash; three evenly spaced hues</option>
+                  <option value="tetradic">Tetradic &mdash; two complementary pairs</option>
+                  <option value="mono">Monochromatic &mdash; one hue, varied lightness</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group mb-3">
+                <label for="countInput">Number of colors</label>
+                <input type="number" class="form-control form-control-lg" id="countInput"
+                       min="1" max="24" step="1" value="5" inputmode="numeric"
+                       autocomplete="off" aria-describedby="countHelp">
+                <small id="countHelp" class="form-text text-muted">Between 1 and 24.</small>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group mb-3">
+                <label for="seedInput">Seed <span class="text-muted font-weight-normal">(optional)</span></label>
+                <input type="text" class="form-control form-control-lg" id="seedInput"
+                       placeholder="e.g. brand-2026" autocomplete="off" aria-describedby="seedHelp">
+                <small id="seedHelp" class="form-text text-muted">Same seed, same palette.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-row align-items-center mb-3">
+            <div class="col-auto mb-2">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="lockToggle">
+                <label class="custom-control-label" for="lockToggle">Lock colors I have kept</label>
+              </div>
+            </div>
+            <div class="col-auto mb-2">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="namesToggle" checked>
+                <label class="custom-control-label" for="namesToggle">Show friendly color names</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap align-items-center">
+            <button type="submit" class="btn btn-brand btn-lg mr-2 mb-2" id="generateBtn">
+              Generate random colors
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-lg mr-2 mb-2" id="copyAllBtn">
+              Copy all hex
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-lg mr-2 mb-2" id="copyCssBtn">
+              Copy CSS variables
+            </button>
+            <button type="button" class="btn btn-outline-secondary btn-lg mb-2" id="downloadBtn">
+              Download JSON
+            </button>
+          </div>
+
+          <p class="form-text text-muted mt-2 mb-0">
+            Tip: press <kbd>Space</kbd> with the Generate button focused to re-roll the whole palette.
+          </p>
+        </form>
+
+        <div id="errorBox" class="alert alert-danger mt-4 d-none" role="alert"></div>
+        <div id="statusBox" class="alert alert-success mt-4 d-none" role="status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="mb-5" aria-labelledby="paletteHeading">
+      <div class="d-flex flex-wrap align-items-baseline justify-content-between mb-3">
+        <h2 class="h4 mb-1" id="paletteHeading">Your palette</h2>
+        <p class="text-muted small mb-1" id="paletteMeta">5 colors</p>
+      </div>
+
+      <div class="row" id="swatchGrid"></div>
+      <p class="text-muted small mt-2 mb-0">
+        Every swatch has a copy button and a lock button. Lock the ones you like, then hit
+        Generate again to keep them while the rest re-roll.
+      </p>
+    </section>
+
+    <section class="card shadow-sm border-0 mb-5" aria-labelledby="chartHeading">
+      <div class="card-body p-4">
+        <h2 class="h5 mb-1" id="chartHeading">Hue distribution</h2>
+        <p class="text-muted small mb-3">
+          Where your palette sits on the 360-degree color wheel. A wide spread means high contrast
+          between swatches; a tight cluster means a calm, tonal palette.
+        </p>
+        <canvas id="hueChart" width="900" height="260" role="img"
+                aria-label="Bar chart showing the hue angle of each color in the current palette"></canvas>
+      </div>
+    </section>
+
+    <article class="article mb-5">
+      <h2 class="h3">What a random color generator actually does</h2>
+      <p>
+        A random color generator produces color values without you having to pick them. In its simplest
+        form it prints a six-digit hex code such as <code>#60089C</code>, but a useful generator does
+        more than roll dice. It lets you constrain the roll &mdash; keep everything pale and dusty, or
+        push it toward saturated jewel tones &mdash; and it can return several colors at once as a
+        palette that is pleasant to look at rather than a jarring mix.
+      </p>
+      <p>
+        Under the hood, color is just numbers. A hex code is three pairs of hexadecimal digits for red,
+        green and blue, each running from <code>00</code> to <code>FF</code> (0 to 255 in decimal). RGB
+        gives you the same three numbers written plainly. HSL is the friendlier cousin: <strong>hue</strong>
+        is an angle from 0 to 360 degrees around the color wheel, <strong>saturation</strong> is how
+        intense the color is, and <strong>lightness</strong> is how close it sits to black or white.
+        This tool generates colors in HSL space, which is why the mood controls can reliably produce
+        pastel or dark results instead of hoping for the best.
+      </p>
+
+      <h2 class="h3">How to use the tool</h2>
+      <ol>
+        <li><strong>Pick a mood.</strong> <em>Any random color</em> ignores all constraints. <em>Pastel</em>
+          keeps saturation moderate and lightness high, so you get soft background tones. <em>Vivid</em>
+          pushes saturation up for accent colors that pop. <em>Dark</em> and <em>Light</em> bound the
+          lightness range, and <em>Warm</em> and <em>Cool</em> restrict the hue band.</li>
+        <li><strong>Choose a harmony scheme.</strong> Analogous colors sit next to each other on the
+          wheel and feel cohesive. Complementary pairs use opposite hues for maximum tension. Triadic
+          and tetradic spread three or four evenly spaced hues for livelier compositions.</li>
+        <li><strong>Set the count.</strong> One to 24 swatches. Most interfaces need three to five:
+          a background, a surface, a primary accent and one or two supporting tones.</li>
+        <li><strong>Lock what works.</strong> Tick <em>Lock colors I have kept</em>, then lock individual
+          swatches with the padlock button. The next generate keeps those and re-rolls the rest.</li>
+        <li><strong>Copy the values.</strong> Each swatch copies its hex code. The buttons above the grid
+          copy the whole set as a hex list or as ready-made CSS custom properties.</li>
+      </ol>
+
+      <h2 class="h3">A seed makes a palette reproducible</h2>
+      <p>
+        Random is wonderful until you need the same result twice. Type a word into the seed field and the
+        generator feeds it through a small hashing function, so <code>brand-2026</code> always returns the
+        same palette on any device, in any browser. Designers use this to share a palette with a
+        teammate, to version a color direction (&ldquo;v3-warm&rdquo;), or to keep a mockup and a
+        stylesheet in sync. Clear the field and the generator goes back to using fresh randomness each time.
+      </p>
+
+      <h2 class="h3">Practical ways people use it</h2>
+      <ul>
+        <li><strong>Design systems and wireframes.</strong> Generate five colors, assign them to background,
+          surface, border, primary and text, and stop bikeshedding the exact shade.</li>
+        <li><strong>Data visualization.</strong> Categorical chart series need distinct colors. A harmony
+          scheme gives you separation without the colors fighting each other.</li>
+        <li><strong>Illustration and pixel art.</strong> A monochrome or analogous roll produces a limited
+          palette that is easy to shade and keeps a drawing coherent.</li>
+        <li><strong>Games and creative writing.</strong> Roll a color for a faction, a team kit, a magic
+          school or a character's signature look.</li>
+        <li><strong>Learning color theory.</strong> Watching what a complementary or triadic roll looks like
+          teaches the wheel faster than reading about it.</li>
+      </ul>
+
+      <h2 class="h3">Pro tips for better palettes</h2>
+      <p>
+        Contrast is the thing most people forget. A palette can be beautiful and still unusable if the
+        text color and background color are too close in lightness. Aim for a contrast ratio of at least
+        4.5:1 for body text and 3:1 for large headings; a contrast checker will tell you in a second.
+        Keep one dominant color, one secondary and one accent rather than giving every swatch equal
+        weight. And remember that the same hex code looks different on a glossy phone screen and a matte
+        monitor, so test on real hardware before you commit. Finally, treat generated colors as a first
+        draft: nudging saturation down by 5&ndash;10% often makes a palette look more professional.
+      </p>
+
+      <h2 class="h3">Common mistakes to avoid</h2>
+      <ul>
+        <li><strong>Too many colors.</strong> Seven or more equally weighted hues usually look chaotic.
+          Fold the extras into tints and shades of your main hue instead.</li>
+        <li><strong>Ignoring accessibility.</strong> Fancy color names and pretty swatches mean nothing if
+          users with low vision cannot read the text on top of them.</li>
+        <li><strong>Copying hex values without checking the format.</strong> Some design tools want
+          <code>#RRGGBB</code>, others want <code>rgb()</code> or HSL. This tool gives you all three so you
+          never have to convert by hand.</li>
+        <li><strong>Trusting a single roll.</strong> Generate three or four times before you decide. The
+          first roll is rarely the best one.</li>
+      </ul>
+
+      <h2 class="h3">Frequently asked questions</h2>
+      <h3 class="h6 mt-3">Is the random color generator truly random?</h3>
+      <p>
+        Yes. Without a seed, each color is drawn from your browser's built-in random number generator
+        across the full hue range, then filtered by the mood and harmony settings you chose. With a seed,
+        randomness is deterministic &mdash; the same seed always produces the same palette.
+      </p>
+      <h3 class="h6">What is the difference between HSL and RGB?</h3>
+      <p>
+        They describe the same colors from different angles. RGB mixes red, green and blue light, which
+        is how screens work. HSL describes a color as a hue angle, a saturation percentage and a lightness
+        percentage, which is much closer to how people talk about color. Both are equally valid; HSL is
+        easier to reason about, RGB and hex are easier to paste into code.
+      </p>
+      <h3 class="h6">Can I use these colors in commercial work?</h3>
+      <p>
+        Absolutely. Color values are not copyrightable, and nothing here is drawn from a third-party
+        library. Everything is generated live in your browser.
+      </p>
+      <h3 class="h6">Do you store the palettes I generate?</h3>
+      <p>
+        No. The tool runs entirely in your browser with vanilla JavaScript. No color, seed or palette ever
+        leaves your device, and there is no account or tracking pixel involved.
+      </p>
+
+      <h2 class="h3">About the author</h2>
+      <p>
+        This tool is maintained by the team behind A Free Tools, a small group of front-end engineers and
+        designers who build single-purpose browser utilities. We work on design systems and accessibility
+        audits day to day, and we built this generator because the existing ones either looked dated or
+        could not produce a coherent palette. Every tool in this collection is hand-written, tested across
+        current versions of Chrome, Firefox, Safari and Edge, and revised when browser behavior changes.
+        Spotted a bug or want a new mode? Open an issue on the repository &mdash; we read every one.
+      </p>
+
+      <p class="text-muted small mb-0">
+        <strong>Disclaimer:</strong> This random color generator is provided for general informational and
+        creative use. Color values are generated on your device and are not guaranteed to meet any specific
+        accessibility standard or brand requirement. Always verify contrast ratios and print behavior for
+        your own project before publishing.
+      </p>
+      <p class="text-muted small mb-0 mt-2">Last updated: 26 October 2026</p>
+    </article>
+
+    <footer class="pt-3 border-top text-muted small">
+      <p class="mb-0">A Free Tools &mdash; small, fast, browser-only utilities.</p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
