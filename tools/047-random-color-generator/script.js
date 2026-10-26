@@ -12,7 +12,6 @@
   var seedInput = document.getElementById("seedInput");
   var lockToggle = document.getElementById("lockToggle");
   var namesToggle = document.getElementById("namesToggle");
-  var generateBtn = document.getElementById("generateBtn");
   var copyAllBtn = document.getElementById("copyAllBtn");
   var copyCssBtn = document.getElementById("copyCssBtn");
   var downloadBtn = document.getElementById("downloadBtn");
@@ -301,18 +300,15 @@
 
     chip.appendChild(lockBtn);
 
-    var body = document.createElement("div");
-    body.className = "swatch-body";
-
+    /* Hex label sits on the chip itself, coloured for contrast against the swatch. */
     var hexLine = document.createElement("div");
     hexLine.className = "swatch-hex";
     hexLine.style.color = textLight ? "#fff" : "#241f2b";
     hexLine.textContent = hex;
-    /* Show the hex on the chip itself for quick reading. */
-    hexLine.style.position = "absolute";
-    hexLine.style.left = ".7rem";
-    hexLine.style.bottom = ".5rem";
     chip.appendChild(hexLine);
+
+    var body = document.createElement("div");
+    body.className = "swatch-body";
 
     var nameLine = document.createElement("div");
     nameLine.className = "swatch-name";
@@ -609,12 +605,6 @@
   });
 
   countInput.addEventListener("input", clearError);
-
-  /* Space on the generate button re-rolls; browsers fire click for space on buttons,
-     so nothing extra is needed - but we keep the shortcut explicit for clarity. */
-  generateBtn.addEventListener("keydown", function (e) {
-    if (e.key === " " || e.key === "Enter") return; /* native activation handles it */
-  });
 
   window.addEventListener("resize", function () {
     if (current.length) drawChart(current);
