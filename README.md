@@ -72,3 +72,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 044 | tvm-calculator | Solves the time value of money equation for any one unknown (FV, PV, PMT, N or I/Y), with a balance chart and period-by-period schedule |
 | 045 | password-generator | Cryptographically secure password generator with length, character-set and look-alike controls, batch output, copy-to-clipboard and an entropy/crack-time read-out |
 | 046 | irr-calculator | Solves internal rate of return for any cash flow series, with NPV, MIRR, payback, profitability index, a present-value table and an NPV profile chart |
+| 047 | random-color-generator | Spins random colors and coherent palettes by mood and harmony scheme, with lock-and-reroll, friendly names, hex/RGB/HSL copy, seed reproducibility and a hue chart |

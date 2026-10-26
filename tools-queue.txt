@@ -49,7 +49,7 @@
 [done] TVM Calculator
 [done] Password Generator
 [done] IRR calculator
-Random Color Generator
+[done] Random Color Generator
 NPV calculator
 Random Word Generator
 ROI calculator
