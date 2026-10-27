@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>NPV Calculator - Free Net Present Value Calculator with Cash Flows</title>
+  <meta name="description" content="Free NPV calculator: enter a discount rate and yearly cash flows to get net present value, total discounted cash flow and a payback view in seconds. No sign-up needed.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">NPV Calculator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">NPV Calculator</h1>
+      <p class="lead text-muted mb-0">
+        Work out the net present value of an investment without a spreadsheet. Enter your discount rate,
+        your upfront cost and the cash the project is expected to return each year &mdash; you get the
+        discounted value of every period, the running total and the year the investment breaks even.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-3" id="toolHeading">Discount your cash flows</h2>
+
+        <form id="npvForm" novalidate>
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="rateInput">Discount rate (per year, %)</label>
+                <div class="input-group input-group-lg">
+                  <input type="number" class="form-control" id="rateInput" value="10" step="0.01" min="-99" inputmode="decimal" aria-describedby="rateHelp">
+                  <div class="input-group-append"><span class="input-group-text">%</span></div>
+                </div>
+                <small id="rateHelp" class="form-text text-muted">Your required return or cost of capital.</small>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="initialInput">Initial investment (period 0)</label>
+                <div class="input-group input-group-lg">
+                  <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                  <input type="number" class="form-control" id="initialInput" value="10000" step="0.01" inputmode="decimal" aria-describedby="initialHelp">
+                </div>
+                <small id="initialHelp" class="form-text text-muted">Enter a positive number; it is treated as an outflow.</small>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="yearsInput">Number of periods</label>
+                <input type="number" class="form-control form-control-lg" id="yearsInput" value="5" min="1" max="30" step="1" inputmode="numeric">
+                <small class="form-text text-muted">Between 1 and 30 years (or months).</small>
+              </div>
+            </div>
+          </div>
+
+          <fieldset class="mb-4">
+            <legend class="h6 text-uppercase text-muted letter-spaced mb-3">Cash flow for each period</legend>
+            <div id="cashFlowGrid" class="row"></div>
+            <div class="d-flex flex-wrap align-items-center mt-1">
+              <button type="button" class="btn btn-sm btn-outline-secondary mr-2 mb-2" id="addPeriodBtn">Add period</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary mr-2 mb-2" id="removePeriodBtn">Remove last period</button>
+              <button type="button" class="btn btn-sm btn-link mb-2" id="evenBtn">Fill all with one value</button>
+            </div>
+          </fieldset>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="presetSelect">Load an example</label>
+                <select class="form-control" id="presetSelect">
+                  <option value="">Choose a scenario&hellip;</option>
+                  <option value="simple">Simple 5-year project (10%)</option>
+                  <option value="solar">Solar array, 12-year horizon (7%)</option>
+                  <option value="software">Software subscription build (15%)</option>
+                  <option value="equipment">Equipment replacement (9%)</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 d-flex align-items-end">
+              <div class="form-group w-100">
+                <button type="submit" class="btn btn-lg btn-brand btn-block mb-0">Calculate NPV</button>
+              </div>
+            </div>
+          </div>
+          <div id="formError" class="alert alert-danger d-none" role="alert"></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="resultsSection" class="mb-5 d-none" aria-live="polite">
+      <div class="row">
+        <div class="col-12 col-lg-5 mb-4">
+          <div class="card shadow-sm border-0 h-100 result-card">
+            <div class="card-body p-4">
+              <p class="text-uppercase small text-muted mb-1 letter-spaced">Net present value</p>
+              <p class="display-4 mb-2" id="npvValue">&mdash;</p>
+              <p class="mb-3" id="npvVerdict">&mdash;</p>
+              <dl class="row mb-0 small">
+                <dt class="col-7 font-weight-normal text-muted">Discounted inflows</dt>
+                <dd class="col-5 text-right mb-1" id="pvInflows">&mdash;</dd>
+                <dt class="col-7 font-weight-normal text-muted">Initial investment</dt>
+                <dd class="col-5 text-right mb-1" id="pvInitial">&mdash;</dd>
+                <dt class="col-7 font-weight-normal text-muted">Profitability index</dt>
+                <dd class="col-5 text-right mb-1" id="piValue">&mdash;</dd>
+                <dt class="col-7 font-weight-normal text-muted">Simple payback</dt>
+                <dd class="col-5 text-right mb-0" id="paybackValue">&mdash;</dd>
+              </dl>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-7 mb-4">
+          <div class="card shadow-sm border-0 h-100">
+            <div class="card-body p-4">
+              <h2 class="h6 text-uppercase text-muted letter-spaced mb-3">Discounted cash flow per period</h2>
+              <div id="chart" class="chart" role="img" aria-label="Bar chart of discounted cash flow for each period"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <h2 class="h6 text-uppercase text-muted letter-spaced mb-3">Period-by-period breakdown</h2>
+          <div class="table-responsive">
+            <table class="table table-sm table-hover mb-0" id="breakdownTable">
+              <thead>
+                <tr>
+                  <th scope="col">Period</th>
+                  <th scope="col" class="text-right">Cash flow</th>
+                  <th scope="col" class="text-right">Discount factor</th>
+                  <th scope="col" class="text-right">Present value</th>
+                  <th scope="col" class="text-right">Cumulative PV</th>
+                </tr>
+              </thead>
+              <tbody id="breakdownBody"></tbody>
+              <tfoot>
+                <tr class="font-weight-bold">
+                  <th scope="row">Total</th>
+                  <td class="text-right" id="totalFlow">&mdash;</td>
+                  <td></td>
+                  <td class="text-right" id="totalPv">&mdash;</td>
+                  <td class="text-right" id="totalCum">&mdash;</td>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2>What net present value actually measures</h2>
+      <p>
+        A dollar promised three years from now is not worth a dollar today. You could put today's dollar in
+        a savings account, a bond or a business and have more than a dollar later, so any future payment has
+        to be shrunk back to today's terms before you can compare it with money you spend now. That shrinking
+        step is called discounting, and net present value is what you get when you add up all the discounted
+        inflows and subtract the discounted outflows.
+      </p>
+      <p>
+        The arithmetic rests on one idea: money grows at a compounding rate. If your required return is 10%
+        a year, $1,000 today becomes $1,100 in a year, $1,210 the year after, and so on. Run the film
+        backwards and $1,100 a year from now is worth $1,000 today; the multiplier that does that, 1 &divide;
+        (1 + r)<sup>n</sup>, is the discount factor for period <em>n</em>. The NPV formula is just the sum of
+        every cash flow multiplied by its own discount factor:
+      </p>
+      <p class="formula">NPV = &Sigma; [ CF<sub>t</sub> &divide; (1 + r)<sup>t</sup> ] &minus; Initial investment</p>
+      <p>
+        Because the initial spend usually happens at time zero, its discount factor is one and it is
+        subtracted at full value. Everything that arrives later is worth less than its face amount, and the
+        further out it sits, the harder the discount bites.
+      </p>
+
+      <h2>How to use this NPV calculator</h2>
+      <p>
+        The workflow mirrors how you would build the model by hand, only faster. Start by typing the discount
+        rate you expect to earn &mdash; your cost of capital, a hurdle rate set by management, or simply the
+        return you could get elsewhere for the same risk. Next, enter the upfront investment as a positive
+        number; the calculator knows it is an outflow and applies it at period zero. Then set how many periods
+        the project runs for and fill in the expected cash flow for each one.
+      </p>
+      <p>
+        The period grid grows and shrinks with the Add period and Remove last period buttons, and the
+        <em>Fill all with one value</em> shortcut is handy when a project returns a steady amount every year.
+        Press Calculate NPV and the tool reports the headline figure, the total discounted inflows, the
+        profitability index, the simple payback point and a bar chart of each period's present value so you can
+        see at a glance which years carry the weight. Below that, a full breakdown table shows the discount
+        factor and cumulative present value for every period &mdash; the same working you would have to
+        rebuild by hand if a reviewer asks how you got the number.
+      </p>
+      <p>
+        Empty, zero and negative entries are all handled. Leave a field blank and it is read as zero, a
+        negative cash flow is discounted exactly like a positive one, and a discount rate of &minus;100% or
+        below is rejected because the maths breaks down there. The form validates as you go and tells you what
+        to fix instead of printing a meaningless result.
+      </p>
+
+      <h2>Reading the answer: accept, reject, or wait</h2>
+      <p>
+        The decision rule is refreshingly simple. A positive NPV means the project earns more than your
+        required return after paying back the investment &mdash; it adds value, so accept it. A negative NPV
+        means it destroys value at that discount rate, so reject it or renegotiate the price. An NPV of
+        roughly zero means the project returns exactly your hurdle rate and nothing more.
+      </p>
+      <p>
+        When you are comparing two projects that cannot both be funded, higher NPV wins, because it measures
+        the dollar value added rather than a percentage. Two supporting numbers are worth a look too. The
+        profitability index divides discounted inflows by the initial outlay, so it tells you the value created
+        per dollar invested &mdash; useful when capital is rationed. Simple payback says how many periods it
+        takes for the undiscounted cash to cover the cost, which speaks to liquidity risk rather than profit.
+      </p>
+
+      <h2>Where NPV fits next to IRR and payback</h2>
+      <p>
+        The internal rate of return is the discount rate that drives NPV to zero; it is the same model read
+        backwards. IRR is intuitive to quote in a meeting, but it can mislead when cash flows change sign more
+        than once, and it ignores the scale of the investment. A project with a 40% IRR on a $5,000 outlay
+        adds less wealth than one with a 20% IRR on a $500,000 outlay. NPV has no such blind spot, which is
+        why finance textbooks and most corporate capital-budgeting policies treat it as the primary test.
+      </p>
+      <p>
+        Payback and discounted payback answer a different question. They measure how quickly you get your money
+        back, which matters when cash is tight, but they ignore everything that happens after the break-even
+        point. A project that pays back in year two and then earns nothing scores the same as one that pays
+        back in year two and then doubles your money. Use payback as a risk filter and NPV as the value test.
+      </p>
+
+      <h2>Pro tips for a credible model</h2>
+      <ul>
+        <li><strong>Match the rate to the period.</strong> If your cash flows are monthly, convert the annual rate to a monthly one (divide by twelve for a rough figure, or compound it properly) before discounting, otherwise every answer will be wrong.</li>
+        <li><strong>Keep the discount rate honest.</strong> A rate picked to make the project look good is not analysis. Use a weighted average cost of capital, or a rate that reflects the risk of this specific project.</li>
+        <li><strong>Put real costs in the initial period.</strong> Installation, training, shipping and the working capital you tie up all belong in period zero, not buried in year one.</li>
+        <li><strong>Test a range, not a point.</strong> Rerun the calculator at a rate a couple of points higher and lower. If the sign of NPV flips between them, your decision is sensitive and deserves more scrutiny.</li>
+        <li><strong>Ignore sunk costs.</strong> Money already spent is gone whether you proceed or not, so it has no place in the forecast.</li>
+      </ul>
+
+      <h2>Common mistakes to avoid</h2>
+      <p>
+        The most frequent error is mixing nominal cash flows with a real discount rate, or the reverse.
+        Inflated cash flows belong with a nominal rate; constant-dollar cash flows belong with a real rate.
+        Mixing them quietly biases the answer. The second is counting the initial investment twice &mdash; once
+        as period zero and again as a year-one outflow. The third is treating a positive NPV as a guarantee:
+        it is only as good as the cash-flow estimates behind it, and those are forecasts, not facts.
+      </p>
+      <p>
+        Finally, be careful with terminal value. If the project keeps generating cash beyond the last period
+        you modelled, either extend the horizon or add a carefully justified terminal value. Simply stopping at
+        year five when the asset has a twenty-year life understates the value badly.
+      </p>
+
+      <h2>Frequently asked questions</h2>
+      <p><strong>What is a good net present value?</strong> Any NPV above zero is acceptable in principle, because it means the project beats your required return. When choosing between projects, the highest NPV creates the most value.</p>
+      <p><strong>Can NPV be negative?</strong> Yes, and that is useful information. A negative NPV means the discounted returns do not cover the cost at that discount rate, so the project should be rejected or reworked.</p>
+      <p><strong>What discount rate should I use?</strong> Use your cost of capital, a company hurdle rate, or the return available on a comparable investment with similar risk. A higher rate penalises distant cash flows more heavily.</p>
+      <p><strong>Is NPV better than IRR?</strong> For ranking projects, usually yes. NPV measures value added in dollars and handles unusual cash-flow patterns more reliably than IRR.</p>
+      <p><strong>Does NPV account for inflation?</strong> Only through the numbers you feed it. Use nominal cash flows with a nominal rate, or real cash flows with a real rate, and stay consistent.</p>
+
+      <h2>About the author</h2>
+      <p>
+        This calculator was built and documented by the AfreeTools team, a group of analysts and engineers who
+        spend their working days in spreadsheets and their evenings turning them into single-purpose web tools.
+        Every formula on this page follows standard discounted cash flow practice as taught in corporate
+        finance courses and used in real capital-budgeting decisions. If you spot an error, tell us and we will
+        fix it.
+      </p>
+      <p class="disclaimer">
+        <strong>Disclaimer:</strong> This NPV calculator is provided for educational and informational purposes
+        only. It is not financial, investment, tax or accounting advice, and the results depend entirely on the
+        inputs you supply. Always verify material decisions with a qualified professional.
+      </p>
+      <p class="text-muted small mb-0">Last updated: <span id="lastUpdated">October 27, 2026</span></p>
+    </article>
+  </main>
+
+  <footer class="border-top py-4 mt-4">
+    <div class="container small text-muted">
+      &copy; <span id="year"></span> AfreeTools &mdash; free browser tools, no sign-up.
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
