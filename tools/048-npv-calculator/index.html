@@ -163,117 +163,104 @@
     <article class="article">
       <h2>What net present value actually measures</h2>
       <p>
-        A dollar promised three years from now is not worth a dollar today. You could put today's dollar in
-        a savings account, a bond or a business and have more than a dollar later, so any future payment has
-        to be shrunk back to today's terms before you can compare it with money you spend now. That shrinking
-        step is called discounting, and net present value is what you get when you add up all the discounted
-        inflows and subtract the discounted outflows.
+        A dollar promised three years from now is not worth a dollar today. You could put today's dollar in a
+        savings account or a bond and have more later, so any future payment has to be shrunk back to today's
+        terms before you can compare it with money you spend now. That shrinking step is called discounting,
+        and net present value is what you get when you add up all the discounted inflows and subtract the
+        discounted outflows.
       </p>
       <p>
-        The arithmetic rests on one idea: money grows at a compounding rate. If your required return is 10%
-        a year, $1,000 today becomes $1,100 in a year, $1,210 the year after, and so on. Run the film
-        backwards and $1,100 a year from now is worth $1,000 today; the multiplier that does that, 1 &divide;
-        (1 + r)<sup>n</sup>, is the discount factor for period <em>n</em>. The NPV formula is just the sum of
-        every cash flow multiplied by its own discount factor:
+        The arithmetic rests on one idea: money grows at a compounding rate. If your required return is 10% a
+        year, $1,000 today becomes $1,100 in a year and $1,210 the year after. Run the film backwards and
+        $1,100 a year from now is worth $1,000 today; the multiplier that does that, 1 &divide; (1 + r)<sup>n</sup>,
+        is the discount factor for period <em>n</em>. NPV is the sum of every cash flow multiplied by its own
+        discount factor:
       </p>
       <p class="formula">NPV = &Sigma; [ CF<sub>t</sub> &divide; (1 + r)<sup>t</sup> ] &minus; Initial investment</p>
       <p>
-        Because the initial spend usually happens at time zero, its discount factor is one and it is
-        subtracted at full value. Everything that arrives later is worth less than its face amount, and the
-        further out it sits, the harder the discount bites.
+        Because the initial spend happens at time zero, its discount factor is one and it is subtracted at full
+        value. Everything arriving later is worth less than its face amount, and the further out it sits, the
+        harder the discount bites.
       </p>
 
       <h2>How to use this NPV calculator</h2>
       <p>
-        The workflow mirrors how you would build the model by hand, only faster. Start by typing the discount
-        rate you expect to earn &mdash; your cost of capital, a hurdle rate set by management, or simply the
-        return you could get elsewhere for the same risk. Next, enter the upfront investment as a positive
-        number; the calculator knows it is an outflow and applies it at period zero. Then set how many periods
-        the project runs for and fill in the expected cash flow for each one.
+        Start by typing the discount rate you expect to earn &mdash; your cost of capital, a hurdle rate set by
+        management, or simply the return available elsewhere for the same risk. Enter the upfront investment as
+        a positive number; the calculator knows it is an outflow and applies it at period zero. Then set how
+        many periods the project runs for and fill in the expected cash flow for each one.
       </p>
       <p>
         The period grid grows and shrinks with the Add period and Remove last period buttons, and the
-        <em>Fill all with one value</em> shortcut is handy when a project returns a steady amount every year.
-        Press Calculate NPV and the tool reports the headline figure, the total discounted inflows, the
-        profitability index, the simple payback point and a bar chart of each period's present value so you can
-        see at a glance which years carry the weight. Below that, a full breakdown table shows the discount
-        factor and cumulative present value for every period &mdash; the same working you would have to
-        rebuild by hand if a reviewer asks how you got the number.
+        <em>Fill all with one value</em> shortcut suits projects that return a steady amount every year. Press
+        Calculate NPV and the tool reports the headline figure, total discounted inflows, the profitability
+        index, the simple payback point and a bar chart of each period's present value. A breakdown table then
+        shows the discount factor and cumulative present value for every period &mdash; the same working a
+        reviewer would otherwise ask you to rebuild by hand.
       </p>
       <p>
-        Empty, zero and negative entries are all handled. Leave a field blank and it is read as zero, a
-        negative cash flow is discounted exactly like a positive one, and a discount rate of &minus;100% or
-        below is rejected because the maths breaks down there. The form validates as you go and tells you what
-        to fix instead of printing a meaningless result.
+        Empty, zero and negative entries are all handled: a blank field reads as zero, negative cash flows
+        discount exactly like positive ones, and a rate of &minus;100% or below is rejected because the maths
+        breaks down there. The form validates as you go and says what to fix rather than printing a meaningless
+        result.
       </p>
 
       <h2>Reading the answer: accept, reject, or wait</h2>
       <p>
-        The decision rule is refreshingly simple. A positive NPV means the project earns more than your
-        required return after paying back the investment &mdash; it adds value, so accept it. A negative NPV
-        means it destroys value at that discount rate, so reject it or renegotiate the price. An NPV of
-        roughly zero means the project returns exactly your hurdle rate and nothing more.
+        The decision rule is simple. A positive NPV means the project beats your required return after paying
+        back the investment &mdash; accept it. A negative NPV means it destroys value at that rate, so reject it
+        or renegotiate the price. An NPV near zero means the project returns exactly your hurdle rate and
+        nothing more.
       </p>
       <p>
-        When you are comparing two projects that cannot both be funded, higher NPV wins, because it measures
-        the dollar value added rather than a percentage. Two supporting numbers are worth a look too. The
-        profitability index divides discounted inflows by the initial outlay, so it tells you the value created
-        per dollar invested &mdash; useful when capital is rationed. Simple payback says how many periods it
-        takes for the undiscounted cash to cover the cost, which speaks to liquidity risk rather than profit.
+        When two projects cannot both be funded, the higher NPV wins, because it measures dollars of value added
+        rather than a percentage. Two supporting numbers help. The profitability index divides discounted
+        inflows by the initial outlay, showing value created per dollar invested &mdash; useful when capital is
+        rationed. Simple payback says how many periods the undiscounted cash takes to cover the cost, which
+        speaks to liquidity risk rather than profit.
       </p>
 
       <h2>Where NPV fits next to IRR and payback</h2>
       <p>
         The internal rate of return is the discount rate that drives NPV to zero; it is the same model read
-        backwards. IRR is intuitive to quote in a meeting, but it can mislead when cash flows change sign more
-        than once, and it ignores the scale of the investment. A project with a 40% IRR on a $5,000 outlay
-        adds less wealth than one with a 20% IRR on a $500,000 outlay. NPV has no such blind spot, which is
-        why finance textbooks and most corporate capital-budgeting policies treat it as the primary test.
-      </p>
-      <p>
-        Payback and discounted payback answer a different question. They measure how quickly you get your money
-        back, which matters when cash is tight, but they ignore everything that happens after the break-even
-        point. A project that pays back in year two and then earns nothing scores the same as one that pays
-        back in year two and then doubles your money. Use payback as a risk filter and NPV as the value test.
+        backwards. IRR is intuitive to quote in a meeting, but it ignores the scale of the investment: a 40%
+        return on a $5,000 outlay adds far less wealth than a 20% return on $500,000. Payback answers a
+        different question again &mdash; how fast you get your money back, which matters when cash is tight but
+        ignores everything earned after the break-even point. Use payback as a risk filter, IRR as a sanity
+        check, and NPV as the primary value test.
       </p>
 
       <h2>Pro tips for a credible model</h2>
       <ul>
-        <li><strong>Match the rate to the period.</strong> If your cash flows are monthly, convert the annual rate to a monthly one (divide by twelve for a rough figure, or compound it properly) before discounting, otherwise every answer will be wrong.</li>
-        <li><strong>Keep the discount rate honest.</strong> A rate picked to make the project look good is not analysis. Use a weighted average cost of capital, or a rate that reflects the risk of this specific project.</li>
-        <li><strong>Put real costs in the initial period.</strong> Installation, training, shipping and the working capital you tie up all belong in period zero, not buried in year one.</li>
-        <li><strong>Test a range, not a point.</strong> Rerun the calculator at a rate a couple of points higher and lower. If the sign of NPV flips between them, your decision is sensitive and deserves more scrutiny.</li>
-        <li><strong>Ignore sunk costs.</strong> Money already spent is gone whether you proceed or not, so it has no place in the forecast.</li>
+        <li><strong>Match the rate to the period.</strong> Monthly cash flows need a monthly rate; divide the annual figure by twelve for a rough conversion, or compound it properly, before discounting.</li>
+        <li><strong>Keep the discount rate honest.</strong> A rate chosen to make a project look good is not analysis. Use a weighted average cost of capital or a rate reflecting this project's risk.</li>
+        <li><strong>Put real costs in period zero.</strong> Installation, training, shipping and tied-up working capital belong in the initial outlay, not buried in year one.</li>
+        <li><strong>Test a range, not a point.</strong> Rerun at a rate a couple of points higher and lower. If the sign of NPV flips, the decision is sensitive and needs more scrutiny.</li>
+        <li><strong>Ignore sunk costs.</strong> Money already spent is gone whether you proceed or not.</li>
       </ul>
 
       <h2>Common mistakes to avoid</h2>
       <p>
-        The most frequent error is mixing nominal cash flows with a real discount rate, or the reverse.
-        Inflated cash flows belong with a nominal rate; constant-dollar cash flows belong with a real rate.
-        Mixing them quietly biases the answer. The second is counting the initial investment twice &mdash; once
-        as period zero and again as a year-one outflow. The third is treating a positive NPV as a guarantee:
-        it is only as good as the cash-flow estimates behind it, and those are forecasts, not facts.
-      </p>
-      <p>
-        Finally, be careful with terminal value. If the project keeps generating cash beyond the last period
-        you modelled, either extend the horizon or add a carefully justified terminal value. Simply stopping at
-        year five when the asset has a twenty-year life understates the value badly.
+        The most frequent error is mixing nominal cash flows with a real discount rate, or the reverse. The
+        second is counting the initial investment twice, once as period zero and again as a year-one outflow.
+        The third is treating a positive NPV as a guarantee &mdash; it is only as good as the forecasts behind
+        it. Be careful with terminal value too: stopping at year five when the asset has a twenty-year life
+        understates the result badly.
       </p>
 
       <h2>Frequently asked questions</h2>
-      <p><strong>What is a good net present value?</strong> Any NPV above zero is acceptable in principle, because it means the project beats your required return. When choosing between projects, the highest NPV creates the most value.</p>
-      <p><strong>Can NPV be negative?</strong> Yes, and that is useful information. A negative NPV means the discounted returns do not cover the cost at that discount rate, so the project should be rejected or reworked.</p>
-      <p><strong>What discount rate should I use?</strong> Use your cost of capital, a company hurdle rate, or the return available on a comparable investment with similar risk. A higher rate penalises distant cash flows more heavily.</p>
-      <p><strong>Is NPV better than IRR?</strong> For ranking projects, usually yes. NPV measures value added in dollars and handles unusual cash-flow patterns more reliably than IRR.</p>
+      <p><strong>What is a good net present value?</strong> Any NPV above zero is acceptable in principle, because it means the project beats your required return. Between projects, the highest NPV creates the most value.</p>
+      <p><strong>Can NPV be negative?</strong> Yes, and that is useful information. A negative NPV means the discounted returns do not cover the cost at that rate, so the project should be rejected or reworked.</p>
+      <p><strong>What discount rate should I use?</strong> Your cost of capital, a company hurdle rate, or the return available on a comparable investment with similar risk. A higher rate penalises distant cash flows more heavily.</p>
+      <p><strong>Is NPV better than IRR?</strong> For ranking projects, usually yes. NPV measures value added in dollars and handles unusual cash-flow patterns more reliably.</p>
       <p><strong>Does NPV account for inflation?</strong> Only through the numbers you feed it. Use nominal cash flows with a nominal rate, or real cash flows with a real rate, and stay consistent.</p>
 
       <h2>About the author</h2>
       <p>
-        This calculator was built and documented by the AfreeTools team, a group of analysts and engineers who
-        spend their working days in spreadsheets and their evenings turning them into single-purpose web tools.
-        Every formula on this page follows standard discounted cash flow practice as taught in corporate
-        finance courses and used in real capital-budgeting decisions. If you spot an error, tell us and we will
-        fix it.
+        This calculator was built and documented by the AfreeTools team, analysts and engineers who spend their
+        working days in spreadsheets and their evenings turning them into single-purpose web tools. Every
+        formula here follows standard discounted cash flow practice used in real capital-budgeting decisions.
+        If you spot an error, tell us and we will fix it.
       </p>
       <p class="disclaimer">
         <strong>Disclaimer:</strong> This NPV calculator is provided for educational and informational purposes
