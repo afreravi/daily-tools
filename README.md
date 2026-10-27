@@ -26,4 +26,5 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 
 | # | Slug | What it does |
 | --- | --- | --- |
+| 048 | npv-calculator | Net present value from a discount rate and yearly cash flows, with per-period discount factors, a DCF bar chart and payback view. |
 

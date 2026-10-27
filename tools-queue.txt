@@ -50,7 +50,7 @@
 [done] Password Generator
 [done] IRR calculator
 [done] Random Color Generator
-NPV calculator
+[done] NPV calculator
 Random Word Generator
 ROI calculator
 Random Email Generator
