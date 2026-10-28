@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Random Word Generator - Free Word Picker for Writing and Games</title>
+  <meta name="description" content="Free random word generator: pick words instantly by length, starting letter or word type. Great for writing prompts, charades, Pictionary and classroom games.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Random Word Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Random Word Generator</h1>
+      <p class="lead text-muted mb-0">
+        Stuck for the right word, or need a pile of them fast? Choose how many words you want, filter by
+        length, starting letter or word type, and press the button. Every draw is made in your browser, so
+        you can spin the list as many times as you like.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-3" id="toolHeading">Draw your words</h2>
+
+        <form id="wordForm" novalidate>
+          <div class="row">
+            <div class="col-12 col-sm-6 col-lg-3">
+              <div class="form-group">
+                <label for="countInput">How many words?</label>
+                <input type="number" class="form-control form-control-lg" id="countInput" value="12" min="1" max="50" step="1" inputmode="numeric" aria-describedby="countHelp">
+                <small id="countHelp" class="form-text text-muted">Between 1 and 50.</small>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+              <div class="form-group">
+                <label for="lengthSelect">Word length</label>
+                <select class="form-control form-control-lg" id="lengthSelect">
+                  <option value="any" selected>Any length</option>
+                  <option value="short">Short (1&ndash;5 letters)</option>
+                  <option value="medium">Medium (6&ndash;9 letters)</option>
+                  <option value="long">Long (10+ letters)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+              <div class="form-group">
+                <label for="letterSelect">Starts with</label>
+                <select class="form-control form-control-lg" id="letterSelect">
+                  <option value="any" selected>Any letter</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+              <div class="form-group">
+                <label for="typeSelect">Word type</label>
+                <select class="form-control form-control-lg" id="typeSelect">
+                  <option value="mixed" selected>Mixed (nouns + verbs)</option>
+                  <option value="noun">Nouns only</option>
+                  <option value="verb">Verbs only</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row align-items-end">
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="caseSelect">Letter case</label>
+                <select class="form-control" id="caseSelect">
+                  <option value="lower" selected>lowercase</option>
+                  <option value="title">Title Case</option>
+                  <option value="upper">UPPERCASE</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <div class="custom-control custom-checkbox mb-2">
+                  <input type="checkbox" class="custom-control-input" id="uniqueCheck" checked>
+                  <label class="custom-control-label" for="uniqueCheck">No repeats in a single draw</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <button type="submit" class="btn btn-lg btn-brand btn-block mb-0">Generate words</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="formError" class="alert alert-danger d-none" role="alert"></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="resultsSection" class="mb-5 d-none" aria-live="polite">
+      <div class="row">
+        <div class="col-12 col-lg-7 mb-4">
+          <div class="card shadow-sm border-0 h-100 result-card">
+            <div class="card-body p-4">
+              <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                <p class="text-uppercase small text-muted mb-0 letter-spaced">Your word list</p>
+                <div>
+                  <button type="button" class="btn btn-sm btn-outline-secondary mr-2" id="copyBtn">Copy list</button>
+                  <button type="button" class="btn btn-sm btn-outline-secondary" id="shuffleBtn">Reshuffle</button>
+                </div>
+              </div>
+              <ul class="word-grid list-unstyled mb-0" id="wordGrid"></ul>
+              <p class="small text-muted mt-3 mb-0" id="copyNote" role="status"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-5 mb-4">
+          <div class="card shadow-sm border-0 h-100 result-card">
+            <div class="card-body p-4">
+              <p class="text-uppercase small text-muted mb-2 letter-spaced">This draw at a glance</p>
+              <p class="display-4 mb-1" id="wordCountValue">&mdash;</p>
+              <p class="mb-3 text-muted small" id="drawSummary">&mdash;</p>
+              <dl class="row mb-4 small">
+                <dt class="col-7 font-weight-normal text-muted">Shortest word</dt>
+                <dd class="col-5 text-right mb-1" id="shortestWord">&mdash;</dd>
+                <dt class="col-7 font-weight-normal text-muted">Longest word</dt>
+                <dd class="col-5 text-right mb-1" id="longestWord">&mdash;</dd>
+                <dt class="col-7 font-weight-normal text-muted">Average length</dt>
+                <dd class="col-5 text-right mb-1" id="averageLength">&mdash;</dd>
+                <dt class="col-7 font-weight-normal text-muted">Total letters</dt>
+                <dd class="col-5 text-right mb-0" id="totalLetters">&mdash;</dd>
+              </dl>
+              <p class="small text-muted mb-2">First-letter spread in this draw</p>
+              <canvas id="letterChart" width="420" height="180" role="img" aria-label="Bar chart of how many drawn words begin with each letter"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2>Why a random word is such a good starting pistol</h2>
+      <p>
+        A blank page is hard because it asks you to choose everything at once: subject, tone, image, angle.
+        A random word removes almost all of that. Hand your brain a single word &mdash; <em>lantern</em>,
+        <em>quilt</em>, <em>harbour</em> &mdash; and the choosing stops, the associations start, and the first
+        sentence usually arrives before you have decided whether you like it. Teachers use the trick with
+        five-year-olds and writing coaches use it with novelists. The mechanism is the same: constraint
+        lowers the cost of beginning.
+      </p>
+      <p>
+        This word generator exists for exactly that moment. It draws from a curated bank of common English
+        nouns and verbs, applies whatever filters you set, and prints a list you can copy straight into a
+        document, a slide, or a party game. Nothing is sent anywhere; the whole thing runs as a few kilobytes
+        of JavaScript in the page.
+      </p>
+
+      <h2>How the generator works</h2>
+      <p>
+        Set how many words you want, then narrow the pool. The length filter splits the bank into short
+        (one to five letters), medium (six to nine) and long (ten or more) &mdash; handy when a game needs
+        words everyone can spell, or when you want something with weight. The starting-letter filter is built
+        for alphabet games and alliteration drills. The word type filter keeps the draw to nouns, to verbs, or
+        mixes both, so you can pull a list of things or a list of actions.
+      </p>
+      <p>
+        Tick <em>No repeats in a single draw</em> and every word in a list is distinct, which matters when you
+        are dealing twelve prompts to twelve students. Untick it and each pick is independent, which is what
+        you want for dice-style randomness. Letter case is cosmetic but surprisingly useful: UPPERCASE for
+        display boards, lowercase for prose prompts, Title Case for headings.
+      </p>
+      <p>
+        Every draw reports its own shape too. Alongside the list you get the shortest and longest word, the
+        average length, the total letter count and a small bar chart showing how many of your words begin
+        with each letter. That last panel is a quick sanity check that a draw is spread out rather than
+        clumped &mdash; and it is a nice thing to show a class when you are teaching how randomness behaves.
+      </p>
+
+      <h2>Ten ways people actually use it</h2>
+      <ul>
+        <li><strong>Morning writing warm-up:</strong> draw one word, write for five minutes, no editing.</li>
+        <li><strong>Story prompts for students:</strong> draw five nouns and ask for a paragraph that uses all five.</li>
+        <li><strong>Charades and Pictionary:</strong> draw a verb, act it or sketch it, let the room guess.</li>
+        <li><strong>Poetry constraints:</strong> a long word drawn at random often sets the rhythm of a line.</li>
+        <li><strong>Brand and project naming:</strong> a random list breaks the rut of the same three prefixes.</li>
+        <li><strong>Vocabulary practice:</strong> filter to long words and ask for a synonym, an antonym and a sentence.</li>
+        <li><strong>Improv games:</strong> two words, thirty seconds, one scene.</li>
+        <li><strong>Songwriting:</strong> a random word as the chorus hook, then write toward it.</li>
+        <li><strong>Design prompts:</strong> draw an object and a colour, then illustrate the combination.</li>
+        <li><strong>Tie-breakers:</strong> a clean single draw settles an argument faster than a coin.</li>
+      </ul>
+
+      <h2>Pro tips from people who use word draws daily</h2>
+      <p>
+        Draw more words than you need and throw most away. Ten words with one good one beats a single word
+        you feel obliged to use. Keep the draw visible while you work &mdash; a word on a second screen does
+        more for you than a word you half-remember. If a word bores you, reshuffle immediately; the first
+        draw is not a commitment. And when you are teaching, let the class see the draw happen. Watching the
+        list appear makes the randomness believable in a way that a pre-printed sheet never does.
+      </p>
+
+      <h2>Common mistakes and honest limits</h2>
+      <p>
+        The most common mistake is treating a random word as a finished idea. It is a spark, not a plan; the
+        work of shaping still belongs to you. The second is forgetting your audience &mdash; a long abstract
+        noun is a poor prompt for a group still learning to read, and a short common word may be too thin for
+        a professional naming session. The third is using a random draw as evidence: a small list can look
+        clumped or coincidental, and that is normal, not a bug. Every pick here is independent, so a word can
+        repeat across draws even with repeats switched off inside a single list.
+      </p>
+      <p>
+        One honest limit worth stating: the bank is deliberately plain, everyday English. There are no proper
+        nouns, no slang and no specialist jargon, so the generator is a good brainstorming companion and a
+        poor dictionary. If you need a precise term, look it up.
+      </p>
+
+      <h2>Frequently asked questions</h2>
+      <p><strong>Is this really random?</strong> The tool uses the browser's built-in random number generator, which is more than good enough for writing prompts and party games. It is not intended for cryptography.</p>
+      <p><strong>Can I get the same word twice?</strong> Not within one list when repeats are switched off. Across separate draws, yes &mdash; each draw is independent, exactly as real randomness behaves.</p>
+      <p><strong>How many words can I draw at once?</strong> Up to fifty. Beyond that a list stops being useful and starts being a wall of text.</p>
+      <p><strong>Does it work on a phone?</strong> Yes. The layout is responsive, the controls are large, and everything runs locally, so it also works offline once the page has loaded.</p>
+      <p><strong>Can I use the words commercially?</strong> The words are ordinary English vocabulary and the tool is free to use. Nothing you draw is copyrighted or restricted.</p>
+
+      <h2>About the author</h2>
+      <p>
+        This generator was designed and written by the AfreeTools team &mdash; writers and engineers who
+        build small, single-purpose browser tools and test them against their own daily work. The word bank
+        and the filters come from classroom and workshop habits rather than theory. Spot a mistake or want a
+        filter added? Tell us and we will look at it.
+      </p>
+      <p class="disclaimer">
+        <strong>Disclaimer:</strong> This random word generator is provided for educational and entertainment
+        purposes only. Results are drawn at random and are not curated for any particular audience, so please
+        review a list before using it with children or in a professional setting.
+      </p>
+      <p class="text-muted small mb-0">Last updated: <span id="lastUpdated">October 28, 2026</span></p>
+    </article>
+  </main>
+
+  <footer class="border-top py-4 mt-4">
+    <div class="container small text-muted">
+      &copy; <span id="year"></span> AfreeTools &mdash; free browser tools, no sign-up.
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
