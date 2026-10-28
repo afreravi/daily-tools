@@ -51,7 +51,7 @@
 [done] IRR calculator
 [done] Random Color Generator
 [done] NPV calculator
-Random Word Generator
+[done] Random Word Generator
 ROI calculator
 Random Email Generator
 DCF calculator
