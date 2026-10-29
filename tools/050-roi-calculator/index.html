@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ROI Calculator - Free Return on Investment Calculator With Annualized ROI</title>
+  <meta name="description" content="Free ROI calculator: enter your investment, total return, extra costs and holding period to get return on investment, net profit and annualized ROI in seconds.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">ROI Calculator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">ROI Calculator</h1>
+      <p class="lead text-muted mb-0">
+        Measure what an investment actually returned. Enter what you put in, what you got back,
+        any extra costs and how long you held it &mdash; you get your return on investment,
+        net profit and an annualized ROI you can compare against any other opportunity.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Your investment</h2>
+        <p class="text-muted small mb-4">All amounts in the same currency. Leave optional fields at 0 if they don&rsquo;t apply.</p>
+
+        <form id="roiForm" novalidate>
+          <div class="row">
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="initialInput">Initial investment</label>
+                <div class="input-group input-group-lg">
+                  <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                  <input type="number" class="form-control" id="initialInput" value="10000" step="0.01" min="0" inputmode="decimal" aria-describedby="initialHelp">
+                </div>
+                <small id="initialHelp" class="form-text text-muted">What you paid or put in at the start.</small>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="returnInput">Total return received</label>
+                <div class="input-group input-group-lg">
+                  <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                  <input type="number" class="form-control" id="returnInput" value="13500" step="0.01" min="0" inputmode="decimal" aria-describedby="returnHelp">
+                </div>
+                <small id="returnHelp" class="form-text text-muted">Final value plus any income you collected.</small>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="costInput">Additional costs</label>
+                <div class="input-group input-group-lg">
+                  <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                  <input type="number" class="form-control" id="costInput" value="0" step="0.01" min="0" inputmode="decimal" aria-describedby="costHelp">
+                </div>
+                <small id="costHelp" class="form-text text-muted">Fees, taxes, upkeep &mdash; optional.</small>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="periodInput">Holding period</label>
+                <div class="input-group input-group-lg">
+                  <input type="number" class="form-control" id="periodInput" value="24" step="1" min="0" inputmode="numeric" aria-describedby="periodHelp">
+                  <div class="input-group-append">
+                    <select class="custom-select" id="periodUnit" aria-label="Holding period unit">
+                      <option value="months" selected>months</option>
+                      <option value="years">years</option>
+                      <option value="days">days</option>
+                    </select>
+                  </div>
+                </div>
+                <small id="periodHelp" class="form-text text-muted">Used for the annualized ROI.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap align-items-center">
+            <button type="submit" class="btn btn-brand btn-lg px-4 mr-2 mb-2 mb-sm-0">Calculate ROI</button>
+            <button type="reset" class="btn btn-outline-secondary btn-lg px-4 mb-2 mb-sm-0" id="resetBtn">Reset</button>
+          </div>
+
+          <div id="formError" class="alert alert-danger mt-3 mb-0 d-none" role="alert" aria-live="assertive"></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="results" class="mb-5 d-none" aria-live="polite" tabindex="-1">
+      <div class="row">
+        <div class="col-12 col-md-4 mb-3">
+          <div class="stat-card h-100">
+            <span class="stat-label">Return on investment</span>
+            <span class="stat-value" id="roiValue">&mdash;</span>
+            <span class="stat-note" id="roiNote">&nbsp;</span>
+          </div>
+        </div>
+        <div class="col-12 col-md-4 mb-3">
+          <div class="stat-card h-100">
+            <span class="stat-label">Net profit</span>
+            <span class="stat-value" id="profitValue">&mdash;</span>
+            <span class="stat-note" id="profitNote">&nbsp;</span>
+          </div>
+        </div>
+        <div class="col-12 col-md-4 mb-3">
+          <div class="stat-card h-100">
+            <span class="stat-label">Annualized ROI</span>
+            <span class="stat-value" id="annualValue">&mdash;</span>
+            <span class="stat-note" id="annualNote">&nbsp;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="h5 mb-1">Money in vs money out</h2>
+          <p class="text-muted small mb-4">A quick visual of what you put in, what came back and what you kept.</p>
+
+          <div class="chart" id="chart" role="img" aria-label="Bar chart comparing total invested, total returned and net profit"></div>
+
+          <div class="table-responsive mt-4">
+            <table class="table table-sm mb-0">
+              <caption class="sr-only">Detailed ROI breakdown</caption>
+              <tbody id="breakdownBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2>What return on investment actually measures</h2>
+      <p>
+        Return on investment, usually shortened to ROI, is the plainest scorecard in finance. It answers one
+        question: for every dollar you committed, how many dollars did you get back? The formula is simple
+        &mdash; net profit divided by total cost, expressed as a percentage. If you invest $10,000 and walk away
+        with $13,500, your net profit is $3,500 and your ROI is 35%. That single number lets you stack a
+        rental property, a marketing campaign and a share purchase side by side, even when their dollar
+        amounts are wildly different.
+      </p>
+      <p>
+        What makes this ROI calculator more useful than the bare formula is the <strong>annualized ROI</strong>.
+        A 35% gain sounds strong, but it means something very different over six months than over five years.
+        By entering your holding period, the calculator converts your total return into an equivalent yearly
+        rate, so a short, sharp flip and a slow, steady hold can be compared on equal footing. This is the same
+        intuition behind compound annual growth rate, and it is where most quick calculations fall short.
+      </p>
+
+      <h2>How to use this calculator</h2>
+      <p>
+        Start with your <strong>initial investment</strong> &mdash; the cash you actually committed, not the
+        headline price of the asset. Next, enter your <strong>total return received</strong>: the final value of
+        the investment plus any income it produced along the way, such as rent, dividends or interest. If you
+        paid fees, commissions, taxes or maintenance, add those under <strong>additional costs</strong> so the
+        result reflects your real, out-of-pocket position rather than a flattering one.
+      </p>
+      <p>
+        Finally, set the <strong>holding period</strong> and choose whether it is measured in days, months or
+        years. The calculator then produces three numbers: your ROI as a percentage, your net profit in
+        currency, and your annualized ROI. The bar chart shows total invested against total returned, and the
+        table below spells out every figure so you can check the maths yourself.
+      </p>
+
+      <h2>Worked example</h2>
+      <p>
+        Suppose you buy $10,000 of equipment for a small side business. Over two years it generates $3,500 of
+        net income, and you sell it at the end for its original price. Your total return is $13,500, your
+        additional costs are zero, and your holding period is 24 months. The calculator reports a 35% ROI and a
+        net profit of $3,500. Annualized, that works out to roughly 16.2% per year &mdash; a fair return, and a
+        figure you can now weigh against a savings account, an index fund or another piece of equipment.
+      </p>
+      <p>
+        Now add $500 of maintenance to the costs. Your net profit drops to $3,000 and your ROI to 30%. That is
+        the whole point of the calculator: it keeps the easy-to-forget costs inside the picture.
+      </p>
+
+      <h2>When ROI can mislead you</h2>
+      <p>
+        ROI is powerful precisely because it is simple, but simplicity has limits. It ignores risk: a 40% return
+        on a speculative venture is not the same quality of outcome as 40% from a government bond. It also
+        ignores the timing of cash flows within the period, so two investments with identical ROI can have very
+        different cash-flow profiles. And when the holding period is short, annualizing can exaggerate a small
+        gain into a spectacular-sounding rate.
+      </p>
+      <p>
+        For a fuller picture, pair ROI with the net present value or internal rate of return of the same
+        project. ROI tells you how efficient the investment was; NPV and IRR tell you whether it was worth
+        doing in the first place, once the time value of money is taken into account.
+      </p>
+
+      <h2>Pro tips for a cleaner number</h2>
+      <ul>
+        <li>Use net figures &mdash; include every fee and tax you genuinely paid.</li>
+        <li>Keep currencies consistent; mixing them silently corrupts the result.</li>
+        <li>Count income you received, not income you expect. ROI is a rear-view mirror.</li>
+        <li>Compare annualized ROI, never raw ROI, when the time frames differ.</li>
+        <li>Re-run the calculation with your best and worst cost estimates to see a range.</li>
+      </ul>
+
+      <h2>Frequently asked questions</h2>
+      <h3>What is a good ROI?</h3>
+      <p>
+        It depends entirely on risk and context. Historically, broad stock market indices have averaged
+        roughly 7&ndash;10% per year before inflation, so a low-risk investment beating that is doing well.
+        Higher-risk ventures should be held to a higher bar. Compare your annualized ROI against realistic
+        alternatives rather than a fixed target.
+      </p>
+      <h3>What is the difference between ROI and annualized ROI?</h3>
+      <p>
+        ROI is the total percentage gain over the whole holding period. Annualized ROI restates that gain as
+        the equivalent percentage per year, which makes investments of different lengths comparable.
+      </p>
+      <h3>Can ROI be negative?</h3>
+      <p>
+        Yes. If your total return is less than what you invested plus your costs, your ROI is negative and the
+        calculator will show the loss in red. A &minus;100% ROI means you lost everything you put in.
+      </p>
+      <h3>Does this calculator account for inflation?</h3>
+      <p>
+        No &mdash; it reports nominal returns. To see a real, inflation-adjusted return, subtract the inflation
+        rate from your annualized ROI.
+      </p>
+
+      <h2>About the author</h2>
+      <p class="author-bio">
+        This tool is maintained by the A Free Tools editorial team, which builds free, no-sign-up calculators
+        for everyday money and maths questions. Every formula on the page is checked by hand against a worked
+        example before publication, and the calculator uses standard ROI and compound-annual-growth
+        conventions so results match those from a spreadsheet. Spotted an error or want a feature? Open an
+        issue on the project repository.
+      </p>
+      <p class="text-muted small mb-0">Last updated: 29 October 2026</p>
+    </article>
+
+    <section class="disclaimer mt-5" aria-label="Disclaimer">
+      <p class="mb-0 small">
+        <strong>Disclaimer:</strong> This ROI calculator is provided for general information and education only.
+        It is not financial, investment or tax advice, and results are estimates based on the figures you enter.
+        Always consult a qualified professional before making investment decisions.
+      </p>
+    </section>
+
+    <footer class="text-center text-muted small py-4">
+      <p class="mb-0">&copy; <span id="year"></span> A Free Tools &middot; Built as a free, open utility.</p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
