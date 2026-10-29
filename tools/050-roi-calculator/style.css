@@ -1,0 +1,147 @@
+:root {
+  --brand: #60089c;
+  --brand-dark: #45016f;
+  --brand-mid: #7c1fb8;
+  --brand-soft: #f6eefc;
+  --brand-line: #e6d7f6;
+  --positive: #0f7b57;
+  --negative: #b3261e;
+  --ink: #231f2a;
+  --muted: #6c6574;
+  --paper: #ffffff;
+  --canvas: #fbf9fd;
+}
+
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(1000px 420px at 12% -8%, #f3e9fb 0%, rgba(243, 233, 251, 0) 58%),
+    linear-gradient(180deg, var(--paper) 0%, var(--canvas) 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 { color: var(--ink); letter-spacing: -0.01em; }
+a { color: var(--brand); }
+a:hover { color: var(--brand-dark); }
+
+.breadcrumb { font-size: .875rem; }
+.breadcrumb a { color: var(--brand); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+.card { border-radius: .85rem; }
+#toolCard { border-top: 4px solid var(--brand); }
+
+.btn-brand {
+  background-color: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  font-weight: 600;
+}
+.btn-brand:hover, .btn-brand:focus {
+  background-color: var(--brand-dark);
+  border-color: var(--brand-dark);
+  color: #fff;
+}
+.btn-brand:focus { box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .3); }
+
+.form-control:focus, .custom-select:focus {
+  border-color: var(--brand-mid);
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .18);
+}
+label { font-weight: 600; }
+.input-group-text {
+  background-color: var(--brand-soft);
+  border-color: var(--brand-line);
+  color: var(--brand-dark);
+  font-weight: 600;
+}
+
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  padding: 1.5rem 1.4rem;
+  background: #fff;
+  border: 1px solid var(--brand-line);
+  border-left: 4px solid var(--brand);
+  border-radius: .85rem;
+  box-shadow: 0 .35rem .9rem rgba(96, 8, 156, .07);
+}
+.stat-label {
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--muted);
+  font-weight: 700;
+}
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--brand-dark);
+  word-break: break-word;
+}
+.stat-value.negative { color: var(--negative); }
+.stat-value.positive { color: var(--positive); }
+.stat-note { font-size: .82rem; color: var(--muted); }
+
+.chart {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: 1rem;
+  height: 220px;
+  padding: 1rem 0 0;
+  border-bottom: 2px solid var(--brand-line);
+}
+.chart-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 1 1 0;
+  height: 100%;
+}
+.chart-val { font-size: .82rem; font-weight: 700; color: var(--brand-dark); margin-bottom: .35rem; }
+.chart-bar {
+  width: 100%;
+  max-width: 90px;
+  border-radius: .4rem .4rem 0 0;
+  background: linear-gradient(180deg, var(--brand-mid) 0%, var(--brand) 100%);
+}
+.chart-bar.profit { background: linear-gradient(180deg, #1f9c72 0%, var(--positive) 100%); }
+.chart-bar.negative { background: linear-gradient(180deg, #d2544a 0%, var(--negative) 100%); }
+.chart-lbl { font-size: .78rem; color: var(--muted); margin-top: .5rem; text-align: center; }
+
+.article { max-width: 780px; }
+.article h2 { font-size: 1.5rem; margin-top: 2.25rem; margin-bottom: .75rem; }
+.article h3 { font-size: 1.1rem; margin-top: 1.5rem; margin-bottom: .5rem; }
+.article p, .article li { font-size: 1.03rem; line-height: 1.75; color: #33303a; }
+.article ul { padding-left: 1.25rem; }
+.article ul li { margin-bottom: .4rem; }
+
+.author-bio {
+  background: var(--brand-soft);
+  border-left: 4px solid var(--brand);
+  border-radius: .5rem;
+  padding: 1rem 1.15rem;
+  font-size: .97rem !important;
+}
+
+.disclaimer {
+  background: #fff;
+  border: 1px dashed var(--brand-line);
+  border-radius: .75rem;
+  padding: 1rem 1.15rem;
+  color: var(--muted);
+}
+
+.table td { border-top: 1px solid var(--brand-line); padding: .6rem .25rem; }
+.table tr:last-child td { border-bottom: 1px solid var(--brand-line); font-weight: 700; }
+.table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 575.98px) {
+  .stat-value { font-size: 1.6rem; }
+  .chart { height: 180px; }
+}
