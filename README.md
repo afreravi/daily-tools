@@ -28,4 +28,5 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | --- | --- | --- |
 | 048 | npv-calculator | Net present value from a discount rate and yearly cash flows, with per-period discount factors, a DCF bar chart and payback view. |
 | 049 | random-word-generator | Draw 1–50 random English words with filters for length, starting letter and word type, plus length stats and a starting-letter bar chart. |
+| 050 | roi-calculator | Return on investment from initial cost, total return, extra fees and holding period, with net profit, annualized ROI, a money-in-vs-money-out chart and a full breakdown table. |
 
