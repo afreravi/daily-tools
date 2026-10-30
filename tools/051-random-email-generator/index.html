@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Random Email Generator - Free Fake Email Address Maker</title>
+  <meta name="description" content="Free random email generator: create realistic fake email addresses in seconds. Pick a name style, choose a domain, copy the list and use it for testing or mockups.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Random Email Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Random Email Generator</h1>
+      <p class="lead text-muted mb-0">
+        Need a batch of realistic-looking email addresses for a mockup, a test database or a form
+        placeholder? Set how many you want, choose a name style and a domain, then press generate.
+        Everything is produced in your browser, so your list never leaves your device.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-3" id="toolHeading">Build your address list</h2>
+
+        <form id="emailForm" novalidate>
+          <div class="row">
+            <div class="col-12 col-sm-6 col-lg-3">
+              <div class="form-group">
+                <label for="countInput">How many emails?</label>
+                <input type="number" class="form-control form-control-lg" id="countInput" value="8" min="1" max="25" step="1" inputmode="numeric" aria-describedby="countHelp">
+                <small id="countHelp" class="form-text text-muted">Between 1 and 25.</small>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+              <div class="form-group">
+                <label for="formatSelect">Name style</label>
+                <select class="form-control form-control-lg" id="formatSelect">
+                  <option value="mixed" selected>Mixed (random styles)</option>
+                  <option value="first.last">firstname.lastname</option>
+                  <option value="flast">flastname</option>
+                  <option value="firstlast">firstnamelastname</option>
+                  <option value="first_last">firstname_lastname</option>
+                  <option value="first-last">firstname-lastname</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+              <div class="form-group">
+                <label for="domainSelect">Domain</label>
+                <select class="form-control form-control-lg" id="domainSelect">
+                  <option value="example.com" selected>example.com (safe)</option>
+                  <option value="gmail.com">gmail.com</option>
+                  <option value="outlook.com">outlook.com</option>
+                  <option value="yahoo.com">yahoo.com</option>
+                  <option value="proton.me">proton.me</option>
+                  <option value="icloud.com">icloud.com</option>
+                  <option value="custom">Custom domain&hellip;</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-12 col-sm-6 col-lg-3">
+              <div class="form-group">
+                <label for="customDomain">Custom domain</label>
+                <input type="text" class="form-control form-control-lg" id="customDomain" placeholder="yourcompany.com" autocomplete="off" disabled>
+                <small id="domainHelp" class="form-text text-muted">Enabled when you pick &ldquo;Custom domain&rdquo;.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-lg-6">
+              <div class="form-group">
+                <label for="baseName">Use a specific name (optional)</label>
+                <input type="text" class="form-control form-control-lg" id="baseName" placeholder="e.g. Jordan Ellis" autocomplete="off" aria-describedby="baseNameHelp">
+                <small id="baseNameHelp" class="form-text text-muted">Leave blank to pull random first and last names.</small>
+              </div>
+            </div>
+            <div class="col-12 col-lg-6">
+              <div class="form-group">
+                <span class="d-block mb-1 font-weight-bold" id="optsLabel">Options</span>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="numbersChk" checked>
+                  <label class="custom-control-label" for="numbersChk">Add a random number to some addresses</label>
+                </div>
+                <div class="custom-control custom-checkbox">
+                  <input type="checkbox" class="custom-control-input" id="uniqueChk" checked>
+                  <label class="custom-control-label" for="uniqueChk">Keep every address unique</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap align-items-center">
+            <button type="submit" class="btn btn-brand btn-lg px-4 mr-2 mb-2" id="generateBtn">Generate emails</button>
+            <button type="button" class="btn btn-outline-secondary btn-lg px-4 mb-2" id="clearBtn">Reset</button>
+          </div>
+
+          <div id="errorBox" class="alert alert-danger mt-3 mb-0 d-none" role="alert"></div>
+        </form>
+
+        <div class="mt-4 pt-3 border-top" id="resultsWrap" hidden>
+          <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+            <h3 class="h6 mb-2 mb-sm-0">Your generated addresses</h3>
+            <div>
+              <button type="button" class="btn btn-sm btn-brand-outline mr-2" id="copyAllBtn">Copy all</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" id="downloadBtn">Download .txt</button>
+            </div>
+          </div>
+
+          <ul class="list-group email-list mb-4" id="emailList" aria-live="polite"></ul>
+
+          <h3 class="h6 mb-2">Address length spread</h3>
+          <p class="small text-muted mb-2">How long each generated address is, grouped into buckets.</p>
+          <div class="chart-frame">
+            <canvas id="lengthChart" width="720" height="280" role="img" aria-label="Bar chart showing the length distribution of the generated email addresses"></canvas>
+          </div>
+          <p class="small text-muted mt-2 mb-0" id="chartCaption"></p>
+        </div>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2 class="h4 mt-4">What a random email generator is for</h2>
+      <p>
+        A random email generator produces email addresses that look real but belong to nobody. Instead of
+        typing a placeholder such as <em>test@test.com</em> every time you need sample data, you get a varied
+        list of names in common formats. That variety matters. When every row in your table says the same
+        thing, you cannot tell whether a layout breaks on a long address, whether your sort order holds up,
+        or whether a validation rule is quietly rejecting good input.
+      </p>
+      <p>
+        This tool builds those addresses entirely in your browser. You choose the count, the name style and
+        the domain; it does the rest. The default domain is <strong>example.com</strong>, which is reserved for
+        documentation, so the addresses are safe to paste into a demo without pointing at a real inbox.
+      </p>
+
+      <h2 class="h4">How the generator works</h2>
+      <p>
+        Each address has three parts: a local part (the bit before the @), the @ sign, and a domain. The tool
+        picks a first name and a last name from a built-in list, then stitches them together using the name
+        style you selected. Choose <em>firstname.lastname</em> and you get <code>maya.patel@example.com</code>.
+        Choose <em>flastname</em> and the same person becomes <code>mpatel@example.com</code>. The
+        <em>mixed</em> option rolls a different style for every address, which is handy when you want a list
+        that looks like it came from a real sign-up form.
+      </p>
+      <p>
+        If you tick the number option, some local parts gain a random suffix, giving results like
+        <code>jordan.ellis47@example.com</code>. Numbers are what real providers add when two people share a
+        name, so including them makes your sample data more convincing. The uniqueness switch guarantees no
+        two rows in the output are identical, which keeps primary-key tests honest.
+      </p>
+
+      <h2 class="h4">Practical ways people use it</h2>
+      <ul>
+        <li><strong>Front-end testing.</strong> Fill a table, a dropdown or an avatar list and check how the layout copes with short and long addresses.</li>
+        <li><strong>Form validation.</strong> Confirm your email field accepts dots, hyphens and plus-free formats, and rejects anything malformed.</li>
+        <li><strong>Design mockups.</strong> Place realistic text in a screenshot or a Figma frame instead of lorem ipsum.</li>
+        <li><strong>Database seeding.</strong> Generate a first batch of demo users before you wire up a real data source.</li>
+        <li><strong>Teaching and demos.</strong> Show a class or a client what a mailing list looks like without exposing anyone's real details.</li>
+      </ul>
+
+      <h2 class="h4">Pro tips for cleaner sample data</h2>
+      <p>
+        Keep one style per list when you are testing a specific rule, and switch to <em>mixed</em> only when
+        you want to stress the layout. Use a custom domain that matches the project, such as
+        <code>acme-test.com</code>, so it is obvious at a glance that the records are fake. If you are seeding
+        a database, export the list and load it with a script rather than pasting row by row. Finally, stay on
+        a reserved domain like <strong>example.com</strong> or <strong>example.org</strong> whenever the data
+        might end up somewhere public, because those domains can never belong to a real person.
+      </p>
+
+      <h2 class="h4">Common mistakes to avoid</h2>
+      <p>
+        The biggest one is using generated addresses to send real mail. These names are invented, and firing
+        messages at random inboxes is spam, which can get your sending domain blocked. The second mistake is
+        assuming every address is deliverable; it is not, and it never was meant to be. A third is treating
+        the output as personal data. It is not real data at all, but if you mix fake and real records in one
+        file you can lose track of which is which, so keep the two apart. Last, remember that some providers
+        strip dots from the local part, so do not build logic that assumes <em>a.b</em> and <em>ab</em> are
+        always different people.
+      </p>
+
+      <h2 class="h4">Frequently asked questions</h2>
+      <p><strong>Are the generated emails real?</strong> No. They follow the shape of real addresses but do not belong to anyone, and nothing is sent from this page.</p>
+      <p><strong>Can I use my own domain?</strong> Yes. Pick &ldquo;Custom domain&rdquo; and type it in. The tool accepts a plain domain such as <code>mysite.org</code>.</p>
+      <p><strong>How many can I generate at once?</strong> Up to 25 per click. Generate again for a fresh batch, or raise the count if you need more rows.</p>
+      <p><strong>Does this collect my data?</strong> No. All generation runs in your browser with plain JavaScript, so the list is never uploaded anywhere.</p>
+
+      <div class="alert alert-warning mt-4 mb-0" role="note">
+        <strong>Disclaimer:</strong> this tool creates fictional addresses for testing, mockups and design work
+        only. Do not use the output to send unsolicited email or to impersonate a real person or company. You
+        are responsible for how you use the generated data.
+      </div>
+
+      <section class="author-bio mt-4 p-4">
+        <h2 class="h6 mb-2">About the author</h2>
+        <p class="mb-1">
+          This tool and article were put together by the A Free Tools team, a small group of web developers
+          and QA engineers who build and test browser utilities daily. We keep the source simple, check the
+          edge cases by hand, and revisit each page when browser behaviour or best practice changes.
+        </p>
+        <p class="small text-muted mb-0">Last updated: 30 October 2026</p>
+      </section>
+    </article>
+
+    <footer class="text-center small text-muted mt-5 pt-4 border-top">
+      <p class="mb-0">&copy; <span id="year"></span> A Free Tools &middot; Built for testing, mockups and demos.</p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
