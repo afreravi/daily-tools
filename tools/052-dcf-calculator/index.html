@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DCF Calculator &ndash; Discounted Cash Flow Valuation With Terminal Value</title>
+  <meta name="description" content="Free DCF calculator: discount projected free cash flows at your WACC, add a terminal value, and see enterprise value, equity value and a rate/growth sensitivity grid.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">DCF Calculator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">DCF Calculator</h1>
+      <p class="lead text-muted mb-0">
+        Discounted cash flow turns a forecast into a single number: what the business is worth today. Enter your
+        projected free cash flows, your discount rate and a terminal value assumption, and this calculator shows
+        the present value of every year, the value beyond the forecast, and how sensitive the answer really is.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Build the model</h2>
+        <p class="text-muted small mb-4">All amounts in the same currency and in millions or thousands &mdash; just stay consistent.</p>
+
+        <form id="dcfForm" novalidate>
+          <div class="row">
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="yearsInput">Forecast years</label>
+                <input type="number" class="form-control form-control-lg" id="yearsInput" value="5" step="1" min="1" max="15" inputmode="numeric" aria-describedby="yearsHelp">
+                <small id="yearsHelp" class="form-text text-muted">1 to 15 projection years.</small>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="rateInput">Discount rate (WACC)</label>
+                <div class="input-group input-group-lg">
+                  <input type="number" class="form-control" id="rateInput" value="9" step="0.1" min="0.1" max="100" inputmode="decimal" aria-describedby="rateHelp">
+                  <div class="input-group-append"><span class="input-group-text">%</span></div>
+                </div>
+                <small id="rateHelp" class="form-text text-muted">Your required return on capital.</small>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="growthInput">Terminal growth rate</label>
+                <div class="input-group input-group-lg">
+                  <input type="number" class="form-control" id="growthInput" value="2.5" step="0.1" min="-10" max="20" inputmode="decimal" aria-describedby="growthHelp">
+                  <div class="input-group-append"><span class="input-group-text">%</span></div>
+                </div>
+                <small id="growthHelp" class="form-text text-muted">Long-run growth, usually near inflation.</small>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="netDebtInput">Net debt</label>
+                <div class="input-group input-group-lg">
+                  <div class="input-group-prepend"><span class="input-group-text">$</span></div>
+                  <input type="number" class="form-control" id="netDebtInput" value="0" step="any" inputmode="decimal" aria-describedby="netDebtHelp">
+                </div>
+                <small id="netDebtHelp" class="form-text text-muted">Debt minus cash. Enter 0 if unknown.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="sharesInput">Shares outstanding <span class="text-muted font-weight-normal">(optional)</span></label>
+                <input type="number" class="form-control" id="sharesInput" value="" step="any" min="0" inputmode="decimal" aria-describedby="sharesHelp">
+                <small id="sharesHelp" class="form-text text-muted">Used to derive an implied value per share.</small>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="terminalSelect">Terminal value method</label>
+                <select class="custom-select" id="terminalSelect">
+                  <option value="perpetuity" selected>Perpetuity growth (Gordon)</option>
+                  <option value="multiple">Exit EBITDA multiple</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3" id="multipleGroup" hidden>
+              <div class="form-group">
+                <label for="multipleInput">Exit multiple (EV / EBITDA)</label>
+                <div class="input-group">
+                  <input type="number" class="form-control" id="multipleInput" value="10" step="0.1" min="0.1" max="100" inputmode="decimal">
+                  <div class="input-group-append"><span class="input-group-text">&times;</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3" id="ebitdaGroup" hidden>
+              <div class="form-group">
+                <label for="ebitdaInput">Final-year EBITDA</label>
+                <input type="number" class="form-control" id="ebitdaInput" value="0" step="any" min="0" inputmode="decimal">
+              </div>
+            </div>
+          </div>
+
+          <hr class="my-4">
+
+          <div class="d-flex flex-wrap justify-content-between align-items-end mb-2">
+            <div>
+              <h3 class="h6 mb-1">Projected free cash flow by year</h3>
+              <p class="text-muted small mb-0">Enter each year's unlevered free cash flow. Negative years are allowed.</p>
+            </div>
+            <button type="button" class="btn btn-outline-secondary btn-sm px-3 mb-1" id="fillBtn">Fill 10% growth series</button>
+          </div>
+
+          <div class="cashflow-grid" id="cashflowGrid"></div>
+
+          <div class="d-flex flex-wrap align-items-center mt-4">
+            <button type="submit" class="btn btn-brand btn-lg px-4 mr-2 mb-2 mb-sm-0">Calculate DCF value</button>
+            <button type="reset" class="btn btn-outline-secondary btn-lg px-4 mb-2 mb-sm-0" id="resetBtn">Reset</button>
+          </div>
+
+          <div id="formError" class="alert alert-danger mt-3 mb-0 d-none" role="alert" aria-live="assertive"></div>
+        </form>
+      </div>
+    </section>
+
+    <section id="results" class="mb-5 d-none" aria-live="polite" tabindex="-1">
+      <div class="row">
+        <div class="col-12 col-md-4 mb-3">
+          <div class="stat-card h-100">
+            <span class="stat-label">Enterprise value</span>
+            <span class="stat-value" id="evValue">&mdash;</span>
+            <span class="stat-note" id="evNote">&nbsp;</span>
+          </div>
+        </div>
+        <div class="col-12 col-md-4 mb-3">
+          <div class="stat-card h-100">
+            <span class="stat-label">Equity value</span>
+            <span class="stat-value" id="equityValue">&mdash;</span>
+            <span class="stat-note" id="equityNote">&nbsp;</span>
+          </div>
+        </div>
+        <div class="col-12 col-md-4 mb-3">
+          <div class="stat-card h-100">
+            <span class="stat-label">Value per share</span>
+            <span class="stat-value" id="shareValue">&mdash;</span>
+            <span class="stat-note" id="shareNote">&nbsp;</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm border-0 mb-3">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="h5 mb-1">Nominal cash flow vs present value</h2>
+          <p class="text-muted small mb-4">Each pair of bars shows a year's cash flow before and after discounting, plus the terminal value.</p>
+          <div class="chart" id="chart" role="img" aria-label="Bar chart of nominal and discounted cash flows by year"></div>
+          <div class="chart-legend mt-3">
+            <span class="legend-item"><span class="legend-swatch nominal"></span> Nominal cash flow</span>
+            <span class="legend-item"><span class="legend-swatch present"></span> Present value</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm border-0 mb-3">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="h5 mb-1">Year-by-year discounting</h2>
+          <p class="text-muted small mb-4">How much of the enterprise value comes from each period.</p>
+          <div class="table-responsive">
+            <table class="table table-sm mb-0">
+              <caption class="sr-only">Discounted cash flow breakdown by year</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Year</th>
+                  <th scope="col" class="num">Cash flow</th>
+                  <th scope="col" class="num">Discount factor</th>
+                  <th scope="col" class="num">Present value</th>
+                  <th scope="col" class="num">% of EV</th>
+                </tr>
+              </thead>
+              <tbody id="breakdownBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="h5 mb-1">Sensitivity: discount rate vs terminal growth</h2>
+          <p class="text-muted small mb-4">Enterprise value across nearby assumptions. The centre cell matches your inputs &mdash; the darker the cell, the higher the value.</p>
+          <div class="table-responsive">
+            <table class="table table-sm table-bordered mb-0 sensitivity" id="sensitivityTable"></table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2>What a discounted cash flow model really answers</h2>
+      <p>
+        A discounted cash flow, or DCF, is the valuation method that asks the most honest question in finance: if
+        this business only ever produced the cash you expect it to produce, what would you pay for it today? Every
+        other approach &mdash; comparables, precedent transactions, a price-to-earnings multiple &mdash; leans on what
+        someone else paid for something similar. A DCF leans on arithmetic and your own forecast. That independence is
+        its strength and its weakness. Nobody can sell you a narrative in place of a number, but the number is only as
+        good as the assumptions behind it.
+      </p>
+      <p>
+        The core idea is that a dollar received in five years is worth less than a dollar today, because today's dollar
+        can be invested, and because a promise of future cash carries risk. Discounting translates every projected
+        cash flow into today's terms. Add those present values together and you have the value of the operating
+        business, before any debt or cash on the balance sheet is considered.
+      </p>
+
+      <h2>How this DCF calculator works</h2>
+      <p>
+        Start with your <strong>forecast years</strong>. A five-year window is the convention in most models, but
+        anything from three to fifteen works; the longer the window, the more the terminal value assumption gets pushed
+        into the distance. The grid below then shows one free cash flow input per year. Free cash flow here means the
+        cash the business generates for all capital providers &mdash; earnings after tax, plus non-cash charges, minus
+        the investment needed to keep growing. Negative years are fine and common during a heavy investment phase.
+      </p>
+      <p>
+        The <strong>discount rate</strong> is the return you require on the capital tied up in the business. For an
+        enterprise valuation this is usually the weighted average cost of capital, which blends the cost of equity with
+        the after-tax cost of debt. A higher rate says you are less certain about the forecast, and it shrinks the
+        answer quickly: cash flows far in the future are the most sensitive to it.
+      </p>
+      <p>
+        The <strong>terminal value</strong> captures everything beyond the explicit forecast, and in most models it is
+        where the majority of the value lives. The calculator offers two standard routes. The perpetuity growth, or
+        Gordon growth, method assumes cash flows keep growing at a steady rate forever &mdash; typically close to
+        long-run inflation, because no business outgrows the economy indefinitely. The exit multiple method instead
+        assumes the business is sold at the end of the forecast for a multiple of final-year EBITDA. Both are legitimate;
+        they simply disagree about what happens on the last day.
+      </p>
+      <p>
+        Subtract <strong>net debt</strong> from enterprise value and you get equity value, the portion that belongs to
+        shareholders. Enter shares outstanding and the calculator converts that into an implied value per share &mdash;
+        the figure you would compare against the market price.
+      </p>
+
+      <h2>Worked example</h2>
+      <p>
+        Imagine a business with a five-year forecast of $10m, $12m, $14m, $16m and $18m of free cash flow. Discount
+        every year at 9% and the present values run from roughly $9.2m down to $11.7m, summing to about $53m. Now add
+        the terminal value: the fifth year's $18m growing at 2.5% forever, divided by the 9% discount rate minus that
+        growth, gives about $283m, which discounts back to roughly $184m. Enterprise value lands near $237m. If the
+        company holds $20m of net debt, equity value is about $217m. Notice that the terminal value is more than three
+        quarters of the total &mdash; that is normal, and it is exactly why the sensitivity grid matters so much.
+      </p>
+
+      <h2>Reading the sensitivity grid</h2>
+      <p>
+        The grid recalculates enterprise value across a range of discount rates and terminal growth rates around your
+        inputs. Look at how much the value moves between the corners. If a one-point change in the discount rate
+        changes the valuation by a third, your model is not precise enough to justify a confident price target &mdash;
+        it is a range, not a number. This is why experienced analysts present a valuation band rather than a single
+        figure, and why the discount rate deserves more of your attention than any other input on this page.
+      </p>
+
+      <h2>Pro tips for a credible model</h2>
+      <ul>
+        <li>Keep terminal growth at or below long-run nominal GDP growth; anything above it implies the business eventually swallows the economy.</li>
+        <li>Make the discount rate consistent with the cash flow &mdash; use WACC for unlevered free cash flow.</li>
+        <li>Model the cash flow you can defend, not the one that produces the answer you want.</li>
+        <li>Cross-check the implied exit multiple against what similar businesses actually trade for.</li>
+        <li>Change one assumption at a time so you can see which one is doing the work.</li>
+      </ul>
+
+      <h2>Common mistakes to avoid</h2>
+      <p>
+        The most frequent error is double-counting growth: a healthy growth rate inside the forecast and an aggressive
+        one in perpetuity. The second is discounting cash flows to equity at a WACC built for the whole enterprise, which
+        quietly mixes two different things. The third is forgetting that the terminal value is a promise, not a
+        measurement &mdash; it deserves a haircut when the business is young or cyclical. Finally, resist the temptation
+        to keep nudging inputs until the output matches the share price you saw this morning. A DCF is meant to test
+        your assumptions against the market, not to flatter them.
+      </p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>What is the difference between DCF and NPV?</h3>
+      <p>
+        They use the same arithmetic. NPV applies it to a single project's cash flows and asks whether the net result
+        is above zero. DCF applies it to a whole business and asks what that business is worth. A DCF is, in effect, an
+        NPV calculation run on a company.
+      </p>
+      <h3>Why is the terminal value so large?</h3>
+      <p>
+        Because a healthy business is assumed to keep generating cash long after the forecast ends. For a going
+        concern, most of the value sits in the years beyond the model. That is expected &mdash; and it is why the
+        terminal assumptions deserve the most scrutiny.
+      </p>
+      <h3>Can the terminal growth rate exceed the discount rate?</h3>
+      <p>
+        No. If growth is greater than or equal to the discount rate, the perpetuity formula breaks down and returns a
+        meaningless or infinite value. This calculator rejects those inputs and asks you to lower the growth rate or
+        raise the discount rate.
+      </p>
+      <h3>What discount rate should I use?</h3>
+      <p>
+        For an enterprise valuation, a WACC that reflects the company's actual capital structure and risk. If you are
+        unsure, run the model at several rates &mdash; 8%, 10% and 12%, say &mdash; and read the sensitivity grid
+        rather than committing to one number.
+      </p>
+      <h3>Does this calculator work for a startup with no profits?</h3>
+      <p>
+        Yes, provided you can forecast cash flows, even if they are negative for several years. Startups are precisely
+        where the terminal value dominates, so treat the output as a scenario, not a valuation you would bet on.
+      </p>
+
+      <h2>About the author</h2>
+      <p class="author-bio">
+        This tool is maintained by the A Free Tools editorial team, which builds free, no-sign-up calculators for
+        everyday money questions. The discounting and terminal value formulas here follow standard corporate finance
+        practice &mdash; unlevered free cash flow discounted at WACC, with a Gordon growth or exit-multiple terminal
+        value &mdash; so the output reconciles with a spreadsheet model. Spotted an error or want another terminal
+        method? Open an issue on the project repository.
+      </p>
+      <p class="text-muted small mb-0">Last updated: 31 October 2026</p>
+    </article>
+
+    <section class="disclaimer mt-5" aria-label="Disclaimer">
+      <p class="mb-0 small">
+        <strong>Disclaimer:</strong> This DCF calculator is provided for general information and education only. It is
+        not financial, investment or tax advice, and every figure is an estimate built from the assumptions you enter.
+        A valuation is only as reliable as its inputs. Consult a qualified professional before making investment
+        decisions.
+      </p>
+    </section>
+
+    <footer class="text-center text-muted small py-4">
+      <p class="mb-0">&copy; <span id="year"></span> A Free Tools &middot; Built as a free, open utility.</p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
