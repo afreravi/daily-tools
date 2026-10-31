@@ -54,7 +54,7 @@
 [done] Random Word Generator
 [done] ROI calculator
 Random Email Generator
-DCF calculator
+[done] DCF calculator
 online font generator
 Stylish Text Generator
 font copy and paste
