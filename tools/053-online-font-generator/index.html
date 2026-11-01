@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Online Font Generator - Free Text Styler and CSS Font Preview</title>
+  <meta name="description" content="Free online font generator: style any text with 10 web fonts, size, weight, spacing and colour, preview it live and copy the ready-made CSS in one click.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&family=Roboto:wght@300;400;700;900&family=Lora:wght@400;600;700&family=Playfair+Display:wght@400;700;900&family=Montserrat:wght@300;400;700;900&family=Poppins:wght@300;400;600;800&family=Merriweather:wght@300;400;700&family=Open+Sans:wght@300;400;700&family=Source+Code+Pro:wght@300;400;600&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Online Font Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Online Font Generator</h1>
+      <p class="lead text-muted mb-0">
+        Type your text, choose a web font, then dial in size, weight, letter spacing, line height and
+        colour. The preview updates as you move a slider, and the CSS you need is written for you to copy.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Style your text</h2>
+        <p class="text-muted small mb-4">Everything runs in your browser. The fonts are loaded from Google Fonts.</p>
+
+        <form id="fontForm" novalidate>
+          <div class="form-group">
+            <label for="textInput">Your text</label>
+            <textarea class="form-control" id="textInput" rows="2" aria-describedby="textHelp">The quick brown fox jumps over the lazy dog</textarea>
+            <small id="textHelp" class="form-text text-muted">Line breaks in your text are kept in the preview and the CSS.</small>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="familySelect">Font family</label>
+                <select class="custom-select" id="familySelect">
+                  <option value="Inter" selected>Inter</option>
+                  <option value="Roboto">Roboto</option>
+                  <option value="Montserrat">Montserrat</option>
+                  <option value="Poppins">Poppins</option>
+                  <option value="Open Sans">Open Sans</option>
+                  <option value="Lora">Lora</option>
+                  <option value="Merriweather">Merriweather</option>
+                  <option value="Playfair Display">Playfair Display</option>
+                  <option value="Source Code Pro">Source Code Pro</option>
+                  <option value="system">System UI (no download)</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="weightSelect">Weight</label>
+                <select class="custom-select" id="weightSelect">
+                  <option value="300">Light 300</option>
+                  <option value="400" selected>Regular 400</option>
+                  <option value="600">Semibold 600</option>
+                  <option value="700">Bold 700</option>
+                  <option value="900">Black 900</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="transformSelect">Transform</label>
+                <select class="custom-select" id="transformSelect">
+                  <option value="none" selected>None</option>
+                  <option value="uppercase">UPPERCASE</option>
+                  <option value="lowercase">lowercase</option>
+                  <option value="capitalize">Capitalize Each Word</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="alignSelect">Alignment</label>
+                <select class="custom-select" id="alignSelect">
+                  <option value="left" selected>Left</option>
+                  <option value="center">Center</option>
+                  <option value="right">Right</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="sizeRange">Font size: <output id="sizeOut" for="sizeRange">32</output>px</label>
+                <input type="range" class="form-control-range" id="sizeRange" min="12" max="120" step="1" value="32" aria-describedby="sizeHelp">
+                <small id="sizeHelp" class="form-text text-muted">12 to 120 pixels.</small>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="spaceRange">Letter spacing: <output id="spaceOut" for="spaceRange">0</output>px</label>
+                <input type="range" class="form-control-range" id="spaceRange" min="-2" max="12" step="0.5" value="0" aria-describedby="spaceHelp">
+                <small id="spaceHelp" class="form-text text-muted">Negative tightens, positive opens up.</small>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="lineRange">Line height: <output id="lineOut" for="lineRange">1.4</output></label>
+                <input type="range" class="form-control-range" id="lineRange" min="1" max="2.5" step="0.05" value="1.4" aria-describedby="lineHelp">
+                <small id="lineHelp" class="form-text text-muted">1.0 to 2.5 times the font size.</small>
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-3">
+              <div class="form-group">
+                <label for="colorInput">Text colour</label>
+                <div class="d-flex align-items-center">
+                  <input type="color" class="form-control-color mr-2" id="colorInput" value="#241d2c" aria-label="Text colour">
+                  <input type="text" class="form-control" id="colorText" value="#241d2c" spellcheck="false" aria-label="Text colour hex value">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="custom-control custom-checkbox mb-2">
+                <input type="checkbox" class="custom-control-input" id="shadowCheck">
+                <label class="custom-control-label" for="shadowCheck">Add a soft text shadow</label>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="custom-control custom-checkbox mb-2">
+                <input type="checkbox" class="custom-control-input" id="italicCheck">
+                <label class="custom-control-label" for="italicCheck">Italic</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap align-items-center mt-2">
+            <button type="submit" class="btn btn-brand btn-lg px-4 mr-2 mb-2 mb-sm-0">Apply styles</button>
+            <button type="reset" class="btn btn-outline-secondary btn-lg px-4 mb-2 mb-sm-0" id="resetBtn">Reset</button>
+          </div>
+
+          <div id="formError" class="alert alert-danger mt-3 mb-0 d-none" role="alert" aria-live="assertive"></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="mb-5" aria-labelledby="previewHeading">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5">
+          <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+            <h2 class="h5 mb-2 mb-sm-0" id="previewHeading">Live preview</h2>
+            <div class="btn-group" role="group" aria-label="Preview background">
+              <button type="button" class="btn btn-outline-brand btn-sm active" data-bg="#ffffff">White</button>
+              <button type="button" class="btn btn-outline-brand btn-sm" data-bg="#f6eefc">Tinted</button>
+              <button type="button" class="btn btn-outline-brand btn-sm" data-bg="#1c1622">Dark</button>
+            </div>
+          </div>
+
+          <div id="previewBox" class="preview-box" style="background:#ffffff" tabindex="0" aria-live="polite">
+            <p id="previewText">The quick brown fox jumps over the lazy dog</p>
+          </div>
+
+          <div class="row mt-4">
+            <div class="col-6 col-md-3 mb-2">
+              <div class="stat-card h-100">
+                <span class="stat-label">Characters</span>
+                <span class="stat-value" id="charValue">&mdash;</span>
+                <span class="stat-note" id="charNote">&nbsp;</span>
+              </div>
+            </div>
+            <div class="col-6 col-md-3 mb-2">
+              <div class="stat-card h-100">
+                <span class="stat-label">Words</span>
+                <span class="stat-value" id="wordValue">&mdash;</span>
+                <span class="stat-note" id="wordNote">&nbsp;</span>
+              </div>
+            </div>
+            <div class="col-6 col-md-3 mb-2">
+              <div class="stat-card h-100">
+                <span class="stat-label">Text width</span>
+                <span class="stat-value" id="widthValue">&mdash;</span>
+                <span class="stat-note" id="widthNote">&nbsp;</span>
+              </div>
+            </div>
+            <div class="col-6 col-md-3 mb-2">
+              <div class="stat-card h-100">
+                <span class="stat-label">Font stack</span>
+                <span class="stat-value" id="stackValue">&mdash;</span>
+                <span class="stat-note" id="stackNote">&nbsp;</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5" aria-labelledby="chartHeading">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5">
+          <h2 class="h5 mb-1" id="chartHeading">How wide is your text in each font?</h2>
+          <p class="text-muted small mb-4">
+            Each bar measures your text rendered at the current size and weight. Longer bars mean a wider
+            font, which matters when you are fitting a headline into a fixed space.
+          </p>
+          <div class="chart" id="chart" role="img" aria-label="Bar chart comparing the rendered width of your text in each available font"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5" aria-labelledby="cssHeading">
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4 p-md-5">
+          <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+            <h2 class="h5 mb-2 mb-sm-0" id="cssHeading">Copy the CSS</h2>
+            <div>
+              <button type="button" class="btn btn-brand btn-sm mr-2" id="copyCssBtn">Copy CSS</button>
+              <button type="button" class="btn btn-outline-brand btn-sm" id="downloadCssBtn">Download .css</button>
+            </div>
+          </div>
+          <pre class="css-out" id="cssOut" tabindex="0" aria-live="polite"></pre>
+          <p class="text-success small mb-0" id="copyNote" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2>What an online font generator does</h2>
+      <p>
+        An online font generator lets you style a piece of text and see the result immediately, without
+        opening a design tool or writing CSS by hand. You type a sentence, choose a typeface, and then nudge
+        the size, weight, letter spacing, line height and colour until it looks right. The point is speed:
+        the loop from idea to something you can actually read takes seconds rather than minutes, and the
+        finished stylesheet is generated for you to paste into your project.
+      </p>
+      <p>
+        This matters most for headlines, banners, buttons and hero sections, where a couple of pixels of
+        letter spacing or one weight step changes the whole feel of a page. Designers use a generator like
+        this to test type before committing. Developers use it to translate a mock-up into real
+        <code>font-family</code> and <code>letter-spacing</code> values. Marketers use it to check whether a
+        slogan still reads well once it is set in the font the brand actually ships.
+      </p>
+
+      <h2>How the generator works</h2>
+      <p>
+        Every style decision here maps to a CSS property you already know. The <strong>font family</strong>
+        is applied as a <code>font-family</code> stack with a sensible fallback, so your text still renders
+        if the web font has not finished downloading. The <strong>size</strong> slider writes
+        <code>font-size</code> in pixels, and <strong>weight</strong> writes <code>font-weight</code>.
+        Letter spacing becomes <code>letter-spacing</code>, line height becomes a unitless
+        <code>line-height</code>, and the colour picker fills in <code>color</code>.
+      </p>
+      <p>
+        Two details are worth knowing. First, letter spacing is applied in pixels, so the effect grows as the
+        font gets larger &mdash; a value that looks elegant at 16px can look loose and broken at 72px.
+        Second, a unitless line height scales with the font size, which is why the generator writes
+        <code>line-height: 1.4</code> rather than a fixed number of pixels. That keeps your paragraph
+        rhythm intact when the size changes.
+      </p>
+
+      <h2>Choosing a font for the job</h2>
+      <p>
+        Serif faces such as Lora, Merriweather and Playfair Display carry a traditional, editorial tone.
+        They read well in long paragraphs and give headings a sense of authority, which is why news sites and
+        publishers lean on them. Sans-serif faces such as Inter, Roboto, Montserrat and Poppins feel modern
+        and neutral, and they hold up better at small sizes on screens. Monospaced faces such as Source Code
+        Pro exist so that every character occupies the same width, which is what makes code readable.
+      </p>
+      <p>
+        A practical rule is to pick one family for headings and one for body text, and stop there. Two
+        typefaces give a page contrast and hierarchy; four make it look accidental. If you are unsure, set
+        your heading in a heavier weight of the same family &mdash; the width chart above will show you how
+        much room that costs.
+      </p>
+
+      <h2>Worked example</h2>
+      <p>
+        Suppose you are building a landing page and want a bold headline that fits inside a 700px column.
+        Type your headline, set the family to Montserrat, the weight to 700 and the size to 48px. The width
+        readout tells you how much horizontal space the line needs. If it overruns your column, either drop
+        the size to 40px or apply a slightly negative letter spacing &mdash; minus 0.5px across a long
+        headline can reclaim enough room to avoid an awkward wrap without looking cramped.
+      </p>
+      <p>
+        Now switch the family to Playfair Display at the same size. The bar chart jumps, because a
+        high-contrast serif is naturally wider than a geometric sans. That single comparison is often enough
+        to settle a design debate, and it is exactly the kind of measurement that is tedious to do by hand.
+      </p>
+
+      <h2>Common mistakes with web fonts</h2>
+      <ul>
+        <li><strong>Too many families.</strong> Each extra typeface adds another download and another
+          inconsistency. Two is usually plenty.</li>
+        <li><strong>Weight you did not load.</strong> Asking for 900 when only 400 was downloaded forces the
+          browser to fake it, which looks smeared. Load the weights you intend to use.</li>
+        <li><strong>Ignoring fallbacks.</strong> Always end a <code>font-family</code> list with a generic
+          family such as <code>sans-serif</code> or <code>serif</code>.</li>
+        <li><strong>Low contrast.</strong> Pale grey text on white fails accessibility checks. Keep body text
+          dark enough to read comfortably.</li>
+        <li><strong>Testing only on your machine.</strong> A font that renders perfectly for you may be
+          blocked or slow on a colleague&rsquo;s network.</li>
+      </ul>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Is this font generator free to use?</h3>
+      <p>
+        Yes. The tool is free, needs no account, and the CSS it produces is yours to use in any project,
+        commercial or personal.
+      </p>
+      <h3>Do I need to install the fonts?</h3>
+      <p>
+        No. The preview loads open-source families from Google Fonts through a stylesheet link, which is the
+        same technique you would use on a live site. The system option uses fonts already on the
+        visitor&rsquo;s device and downloads nothing.
+      </p>
+      <h3>Why does the width change between fonts?</h3>
+      <p>
+        Every typeface has its own proportions. A geometric sans like Poppins is noticeably wider than a
+        neutral one like Roboto at the same pixel size, so the same headline occupies more space.
+      </p>
+      <h3>Does the generated CSS work with Bootstrap?</h3>
+      <p>
+        Yes. The output is plain CSS, so it can sit in a stylesheet, a <code>&lt;style&gt;</code> block or a
+        CSS-in-JS string alongside any framework, including Bootstrap 4.6.
+      </p>
+
+      <h2>About the author</h2>
+      <p class="author-bio">
+        This tool is maintained by the A Free Tools editorial team, which builds free, no-sign-up browser
+        utilities for everyday design and development work. The font list uses open-source families served by
+        Google Fonts, and the width measurements come from the browser&rsquo;s own text metrics rather than a
+        table, so what you see is what the browser will render. Spotted a bug or want another family added?
+        Open an issue on the project repository.
+      </p>
+      <p class="text-muted small mb-0">Last updated: 1 November 2026</p>
+    </article>
+
+    <section class="disclaimer mt-5" aria-label="Disclaimer">
+      <p class="mb-0 small">
+        <strong>Disclaimer:</strong> This online font generator is provided for general design and
+        development use. The fonts are supplied by third-party providers under their own licences &mdash;
+        check each family&rsquo;s licence before commercial use. Preview results depend on your browser and
+        the fonts installed on your device, so always test the final stylesheet on the devices your audience
+        actually uses.
+      </p>
+    </section>
+
+    <footer class="text-center text-muted small py-4">
+      <p class="mb-0">&copy; <span id="year"></span> A Free Tools &middot; Built as a free, open utility.</p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
