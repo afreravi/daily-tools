@@ -30,5 +30,7 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 049 | random-word-generator | Draw 1–50 random English words with filters for length, starting letter and word type, plus length stats and a starting-letter bar chart. |
 | 050 | roi-calculator | Return on investment from initial cost, total return, extra fees and holding period, with net profit, annualized ROI, a money-in-vs-money-out chart and a full breakdown table. |
 | 054 | stylish-text-generator | Turn plain text into 30+ copy-and-paste Unicode styles (bold, script, gothic, circled and more), with per-style copy buttons and a coverage chart. |
+| 053 | online-font-generator | Style any text with 10 web fonts and live size, weight, spacing, line-height and colour controls, then compare rendered widths across families and copy the ready-made CSS. |
+| 052 | dcf-calculator | Discounted cash flow valuation from yearly free cash flows, a WACC discount rate and a perpetuity-growth or exit-multiple terminal value, with enterprise value, equity value, a nominal-vs-present chart, a year-by-year breakdown and a rate/growth sensitivity grid. |
 
 | 051 | random-email-generator | Generate up to 25 realistic fake email addresses by name style and domain, with copy, .txt export and an address-length chart. |
