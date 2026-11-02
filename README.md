@@ -31,3 +31,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 050 | roi-calculator | Return on investment from initial cost, total return, extra fees and holding period, with net profit, annualized ROI, a money-in-vs-money-out chart and a full breakdown table. |
 | 052 | dcf-calculator | Discounted cash flow valuation from yearly free cash flows, a WACC discount rate and a perpetuity-growth or exit-multiple terminal value, with enterprise value, equity value, a nominal-vs-present chart, a year-by-year breakdown and a rate/growth sensitivity grid. |
 
+| 051 | random-email-generator | Generate up to 25 realistic fake email addresses by name style and domain, with copy, .txt export and an address-length chart. |
