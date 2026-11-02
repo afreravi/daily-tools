@@ -81,9 +81,9 @@ Ascii art generator
 Calligraphy font generator
 Creepy text generator
 Gothic font generator
-Strikethrough text generator 3.6k | 0 | 16
+Strikethrough text generator
 Wingdings translator
-underline text generator 1.6k | 0 | KD-5
+underline text generator
 fancy text generator
 Superscript generator
 Spongebob text generator
