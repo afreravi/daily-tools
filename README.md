@@ -31,3 +31,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 050 | roi-calculator | Return on investment from initial cost, total return, extra fees and holding period, with net profit, annualized ROI, a money-in-vs-money-out chart and a full breakdown table. |
 | 054 | stylish-text-generator | Turn plain text into 30+ copy-and-paste Unicode styles (bold, script, gothic, circled and more), with per-style copy buttons and a coverage chart. |
 
+| 051 | random-email-generator | Generate up to 25 realistic fake email addresses by name style and domain, with copy, .txt export and an address-length chart. |
