@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stylish Text Generator - Free Fancy Fonts to Copy and Paste</title>
+  <meta name="description" content="Free stylish text generator: turn plain words into bold, italic, script, gothic and 30+ fancy fonts you can copy and paste into bios, posts and captions.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Stylish Text Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Stylish Text Generator</h1>
+      <p class="lead text-muted mb-0">
+        Type a word or a whole sentence and watch it turn into thirty-plus fancy fonts &mdash; bold, italic,
+        script, gothic, bubble and more. Every style is real text, so you can copy it straight into a bio,
+        caption, username or message.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Your text</h2>
+        <p class="text-muted small mb-4">
+          Everything happens in your browser. Nothing you type is sent anywhere.
+        </p>
+
+        <form id="styleForm" novalidate>
+          <div class="form-group">
+            <label for="textInput">Enter your text</label>
+            <textarea class="form-control" id="textInput" rows="3" maxlength="500"
+                      placeholder="Type something stylish&hellip;"
+                      aria-describedby="textHelp"></textarea>
+            <div class="d-flex justify-content-between">
+              <small id="textHelp" class="form-text text-muted">Up to 500 characters. Emoji and punctuation pass through unchanged.</small>
+              <small class="form-text text-muted"><span id="charCount">0</span>/500</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="form-group">
+                <label for="searchStyle">Filter styles</label>
+                <input type="search" class="form-control" id="searchStyle" placeholder="e.g. bold, script, circle">
+              </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+              <div class="form-group">
+                <label class="d-block">Options</label>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="trimToggle" checked>
+                  <label class="custom-control-label" for="trimToggle">Trim spaces around text</label>
+                </div>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="keepLineToggle" checked>
+                  <label class="custom-control-label" for="keepLineToggle">Preserve line breaks</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-brand btn-lg px-4" id="generateBtn">Generate styles</button>
+          <button type="reset" class="btn btn-outline-secondary btn-lg ml-2" id="clearBtn">Clear</button>
+
+          <div class="alert alert-danger mt-4 mb-0 d-none" id="formError" role="alert" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="mb-5 d-none" id="results" aria-labelledby="resultsHeading">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <h2 class="h5 mb-2" id="resultsHeading">Your stylish text</h2>
+        <div class="mb-2">
+          <button type="button" class="btn btn-sm btn-brand mr-2" id="copyAllBtn">Copy all styles</button>
+          <button type="button" class="btn btn-sm btn-outline-secondary" id="downloadBtn">Download .txt</button>
+        </div>
+      </div>
+      <p class="text-muted small" id="resultSummary" aria-live="polite"></p>
+      <div class="row" id="styleList"></div>
+
+      <div class="card shadow-sm border-0 mt-4" id="chartCard">
+        <div class="card-body p-4">
+          <h3 class="h6 mb-1">Style coverage for your text</h3>
+          <p class="text-muted small mb-3">
+            The share of characters each style actually converts into a new glyph. Styles below 100% leave
+            some characters &mdash; usually digits or punctuation &mdash; unchanged.
+          </p>
+          <canvas id="coverageChart" height="200" role="img"
+                  aria-label="Bar chart comparing how many characters each style converts"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <article class="article-body">
+      <h2>What a stylish text generator actually does</h2>
+      <p>
+        A stylish text generator looks like magic, but there is no font swapping involved. What you are really
+        doing is replacing ordinary letters with visually similar characters from the Unicode standard. The
+        letter "A" in plain English is code point U+0041. In mathematical bold, it becomes U+1D400 &mdash; a
+        completely different character that happens to look like a heavier "A". Copy that character into a
+        social bio and it arrives looking bold, because the platform is displaying the glyph that is genuinely
+        in the string, not applying a font of its own.
+      </p>
+      <p>
+        That distinction matters. These styles survive copy and paste, they work in usernames and display
+        names where formatting is otherwise impossible, and they render the same on a phone, a laptop and a
+        smart TV. The trade-off is that they are still ordinary characters to a computer. A search engine
+        looking for the word "hello" will not match "&#119945;&#119942;&#119949;&#119949;&#119952;", because the bytes are different.
+      </p>
+
+      <h2>How to use this generator</h2>
+      <p>
+        Type or paste your text into the box and press <strong>Generate styles</strong>. The tool instantly
+        renders your words in every available style, each on its own row with a copy button. Click a single
+        copy button to grab one style, or use <strong>Copy all styles</strong> to take the whole list at once
+        &mdash; handy when you want to compare options in a document before choosing. The filter box narrows
+        the list, so if you only want script and gothic, type "script" or "gothic" and the rest step aside.
+      </p>
+      <p>
+        Two switches control the fiddly details. <strong>Trim spaces</strong> removes leading and trailing
+        whitespace before styling, which prevents a stray gap in a username. <strong>Preserve line
+        breaks</strong> keeps multi-line text on separate lines, so a two-line caption stays two lines instead
+        of collapsing into one.
+      </p>
+
+      <h2>The styles you will find here</h2>
+      <ul>
+        <li><strong>Bold, italic and bold italic</strong> &mdash; the mathematical alphabet that reads like standard emphasis.</li>
+        <li><strong>Script and bold script</strong> &mdash; a flowing, handwritten feel for quotes and signatures.</li>
+        <li><strong>Gothic (fraktur)</strong> &mdash; the ornate blackletter look, popular in music and fashion names.</li>
+        <li><strong>Double-struck</strong> &mdash; the hollow outline used in mathematics for number sets.</li>
+        <li><strong>Monospace and sans-serif</strong> &mdash; clean technical styles for code-flavoured handles.</li>
+        <li><strong>Circled and squared</strong> &mdash; letters wrapped in shapes, ideal for short labels.</li>
+        <li><strong>Fullwidth</strong> &mdash; wide, spaced-out characters that feel airy and deliberate.</li>
+        <li><strong>Small caps and superscript</strong> &mdash; compact styles for tight spaces.</li>
+        <li><strong>Upside down</strong> &mdash; text flipped and reversed for playful messages.</li>
+        <li><strong>Strikethrough, underline and slash</strong> &mdash; combining marks layered over your letters.</li>
+      </ul>
+
+      <h2>Where stylish text is worth using</h2>
+      <p>
+        Social profiles are the obvious home. Instagram bios, Twitter display names, Discord nicknames and
+        TikTok captions all ignore most formatting, so a styled string is the only way to get emphasis. Beyond
+        that, people use fancy text for song titles, chapter headings, greeting cards, event posters and
+        personal notes where a little personality helps. Teachers use the upside-down and circled styles for
+        puzzles and worksheets.
+      </p>
+      <p>
+        The generator is equally useful the other way round. If you receive a message full of unusual
+        characters and need to search for it, converting back to plain letters makes the text findable again.
+      </p>
+
+      <h2>Common mistakes to avoid</h2>
+      <p>
+        The biggest one is over-styling. A whole paragraph in gothic or bubble letters is genuinely hard to
+        read, and some platforms treat long runs of unusual characters as spam. Keep styled text to names,
+        headings and short phrases, and leave the body copy plain. The second mistake is assuming accessibility
+        is free: screen readers may spell out styled characters letter by letter or skip them entirely, so
+        never put essential information only in a fancy font.
+      </p>
+      <p>
+        The third mistake is forgetting that these characters are not universally supported. A handful of
+        older devices show a box or a question mark instead of the glyph. If a style matters for a critical
+        label, check it on the target device first, and keep a plain-text fallback close at hand.
+      </p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Does the styled text stay formatted when I paste it?</h3>
+      <p>
+        Yes. Because the styling is baked into the characters themselves, it survives copy and paste into
+        almost any app, including ones that normally strip formatting.
+      </p>
+      <h3>Can I use this for an Instagram or Twitter bio?</h3>
+      <p>
+        Absolutely &mdash; that is the most common use. Keep it short, and remember that some platforms limit
+        how many unusual characters a display name may contain.
+      </p>
+      <h3>Why do some styles leave my numbers unchanged?</h3>
+      <p>
+        Not every Unicode style includes digit glyphs. When a style has no numeric alphabet, digits fall
+        through unchanged. The coverage chart shows exactly how much of your text each style converts.
+      </p>
+      <h3>Is the fancy text searchable?</h3>
+      <p>
+        Not reliably. Styled characters are different code points from plain letters, so a normal search for
+        the original word will usually miss them. Keep a plain version if searchability matters.
+      </p>
+      <h3>Will every device show these characters?</h3>
+      <p>
+        Modern phones, tablets and computers handle the common styles well. Unusual styles and older systems
+        may show a placeholder box, so test anything important before you rely on it.
+      </p>
+
+      <h2>About the author</h2>
+      <p class="author-bio">
+        This tool is maintained by the A Free Tools editorial team, which builds free, no-sign-up utilities
+        for everyday web and design tasks. The character mappings follow the Unicode standard's mathematical
+        alphanumeric symbols and enclosed alphanumerics blocks, and each style was checked to confirm it
+        produces real, copyable text rather than an image. Spotted a style that renders badly on your device,
+        or want one added? Open an issue on the project repository.
+      </p>
+      <p class="text-muted small mb-0">Last updated: 2 November 2026</p>
+    </article>
+
+    <section class="disclaimer mt-5" aria-label="Disclaimer">
+      <p class="mb-0 small">
+        <strong>Disclaimer:</strong> This stylish text generator is provided for general information and
+        creative use only. Styled characters are ordinary Unicode text and may render differently, or not at
+        all, on some devices and platforms. Check any platform's rules before using fancy text in a profile
+        or display name, and do not use it to impersonate people or mislead readers.
+      </p>
+    </section>
+
+    <footer class="text-center text-muted small py-4">
+      <p class="mb-0">&copy; <span id="year"></span> A Free Tools &middot; Built as a free, open utility.</p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
