@@ -53,6 +53,8 @@
 [done] NPV calculator
 [done] Random Word Generator
 [done] ROI calculator
+Random Email Generator
+[done] DCF calculator
 [done] Random Email Generator
 DCF calculator
 [done] online font generator
