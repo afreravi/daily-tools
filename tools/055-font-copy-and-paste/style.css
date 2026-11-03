@@ -1,0 +1,141 @@
+:root {
+  --brand: #60089c;
+  --brand-dark: #3f0468;
+  --brand-mid: #7d1bbd;
+  --brand-soft: #f5edfc;
+  --brand-line: #e3d2f4;
+  --accent: #ff9f1c;
+  --accent-soft: #fff4e2;
+  --ink: #241d2c;
+  --muted: #6c6477;
+  --paper: #ffffff;
+  --canvas: #faf7fd;
+  --line: #ece3f5;
+}
+
+body {
+  color: var(--ink);
+  background:
+    radial-gradient(760px 340px at 92% -8%, #f0e4fb 0%, rgba(240, 228, 251, 0) 60%),
+    linear-gradient(180deg, var(--paper) 0%, var(--canvas) 100%);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 { color: var(--ink); letter-spacing: -0.01em; }
+a { color: var(--brand); }
+a:hover { color: var(--brand-dark); }
+
+.breadcrumb { font-size: .875rem; }
+.breadcrumb a { color: var(--brand); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+.card { border-radius: .9rem; }
+#toolCard { border-top: 4px solid var(--brand); }
+#chartCard { border-top: 4px solid var(--accent); }
+
+.btn-brand {
+  background-color: var(--brand);
+  border-color: var(--brand);
+  color: #fff;
+  font-weight: 600;
+}
+.btn-brand:hover,
+.btn-brand:focus {
+  background-color: var(--brand-dark);
+  border-color: var(--brand-dark);
+  color: #fff;
+}
+.btn-brand:focus,
+.btn-outline-secondary:focus,
+.custom-select:focus,
+.form-control:focus {
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .18);
+  border-color: var(--brand-mid);
+}
+.btn-outline-secondary { color: var(--brand); border-color: var(--brand-line); }
+.btn-outline-secondary:hover { background: var(--brand-soft); color: var(--brand-dark); border-color: var(--brand-line); }
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  background-color: var(--brand);
+  border-color: var(--brand);
+}
+.custom-control-input:focus ~ .custom-control-label::before {
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .18);
+}
+
+/* Result list ---------------------------------------------------------- */
+.result-row {
+  border: 1px solid var(--line);
+  border-radius: .7rem;
+  background: var(--paper);
+  padding: .85rem 1rem;
+  cursor: pointer;
+  transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+}
+.result-row + .result-row { margin-top: .6rem; }
+.result-row:hover { border-color: var(--brand-mid); box-shadow: 0 4px 14px rgba(96, 8, 156, .09); }
+.result-row:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 .2rem rgba(96, 8, 156, .18);
+}
+.result-row.copied { border-color: #2e9e5b; box-shadow: 0 0 0 .15rem rgba(46, 158, 91, .18); }
+.result-row.fits { background: var(--accent-soft); border-color: #f3d3a0; }
+
+.result-name {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  margin-bottom: .25rem;
+}
+.result-value {
+  font-size: 1.15rem;
+  line-height: 1.4;
+  word-break: break-word;
+  margin-bottom: 0;
+}
+.result-meta { font-size: .72rem; color: var(--muted); }
+.copy-hint { font-size: .72rem; color: var(--brand); font-weight: 600; }
+
+/* Length chart --------------------------------------------------------- */
+.length-chart { display: flex; flex-direction: column; gap: .5rem; }
+.chart-row { display: flex; align-items: center; gap: .75rem; }
+.chart-label {
+  flex: 0 0 130px;
+  font-size: .78rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chart-track {
+  flex: 1 1 auto;
+  background: var(--brand-soft);
+  border-radius: 999px;
+  height: 14px;
+  overflow: hidden;
+}
+.chart-bar {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--brand) 0%, var(--brand-mid) 100%);
+}
+.chart-bar.is-accent { background: linear-gradient(90deg, var(--accent) 0%, #f7b955 100%); }
+.chart-value { flex: 0 0 44px; text-align: right; font-size: .78rem; color: var(--ink); font-variant-numeric: tabular-nums; }
+
+/* Article + misc ------------------------------------------------------- */
+.article { max-width: 60rem; }
+.article p { line-height: 1.75; }
+.article h3 { border-left: 3px solid var(--brand-line); padding-left: .7rem; }
+
+.disclaimer {
+  border: 1px dashed var(--brand-line);
+  border-radius: .7rem;
+  background: var(--brand-soft);
+  padding: 1rem 1.15rem;
+  color: var(--muted);
+}
+
+#emptyState { border-style: dashed !important; background: var(--canvas); }
