@@ -57,7 +57,7 @@
 [done] Random Email Generator
 [done] Stylish Text Generator
 [done] online font generator
-font copy and paste
+[done] font copy and paste
 𝐁𝐨𝐥𝐝 𝐓𝐞𝐱𝐭 𝐆𝐞𝐧𝐞𝐫𝐚𝐭𝐨𝐫
 Small text generator 
 Tiny Text Generator 
