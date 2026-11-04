@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bold Text Generator - Free Bold Fonts to Copy and Paste</title>
+  <meta name="description" content="Bold text generator turns plain words into bold Unicode fonts you can copy and paste into bios, captions, usernames and posts - no install, no sign-up.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Bold Text Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Bold Text Generator</h1>
+      <p class="lead text-muted mb-0">
+        Type anything and get it back in eleven heavy-weight Unicode styles &mdash; serif bold, sans bold,
+        bold italic, bold script, fraktur and more. Every result is real text, so it copies straight into a
+        bio, username or caption where formatting buttons do not exist.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Your text</h2>
+        <p class="text-muted small mb-4">
+          Everything runs in your browser. Nothing you type is uploaded or stored.
+        </p>
+
+        <form id="boldForm" novalidate>
+          <div class="form-group">
+            <label for="textInput">Enter the text you want to embolden</label>
+            <textarea class="form-control" id="textInput" rows="3" maxlength="500"
+                      placeholder="e.g. Make this bold"
+                      aria-describedby="textHelp"></textarea>
+            <div class="d-flex justify-content-between">
+              <small id="textHelp" class="form-text text-muted">Up to 500 characters. Letters and digits are converted; spaces, emoji and punctuation pass through.</small>
+              <small class="form-text text-muted"><span id="charCount">0</span>/500</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="searchStyle">Filter styles</label>
+                <input type="search" class="form-control" id="searchStyle" placeholder="e.g. script, italic, fraktur" autocomplete="off">
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label class="d-block">Options</label>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="trimToggle" checked>
+                  <label class="custom-control-label" for="trimToggle">Trim spaces around the text</label>
+                </div>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="keepLineToggle" checked>
+                  <label class="custom-control-label" for="keepLineToggle">Keep line breaks</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-brand btn-lg px-4" id="generateBtn">Generate bold text</button>
+          <button type="reset" class="btn btn-outline-secondary btn-lg ml-2" id="clearBtn">Clear</button>
+
+          <div class="alert alert-danger mt-4 mb-0 d-none" id="formError" role="alert" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="mb-5 d-none" id="results" aria-labelledby="resultsHeading">
+      <div class="d-flex flex-wrap justify-content-between align-items-end mb-3">
+        <h2 class="h5 mb-0" id="resultsHeading">Bold styles</h2>
+        <button type="button" class="btn btn-sm btn-outline-brand mt-2 mt-sm-0" id="copyAllBtn">Copy all styles</button>
+      </div>
+      <div class="row" id="resultList"></div>
+      <div class="alert alert-light border mt-3 mb-0 small text-muted" id="coverageNote" role="status" aria-live="polite"></div>
+    </section>
+
+    <section class="card shadow-sm border-0 mb-5 d-none" id="chartCard" aria-labelledby="chartHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="chartHeading">How much of your text each style can convert</h2>
+        <p class="text-muted small mb-4">
+          Not every alphabet has a full bold counterpart. This chart shows the share of the letters and digits
+          in your input that each style was able to convert.
+        </p>
+        <div class="chart-wrap">
+          <canvas id="coverageChart" width="900" height="420" role="img"
+                  aria-label="Bar chart of conversion coverage for each bold style"></canvas>
+        </div>
+        <div id="chartTable" class="table-responsive mt-4"></div>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2 class="h4 mb-3">What a bold text generator actually does</h2>
+      <p>
+        A bold text generator looks like a font changer, but underneath it is a character converter. Plain
+        letters live in one corner of the Unicode standard, and a handful of other corners hold look-alike
+        letters that are drawn with heavier strokes. When you type <em>bold me</em> into this tool, it does not
+        apply a CSS <code>font-weight</code> &mdash; it swaps each Latin letter for its heavy Unicode twin and
+        hands the result back to you as ordinary text. That is why the output survives being pasted into a
+        field that only accepts characters: a Twitter/X bio, an Instagram caption, a TikTok username, a Discord
+        nickname or a plain-text email.
+      </p>
+      <p>
+        The practical difference matters. A formatting button is a property of the container; Unicode bold is a
+        property of the characters themselves. Anything that can display text can display Unicode bold, because
+        it is still just text.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">How to use the tool</h2>
+      <ol>
+        <li>Type or paste your words into the box. Up to 500 characters works well for a bio or a title.</li>
+        <li>Leave the filter empty to see every style, or type a keyword such as <em>script</em> or <em>italic</em> to narrow the list.</li>
+        <li>Read down the results. Each card shows one bold style and a copy button.</li>
+        <li>Click copy, then paste into the app or profile field where you need the emphasis.</li>
+      </ol>
+      <p>
+        The coverage chart under the results is a quick honesty check. Mathematical bold alphabets cover the full
+        English alphabet and the digits zero to nine, so a normal sentence converts completely. Styles built from
+        small caps or full-width forms are a little patchier, and the chart shows exactly how patchy before you
+        paste something that looks broken.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">Where bold Unicode text earns its place</h2>
+      <p>
+        The obvious use is a social profile: a bold display name makes a comment thread easier to scan, and a
+        bold heading gives a caption a visual anchor. Beyond that, people reach for bold text when they are
+        labelling sections inside a long plain-text note, when they want a shop listing title to stand out, when
+        they are drafting a document in an app that ignores Markdown, and when they are building a username that
+        has to look deliberate in a search result. Teachers use it to emphasise vocabulary in a shared document;
+        community moderators use it for rules that must not be skimmed past.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">Bold Unicode versus HTML and CSS bold</h2>
+      <p>
+        If you control the markup, stop and use the right tool. In HTML, <code>&lt;strong&gt;</code> carries
+        meaning and <code>&lt;b&gt;</code> carries visual weight; in CSS, <code>font-weight: 700</code> or a
+        <code>&lt;b&gt;</code> tag does the job and stays accessible to screen readers. Unicode bold is the
+        fallback for the places those tools cannot reach: the single-line bio box, the caption field, the chat
+        nickname, the print-ready label. Choose Unicode bold when you are working with text you cannot style, and
+        choose real markup everywhere else.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">Pro tips from daily use</h2>
+      <ul>
+        <li><strong>Use it sparingly.</strong> A whole paragraph of bold reads as shouting. One phrase or one heading is usually enough.</li>
+        <li><strong>Test before you paste.</strong> A few older Android keyboards and some email clients render the maths block as empty boxes, so preview the result on the device you care about.</li>
+        <li><strong>Keep a plain copy.</strong> Because bold Unicode characters are different code points, they break search, hashtags and screen readers. If a hashtag must be findable, leave it in plain text.</li>
+        <li><strong>Do not fake it with capitals.</strong> All-caps is not bold, and many platforms quietly down-case it.</li>
+      </ul>
+
+      <h2 class="h4 mt-4 mb-3">Common mistakes to avoid</h2>
+      <p>
+        The most common mistake is bolding a hashtag or a username and then wondering why it no longer resolves.
+        The second is pasting bold text into a form that validates against the Latin alphabet &mdash; a bold
+        username may be rejected as an invalid character, even though it looks correct. The third is assuming a
+        bold style will work in a password or a numeric ID; special characters are usually stripped there. If a
+        field refuses your text, the field is doing its job: revert to plain letters.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">Frequently asked questions</h2>
+      <p><strong>Is bold Unicode text real bold?</strong> Visually, yes. Technically it is a different set of
+        characters that happen to be drawn with heavier strokes, so no font weight is being changed.</p>
+      <p><strong>Will it work in every app?</strong> Most modern apps display it. Apps that restrict the input to
+        the ASCII range will reject or strip it, and that is expected.</p>
+      <p><strong>Can I make just one word bold?</strong> Yes. Generate the whole phrase, then delete the plain
+        words from the result, or bold only the word you need and paste it back in place.</p>
+      <p><strong>Is it accessible?</strong> Screen readers may read bold Unicode characters letter by letter or
+        skip them, so never use it for essential content such as headings, links or instructions.</p>
+      <p><strong>Does the tool store my text?</strong> No. The conversion happens in your browser and nothing is
+        sent to a server.</p>
+
+      <h2 class="h4 mt-4 mb-3">About the author</h2>
+      <p>
+        This tool is maintained by the A Free Tools editorial team, a small group of front-end developers and
+        writers who build and test single-purpose browser utilities. Every calculator and converter on this site
+        is written in vanilla JavaScript, checked against the relevant Unicode ranges and re-tested in the current
+        versions of Chrome, Firefox and Safari before it ships. If a style renders badly on your device, that is
+        exactly the kind of report the team acts on.
+      </p>
+
+      <p class="text-muted small mb-0">
+        <strong>Disclaimer:</strong> This tool is provided for convenience and general informational purposes.
+        Unicode output may render differently across devices, apps and fonts. Always keep a plain-text copy of
+        anything important, and do not rely on styled characters for content that must be searchable or
+        accessible.
+      </p>
+      <p class="text-muted small mt-3 mb-0">Last updated: 4 November 2026</p>
+    </article>
+
+    <footer class="border-top mt-5 pt-4 text-muted small">
+      <p class="mb-0">Bold Text Generator &mdash; part of <a href="/">A Free Tools</a>. Built with Bootstrap 4.6 and vanilla JavaScript.</p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
