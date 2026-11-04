@@ -58,7 +58,7 @@
 [done] Stylish Text Generator
 [done] online font generator
 [done] font copy and paste
-𝐁𝐨𝐥𝐝 𝐓𝐞𝐱𝐭 𝐆𝐞𝐧𝐞𝐫𝐚𝐭𝐨𝐫
+[done] Bold Text Generator
 Small text generator 
 Tiny Text Generator 
 Font generator

@@ -34,3 +34,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 053 | online-font-generator | Style any text with 10 web fonts and live size, weight, spacing, line-height and colour controls, then compare rendered widths across families and copy the ready-made CSS. |
 | 054 | stylish-text-generator | Turn plain text into 30+ copy-and-paste Unicode styles (bold, script, gothic, circled and more), with per-style copy buttons and a coverage chart. |
 | 055 | font-copy-and-paste | Convert text into 21 copy-and-paste Unicode fonts (bold, italic, script, gothic, circled, squared and more) with category and keyword filters, a 30-character username check and a style-length chart. |
+| 056 | bold-text-generator | Convert plain text into 12 bold Unicode styles - serif, sans, bold italic, script, fraktur and more - with per-style copy buttons and a conversion-coverage chart. |
