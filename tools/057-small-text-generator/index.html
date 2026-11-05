@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Small Text Generator - Tiny Text to Copy and Paste</title>
+  <meta name="description" content="Small text generator turns plain words into tiny superscript and subscript Unicode you can copy and paste into bios, captions and usernames in one click.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Small Text Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Small Text Generator</h1>
+      <p class="lead text-muted mb-0">
+        Shrink any line of text into tiny superscript or subscript characters that survive copy and paste.
+        Drop the result into a profile bio, a photo caption or a username field where normal font-size
+        controls are not available.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Your text</h2>
+        <p class="text-muted small mb-4">
+          Everything runs in your browser. Nothing you type is uploaded, logged or stored.
+        </p>
+
+        <form id="smallForm" novalidate>
+          <div class="form-group">
+            <label for="textInput">Enter the text you want to shrink</label>
+            <textarea class="form-control" id="textInput" rows="3" maxlength="400"
+                      placeholder="e.g. Smaller is better"
+                      aria-describedby="textHelp"></textarea>
+            <div class="d-flex justify-content-between">
+              <small id="textHelp" class="form-text text-muted">Up to 400 characters. Letters and digits convert; spaces and punctuation pass through.</small>
+              <small class="form-text text-muted"><span id="charCount">0</span>/400</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label class="d-block">Small style</label>
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="styleSuper" name="smallStyle" class="custom-control-input" value="super" checked>
+                  <label class="custom-control-label" for="styleSuper">Superscript (raised)</label>
+                </div>
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="styleSub" name="smallStyle" class="custom-control-input" value="sub">
+                  <label class="custom-control-label" for="styleSub">Subscript (lowered)</label>
+                </div>
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="styleBoth" name="smallStyle" class="custom-control-input" value="both">
+                  <label class="custom-control-label" for="styleBoth">Both &mdash; show every style</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label class="d-block">Options</label>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="keepUnmapped" checked>
+                  <label class="custom-control-label" for="keepUnmapped">Keep characters that have no small form</label>
+                </div>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="autoConvert">
+                  <label class="custom-control-label" for="autoConvert">Convert as I type</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap align-items-center">
+            <button type="submit" class="btn btn-primary mr-2 mb-2">Generate small text</button>
+            <button type="button" class="btn btn-outline-secondary mr-2 mb-2" id="sampleBtn">Try an example</button>
+            <button type="reset" class="btn btn-link text-muted mb-2" id="resetBtn">Clear</button>
+          </div>
+        </form>
+
+        <div id="errorBox" class="alert alert-warning mt-4 mb-0 d-none" role="alert" aria-live="assertive"></div>
+
+        <div id="results" class="mt-4 d-none" aria-live="polite">
+          <h3 class="h6 text-uppercase text-muted mb-3">Your tiny text</h3>
+          <div id="resultList"></div>
+
+          <div class="row mt-4">
+            <div class="col-12 col-lg-7 mb-4 mb-lg-0">
+              <h3 class="h6 text-uppercase text-muted mb-3">Character coverage</h3>
+              <div class="chart-frame">
+                <canvas id="coverageChart" width="640" height="260" role="img"
+                        aria-label="Bar chart comparing the number of characters converted against those left unchanged."></canvas>
+              </div>
+              <p class="small text-muted mt-2 mb-0" id="coverageSummary"></p>
+            </div>
+            <div class="col-12 col-lg-5">
+              <h3 class="h6 text-uppercase text-muted mb-3">At a glance</h3>
+              <ul class="list-group list-group-flush stat-list">
+                <li class="list-group-item d-flex justify-content-between px-0">
+                  <span>Characters entered</span><strong id="statTotal">0</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between px-0">
+                  <span>Converted to small text</span><strong id="statConverted">0</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between px-0">
+                  <span>Left unchanged</span><strong id="statUnchanged">0</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between px-0">
+                  <span>Coverage</span><strong id="statCoverage">0%</strong>
+                </li>
+              </ul>
+              <button type="button" class="btn btn-primary btn-block mt-3" id="copyBtn">Copy the top result</button>
+              <button type="button" class="btn btn-outline-secondary btn-block mt-2" id="downloadBtn">Download as .txt</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="tool-article">
+      <h2 class="h4 mb-3">What a small text generator actually does</h2>
+      <p>
+        A small text generator rewrites ordinary letters and numbers as Unicode characters that already
+        look tiny, then lets you copy that output anywhere you can paste text. The trick is not styling or
+        HTML &mdash; it is substitution. Each plain letter is swapped for a different character that happens to be
+        drawn small, so the result keeps its size even in fields that ignore fonts, such as an Instagram bio,
+        a YouTube channel description or a game chat box.
+      </p>
+      <p>
+        That distinction matters. If you bold text with a &lt;strong&gt; tag, the formatting disappears the moment
+        you paste it into a plain-text box. If you use tiny Unicode letters instead, the smallness travels with
+        the characters. This is why tiny text shows up in usernames, watermarks, footnotes and playful captions
+        where no rich-text editor exists.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">How this tiny text generator works</h2>
+      <p>
+        Type or paste your line into the box above and the tool walks through it one character at a time. For
+        every letter and digit it looks up the matching superscript or subscript equivalent &mdash; for example,
+        the letter <em>a</em> becomes <sup>a</sup> and the digit <em>2</em> becomes <sup>2</sup> &mdash; then reassembles
+        the string in the same order you typed it.
+      </p>
+      <p>
+        You choose the look: superscript raises the text like an exponent, subscript drops it below the
+        baseline like a chemical formula, and the "both" option shows every style side by side so you can
+        compare before deciding. The coverage chart counts how many characters had a small form and how many
+        were left as they were. Nothing is sent to a server; the conversion runs entirely in your browser, which
+        is why the tool works offline once the page has loaded.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">Where small text earns its place</h2>
+      <p>
+        The most common use is decoration. A tiny "est. 2019" under a shop logo, a whispered "read the
+        caption" in a story, or a small trademark symbol next to a brand name all read as intentional design
+        rather than clutter. Social bios are the natural home for this: most platforms cap your character
+        count, so every saved pixel of attention counts.
+      </p>
+      <p>
+        Tiny text is also genuinely practical. Superscript is the correct way to write exponents and
+        ordinal suffixes such as 1<sup>st</sup> and 3<sup>rd</sup>, and subscript is standard for chemical
+        formulas like H<sub>2</sub>O and CO<sub>2</sub>. Students pasting notes into a plain text editor, and
+        anyone writing a quick comment where a formula would otherwise look clumsy, get a clean result without
+        reaching for a word processor.
+      </p>
+      <p>
+        Finally, there is the fun angle. Small text makes a neat watermark for photos you share on social
+        media, a subtle credit line in a meme, or a playful way to sign off a message. Because it is real
+        text rather than an image, it stays searchable and copyable.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">Pro tips for cleaner results</h2>
+      <ul>
+        <li><strong>Keep it short.</strong> Small characters are harder to read than full-size ones. One
+          or two words make a statement; a whole paragraph becomes a squint.</li>
+        <li><strong>Mind the platform.</strong> Some sites strip unusual Unicode or block it in certain
+          fields. Test the paste before you rely on it in a profile.</li>
+        <li><strong>Do not use it for critical text.</strong> Tiny text is a visual flourish, not an
+          accessibility feature. Never put prices, instructions or legal wording in small text alone.</li>
+        <li><strong>Pair it with normal text.</strong> A tiny subheading above a normal-size sentence gives
+          the eye a clear hierarchy instead of forcing it to work.</li>
+        <li><strong>Watch the coverage figure.</strong> If coverage is low, your text contained characters
+          that have no small form &mdash; usually punctuation or accented letters.</li>
+      </ul>
+
+      <h2 class="h4 mt-4 mb-3">Common mistakes to avoid</h2>
+      <p>
+        The biggest mistake is expecting every character to shrink. Unicode simply does not provide a tiny
+        version of every glyph, so letters like <em>q</em>, <em>w</em> and some punctuation stay full size or
+        drop out entirely depending on your settings. That is a limitation of the character set, not a bug.
+      </p>
+      <p>
+        The second mistake is overusing tiny text in accessibility-sensitive places. Screen readers may
+        announce superscript and subscript characters differently, and readers with low vision will struggle.
+        Use it as decoration, and keep the essential meaning in normal text. The third mistake is assuming the
+        output is universal &mdash; a few older systems render these characters as empty boxes, so keep a plain
+        fallback ready.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">Frequently asked questions</h2>
+      <h3 class="h6">Is small text the same as a smaller font size?</h3>
+      <p>
+        No. A smaller font size is a display setting that the receiving app can ignore. Small text uses
+        different Unicode characters, so the size is baked into the text itself and survives copying.
+      </p>
+      <h3 class="h6">Can I use small text in an Instagram or TikTok bio?</h3>
+      <p>
+        Usually yes. Both accept a wide range of Unicode, so superscript and subscript characters paste in
+        normally. A few platforms sanitise some symbols, so preview before you publish.
+      </p>
+      <h3 class="h6">Why did some of my letters stay the same size?</h3>
+      <p>
+        Those characters have no small Unicode equivalent. Turn on "keep characters that have no small form"
+        to leave them untouched, or turn it off to drop them.
+      </p>
+      <h3 class="h6">Is my text stored anywhere?</h3>
+      <p>
+        No. The conversion happens in your browser and the page makes no network requests with your input.
+        Close the tab and the text is gone.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">About the author</h2>
+      <p class="mb-2">
+        This tool was built and written by the A Free Tools team, a small group of web developers and
+        editors who have spent the past decade shipping browser-based utilities and documenting the quirks
+        of Unicode text. We test each generator against real bio fields, chat apps and spreadsheets before
+        publishing it, and we update the copy whenever a platform changes how it handles special characters.
+      </p>
+      <p class="text-muted small mb-0">Last updated: 5 November 2026</p>
+    </article>
+
+    <section class="alert alert-light border mt-4 small text-muted" role="note">
+      <strong>Disclaimer:</strong> This small text generator is provided for general informational and
+      decorative use. Unicode rendering varies by device, app and font, so results are not guaranteed to
+      display identically everywhere. Always verify the output where it matters. Nothing here is professional
+      advice, and we are not responsible for how third-party platforms treat your text.
+    </section>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
