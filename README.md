@@ -36,3 +36,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 055 | font-copy-and-paste | Convert text into 21 copy-and-paste Unicode fonts (bold, italic, script, gothic, circled, squared and more) with category and keyword filters, a 30-character username check and a style-length chart. |
 | 056 | bold-text-generator | Convert plain text into 12 bold Unicode styles - serif, sans, bold italic, script, fraktur and more - with per-style copy buttons and a conversion-coverage chart. |
 | 057 | small-text-generator | Shrink text into superscript or subscript tiny Unicode you can copy and paste, with a coverage chart and one-click copy/export. |
+| 058 | tiny-text-generator | Convert words into miniature superscript or subscript Unicode tiny text, with per-style copy buttons, input validation and a character-coverage chart. |
