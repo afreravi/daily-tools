@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tiny Text Generator - Superscript &amp; Subscript Text to Copy</title>
+  <meta name="description" content="Tiny text generator converts normal words into miniature superscript and subscript Unicode text you can copy and paste into bios, captions and usernames instantly.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Tiny Text Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Tiny Text Generator</h1>
+      <p class="lead text-muted mb-0">
+        Turn an ordinary sentence into miniature superscript or subscript characters that keep their
+        size wherever you paste them. Perfect for profile bios, photo captions, product labels and
+        usernames where you cannot change the font size yourself.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Your text</h2>
+        <p class="text-muted small mb-4">
+          Everything runs inside your browser. Nothing you type is uploaded, logged or stored anywhere.
+        </p>
+
+        <form id="tinyForm" novalidate>
+          <div class="form-group">
+            <label for="textInput">Enter the text you want to shrink</label>
+            <textarea class="form-control" id="textInput" rows="3" maxlength="300"
+                      placeholder="e.g. keep it tiny"
+                      aria-describedby="textHelp"></textarea>
+            <div class="d-flex justify-content-between">
+              <small id="textHelp" class="form-text text-muted">Up to 300 characters. Letters, digits and common symbols convert; spaces and line breaks pass through.</small>
+              <small class="form-text text-muted"><span id="charCount">0</span>/300</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label class="d-block">Tiny style</label>
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="styleSuper" name="tinyStyle" class="custom-control-input" value="super" checked>
+                  <label class="custom-control-label" for="styleSuper">Superscript (raised, smaller)</label>
+                </div>
+                <div class="custom-control custom-radio">
+                  <input type="radio" id="styleSub" name="tinyStyle" class="custom-control-input" value="sub">
+                  <label class="custom-control-label" for="styleSub">Subscript (lowered, smaller)</label>
+                </div>
+                <div class="custom-control radio custom-control">
+                  <input type="radio" id="styleBoth" name="tinyStyle" class="custom-control-input" value="both">
+                  <label class="custom-control-label" for="styleBoth">Both &mdash; show every tiny style</label>
+                </div>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label class="d-block">Options</label>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="keepUnmapped" checked>
+                  <label class="custom-control-label" for="keepUnmapped">Keep characters that have no tiny form</label>
+                </div>
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="autoConvert">
+                  <label class="custom-control-label" for="autoConvert">Convert as I type</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap align-items-center">
+            <button type="submit" class="btn btn-primary mr-2 mb-2">Generate tiny text</button>
+            <button type="button" class="btn btn-outline-secondary mr-2 mb-2" id="sampleBtn">Try an example</button>
+            <button type="reset" class="btn btn-link text-muted mb-2" id="resetBtn">Clear</button>
+          </div>
+        </form>
+
+        <div id="errorBox" class="alert alert-warning mt-4 mb-0 d-none" role="alert" aria-live="assertive"></div>
+
+        <div id="results" class="mt-4 d-none" aria-live="polite">
+          <h3 class="h6 text-uppercase text-muted mb-3">Your tiny text</h3>
+          <div id="resultList"></div>
+
+          <div class="row mt-4">
+            <div class="col-12 col-lg-7 mb-4 mb-lg-0">
+              <h3 class="h6 text-uppercase text-muted mb-3">Character coverage</h3>
+              <div class="chart-frame">
+                <canvas id="coverageChart" width="640" height="260" role="img"
+                        aria-label="Bar chart comparing the number of characters converted into tiny text against those left unchanged."></canvas>
+              </div>
+              <p class="small text-muted mt-2 mb-0" id="coverageSummary"></p>
+            </div>
+            <div class="col-12 col-lg-5">
+              <h3 class="h6 text-uppercase text-muted mb-3">At a glance</h3>
+              <ul class="list-group list-group-flush stat-list">
+                <li class="list-group-item d-flex justify-content-between px-0">
+                  <span>Characters entered</span><strong id="statTotal">0</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between px-0">
+                  <span>Converted to tiny text</span><strong id="statConverted">0</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between px-0">
+                  <span>Left unchanged</span><strong id="statUnchanged">0</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between px-0">
+                  <span>Coverage</span><strong id="statCoverage">0%</strong>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="tool-article">
+      <h2 class="h4 mb-3">What the tiny text generator does</h2>
+      <p>
+        This tiny text generator takes an ordinary line of text and rewrites it using miniature
+        Unicode characters. Instead of relying on a font-size setting that only works on one app, the
+        converter swaps each letter and digit for a character that is <em>drawn</em> small — a
+        superscript or subscript glyph that keeps its reduced size no matter where you paste it.
+        That is the trick behind tiny fonts in Instagram bios, TikTok captions, Discord nicknames and
+        product packaging mock-ups, and it is why the result survives copying between apps, phones and
+        desktop software.
+      </p>
+      <p>
+        The tool is deliberately simple. You type or paste your words, pick superscript, subscript or
+        both, and the generator returns ready-to-copy versions in an instant. A live character-coverage
+        chart shows how much of your text has a tiny form and how much had to be left alone, so there
+        are no surprises about what a reader will see.
+      </p>
+
+      <h2 class="h4 mb-3">How the tiny text generator works</h2>
+      <p>
+        Computers do not have one alphabet; they have thousands of Unicode code points, and a small
+        subset of those are shaped like tiny versions of the letters you already know. Superscript
+        characters live in blocks such as Superscripts and Subscripts, plus a handful of phonetic
+        extensions, and subscripts come from the same region. When you press generate, the tool maps
+        each character of your input to its tiny twin and returns the finished string. Because the
+        output is plain Unicode text rather than styled formatting, it behaves like any other text:
+        you can select it, copy it and paste it into a text field, a chat box or a caption editor.
+      </p>
+      <p>
+        A few characters have no tiny equivalent — many punctuation marks, most uppercase consonants
+        and uncommon symbols — so the tool leaves them as they are by default and flags them in the
+        coverage chart. You can turn that behaviour off if you would rather see the gaps, and you can
+        enable convert-as-I-type to watch the tiny text build up as you edit.
+      </p>
+
+      <h2 class="h4 mb-3">When to use tiny text</h2>
+      <ul>
+        <li><strong>Social bios and captions.</strong> Add a discreet tagline, a trademark note or a
+          set of contact details under a main heading without competing for attention.</li>
+        <li><strong>Usernames and display names.</strong> Many platforms allow superscript and
+          subscript characters where regular styling is blocked.</li>
+        <li><strong>Watermarks and credits.</strong> Tuck a small credit line into an image caption or
+          a document footer.</li>
+        <li><strong>Labels and packaging drafts.</strong> Mock up the fine print on a product label
+          before a designer produces the real artwork.</li>
+        <li><strong>Maths and science notes.</strong> Subscript tiny text is handy for chemical
+          formulas, footnotes and version markers like v<sub>2</sub>.</li>
+      </ul>
+
+      <h2 class="h4 mb-3">Pro tips for cleaner tiny text</h2>
+      <p>
+        Keep tiny text short. Small glyphs are harder to read at a glance, so a short word or a single
+        phrase lands better than a full paragraph. Prefer superscript for a raised, airy look and
+        subscript for anything that should sit low, such as a footnote marker. Test the result on the
+        actual platform before you commit, because a few apps normalise unusual characters on paste,
+        and check how it looks against the background colour you plan to use. When you need a very
+        long string, generate it in sections so you can trim anything that reads awkwardly, and always
+        keep a plain-text copy of the original in case you need to edit it later.
+      </p>
+
+      <h2 class="h4 mb-3">Common mistakes to avoid</h2>
+      <p>
+        The most frequent mistake is assuming tiny text is a font. It is not, so you cannot bold it,
+        italicise it or change its colour from a font menu, and screen readers may announce it
+        differently from normal letters. Use it for decoration, never for essential information such
+        as prices, warnings or legal wording that must stay legible and accessible. Another common
+        slip is pasting tiny text into a field with a strict character limit, since a single tiny
+        letter can occupy the same space as a regular one; check the counter before you save. Finally,
+        avoid mixing superscript and subscript in the same short phrase — the inconsistent baseline
+        looks accidental rather than stylish.
+      </p>
+
+      <h2 class="h4 mb-3">Frequently asked questions</h2>
+      <h3 class="h6 mt-3">Is tiny text the same as a small font?</h3>
+      <p>
+        No. A small font is a display setting that the reader or the app can override. Tiny text uses
+        distinct Unicode characters, so it stays small everywhere the characters are supported.
+      </p>
+      <h3 class="h6 mt-3">Why do some letters not convert?</h3>
+      <p>
+        Unicode only defines tiny forms for a limited set of letters, digits and symbols. Anything
+        without a tiny twin is kept as normal text, and the coverage chart shows exactly how much was
+        converted.
+      </p>
+      <h3 class="h6 mt-3">Will tiny text work in every app?</h3>
+      <p>
+        It works in most modern apps, browsers and operating systems. A small number of platforms
+        filter or normalise unusual characters, so test your result in the exact field you plan to use.
+      </p>
+      <h3 class="h6 mt-3">Is my text sent anywhere?</h3>
+      <p>
+        Never. The conversion happens entirely in your browser with JavaScript, so your words stay on
+        your device.
+      </p>
+
+      <section class="author-box mt-5" aria-label="About the author">
+        <h2 class="h6 text-uppercase text-muted mb-2">About the author</h2>
+        <p class="mb-1">
+          <strong>Ravi Afre</strong> builds small, fast, privacy-first browser tools for
+          <a href="https://afreetools.com">afreetools.com</a>. He has spent more than a decade shipping
+          web interfaces and writing about typography, accessibility and practical front-end craft,
+          and every tool on this site is tested by hand before it is published.
+        </p>
+        <p class="small text-muted mb-0">Last updated: 6 November 2026</p>
+      </section>
+
+      <div class="alert disclaimer mt-4 mb-0" role="note">
+        <strong>Disclaimer:</strong> This tiny text generator is provided for general informational and
+        decorative use. Unicode rendering varies between devices, browsers and applications, so the
+        output may look different from one platform to another. Always review the result in the place
+        you intend to publish it and keep a plain-text version of any important wording.
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer mt-5 py-4">
+    <div class="container text-center small text-muted">
+      Built by <a href="https://afreetools.com">afreetools.com</a> &middot; runs entirely in your browser.
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
