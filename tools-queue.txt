@@ -60,7 +60,7 @@
 [done] font copy and paste
 [done] Bold Text Generator
 [done] Small text generator 
-Tiny Text Generator 
+[done] Tiny Text Generator
 Font generator
 Aesthetic fonts generator
 Glitch text generator
