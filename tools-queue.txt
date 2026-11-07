@@ -61,7 +61,6 @@
 [done] Bold Text Generator
 [done] Small text generator 
 [done] Tiny Text Generator
-Font generator
 Aesthetic fonts generator
 Glitch text generator
 Twitter (x) fonts generator
