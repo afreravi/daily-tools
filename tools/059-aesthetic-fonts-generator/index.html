@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Aesthetic Fonts Generator - Copy &amp; Paste Aesthetic Text Styles</title>
+  <meta name="description" content="Aesthetic fonts generator turns plain text into dreamy copy-and-paste styles with script, serif and sans Unicode fonts wrapped in sparkle, heart and cloud accents.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Aesthetic Fonts Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Aesthetic Fonts Generator</h1>
+      <p class="lead text-muted mb-0">
+        Type a phrase once and see it dressed up in complete aesthetic looks — a Unicode font plus a
+        matching accent of sparkles, hearts, clouds or moons — ready to copy and paste straight into a
+        bio, caption or playlist name.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Your text</h2>
+        <p class="text-muted small mb-4">
+          Everything runs inside your browser. Nothing you type is uploaded, logged or stored.
+        </p>
+
+        <form id="aestheticForm" novalidate>
+          <div class="form-group mb-4">
+            <label for="textInput">Enter the words you want to style</label>
+            <textarea class="form-control" id="textInput" rows="2" maxlength="120"
+                      placeholder="e.g. golden hour"
+                      aria-describedby="textHelp"></textarea>
+            <div class="d-flex justify-content-between flex-wrap">
+              <small id="textHelp" class="form-text text-muted">Up to 120 characters. Line breaks are kept in the plain font only.</small>
+              <small class="form-text text-muted"><span id="charCount">0</span>/120</small>
+            </div>
+          </div>
+
+          <div class="form-row align-items-end mb-4">
+            <div class="col-12 col-md-5 mb-2 mb-md-0">
+              <label for="fontSelect" class="mb-1">Font style</label>
+              <select class="custom-select" id="fontSelect"></select>
+            </div>
+            <div class="col-12 col-md-5 mb-2 mb-md-0">
+              <label for="accentSelect" class="mb-1">Aesthetic accent</label>
+              <select class="custom-select" id="accentSelect"></select>
+            </div>
+            <div class="col-12 col-md-2">
+              <button type="button" class="btn btn-primary btn-block" id="applyBtn">Apply</button>
+            </div>
+          </div>
+
+          <div class="alert alert-light border mb-4" id="errorBox" role="alert" hidden></div>
+
+          <div id="resultsWrap" hidden>
+            <div class="d-flex justify-content-between align-items-center mb-2 flex-wrap">
+              <h3 class="h6 mb-0">Curated aesthetic looks</h3>
+              <button type="button" class="btn btn-sm btn-outline-secondary" id="copyAllBtn">Copy all</button>
+            </div>
+            <div class="row" id="presetGrid"></div>
+
+            <div class="row mt-4 align-items-center">
+              <div class="col-12 col-lg-7 mb-3 mb-lg-0">
+                <canvas id="coverageChart" width="640" height="240" role="img"
+                        aria-label="Bar chart comparing characters styled with an aesthetic font against characters left unchanged."></canvas>
+              </div>
+              <div class="col-12 col-lg-5">
+                <h3 class="h6 text-uppercase text-muted mb-3">Coverage at a glance</h3>
+                <ul class="list-group list-group-flush stat-list">
+                  <li class="list-group-item d-flex justify-content-between px-0">
+                    <span>Characters entered</span><strong id="statTotal">0</strong>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between px-0">
+                    <span>Styled by the font</span><strong id="statStyled">0</strong>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between px-0">
+                    <span>Left unchanged</span><strong id="statPlain">0</strong>
+                  </li>
+                  <li class="list-group-item d-flex justify-content-between px-0">
+                    <span>Coverage</span><strong id="statCoverage">0%</strong>
+                  </li>
+                </ul>
+                <p class="small text-muted mt-2 mb-0" id="coverageNote"></p>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <article class="tool-article">
+      <h2 class="h4 mb-3">What the aesthetic fonts generator does</h2>
+      <p>
+        An aesthetic font is not a font file you install — it is a piece of text that already looks
+        styled. This aesthetic fonts generator takes a plain phrase and rebuilds it from Unicode
+        characters that are drawn to look like script, serif, sans-serif, monospace or small-cap
+        lettering. On top of that it wraps the result in a decorative accent: soft sparkles, tiny
+        stars, a pair of clouds, hearts, moon crescents, flowers or a set of brackets. The finished
+        string is ordinary text, so it keeps its appearance wherever you paste it.
+      </p>
+      <p>
+        That last point is the whole appeal. Most social platforms, chat apps and profile editors let
+        you choose a font only from a short list, and some do not let you change it at all. Because
+        aesthetic text carries its look in the characters themselves rather than in a formatting tag,
+        it slips past those limits and arrives intact.
+      </p>
+
+      <h2 class="h4 mb-3">How the generator works</h2>
+      <p>
+        Unicode reserves large blocks of code points for letters that are deliberately shaped to look
+        bold, italic, script or monospaced. The tool keeps a map from each ordinary A–Z, a–z and 0–9
+        character to its styled twin in each of those blocks. When you press Apply, every character in
+        your input is looked up, replaced and reassembled, then the chosen accent is added to the front
+        and the back.
+      </p>
+      <p>
+        Some styles are less complete than others. Script and Fraktur alphabets, for example, borrow a
+        handful of characters from the mathematical alphanumeric symbols block, and a few punctuation
+        marks and emoji have no styled equivalent at all. When a character has no aesthetic form, the
+        generator leaves it exactly as you typed it and counts it as “left unchanged” in the coverage
+        chart, so you can see at a glance how much of your phrase survived the conversion.
+      </p>
+
+      <h2 class="h4 mb-3">The aesthetic looks you can create</h2>
+      <ul>
+        <li><strong>Soft script with sparkles.</strong> A flowing script alphabet framed by the
+          sparkle accent — the classic “dreamy bio” look.</li>
+        <li><strong>Cloud serif.</strong> A bold serif alphabet between two cloud glyphs for an airy,
+          calm feel that suits lifestyle accounts.</li>
+        <li><strong>Starry sans.</strong> Clean geometric sans-serif letters wrapped in the star
+          accent for a bolder, high-energy caption.</li>
+        <li><strong>Cottage flower italic.</strong> A light italic alphabet between flower glyphs,
+          popular for journaling and handmade-shop branding.</li>
+        <li><strong>Moonlight.</strong> A gentle script alphabet between crescent moons, calm enough
+          for a playlist or a study-account name.</li>
+        <li><strong>Minimal monospace.</strong> Evenly spaced letters with no decoration at all, for a
+          clean technical or retro-terminal feel.</li>
+      </ul>
+
+      <h2 class="h4 mb-3">Where aesthetic text works best</h2>
+      <p>
+        The most common home for aesthetic fonts is a social profile: display names, bios, captions,
+        story stickers and playlist titles. They also work well in chat, on Discord server names and
+        channel headings, in Etsy-style product titles, on wedding or party stationery mock-ups and in
+        presentation slides where a plain heading feels flat. Because the output is plain text, you can
+        drop it into an email signature, a Notion page title or a spreadsheet cell just as easily.
+      </p>
+
+      <h2 class="h4 mb-3">Pro tips for a polished result</h2>
+      <p>
+        Short phrases almost always look better than long sentences, because decorative glyphs take up
+        more visual weight than ordinary letters. Pick an accent that matches the mood rather than
+        stacking several together — one pair of sparkles reads as intentional, three reads as noise.
+        Keep the plain version of your text somewhere safe so you can still edit it later, since
+        editing inside a styled string means hunting for the original letters. Preview the result
+        against the background colour you plan to use, and remember that the whole phrase will change
+        size slightly from one style to the next because the styled characters have different widths.
+      </p>
+
+      <h2 class="h4 mb-3">Common mistakes to avoid</h2>
+      <p>
+        The biggest mistake is treating aesthetic text as accessible text. Screen readers may read
+        styled characters letter by letter or skip them entirely, so never use an aesthetic font for
+        prices, dates, warnings or anything a reader must be able to parse reliably. The second is
+        ignoring character limits: a single styled letter still counts as one character in most fields,
+        but it can look twice as wide, so a name that just fits in plain text may wrap awkwardly. The
+        third is mixing styles in one phrase — a script word next to a monospace word rarely looks
+        deliberate. Finally, some platforms quietly normalise unusual characters when you save, so
+        always check the field after pasting rather than assuming the style survived.
+      </p>
+
+      <h2 class="h4 mb-3">Frequently asked questions</h2>
+      <h3 class="h6 mt-3">Are aesthetic fonts real fonts?</h3>
+      <p>
+        No. They are combinations of Unicode characters that look like a different typeface. Nothing is
+        installed on your device, which is exactly why they work in apps that do not offer font choices.
+      </p>
+      <h3 class="h6 mt-3">Why do some characters stay the same?</h3>
+      <p>
+        Unicode only defines styled forms for a limited set of letters, digits and symbols. Anything
+        without a styled twin is kept as normal text, and the coverage chart shows how much of your
+        phrase was converted.
+      </p>
+      <h3 class="h6 mt-3">Will aesthetic text work in every app?</h3>
+      <p>
+        It works in the great majority of modern apps, browsers and operating systems. A few platforms
+        filter or normalise unusual characters on save, so test the result in the exact field you plan
+        to use before you rely on it.
+      </p>
+      <h3 class="h6 mt-3">Can I use aesthetic fonts for business content?</h3>
+      <p>
+        For decorative headings and social posts, yes. For anything that has to be read accurately or
+        found by search — product names, invoices, legal copy — keep plain text, because styled
+        characters are hard to search for and can confuse assistive technology.
+      </p>
+      <h3 class="h6 mt-3">Is my text sent to a server?</h3>
+      <p>
+        Never. Every conversion happens in your browser with JavaScript, so your words never leave your
+        device.
+      </p>
+
+      <section class="author-box mt-5" aria-label="About the author">
+        <h2 class="h6 text-uppercase text-muted mb-2">About the author</h2>
+        <p class="mb-1">
+          <strong>Ravi Afre</strong> builds small, fast, privacy-first browser tools for
+          <a href="https://afreetools.com">afreetools.com</a>. He has spent more than a decade shipping
+          web interfaces and writing about typography, accessibility and practical front-end craft, and
+          every tool on this site is tested by hand before it is published.
+        </p>
+        <p class="small text-muted mb-0">Last updated: 8 November 2026</p>
+      </section>
+
+      <div class="alert disclaimer mt-4 mb-0" role="note">
+        <strong>Disclaimer:</strong> This aesthetic fonts generator is provided for general
+        informational and decorative use. Unicode rendering varies between devices, browsers and
+        applications, so the output may look different from one platform to another. Always review the
+        result where you intend to publish it, keep a plain-text copy of any important wording, and
+        avoid aesthetic fonts for text that must stay accessible or searchable.
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer mt-5 py-4">
+    <div class="container text-center small text-muted">
+      Built by <a href="https://afreetools.com">afreetools.com</a> &middot; runs entirely in your browser.
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
