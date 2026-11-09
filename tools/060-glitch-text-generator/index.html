@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Glitch Text Generator - Zalgo Corrupted Text to Copy &amp; Paste</title>
+  <meta name="description" content="Glitch text generator turns plain words into creepy zalgo, static, flicker and fade corrupted Unicode text you can copy and paste into bios, captions and chats.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Glitch Text Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Glitch Text Generator</h1>
+      <p class="lead text-muted mb-0">
+        Turn an ordinary sentence into corrupted, glitching text with stacked zalgo marks, static,
+        flicker and fade effects. Copy the result and paste it into bios, captions, comments or
+        messages where a plain font is just too tidy.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Your text</h2>
+        <p class="text-muted small mb-4">
+          Everything runs inside your browser. Nothing you type is uploaded, logged or stored anywhere.
+        </p>
+
+        <form id="glitchForm" novalidate>
+          <div class="form-group">
+            <label for="textInput">Enter the text you want to glitch</label>
+            <textarea class="form-control" id="textInput" rows="3" maxlength="240"
+                      placeholder="e.g. stay glitched"
+                      aria-describedby="textHelp"></textarea>
+            <div class="d-flex justify-content-between">
+              <small id="textHelp" class="form-text text-muted">Up to 240 characters. Keep it short for the cleanest result.</small>
+              <small class="form-text text-muted"><span id="charCount">0</span>/240</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="intensity">Glitch intensity</label>
+                <input type="range" class="form-control-range" id="intensity" min="1" max="10" value="4"
+                       aria-describedby="intensityHelp">
+                <small id="intensityHelp" class="form-text text-muted">Level <span id="intensityValue">4</span> of 10 — higher stacks more marks on every character.</small>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="styleSelect">Glitch style</label>
+                <select class="form-control" id="styleSelect">
+                  <option value="zalgo" selected>Zalgo (stacked marks)</option>
+                  <option value="static">Static (random noise)</option>
+                  <option value="flicker">Flicker (light marks)</option>
+                  <option value="fade">Fade (below marks)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap align-items-center">
+            <button type="submit" class="btn btn-primary px-4 mr-2 mb-2">Generate glitch text</button>
+            <button type="button" class="btn btn-outline-secondary px-3 mr-2 mb-2" id="randomBtn">Surprise me</button>
+            <button type="button" class="btn btn-outline-secondary px-3 mb-2" id="clearBtn">Clear</button>
+          </div>
+        </form>
+
+        <div id="errorBox" class="alert alert-warning mt-3 mb-0 d-none" role="alert"></div>
+      </div>
+    </section>
+
+    <section class="mb-5" aria-labelledby="resultHeading">
+      <h2 class="h5 mb-3" id="resultHeading">Result</h2>
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <p class="text-muted small mb-2">Paste-ready output — select it or use the copy button.</p>
+          <div id="output" class="glitch-output mb-3" tabindex="0" aria-live="polite" aria-label="Generated glitch text"></div>
+          <div class="d-flex flex-wrap">
+            <button type="button" class="btn btn-primary px-3 mr-2 mb-2" id="copyBtn">Copy to clipboard</button>
+            <button type="button" class="btn btn-outline-secondary px-3 mb-2" id="downloadBtn">Download .txt</button>
+          </div>
+          <div class="row mt-4">
+            <div class="col-12 col-md-6">
+              <h3 class="h6 text-muted mb-2">Glitch mark chart</h3>
+              <canvas id="glitchChart" height="180" aria-label="Bar chart of glitch marks added per style"></canvas>
+            </div>
+            <div class="col-12 col-md-6 mt-3 mt-md-0">
+              <h3 class="h6 text-muted mb-2">Output stats</h3>
+              <ul class="list-unstyled small mb-0" id="stats">
+                <li>Characters in: <strong id="statIn">0</strong></li>
+                <li>Characters out: <strong id="statOut">0</strong></li>
+                <li>Marks added: <strong id="statMarks">0</strong></li>
+                <li>Blend level: <strong id="statBlend">0%</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2 class="h4 mt-2">What a glitch text generator actually does</h2>
+      <p>
+        A glitch text generator takes ordinary letters and adds invisible or partially visible Unicode
+        marks around them until the text looks like it is tearing apart. On the screen it reads like a
+        corrupted signal, a haunted chat message or a piece of digital static. Behind the scenes nothing
+        is broken at all — each letter is simply carrying extra combining characters that your device
+        stacks on top of it. The result is still real, copyable text, which is why you can paste it into a
+        bio, a caption or a message and it survives the trip.
+      </p>
+      <p>
+        The style most people mean by "glitch text" is called <strong>zalgo</strong>. It works by adding
+        combining diacritical marks above, below and even through a base character. A few marks look
+        subtle; dozens of marks turn a word into a shivering column of noise. This generator lets you
+        control that stack with a single intensity slider so you can go from a gentle flicker to a full
+        meltdown without writing a line of code.
+      </p>
+
+      <h2 class="h4">How to use this tool</h2>
+      <ol>
+        <li>Type or paste your text into the input box. Short words and names glitch best.</li>
+        <li>Choose a style — zalgo for the classic look, static for scattered noise, flicker for a light shimmer, or fade for marks that trail below the line.</li>
+        <li>Drag the intensity slider to control how many marks are stacked on each character.</li>
+        <li>Press <em>Generate glitch text</em>, then copy or download the result.</li>
+      </ol>
+      <p>
+        The <em>Surprise me</em> button picks a random style and intensity so you can explore the range
+        quickly. Every run is fresh, because the marks are placed with a random generator each time.
+      </p>
+
+      <h2 class="h4">Where people use corrupted text</h2>
+      <p>
+        Glitch text has become its own small aesthetic. Gamers use it in usernames and clan tags where a
+        normal font blends into the crowd. Social accounts use it in bios and captions to build a
+        creepy, cyberpunk or horror mood. Writers use it to represent a corrupted message in a story,
+        a possessed character or a broken machine. Some people simply enjoy decorating a profile with
+        something that looks like it escaped a failing hard drive.
+      </p>
+      <p>
+        It is also handy for thumbnails, stream overlays and Discord display names, where a spooky,
+        glitched title instantly sets the tone before anyone reads a word.
+      </p>
+
+      <h2 class="h4">Pro tips for cleaner glitch text</h2>
+      <ul>
+        <li><strong>Keep it short.</strong> Two to four words read as glitch; a full paragraph reads as a mess.</li>
+        <li><strong>Match intensity to context.</strong> A username needs a light touch because platforms may reject heavy mark stacking.</li>
+        <li><strong>Test before you commit.</strong> Paste the result into the exact field you plan to use — some apps strip unusual characters.</li>
+        <li><strong>Stay legible if the message matters.</strong> If people must read it, glitch the edges, not the core word.</li>
+      </ul>
+
+      <h2 class="h4">Common mistakes to avoid</h2>
+      <p>
+        The biggest mistake is overdoing it. A character carrying fifty marks can break line height and
+        push the rest of your layout around, so a profile that looked fine on one phone may look uneven
+        on another. Another common trap is assuming every platform accepts the output — some social
+        networks, usernames and form fields quietly reject or strip combining marks. Finally, remember
+        that glitch text is not always screen-reader friendly; if accessibility matters, keep the
+        corrupted version decorative and put the real message in plain text nearby.
+      </p>
+
+      <h2 class="h4">Frequently asked questions</h2>
+      <h3 class="h6 mt-3">Is glitch text the same as zalgo text?</h3>
+      <p>
+        Zalgo is the most popular style of glitch text. "Glitch text" is the broader umbrella that also
+        covers static, flicker and fade looks. This tool gives you all four.
+      </p>
+      <h3 class="h6 mt-3">Will my glitch text show up on every device?</h3>
+      <p>
+        It works wherever the platform renders combining Unicode marks. Fonts and apps differ, so the
+        exact stacking can shift slightly between phones, browsers and operating systems.
+      </p>
+      <h3 class="h6 mt-3">Can I use glitch text in my Instagram bio or Discord name?</h3>
+      <p>
+        Often yes, but keep the intensity low. Heavy stacking can be trimmed or blocked by some
+        platforms, so test with a short sample first.
+      </p>
+      <h3 class="h6 mt-3">Does this tool store what I type?</h3>
+      <p>
+        No. All the work happens in your browser. Nothing you enter is sent to a server, logged or saved.
+      </p>
+
+      <h2 class="h4">About the author</h2>
+      <p class="text-muted small mb-1">
+        Written by the A Free Tools editorial team — a small group of web developers and designers who
+        build free, no-signup browser utilities and test each one by hand before it ships. We focus on
+        tools that run entirely on your device, explain their maths and Unicode behaviour honestly, and
+        stay usable for everyone.
+      </p>
+      <p class="text-muted small">Last updated: 9 November 2026</p>
+
+      <div class="alert alert-light border mt-4 mb-0" role="note">
+        <strong>Disclaimer:</strong> This glitch text generator is provided for entertainment and
+        creative use. Some platforms limit or strip combining Unicode characters, so results may vary
+        by app and device. Always follow the terms of the site where you post the output.
+      </div>
+    </article>
+
+    <footer class="text-center text-muted small mt-5">
+      <p class="mb-0">Built as part of <a href="/">Daily Tools</a> — a new free utility every day.</p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
