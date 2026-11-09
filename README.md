@@ -38,3 +38,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 057 | small-text-generator | Shrink text into superscript or subscript tiny Unicode you can copy and paste, with a coverage chart and one-click copy/export. |
 | 058 | tiny-text-generator | Convert words into miniature superscript or subscript Unicode tiny text, with per-style copy buttons, input validation and a character-coverage chart. |
 | 059 | aesthetic-fonts-generator | Turn plain text into complete aesthetic looks — 17 Unicode fonts paired with sparkle, heart, cloud, moon and flower accents — with one-click copy and a coverage chart. |
+| 060 | glitch-text-generator | Turn plain text into corrupted glitch/zalgo text with four styles and an intensity slider, plus copy, .txt export, a mark chart and output stats. |
