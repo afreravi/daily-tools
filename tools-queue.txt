@@ -63,7 +63,7 @@
 [done] Tiny Text Generator
 [done] Aesthetic fonts generator
 [done] Glitch text generator
-Twitter (x) fonts generator
+[done] Twitter (x) fonts generator
 Instagram Font Generator
 Cursed text generator
 Zalgo text generator 

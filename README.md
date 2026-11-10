@@ -39,3 +39,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md) — Bootstrap 4.6, light
 | 058 | tiny-text-generator | Convert words into miniature superscript or subscript Unicode tiny text, with per-style copy buttons, input validation and a character-coverage chart. |
 | 059 | aesthetic-fonts-generator | Turn plain text into complete aesthetic looks — 17 Unicode fonts paired with sparkle, heart, cloud, moon and flower accents — with one-click copy and a coverage chart. |
 | 060 | glitch-text-generator | Turn plain text into corrupted glitch/zalgo text with four styles and an intensity slider, plus copy, .txt export, a mark chart and output stats. |
+| 061 | twitter-x-fonts-generator | Style text into 26 copy-and-paste Unicode fonts (bold, italic, script, gothic, circled, fullwidth and more) for X display names, bios and posts, with a style filter, an X handle length check and a coverage chart. |
