@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Instagram Font Generator - Copy &amp; Paste Fancy Fonts for Bio &amp; Captions</title>
+  <meta name="description" content="Instagram font generator turns plain text into cursive, bold, gothic and aesthetic Unicode fonts you can copy and paste into your IG bio, captions, comments and story text.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Instagram Font Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Instagram Font Generator</h1>
+      <p class="lead text-muted mb-0">
+        Turn a plain sentence into cursive, bold, gothic and aesthetic text you can copy and paste
+        into your Instagram bio, captions, comments and story overlays. Preview every style inside
+        a real profile card before you commit to it.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Your text</h2>
+        <p class="text-muted small mb-4">
+          Everything runs inside your browser. Nothing you type is uploaded, logged or stored anywhere.
+        </p>
+
+        <form id="fontForm" novalidate>
+          <div class="form-group mb-3">
+            <label for="textInput">Enter the text you want to style</label>
+            <input type="text" class="form-control form-control-lg" id="textInput"
+                   maxlength="120" autocomplete="off" spellcheck="false"
+                   placeholder="e.g. wander often" aria-describedby="textHelp">
+            <div class="d-flex justify-content-between">
+              <small id="textHelp" class="form-text text-muted">Up to 120 characters. Emoji and spaces are preserved.</small>
+              <small class="form-text text-muted"><span id="charCount">0</span>/120</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="styleFilter">Filter styles</label>
+                <select class="form-control" id="styleFilter" aria-describedby="filterHelp">
+                  <option value="all">All styles</option>
+                  <option value="cursive">Cursive &amp; script</option>
+                  <option value="bold">Bold</option>
+                  <option value="italic">Italic</option>
+                  <option value="aesthetic">Aesthetic &amp; decorative</option>
+                  <option value="enclosed">Circled &amp; squared</option>
+                  <option value="tiny">Tiny &amp; superscript</option>
+                  <option value="wide">Wide &amp; fullwidth</option>
+                </select>
+                <small id="filterHelp" class="form-text text-muted">Narrow the gallery to the look you want.</small>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="captionCheck">Check a caption length</label>
+                <input type="text" class="form-control" id="captionCheck" maxlength="2300"
+                       autocomplete="off" spellcheck="false" placeholder="Paste your caption here"
+                       aria-describedby="captionHelp">
+                <small id="captionHelp" class="form-text text-muted">Instagram captions allow up to 2,200 characters.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap">
+            <button type="submit" class="btn btn-primary px-4 mr-2 mb-2">Generate fonts</button>
+            <button type="button" class="btn btn-outline-secondary px-4 mr-2 mb-2" id="clearBtn">Clear</button>
+            <button type="button" class="btn btn-outline-secondary px-4 mb-2" id="copyAllBtn">Copy all</button>
+          </div>
+          <div id="formMessage" class="alert d-none mt-3 mb-0" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="mb-5" aria-labelledby="resultHeading">
+      <h2 class="h5 mb-3" id="resultHeading">Styled results</h2>
+
+      <div class="row">
+        <div class="col-12 col-lg-7 mb-4">
+          <div class="card shadow-sm border-0 h-100">
+            <div class="card-body p-4">
+              <h3 class="h6 text-uppercase text-muted mb-3">Copy-and-paste styles</h3>
+              <div id="results" aria-live="polite">
+                <p class="text-muted mb-0">Your styled text will appear here.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-lg-5 mb-4">
+          <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+              <h3 class="h6 text-uppercase text-muted mb-3">Bio preview</h3>
+              <div class="ig-preview" id="igPreview" aria-live="polite">
+                <div class="ig-preview__top">
+                  <div class="ig-preview__avatar" aria-hidden="true">IG</div>
+                  <div>
+                    <div class="ig-preview__handle">@your.handle</div>
+                    <div class="ig-preview__meta">Instagram preview</div>
+                  </div>
+                </div>
+                <p class="ig-preview__bio mb-0" id="igPreviewText">Your styled text will appear here.</p>
+              </div>
+              <p class="small text-muted mb-0 mt-2">
+                A rough mock of how the selected style reads in a profile bio. Paste the real thing
+                into the app to check it on your device.
+              </p>
+            </div>
+          </div>
+          <div class="card shadow-sm border-0 mb-4">
+            <div class="card-body p-4">
+              <h3 class="h6 text-uppercase text-muted mb-3">Style coverage chart</h3>
+              <canvas id="coverageChart" width="480" height="220" role="img"
+                      aria-label="Bar chart showing how much of your text each font style can convert"></canvas>
+              <p class="small text-muted mb-0 mt-2">
+                Bars show the share of characters each style converts. Latin letters and digits convert
+                almost fully; symbols outside a style's range are left unchanged.
+              </p>
+            </div>
+          </div>
+          <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+              <h3 class="h6 text-uppercase text-muted mb-3">Output stats</h3>
+              <ul class="list-unstyled small mb-0" id="statsList">
+                <li class="d-flex justify-content-between border-bottom py-1"><span>Styles generated</span><strong id="statStyles">0</strong></li>
+                <li class="d-flex justify-content-between border-bottom py-1"><span>Characters styled</span><strong id="statChars">0</strong></li>
+                <li class="d-flex justify-content-between border-bottom py-1"><span>Best coverage</span><strong id="statBest">—</strong></li>
+                <li class="d-flex justify-content-between py-1"><span>Bio limit</span><strong>150</strong></li>
+              </ul>
+              <div id="captionResult" class="small mt-3 d-none" aria-live="polite"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="article mb-5">
+      <h2 class="h4 mt-2">What an Instagram font generator really does</h2>
+      <p>
+        Instagram does not give you a font menu. There is no setting that turns your bio cursive and
+        no sticker that changes the typeface of a caption. What an Instagram font generator does is
+        swap the ordinary letters you type for visually similar Unicode characters that already look
+        bold, italic, cursive or gothic. The app renders what looks like fancy typography, but the
+        text underneath is still plain characters — the same kind you can copy, paste, search and
+        delete.
+      </p>
+      <p>
+        This is why a styled bio survives everywhere. Unicode is a shared standard, so a character
+        that looks like a cursive "a" is that cursive "a" on iPhone, Android and the web alike.
+        When you generate fancy fonts for Instagram here, you are not changing the app's typeface;
+        you are choosing different characters that happen to carry a different look.
+      </p>
+
+      <h2 class="h4">How to use this tool</h2>
+      <p>
+        Type or paste your words into the box at the top. As you type, the generator rewrites your
+        text into every style in the library and shows each version in a card with its own copy
+        button. Pick the one you like, tap copy, then paste it into your Instagram bio, caption,
+        comment or a story text overlay. The character counter keeps you honest about length, and
+        the filter menu trims the gallery to a single family when you already know the look you are
+        after.
+      </p>
+      <p>
+        Click any style card to preview it inside the mock profile card on the right. That quick
+        preview shows how the text reads at bio size, which is where most styling decisions are
+        actually made. If you are checking a long caption rather than a short bio, the caption
+        checker below tells you instantly whether your text fits Instagram's 2,200-character limit.
+        Everything happens locally in your browser, so nothing you type is sent to a server.
+      </p>
+
+      <h2 class="h4">Where fancy fonts help on Instagram</h2>
+      <p>
+        Styled text is not just decoration. A cursive display name or bio line gives a personal
+        brand a softer, more editorial signature. Bold letters make a call to action — a link, a
+        giveaway rule, a shop name — stand out in a caption where the eye otherwise skips. Circled
+        letters work well for numbered steps, small labels or a bullet marker at the start of a
+        carousel slide. Gothic and decorative styles suit music accounts, tattoo artists and anyone
+        leaning into a specific aesthetic.
+      </p>
+      <p>
+        Used sparingly, a single styled element can lift a whole grid. Used everywhere, it starts to
+        look like noise. The safest pattern is one styled accent — your name, or a heading — and
+        plain text for the body of your caption.
+      </p>
+
+      <h2 class="h4">Pro tips for clean styled text on Instagram</h2>
+      <p>
+        Keep it short. A whole paragraph of bold text is hard to read and can read as shouting.
+        Check your bio in the app after you paste, because some styles render slightly wider than
+        others and a line that looked tidy in the box may wrap onto a second row. Prefer styles that
+        keep letters close to their normal shape when you want the text to stay easy to scan, and
+        reserve the more decorative families for headings and labels.
+      </p>
+      <p>
+        Accessibility matters too. Screen readers announce some decorative characters by their
+        Unicode name, which can sound strange. If a caption carries a real message, write the
+        message in plain text and use styled characters only for emphasis.
+      </p>
+
+      <h2 class="h4">Common mistakes to avoid</h2>
+      <p>
+        The most common mistake is over-styling. A bio where every word is a different font reads as
+        a gimmick, and a caption set entirely in bold can be flagged as promotional. Another is
+        pasting styled text into fields that expect plain input — a link you want people to tap, or
+        a hashtag you want to be discoverable. Styled hashtags usually stop working because the
+        underlying characters no longer match the plain word, so keep hashtags, mentions and
+        location tags in normal letters.
+      </p>
+      <p>
+        It also helps to test before you commit. Paste your styled bio into a draft, look at it on a
+        phone, then delete the draft. A few seconds of checking saves you from a name that wraps
+        onto a second line or a character that renders as a blank box on an older device.
+      </p>
+
+      <h2 class="h4">Frequently asked questions</h2>
+      <h3 class="h6 mt-3">Do these fonts work on Instagram?</h3>
+      <p>
+        Yes. Instagram accepts Unicode text in bios, captions, comments and story text, so any style
+        this generator produces can be copied and pasted directly. No plugin or app install is
+        required.
+      </p>
+      <h3 class="h6 mt-3">Is styled text searchable on Instagram?</h3>
+      <p>
+        Styled letters are different characters from the plain ones, so a styled word usually will
+        not match a normal search for it. Keep hashtags, mentions and keywords in plain text if you
+        want people to find them.
+      </p>
+      <h3 class="h6 mt-3">Will fancy fonts break my Instagram username?</h3>
+      <p>
+        Usernames are fixed and cannot be changed to styled characters, but your display name and
+        bio can. Style the name, leave the username plain, and your mentions and links keep working.
+      </p>
+      <h3 class="h6 mt-3">Does this tool store what I type?</h3>
+      <p>
+        No. The conversion runs entirely in your browser with JavaScript. Nothing is uploaded,
+        logged or saved.
+      </p>
+
+      <h2 class="h4">About the author</h2>
+      <p>
+        This tool is maintained by the A Free Tools editorial team, a small group of web developers
+        and writers who build free browser utilities and explain how they work. We test every
+        generator on desktop and mobile, keep an eye on how styled characters behave across
+        platforms, and update the library as new Unicode blocks become widely supported.
+      </p>
+
+      <p class="text-muted small">Last updated: 11 November 2026</p>
+
+      <p class="text-muted small mb-0">
+        <strong>Disclaimer:</strong> This Instagram font generator is provided for entertainment
+        and convenience. Unicode font styles are not affiliated with, endorsed by, or connected to
+        Instagram or Meta Platforms, Inc. Styled text may render differently across devices and
+        apps, and we make no guarantee about how any platform treats it. Use it responsibly and in
+        line with Instagram's terms of use.
+      </p>
+    </article>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
