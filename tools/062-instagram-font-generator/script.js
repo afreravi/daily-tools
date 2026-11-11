@@ -72,9 +72,19 @@
     Z: "\u2124"
   };
 
+  // Script small letters are not a clean block: e, g and o live outside it,
+  // so a plain offset would emit reserved codepoints.
+  var SCRIPT_LOWER_EXCEPTIONS = { e: "\u212F", g: "\u210A", o: "\u2134" };
+
   function scriptLower(ch) {
     var c = ch.charCodeAt(0);
-    if (c >= 97 && c <= 122) return String.fromCodePoint(0x1D4B6 + (c - 97));
+    if (c >= 97 && c <= 122) {
+      var l = String.fromCharCode(c);
+      if (Object.prototype.hasOwnProperty.call(SCRIPT_LOWER_EXCEPTIONS, l)) {
+        return SCRIPT_LOWER_EXCEPTIONS[l];
+      }
+      return String.fromCodePoint(0x1D4B6 + (c - 97));
+    }
     return ch;
   }
 
@@ -384,6 +394,7 @@
   function drawChart(items) {
     if (!chart || !chart.getContext) return;
     var ctx = chart.getContext("2d");
+    if (!ctx) return;
     var w = chart.width;
     var h = chart.height;
     ctx.clearRect(0, 0, w, h);
