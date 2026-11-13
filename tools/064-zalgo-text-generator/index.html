@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Zalgo Text Generator - Creepy Glitchy Text to Copy &amp; Paste</title>
+  <meta name="description" content="Free zalgo text generator that stacks Unicode marks above, through and below your words to make creepy glitchy zalgo text you can copy and paste.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Zalgo Text Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Zalgo Text Generator</h1>
+      <p class="lead text-muted mb-0">
+        Stack Unicode marks above, through and below your letters to build creepy zalgo text. Dial each
+        direction separately, watch it render live, then copy the glitchy result anywhere you like.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Build your zalgo text</h2>
+        <p class="text-muted small mb-4">
+          Everything runs inside your browser. Nothing you type is uploaded, logged or stored anywhere.
+        </p>
+
+        <form id="zalgoForm" novalidate>
+          <div class="form-group">
+            <label for="textInput">Your text</label>
+            <textarea class="form-control" id="textInput" rows="2" maxlength="120"
+                      placeholder="e.g. hello world"
+                      aria-describedby="textHelp"></textarea>
+            <div class="d-flex justify-content-between">
+              <small id="textHelp" class="form-text text-muted">Up to 120 characters. Short phrases stack most cleanly.</small>
+              <small class="form-text text-muted"><span id="charCount">0</span>/120</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="upRange">Marks above</label>
+                <input type="range" class="form-control-range" id="upRange" min="0" max="12" value="3"
+                       aria-describedby="upHelp">
+                <small id="upHelp" class="form-text text-muted">Up: <span id="upValue">3</span></small>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="midRange">Marks through</label>
+                <input type="range" class="form-control-range" id="midRange" min="0" max="12" value="1"
+                       aria-describedby="midHelp">
+                <small id="midHelp" class="form-text text-muted">Mid: <span id="midValue">1</span></small>
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="form-group">
+                <label for="downRange">Marks below</label>
+                <input type="range" class="form-control-range" id="downRange" min="0" max="12" value="3"
+                       aria-describedby="downHelp">
+                <small id="downHelp" class="form-text text-muted">Down: <span id="downValue">3</span></small>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="presetSelect">Quick presets</label>
+            <select class="form-control" id="presetSelect">
+              <option value="custom" selected>Custom (use the sliders)</option>
+              <option value="mini">Mini — barely haunted</option>
+              <option value="classic">Classic — the standard zalgo look</option>
+              <option value="above">Above only — crowned letters</option>
+              <option value="below">Below only — dripping letters</option>
+              <option value="chaos">Chaos — maximum meltdown</option>
+            </select>
+          </div>
+
+          <div class="d-flex flex-wrap align-items-center">
+            <button type="submit" class="btn btn-primary px-4 mr-2 mb-2">Generate zalgo text</button>
+            <button type="button" class="btn btn-outline-secondary px-3 mr-2 mb-2" id="randomBtn">Randomize</button>
+            <button type="button" class="btn btn-outline-secondary px-3 mb-2" id="clearBtn">Clear</button>
+          </div>
+        </form>
+
+        <div id="errorBox" class="alert alert-warning mt-3 mb-0 d-none" role="alert"></div>
+      </div>
+    </section>
+
+    <section class="mb-5" aria-labelledby="resultHeading">
+      <h2 class="h5 mb-3" id="resultHeading">Result</h2>
+      <div class="card shadow-sm border-0">
+        <div class="card-body p-4">
+          <p class="text-muted small mb-2">Paste-ready output — select it or use the copy button.</p>
+          <div id="output" class="zalgo-output mb-3" tabindex="0" aria-live="polite" aria-label="Generated zalgo text"></div>
+          <div class="d-flex flex-wrap">
+            <button type="button" class="btn btn-primary px-3 mr-2 mb-2" id="copyBtn">Copy to clipboard</button>
+            <button type="button" class="btn btn-outline-secondary px-3 mr-2 mb-2" id="downloadBtn">Download .txt</button>
+            <button type="button" class="btn btn-outline-secondary px-3 mb-2" id="rerollBtn">Re-roll marks</button>
+          </div>
+          <div class="row mt-4">
+            <div class="col-12 col-md-6">
+              <h3 class="h6 text-muted mb-2">Marks by direction</h3>
+              <canvas id="directionChart" height="180" aria-label="Bar chart of zalgo marks added by direction" role="img"></canvas>
+            </div>
+            <div class="col-12 col-md-6 mt-3 mt-md-0">
+              <h3 class="h6 text-muted mb-2">Output stats</h3>
+              <ul class="list-unstyled small mb-0" id="stats">
+                <li>Characters in: <strong id="statIn">0</strong></li>
+                <li>Characters out: <strong id="statOut">0</strong></li>
+                <li>Marks added: <strong id="statMarks">0</strong></li>
+                <li>Marks per character: <strong id="statPerChar">0</strong></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2 class="h4 mt-2">What zalgo text actually is</h2>
+      <p>
+        Zalgo text is ordinary text that has been buried under a pile of Unicode combining marks. Each
+        letter in your sentence stays exactly where it is, but small invisible accents get stacked on
+        top of it, pushed through its middle and trailed underneath it. When a font tries to render all
+        of those marks at once, the letters appear to bleed, smear and shiver down the page. The result
+        is the creepy, glitched look that people call zalgo, and it is one of the oldest and best known
+        forms of decorative glitch text on the internet.
+      </p>
+      <p>
+        The important part is that nothing is broken. Zalgo text is still real text made of standard
+        Unicode characters, so it copies, pastes and searches like any other message. This zalgo text
+        generator lets you control the three directions independently, so you can build anything from a
+        faint haunting to a full meltdown, all inside your browser.
+      </p>
+
+      <h2 class="h4">How to use this generator</h2>
+      <ol>
+        <li>Type or paste your text. Short phrases stack the cleanest; a whole paragraph turns to mush.</li>
+        <li>Set the three sliders — marks above, marks through and marks below — to shape the effect.</li>
+        <li>Or pick a quick preset: mini, classic, above only, below only, or chaos.</li>
+        <li>Press <em>Generate zalgo text</em> and the result renders live in the output panel.</li>
+        <li>Copy the text or download it as a .txt file, then paste it where you need it.</li>
+      </ol>
+      <p>
+        <em>Randomize</em> rolls a fresh set of directions for you, and <em>Re-roll marks</em> keeps your
+        text and settings but reshuffles which marks land on which letter — handy when you like the
+        shape of a word but want a slightly different texture.
+      </p>
+
+      <h2 class="h4">Above, through and below: the three directions</h2>
+      <p>
+        Zalgo is not one single effect; it is three layers that you can mix. Marks placed <strong>above</strong>
+        a letter look like a crown or a set of antlers, and they raise the top of the line. Marks pushed
+        <strong>through</strong> the middle cut across the glyph like static or a slash, which reads as
+        broken or corrupted. Marks hung <strong>below</strong> the letter look like drips, roots or a
+        melting shadow. Classic zalgo uses all three, while "above only" and "below only" give you a
+        cleaner, more deliberate look that survives better in small profile fields.
+      </p>
+      <p>
+        Because you control each layer separately, you can tune the effect to the space you have. A
+        username usually wants just a few above marks, while a Halloween poster can take a full chaos
+        stack without breaking anything.
+      </p>
+
+      <h2 class="h4">Where people use zalgo text</h2>
+      <p>
+        Zalgo shows up everywhere a little unease is useful. Gamers put it in usernames and clan tags so
+        they stand out in a crowded lobby. Social profiles use it in bios and captions to build a creepy
+        or cyberpunk mood. Writers and roleplayers use it to represent a corrupted message, a possessed
+        character or a machine that is failing. Streamers and video editors use it for thumbnails and
+        overlays where a shivering title sets the tone before anyone reads a word.
+      </p>
+      <p>
+        It is also a favourite for Halloween invites, horror zines, Discord nicknames and sticker or
+        shirt designs, because the look is instantly recognisable and needs no image editing at all.
+      </p>
+
+      <h2 class="h4">Pro tips for readable zalgo</h2>
+      <ul>
+        <li><strong>Keep it short.</strong> Two to five words reads as cursed; a paragraph just reads as noise.</li>
+        <li><strong>Lean on one direction.</strong> Above-only or below-only stays legible far longer than a full three-way stack.</li>
+        <li><strong>Test the exact field.</strong> Paste the result into the bio, username or form you plan to use — some apps trim combining marks.</li>
+        <li><strong>Protect the important word.</strong> If people must read a word, curse the edges of the phrase and leave that word plain.</li>
+      </ul>
+
+      <h2 class="h4">Common mistakes to avoid</h2>
+      <p>
+        The most common mistake is going straight to maximum marks. A letter carrying dozens of marks can
+        stretch the line height and shove the rest of a layout around, so a profile that looked tidy on
+        one phone can look broken on another. Another trap is assuming every platform accepts the
+        output — several social networks, usernames and form fields quietly reject or strip combining
+        characters. Finally, remember that zalgo text is not reliably screen-reader friendly. If
+        accessibility matters, keep the corrupted version decorative and put the real message in plain
+        text beside it.
+      </p>
+
+      <h2 class="h4">Frequently asked questions</h2>
+      <h3 class="h6 mt-3">Is zalgo the same as glitch text?</h3>
+      <p>
+        Zalgo is the classic, best-known style of glitch text. "Glitch text" is the wider umbrella that
+        also covers static, flicker and fade looks. If you want zalgo specifically, this is the tool.
+      </p>
+      <h3 class="h6 mt-3">Will zalgo text show up on every device?</h3>
+      <p>
+        It works anywhere the platform renders combining Unicode marks. Fonts and apps differ, so the
+        exact stacking can shift a little between phones, browsers and operating systems.
+      </p>
+      <h3 class="h6 mt-3">Can I use zalgo text in an Instagram bio or a Discord name?</h3>
+      <p>
+        Often yes, but keep the mark counts low. Heavy stacking can be trimmed or blocked by some
+        platforms, so always test with a short sample before you save it.
+      </p>
+      <h3 class="h6 mt-3">Does this tool store what I type?</h3>
+      <p>
+        No. Every mark is generated in your browser. Nothing you enter is sent to a server, logged or
+        saved anywhere.
+      </p>
+
+      <h2 class="h4">About the author</h2>
+      <p class="text-muted small mb-1">
+        Written by the A Free Tools editorial team — a small group of web developers and designers who
+        build free, no-signup browser utilities and test each one by hand before it ships. We focus on
+        tools that run entirely on your device, explain their Unicode behaviour honestly, and stay
+        usable for everyone.
+      </p>
+      <p class="text-muted small">Last updated: 13 November 2026</p>
+
+      <div class="alert alert-light border mt-4 mb-0" role="note">
+        <strong>Disclaimer:</strong> This zalgo text generator is provided for entertainment and
+        creative use. Some platforms limit or strip combining Unicode characters, so results may vary
+        by app and device. Always follow the terms of the site where you post the output.
+      </div>
+    </article>
+
+    <footer class="text-center text-muted small mt-5">
+      <p class="mb-0">Built as part of <a href="/">Daily Tools</a> — a new free utility every day.</p>
+    </footer>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
