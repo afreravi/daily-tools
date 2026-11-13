@@ -65,8 +65,10 @@
 [done] Glitch text generator
 [done] Twitter (x) fonts generator
 [done] Instagram Font Generator
-Cursed text generator
+[done] Cursed text generator
 [done] Zalgo text generator
+[done] Cursed text generator
+Zalgo text generator 
 Cool fonts generator 
 Creepy text generator
 Italics text generator

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cursed Text Generator - Copy &amp; Paste Creepy Corrupted Text</title>
+  <meta name="description" content="Cursed text generator turns plain words into creepy, corrupted Unicode text you can copy and paste. Pick a curse level, preview it live and share it anywhere.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cursed Text Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Cursed Text Generator</h1>
+      <p class="lead text-muted mb-0">
+        Type a word, choose a curse, and watch it rot. This generator wraps every character in
+        stacked combining marks to produce creepy, cursed Unicode text you can copy and paste into
+        bios, comments, captions and late-night group chats.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Cast the curse</h2>
+        <p class="text-muted small mb-4">
+          Everything happens in your browser. Nothing you type is uploaded, logged or stored.
+        </p>
+
+        <form id="curseForm" novalidate>
+          <div class="form-group">
+            <label for="textInput">Text to curse</label>
+            <input type="text" class="form-control form-control-lg" id="textInput" maxlength="120"
+                   placeholder="e.g. help me" aria-describedby="textHelp" autocomplete="off">
+            <div class="d-flex justify-content-between">
+              <small id="textHelp" class="form-text text-muted">Up to 120 characters. Shorter words survive the curse best.</small>
+              <small class="form-text text-muted"><span id="charCount">0</span>/120</small>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="styleSelect">Curse style</label>
+            <select class="form-control" id="styleSelect">
+              <option value="cursed">Cursed — heavy marks above and below</option>
+              <option value="haunted">Haunted — marks mostly below the letters</option>
+              <option value="static">Static — buzzing marks through the middle</option>
+              <option value="decay">Decay — marks above only, thinning out</option>
+              <option value="void">Void — sparse marks, gaps of silence</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-4">
+            <label for="intensity">Curse level <span class="badge badge-pill" id="levelBadge">4 / 10</span></label>
+            <input type="range" class="form-control-range" id="intensity" min="1" max="10" value="4"
+                   aria-describedby="intensityHelp">
+            <small id="intensityHelp" class="form-text text-muted">
+              Higher levels stack more marks on each character. Level 10 is deliberately unreadable.
+            </small>
+          </div>
+
+          <div class="d-flex flex-wrap mb-2">
+            <button type="submit" class="btn btn-primary px-4 mr-2 mb-2" id="curseBtn">Curse my text</button>
+            <button type="button" class="btn btn-outline-secondary px-4 mr-2 mb-2" id="rerollBtn">Re-roll marks</button>
+            <button type="button" class="btn btn-link mb-2 px-0" id="resetBtn">Reset</button>
+          </div>
+
+          <div class="alert alert-danger py-2 px-3 mb-0 d-none" id="errorBox" role="alert" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="mb-5 d-none" id="resultWrap" aria-live="polite">
+      <div class="row">
+        <div class="col-12 col-lg-7 mb-4">
+          <div class="card shadow-sm border-0 h-100" id="outputCard">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="h5 mb-0">Your cursed text</h2>
+                <span class="badge curse-badge" id="styleBadge">Cursed</span>
+              </div>
+              <div class="cursed-preview" id="output" tabindex="0" aria-label="Cursed text output"></div>
+              <div class="mt-3">
+                <button type="button" class="btn btn-primary btn-sm px-3 mr-2" id="copyBtn">Copy text</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm px-3" id="downloadBtn">Download .txt</button>
+                <span class="text-muted small ml-2" id="copyStatus" role="status"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-lg-5 mb-4">
+          <div class="card shadow-sm border-0 h-100">
+            <div class="card-body">
+              <h2 class="h5 mb-3">Curse report</h2>
+              <dl class="row mb-3 small curse-stats">
+                <dt class="col-7">Characters cursed</dt><dd class="col-5 text-right" id="statChars">0</dd>
+                <dt class="col-7">Marks stacked</dt><dd class="col-5 text-right" id="statMarks">0</dd>
+                <dt class="col-7">Average marks per character</dt><dd class="col-5 text-right" id="statAvg">0.0</dd>
+                <dt class="col-7">Rendered output length</dt><dd class="col-5 text-right" id="statOut">0</dd>
+                <dt class="col-7">Message survives at</dt><dd class="col-5 text-right" id="statRead">—</dd>
+              </dl>
+              <h3 class="h6 mb-2">Marks per character</h3>
+              <div class="chart" id="chart" role="img" aria-label="Bar chart of marks added per character"></div>
+              <p class="text-muted small mb-0 mt-2">
+                Bars are capped at 24 marks so one heavy character cannot flatten the rest.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="content">
+      <h2 class="h4">What cursed text actually is</h2>
+      <p>
+        Cursed text is ordinary writing with combining Unicode marks attached to each character.
+        Unicode reserves a large block of "combining diacritical marks" — the same building blocks
+        used to put accents on letters — and those marks are designed to sit on top of, below, or
+        straight through whatever character comes before them. Stack enough of them and a friendly
+        word turns into something that looks like it crawled out of a corrupted file.
+      </p>
+      <p>
+        There is nothing hidden or dangerous in the output. It is plain text made of standard
+        Unicode code points, so it copies and pastes like any other message. The effect comes purely
+        from volume: a single letter carrying forty stacked marks is tall enough to push the line
+        height of an entire message around it.
+      </p>
+
+      <h2 class="h4">How this cursed text generator works</h2>
+      <p>
+        Type a phrase, pick a curse style and set the curse level. The generator walks through your
+        text one character at a time and decides how many marks that character receives. The curse
+        level sets the ceiling; a little randomness decides the exact number so the result looks
+        organic instead of mechanical. The five styles simply bias where the marks land:
+      </p>
+      <ul>
+        <li><strong>Cursed</strong> — marks above and below in equal measure, the classic heavy look.</li>
+        <li><strong>Haunted</strong> — most marks hang below the baseline, like the text is dripping.</li>
+        <li><strong>Static</strong> — marks slice through the middle of the letters for a noisy, buzzing feel.</li>
+        <li><strong>Decay</strong> — marks sit above only and thin out toward the end of the line.</li>
+        <li><strong>Void</strong> — sparse marks with occasional untouched characters, leaving gaps of silence.</li>
+      </ul>
+      <p>
+        Press <em>Re-roll marks</em> to regenerate the same word with a fresh random layout. Nothing
+        leaves your device — the whole generator is a small script running in the page.
+      </p>
+
+      <h2 class="h4">Where people use cursed text</h2>
+      <p>
+        The most common use is a reaction. A single cursed word dropped into a group chat lands
+        harder than a paragraph, especially when everyone else is typing normally. Beyond that,
+        creators use it for horror-themed posts, Halloween captions, haunted-house signage, indie
+        game promotions and roleplay handles where a normal font would break the mood. Musicians and
+        streamers use it for track titles and channel art. Writers use it to visualise a character
+        losing their grip on language.
+      </p>
+      <p>
+        It also has quieter uses. Some people curse a word so a spoiler is unreadable at a glance.
+        Others use a lightly cursed line as a divider between sections of a long post. Used once, it
+        is a punchline. Used everywhere, it becomes noise.
+      </p>
+
+      <h2 class="h4">Pro tips for creepy text that still works</h2>
+      <p>
+        Keep it short. Two or three cursed words read as intentional; a cursed paragraph reads as a
+        mistake. Level 3 or 4 usually lands better than level 10, because the reader can still
+        decode the word while noticing something is wrong — that gap between readable and wrong is
+        where the creepy feeling lives. If you want maximum dread, curse the last word of a sentence
+        and leave the rest clean.
+      </p>
+      <p>
+        Test before you post. Long cursed strings can overflow a caption box, wrap onto extra lines
+        or shove the send button off screen on a phone. If the platform has a character limit,
+        remember that every stacked mark counts toward it even though it adds no visible width.
+      </p>
+
+      <h2 class="h4">Common mistakes to avoid</h2>
+      <p>
+        The first mistake is using cursed text for anything that must be searchable or tappable.
+        Hashtags, usernames, links and mentions stop working once the letters are no longer the
+        plain characters the platform expects. The second is assuming it renders the same
+        everywhere. Different operating systems, fonts and apps support different numbers of
+        combining marks; a phrase that looks perfectly cursed on one phone can look almost normal,
+        or collapse into a single dense blob, on another.
+      </p>
+      <p>
+        The third mistake is forgetting accessibility. Screen readers may try to announce every
+        combining mark, which turns a short phrase into a long, unpleasant stream of noise. If a
+        message carries real information, write it plainly and keep the cursed version as
+        decoration.
+      </p>
+
+      <h2 class="h4">Frequently asked questions</h2>
+      <h3 class="h6 mt-3">Is cursed text safe to copy and paste?</h3>
+      <p>
+        Yes. Cursed text is standard Unicode, not code. Pasting it into a message, a caption or a
+        document cannot run anything or damage your device.
+      </p>
+      <h3 class="h6 mt-3">Why does my cursed text look different on another device?</h3>
+      <p>
+        Each device has its own font and its own limit on how many combining marks it will stack
+        before it stops rendering them. A phrase that looks dramatic on one screen may look milder —
+        or heavier — on another.
+      </p>
+      <h3 class="h6 mt-3">Will cursed text break my post or caption?</h3>
+      <p>
+        It will not break the platform, but tall stacks can stretch line height and push the layout
+        around. Keep cursed words short and avoid them in fields with strict formatting.
+      </p>
+      <h3 class="h6 mt-3">Does this tool save or upload my text?</h3>
+      <p>
+        No. The conversion runs entirely in your browser with JavaScript. Nothing is uploaded,
+        logged or stored, and refreshing the page clears everything.
+      </p>
+
+      <h2 class="h4">About the author</h2>
+      <p>
+        This cursed text generator is maintained by the A Free Tools editorial team — a small group
+        of web developers and writers who build free browser utilities and explain how they work.
+        We test each generator across desktop and mobile browsers, keep track of how combining
+        characters behave on major platforms, and revise the library as Unicode support changes.
+      </p>
+
+      <p class="text-muted small">Last updated: 12 November 2026</p>
+
+      <p class="text-muted small mb-0">
+        <strong>Disclaimer:</strong> This cursed text generator is provided for entertainment and
+        convenience. Cursed and corrupted text styles are not affiliated with, endorsed by, or
+        connected to any social platform. Heavily marked text may render differently across devices
+        and apps, and we make no guarantee about how any platform treats it. Use it responsibly.
+      </p>
+    </article>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
