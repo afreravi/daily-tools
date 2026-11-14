@@ -6,15 +6,15 @@
   var DIGITS = "0123456789";
 
   function seq(start, len) {
-    var out = "";
-    for (var i = 0; i < len; i++) out += String.fromCodePoint(start + i);
+    var out = [];
+    for (var i = 0; i < len; i++) out.push(String.fromCodePoint(start + i));
     return out;
   }
 
-  function setChar(str, index, ch) {
-    var arr = str.split("");
-    arr[index] = ch;
-    return arr.join("");
+  function setChar(arr, index, ch) {
+    var copy = arr.slice();
+    copy[index] = ch;
+    return copy;
   }
 
   function buildMap(upper, lower, digits, extra) {
@@ -76,16 +76,16 @@
     return applyMap(map, text);
   }
 
-  var SMALL_CAPS_LOWER = "\u1D00\u0299\u1D04\u1D05\u1D07\uA730\u0262\u029C\u026A\u1D0A\u1D0B\u029F\u1D0D\u0274\u1D0F\u1D18q\u0280\uA731\u1D1B\u1D1C\u1D20\u1D21x\u028F\u1D22";
-  var SMALL_CAPS_UPPER = "\u1D00\u0299\u1D04\u1D05\u1D07\uA730\u0262\u029C\u026A\u1D0A\u1D0B\u029F\u1D0D\u0274\u1D0F\u1D18Q\u0280\uA731\u1D1B\u1D1C\u1D20\u1D21X\u028F\u1D22";
+  var SMALL_CAPS_LOWER = ["\u1D00", "\u0299", "\u1D04", "\u1D05", "\u1D07", "\uA730", "\u0262", "\u029C", "\u026A", "\u1D0A", "\u1D0B", "\u029F", "\u1D0D", "\u0274", "\u1D0F", "\u1D18", "q", "\u0280", "\uA731", "\u1D1B", "\u1D1C", "\u1D20", "\u1D21", "x", "\u028F", "\u1D22"];
+  var SMALL_CAPS_UPPER = ["\u1D00", "\u0299", "\u1D04", "\u1D05", "\u1D07", "\uA730", "\u0262", "\u029C", "\u026A", "\u1D0A", "\u1D0B", "\u029F", "\u1D0D", "\u0274", "\u1D0F", "\u1D18", "Q", "\u0280", "\uA731", "\u1D1B", "\u1D1C", "\u1D20", "\u1D21", "X", "\u028F", "\u1D22"];
 
-  var SUPER_LOWER = "\u1D43\u1D47\u1D9C\u1D48\u1D49\u1DA0\u1D4D\u02B0\u2071\u02B2\u1D4F\u02E1\u1D50\u207F\u1D52\u1D56\u0071\u02B3\u02E2\u1D57\u1D58\u1D5B\u02B7\u02E3\u02B8\u1DBB";
-  var SUPER_UPPER = "\u1D2C\u1D2E\u1D9C\u1D30\u1D31\u1DA0\u1D33\u1D34\u1D35\u1D36\u1D37\u1D38\u1D39\u1D3A\u1D3C\u1D3E\u1D3F\u1D3F\u1D40\u1D41\u2C7D\u1D42\u02B7\u02E3\u1D3A\u1D22";
-  var SUPER_DIGITS = "\u2070\u00B9\u00B2\u00B3\u2074\u2075\u2076\u2077\u2078\u2079";
+  var SUPER_LOWER = ["\u1D43", "\u1D47", "\u1D9C", "\u1D48", "\u1D49", "\u1DA0", "\u1D4D", "\u02B0", "\u2071", "\u02B2", "\u1D4F", "\u02E1", "\u1D50", "\u207F", "\u1D52", "\u1D56", "q", "\u02B3", "\u02E2", "\u1D57", "\u1D58", "\u1D5B", "\u02B7", "\u02E3", "\u02B8", "\u1DBB"];
+  var SUPER_UPPER = ["\u1D2C", "\u1D2E", "\u1D9C", "\u1D30", "\u1D31", "\u1DA0", "\u1D33", "\u1D34", "\u1D35", "\u1D36", "\u1D37", "\u1D38", "\u1D39", "\u1D3A", "\u1D3C", "\u1D3E", "Q", "\u1D3F", "\u02E2", "\u1D40", "\u1D41", "\u2C7D", "\u1D42", "\u02E3", "\u02B8", "\u1DBB"];
+  var SUPER_DIGITS = ["\u2070", "\u00B9", "\u00B2", "\u00B3", "\u2074", "\u2075", "\u2076", "\u2077", "\u2078", "\u2079"];
 
-  var SUB_LOWER = "\u2090b\u2091d\u2091\u2091\u2095\u1D62\u2C7C\u2096\u2097\u2098\u2099\u2092\u209A\u0071\u1D63\u209B\u209C\u1D64\u1D65\u0077\u2093\u0079\u007A";
+  var SUB_LOWER = ["\u2090", "b", "\u2091", "d", "\u2091", "f", "g", "\u2095", "\u1D62", "\u2C7C", "\u2096", "\u2097", "\u2098", "\u2099", "\u2092", "\u209A", "q", "\u1D63", "\u209B", "\u209C", "\u1D64", "\u1D65", "w", "\u2093", "y", "z"];
   var SUB_UPPER = SUB_LOWER;
-  var SUB_DIGITS = "\u2080\u2081\u2082\u2083\u2084\u2085\u2086\u2087\u2088\u2089";
+  var SUB_DIGITS = ["\u2080", "\u2081", "\u2082", "\u2083", "\u2084", "\u2085", "\u2086", "\u2087", "\u2088", "\u2089"];
 
   var NEG_CIRCLED_UPPER = seq(0x1F150, 26);
   var SQUARED_UPPER = seq(0x1F130, 26);
@@ -113,9 +113,6 @@
       setChar(setChar(setChar(setChar(setChar(seq(0x1D504, 26), 2, "\u212D"), 7, "\u210C"), 8, "\u2111"), 17, "\u211C"), 25, "\u2128"),
       seq(0x1D51E, 26)) },
     { name: "Bold Fraktur", category: "gothic", kind: "map", map: buildMap(seq(0x1D56C, 26), seq(0x1D586, 26)) },
-    { name: "Old English", category: "gothic", kind: "map", map: buildMap(
-      setChar(setChar(setChar(setChar(setChar(seq(0x1D504, 26), 2, "\u212D"), 7, "\u210C"), 8, "\u2111"), 17, "\u211C"), 25, "\u2128"),
-      seq(0x1D51E, 26)) },
 
     { name: "Circled", category: "bubble", kind: "map", map: buildMap(seq(0x24B6, 26), seq(0x24D0, 26), "\u24EA\u2460\u2461\u2462\u2463\u2464\u2465\u2466\u2467\u2468") },
     { name: "Negative Circled", category: "bubble", kind: "map", map: buildMap(NEG_CIRCLED_UPPER, NEG_CIRCLED_UPPER) },
