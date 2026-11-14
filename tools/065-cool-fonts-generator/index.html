@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cool Fonts Generator - Copy &amp; Paste Cool Text Fonts</title>
+  <meta name="description" content="Free cool fonts generator: turn plain text into 30+ copy and paste cool fonts for Instagram, Discord and bios, with a live size chart and one-click copy.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Cool Fonts Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Cool Fonts Generator</h1>
+      <p class="lead text-muted mb-0">
+        Type a word once and instantly get it back in dozens of cool text fonts you can copy and paste.
+        Filter by style, preview the width of every option, then grab the one that fits your profile.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Make cool fonts from your text</h2>
+        <p class="text-muted small mb-4">
+          Everything runs inside your browser. Nothing you type is uploaded, logged or stored anywhere.
+        </p>
+
+        <form id="fontForm" novalidate>
+          <div class="form-group mb-3">
+            <label for="textInput">Your text</label>
+            <input type="text" class="form-control form-control-lg" id="textInput"
+                   value="Cool fonts" maxlength="60" autocomplete="off"
+                   placeholder="Type a word or short phrase" aria-describedby="textHelp">
+            <small id="textHelp" class="form-text text-muted">
+              Up to 60 characters. Emoji and symbols that have no styled twin are kept as-is.
+            </small>
+            <div class="invalid-feedback" id="textError">Please type at least one letter or number.</div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group mb-3">
+                <label for="categoryFilter">Style family</label>
+                <select class="form-control" id="categoryFilter">
+                  <option value="all">All styles</option>
+                  <option value="bold">Bold &amp; heavy</option>
+                  <option value="italic">Italic &amp; script</option>
+                  <option value="gothic">Gothic &amp; fraktur</option>
+                  <option value="bubble">Bubble &amp; circled</option>
+                  <option value="wide">Wide &amp; narrow</option>
+                  <option value="decor">Decorated</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group mb-3">
+                <label for="searchFilter">Filter by name</label>
+                <input type="text" class="form-control" id="searchFilter"
+                       placeholder="e.g. bold, script, bubble" autocomplete="off">
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap align-items-center">
+            <button type="button" class="btn btn-primary mr-2 mb-2" id="generateBtn">Generate cool fonts</button>
+            <button type="button" class="btn btn-outline-secondary mr-2 mb-2" id="randomBtn">Surprise me</button>
+            <button type="reset" class="btn btn-link mb-2" id="resetBtn">Reset</button>
+          </div>
+        </form>
+
+        <div class="alert alert-danger mt-4 mb-0 d-none" id="errorBox" role="alert"></div>
+      </div>
+    </section>
+
+    <section class="mb-5" id="results" aria-live="polite" aria-labelledby="resultsHeading">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <h2 class="h5 mb-0" id="resultsHeading">Your cool fonts</h2>
+        <span class="badge badge-pill badge-brand" id="countBadge">0 styles</span>
+      </div>
+      <div class="row" id="resultsGrid"></div>
+      <div class="alert alert-light border text-center mb-0 d-none" id="emptyState" role="status">
+        Type some text above and press <strong>Generate cool fonts</strong> to see your styles.
+      </div>
+    </section>
+
+    <section class="card shadow-sm border-0 mb-5" id="chartCard" aria-labelledby="chartHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="chartHeading">Output width by style</h2>
+        <p class="text-muted small mb-4">
+          Styled characters are not all the same width. Longer bars mean the style takes more room, which
+          matters when a platform counts characters rather than pixels.
+        </p>
+        <div id="widthChart" class="width-chart" role="img"
+             aria-label="Bar chart comparing the character width of each generated font style"></div>
+        <p class="text-muted small mb-0 mt-3">
+          Longest style: <strong id="widestName">&mdash;</strong>
+          (<span id="widestCount">0</span> characters)
+        </p>
+      </div>
+    </section>
+
+    <section class="card shadow-sm border-0 mb-5" id="guideCard" aria-labelledby="guideHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-3" id="guideHeading">How to use the cool fonts generator</h2>
+        <ol class="mb-4 pl-4">
+          <li class="mb-2">Type a word, a username or a short phrase into the text box. Keep it short &mdash; around 15 to 20 characters is ideal for a profile name.</li>
+          <li class="mb-2">Narrow the list with the <strong>style family</strong> dropdown or the <strong>name filter</strong> if you already know what you want.</li>
+          <li class="mb-2">Press <strong>Generate cool fonts</strong>. Every matching style appears as a card with a copy button.</li>
+          <li class="mb-2">Check the width chart, then copy the style that fits your space and paste it into your bio, caption or chat message.</li>
+        </ol>
+      </div>
+    </section>
+
+    <article class="article" id="article">
+      <h2 class="h4 mb-3">Cool fonts that actually paste: a short guide</h2>
+
+      <p>
+        A cool fonts generator does something that looks like magic but is really just clever character
+        selection. Your keyboard only offers a few dozen keys, yet the Unicode standard defines more than
+        150,000 characters. Somewhere in that enormous list are bold letters, italic letters, gothic letters,
+        letters wrapped in circles, letters stretched wide and letters shrunk small. This tool maps each
+        character you type to those alternatives, so the word you see on screen is a completely different
+        string of characters from the one you typed.
+      </p>
+
+      <p>
+        That distinction matters more than it sounds. Because the output is made of real Unicode characters
+        rather than CSS styling, it travels. You can copy a styled name and paste it into an Instagram bio, a
+        Discord nickname, a YouTube channel title or a text message, and it keeps its appearance. No fonts to
+        install, no images to upload, no account required.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">What "cool text fonts" really are</h3>
+      <p>
+        Most of the styles people call fonts are Unicode blocks that were designed for mathematics, physics
+        and linguistics. Bold and italic letter sets came from mathematical alphanumeric symbols. Fraktur and
+        double-struck sets came from the same family. Circled letters came from enclosed alphanumerics, which
+        engineers once used for lists and diagrams. Wide letters come from the fullwidth forms that were made
+        for East Asian typography. Designers borrowed all of it and turned it into a style palette.
+      </p>
+      <p>
+        The practical upside is portability. The practical downside is coverage: some blocks contain every
+        Latin letter, and some only contain the ones mathematicians needed. When a style has no twin for a
+        character, this generator leaves that character untouched, so a stray letter may appear in the
+        original font inside an otherwise styled word.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">Where cool fonts work best</h3>
+      <ul class="mb-3">
+        <li class="mb-1"><strong>Social profiles.</strong> A styled display name stands out in a crowded comment section and takes a second to produce.</li>
+        <li class="mb-1"><strong>Chat apps.</strong> Discord and similar tools render most of these blocks without trouble, so a styled nickname or channel header reads clearly.</li>
+        <li class="mb-1"><strong>Captions and comments.</strong> A single styled word inside an otherwise normal caption draws the eye without shouting.</li>
+        <li class="mb-1"><strong>Documents and slides.</strong> Decorative headings work well when the rest of the page stays plain.</li>
+        <li class="mb-1"><strong>Games and forums.</strong> Guild names, clan tags and signatures are classic places to use decorative lettering.</li>
+      </ul>
+
+      <h3 class="h5 mt-4 mb-2">Pro tips from people who use these daily</h3>
+      <p>
+        Style one or two words, not a whole paragraph. Decorative lettering slows reading down, and a full
+        sentence in fraktur or bubble text quickly becomes work. Mix one styled word with plain text and the
+        effect stays strong. Keep profile names short: a platform that allows thirty characters may still cut
+        a name off at twenty in its mobile layout, and wide styles make that worse. Always check the width
+        chart before you commit, because a style that adds a character or two per letter can push a bio over
+        its limit. Finally, paste and re-check on the target platform rather than trusting the preview here.
+        Every app renders Unicode a little differently, and some fonts simply are not installed on every
+        device.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">Common mistakes to avoid</h3>
+      <p>
+        The most common mistake is pasting styled text into a search box. Search engines do not treat bold
+        letters and plain letters as the same thing, so a styled hashtag or username will not match the
+        original. Use cool fonts for display, and keep plain text for anything that needs to be found. The
+        second mistake is assuming every style supports every symbol. Accented letters, emoji and punctuation
+        often pass through unchanged, which is fine but worth expecting. The third is overusing a style: if
+        every message you send looks like a poster, none of them stand out. The fourth is accessibility. Screen
+        readers often read styled characters oddly, sometimes letter by letter, so keep important information
+        in plain text and treat decorative lettering as decoration.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">Frequently asked questions</h3>
+      <p class="mb-1"><strong>Are these real fonts?</strong></p>
+      <p>
+        Not exactly. They are Unicode characters that look like styled letters. Because of that they work in
+        almost any app without installing anything, but they are not typefaces you can apply to a whole page.
+      </p>
+      <p class="mb-1"><strong>Why do some characters stay plain?</strong></p>
+      <p>
+        That style has no Unicode twin for those characters. Numbers, punctuation and symbols are the usual
+        culprits, and leaving them plain keeps the text readable.
+      </p>
+      <p class="mb-1"><strong>Will a styled name hurt my reach?</strong></p>
+      <p>
+        It can. Some platforms treat styled characters as separate strings, which affects search and mentions.
+        Use decorative lettering for display names and plain text for anything people need to type.
+      </p>
+      <p class="mb-1"><strong>Can I use cool fonts in a hashtag?</strong></p>
+      <p>
+        You can, but the hashtag will be its own unique tag rather than the popular one written in plain
+        letters. Keep hashtags in plain text if you want them to be discovered.
+      </p>
+      <p class="mb-1"><strong>Is the tool free and private?</strong></p>
+      <p>
+        Yes. It runs entirely in your browser, there is no sign-up, and the text you type never leaves your
+        device.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">About the author</h3>
+      <p>
+        This tool is maintained by the A Free Tools team, a small group of web developers who build and test
+        free browser-based utilities. We work with Unicode text, accessibility and front-end performance
+        daily, and we check each generator against real browsers and screen readers before publishing it.
+        Every style listed here was verified character by character so the copy button never hands you a
+        broken string.
+      </p>
+
+      <p class="text-muted small mb-1">Last updated: November 14, 2026</p>
+      <p class="disclaimer small text-muted mb-0">
+        Disclaimer: this tool is provided for general information and entertainment purposes. Unicode support
+        varies between apps and devices, so always preview the result on the platform where you plan to use
+        it. Styled text is not searchable in the same way as plain text.
+      </p>
+    </article>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
