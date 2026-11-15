@@ -51,20 +51,10 @@
 
   var sansBoldItalic = rangeMap(0x1d63c, 0x1d656, null);
 
-  var sansItalicAlt = withOverrides(rangeMap(0x1d434, 0x1d44e, null), {
-    h: 0x210e,
-    a: 0x1d44e, b: 0x1d44f
-  });
+  var serifBoldItalic = rangeMap(0x1d468, 0x1d482, null);
 
-  /* slanted small caps - lowercase mapped to small-cap glyphs, then the whole line is italicised */
+  /* small caps, then the caller can slant the whole line */
   var smallCaps = {
-    A: "\u1D00", B: "\u0299", C: "\u1D04", D: "\u1D05", E: "\u1D07", F: "\uA730", G: "\u0262",
-    H: "\u029C", I: "\u026A", J: "\u1D0A", K: "\u1D0C", L: "\u029F", M: "\u1D0D", N: "\u0274",
-    O: "\u1D0F", P: "\u1D18", Q: "\uA7AF", R: "\u0280", S: "\uA731", T: "\u1D1B", U: "\u1D1C",
-    V: "\u1D20", W: "\u1D21", X: "\u02E3", Y: "\u028F", Z: "\u1D22"
-  };
-
-  var scriptCaps = {
     A: "\u1D00", B: "\u0299", C: "\u1D04", D: "\u1D05", E: "\u1D07", F: "\uA730", G: "\u0262",
     H: "\u029C", I: "\u026A", J: "\u1D0A", K: "\u1D0C", L: "\u029F", M: "\u1D0D", N: "\u0274",
     O: "\u1D0F", P: "\u1D18", Q: "\uA7AF", R: "\u0280", S: "\uA731", T: "\u1D1B", U: "\u1D1C",
@@ -84,15 +74,15 @@
 
   var STYLES = [
     { id: "serif-italic", name: "Serif Italic", family: "serif", map: italic },
+    { id: "serif-bold-italic", name: "Serif Bold Italic", family: "serif", map: serifBoldItalic },
     { id: "sans-italic", name: "Sans Italic", family: "sans", map: sansItalic },
     { id: "sans-bold-italic", name: "Sans Bold Italic", family: "sans", map: sansBoldItalic },
-    { id: "serif-bold-italic", name: "Serif Bold Italic", family: "serif", map: rangeMap(0x1d468, 0x1d482, null) },
     { id: "script", name: "Script", family: "script", map: script },
     { id: "bold-script", name: "Bold Script", family: "script", map: boldScript },
     { id: "slanted-caps", name: "Slanted Small Caps", family: "decorated", map: smallCaps, upperToLower: true },
+    { id: "caps-underline", name: "Small Caps Underline", family: "decorated", map: decorated(smallCaps, SLANT), upperToLower: true },
     { id: "italic-strike", name: "Italic Strikethrough", family: "decorated", map: decorated(italic, "\u0336") },
     { id: "italic-underline", name: "Italic Underline", family: "decorated", map: decorated(italic, SLANT) },
-    { id: "double-italic", name: "Double Italic Slant", family: "decorated", map: sansItalicAlt },
     { id: "italic-spaced", name: "Italic Spaced", family: "decorated", map: italic, spacer: true }
   ];
 
