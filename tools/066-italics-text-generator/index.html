@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Italics Text Generator - Copy &amp; Paste Italic Fonts Free</title>
+  <meta name="description" content="Italics text generator turns plain words into copy-and-paste italic Unicode fonts for bios, captions and notes. Preview every italic style live, then copy free.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Italics Text Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Italics Text Generator</h1>
+      <p class="lead text-muted mb-0">
+        Slant any short text into a real italic you can copy and paste. This generator turns plain
+        words into 11 italic Unicode styles &mdash; serif, sans, script and decorated &mdash; so a
+        bio, caption or note gets the emphasis of true italics without a single line of code.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Make italic text</h2>
+        <p class="text-muted small mb-4">
+          Everything runs in your browser. Your text is never uploaded, logged or stored.
+        </p>
+
+        <div class="row">
+          <div class="col-lg-6 mb-4 mb-lg-0">
+            <form id="italicForm" novalidate>
+              <div class="form-group">
+                <label for="textInput" class="font-weight-bold">Your text</label>
+                <textarea id="textInput" class="form-control" rows="3" maxlength="120"
+                  placeholder="Type a word or short line, e.g. just do it"
+                  aria-describedby="textHelp"></textarea>
+                <small id="textHelp" class="form-text text-muted">
+                  Up to 120 characters. Letters are slanted; numbers and symbols usually stay upright.
+                </small>
+              </div>
+
+              <div class="form-group mb-3">
+                <span class="d-block font-weight-bold mb-2">Try an example</span>
+                <div id="sampleChips" class="chip-row"></div>
+              </div>
+
+              <div class="form-group mb-2">
+                <label for="familySelect" class="font-weight-bold">Family</label>
+                <select id="familySelect" class="form-control">
+                  <option value="all">All italic families</option>
+                  <option value="serif">Serif italic</option>
+                  <option value="sans">Sans italic</option>
+                  <option value="script">Script italic</option>
+                  <option value="decorated">Decorated italic</option>
+                </select>
+              </div>
+
+              <div id="alertBox" class="alert alert-warning mt-3 mb-0 d-none" role="alert"></div>
+            </form>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="preview-panel h-100" aria-live="polite">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="preview-label">Live italic preview</span>
+                <span id="previewName" class="preview-tag">Serif Italic</span>
+              </div>
+              <p id="previewStrip" class="preview-strip mb-3">Start typing to see your text in italics.</p>
+              <button type="button" id="copyPreviewBtn" class="btn btn-brand btn-sm">Copy this style</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h3 class="h6 mb-0">Pick a style <span id="styleCount" class="text-muted font-weight-normal"></span></h3>
+            <button type="button" id="copyAllBtn" class="btn btn-sm btn-outline-brand">Copy all styles</button>
+          </div>
+          <div id="stylePills" class="pill-row" role="group" aria-label="Italic style"></div>
+        </div>
+
+        <div class="table-responsive mt-4">
+          <table class="table table-sm style-table mb-0">
+            <caption class="text-muted small">Every italic style, with a coverage badge and a copy button.</caption>
+            <thead>
+              <tr>
+                <th scope="col">Style</th>
+                <th scope="col">Output</th>
+                <th scope="col" class="text-center">Coverage</th>
+                <th scope="col" class="text-right">Copy</th>
+              </tr>
+            </thead>
+            <tbody id="styleRows"></tbody>
+          </table>
+        </div>
+        <p id="emptyMsg" class="text-muted mb-0 mt-3 d-none">
+          No italic style matches that family. Choose another family to see more styles.
+        </p>
+
+        <div class="chart-wrap mt-4">
+          <h3 class="h6 mb-1">Character coverage by italic style</h3>
+          <p class="text-muted small mb-3">
+            How much of your text each style can map to a true italic glyph. Full-height bars mean
+            every character is slanted; shorter bars mean a few characters stay upright.
+          </p>
+          <canvas id="coverageChart" width="900" height="300"
+            role="img" aria-label="Bar chart of character coverage per italic style"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2 class="h4">What an italics text generator really does</h2>
+      <p>
+        An italics text generator does not switch on an italic button and it does not load a font
+        file. It replaces each letter you type with a separate Unicode character that is already
+        drawn in a slanted, cursive style. The capital A can become
+        <strong>&#119860;</strong> (serif italic) or <strong>&#119912;</strong> (sans italic), and both of those
+        are real characters defined in the Unicode standard. Because they are characters rather than
+        formatting, they survive copy and paste into almost any app &mdash; Instagram bios, Discord
+        nicknames, TikTok captions, WhatsApp messages and plain text files.
+      </p>
+      <p>
+        That is the whole trick behind copy-and-paste italic fonts. There is no font installed on the
+        reader's device, so the slant travels with the text. This tool swaps the characters in your
+        browser, which is why it works instantly on a phone, a tablet or a laptop.
+      </p>
+
+      <h2 class="h4">How this italics generator works</h2>
+      <p>
+        Type your text in the box and the generator renders it in eleven italic styles at once. Pick a
+        family &mdash; serif, sans, script or decorated &mdash; to narrow the list, then use the style
+        pills to load a version into the large live preview. The comparison table below the pills
+        shows every style in one place with a coverage badge and a copy button, so you can compare
+        the look before you commit. <em>Copy this style</em> grabs the version in the preview;
+        <em>Copy all styles</em> takes the whole set in one go.
+      </p>
+      <p>
+        The coverage badge tells you how many of your characters have a true italic counterpart.
+        Letters map cleanly in every style. Numbers and most punctuation do not have italic forms in
+        Unicode, so they stay upright, which is why a styled price or date can look slightly mixed.
+        The chart at the bottom shows the same information as a bar per style, so you can spot the
+        most complete options at a glance.
+      </p>
+
+      <h2 class="h4">Italic versus oblique: the detail that matters</h2>
+      <p>
+        In typography, <em>italic</em> is a genuinely different letterform &mdash; the shapes are
+        redrawn with a calligraphic slant &mdash; while <em>oblique</em> is the same upright letters
+        mechanically slanted. Unicode only encodes the italic forms, so everything this generator
+        produces is true italic rather than a fake slant. That is why the output looks hand-drawn
+        instead of merely tilted, and why it holds up when someone zooms in on the text.
+      </p>
+
+      <h2 class="h4">Where italic text works best</h2>
+      <ul>
+        <li><strong>Social bios.</strong> A short italic name or tagline reads as elegant and stays legible at small sizes.</li>
+        <li><strong>Captions and comments.</strong> Italicising one or two words adds emphasis without shouting the way bold does.</li>
+        <li><strong>Book titles and quotes.</strong> Italics are the conventional way to set a title, so the style looks correct, not decorative.</li>
+        <li><strong>Discord and gaming tags.</strong> Sans italic stays readable in small name labels and channel lists.</li>
+        <li><strong>Notes and lists.</strong> Copy an italic heading into a notes app when you want emphasis that survives plain-text export.</li>
+      </ul>
+
+      <h2 class="h4">Pro tips for clean italic text</h2>
+      <p>
+        Keep it short. Italic is an emphasis tool, and a full paragraph of slanted characters is
+        harder to read than the same words upright. Match the family to the job: serif italic suits
+        formal or literary text, sans italic suits modern and casual profiles, and script italic suits
+        invitations and greetings. If your text includes numbers, check the coverage badge first &mdash;
+        a style that maps every character will look more consistent than one that leaves the digits
+        upright.
+      </p>
+
+      <h2 class="h4">Common mistakes to avoid</h2>
+      <p>
+        The biggest mistake is trusting styled text with essential information. Screen readers may
+        announce Unicode italic letters as their base character or skip them, so never put a price, an
+        address or a legal name only in an italic font. The second mistake is overusing it: italic
+        everywhere removes the emphasis that makes italic useful in the first place. Finally, some
+        platforms strip unusual characters from usernames, so test the result before you rely on it,
+        and always keep a plain-text version of anything important.
+      </p>
+
+      <h2 class="h4">Frequently asked questions</h2>
+      <p><strong>How do I type in italics without a keyboard shortcut?</strong> Type your text here,
+        copy the italic version and paste it wherever you need it. No software or font install is
+        required.</p>
+      <p><strong>Does italic text work on Instagram and TikTok?</strong> Usually yes, as long as the
+        field accepts the characters. Test it on your own profile before publishing.</p>
+      <p><strong>Why do my numbers stay upright?</strong> Unicode has no italic digits, so numbers
+        and most punctuation keep their normal shape while the letters slant.</p>
+      <p><strong>Is italic the same as oblique?</strong> No. Italic letters are redrawn with a
+        calligraphic slant; oblique letters are the upright shapes tilted. Unicode only encodes the
+        italic forms.</p>
+      <p><strong>Is my text stored anywhere?</strong> No. The conversion happens entirely in your
+        browser and nothing is sent to a server.</p>
+
+      <h2 class="h4">About the author</h2>
+      <p>
+        This italics text generator is maintained by the A Free Tools editorial team &mdash; a small
+        group of web developers and writers who build free browser utilities and explain how they
+        work. We test each tool on desktop and mobile and keep the Unicode mappings current with the
+        latest standard.
+      </p>
+      <p class="text-muted small">Last updated: 15 November 2026</p>
+
+      <p class="text-muted small mb-0">
+        <strong>Disclaimer:</strong> This italics text generator is provided for general and
+        entertainment use. Unicode support varies by platform and app, so always preview italic text
+        before publishing it, and never use styled characters where plain, accessible text is
+        required.
+      </p>
+    </article>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
