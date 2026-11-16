@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Creepy Text Generator - Copy &amp; Paste Horror Fonts</title>
+  <meta name="description" content="Creepy text generator turns plain words into horror-ready copy-paste text with shadow marks, gothic letters and blood accents. Stack effects and copy free.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Creepy Text Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Creepy Text Generator</h1>
+      <p class="lead text-muted mb-0">
+        Type a normal sentence and layer on the dread. This creepy text generator stacks shadow marks,
+        gothic letters, whisper spacing, mirror flips and blood accents &mdash; one effect at a time or all
+        at once &mdash; so you can copy and paste text that actually reads as horror.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Build your creepy text</h2>
+        <p class="text-muted small mb-4">
+          Everything runs in your browser. Nothing you type is uploaded, logged or stored.
+        </p>
+
+        <div class="row">
+          <div class="col-lg-6 mb-4 mb-lg-0">
+            <form id="creepyForm" novalidate>
+              <div class="form-group">
+                <label for="textInput" class="font-weight-bold">Your text</label>
+                <textarea id="textInput" class="form-control" rows="3" maxlength="140"
+                  placeholder="e.g. the house is still awake"
+                  aria-describedby="textHelp"></textarea>
+                <small id="textHelp" class="form-text text-muted">
+                  Up to 140 characters. Letters transform best; numbers and punctuation often stay put.
+                </small>
+              </div>
+
+              <div class="form-group mb-3">
+                <span class="d-block font-weight-bold mb-2">Try a phrase</span>
+                <div id="sampleChips" class="chip-row"></div>
+              </div>
+
+              <fieldset class="form-group mb-3">
+                <legend class="font-weight-bold h6 mb-2">Effect layers</legend>
+                <div id="effectList" class="effect-grid"></div>
+              </fieldset>
+
+              <div class="form-group">
+                <label for="intensity" class="font-weight-bold d-flex justify-content-between">
+                  <span>Mark intensity</span><span id="intensityValue" class="text-muted small">3 / 5</span>
+                </label>
+                <input type="range" id="intensity" class="form-control-range" min="1" max="5" step="1" value="3"
+                  aria-describedby="intensityHelp">
+                <small id="intensityHelp" class="form-text text-muted">
+                  Controls how heavy the shadow and static layers get.
+                </small>
+              </div>
+
+              <div class="form-group mb-4">
+                <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="decorToggle" checked>
+                  <label class="custom-control-label font-weight-bold" for="decorToggle">
+                    Add creepy accents (&#128123; &#128128; &#128065; &#128367;)
+                  </label>
+                </div>
+              </div>
+
+              <div class="d-flex flex-wrap gap-2">
+                <button type="submit" class="btn btn-primary mr-2 mb-2" id="generateBtn">Generate creepy text</button>
+                <button type="button" class="btn btn-outline-secondary mb-2" id="resetBtn">Reset</button>
+              </div>
+            </form>
+
+            <div id="formMessage" class="alert alert-warning mt-3 mb-0 d-none" role="alert" aria-live="polite"></div>
+          </div>
+
+          <div class="col-lg-6">
+            <div class="result-panel">
+              <h2 class="h6 text-uppercase text-muted mb-2">Haunted preview</h2>
+              <div id="preview" class="creepy-preview" aria-live="polite">
+                <span class="preview-hint">Your creepy text appears here, letter by letter.</span>
+              </div>
+
+              <div class="d-flex flex-wrap gap-2 mt-3">
+                <button type="button" class="btn btn-primary btn-sm mr-2 mb-2" id="copyBtn">Copy text</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm mr-2 mb-2" id="downloadBtn">Download .txt</button>
+              </div>
+              <div id="copyMessage" class="small text-muted mt-1" aria-live="polite"></div>
+            </div>
+
+            <div class="stat-row mt-4">
+              <div class="stat-box">
+                <span class="stat-label">Creep score</span>
+                <span class="stat-value" id="creepScore">0</span>
+                <span class="stat-unit">/ 100</span>
+              </div>
+              <div class="stat-box">
+                <span class="stat-label">Characters</span>
+                <span class="stat-value" id="charCount">0</span>
+                <span class="stat-unit">glyphs</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4">
+
+        <section aria-labelledby="chartHeading">
+          <h2 class="h6 mb-1" id="chartHeading">Creep contribution by layer</h2>
+          <p class="text-muted small mb-3">
+            Each layer adds a different kind of unease. This chart shows how much of your score comes from each one.
+          </p>
+          <div class="chart-wrap">
+            <canvas id="creepChart" width="640" height="260" role="img"
+              aria-label="Bar chart showing the creep score contributed by each active text effect"></canvas>
+          </div>
+          <p class="small text-muted mb-0" id="chartCaption">Turn on an effect to see its contribution.</p>
+        </section>
+      </div>
+    </section>
+
+    <article class="article">
+      <h2 class="h4">What makes text look creepy</h2>
+      <p>
+        Creepy text is a design trick, not a font download. Most platforms only let you pick from a short
+        list of typefaces, so people reach for Unicode instead: characters that already look wrong,
+        broken or ancient. A single well-placed mark can make a friendly sentence feel like a warning
+        scratched into a wall. That is why creepy text shows up everywhere from Halloween party invites
+        to horror-story titles, game usernames and Discord role names.
+      </p>
+      <p>
+        Three ingredients do most of the work. First, <strong>letterform</strong> &mdash; gothic or
+        blackletter shapes read as old and institutional, which is exactly the mood a haunted house
+        wants. Second, <strong>decay</strong> &mdash; stacked diacritical marks that climb above and
+        below a letter mimic something bleeding through the page. Third, <strong>rhythm</strong> &mdash;
+        whisper spacing and mirror flips break the natural flow of reading, so the eye stumbles and the
+        brain gets uneasy. This creepy text generator lets you combine all three so the result matches
+        the feeling you are after, instead of guessing at random symbols.
+      </p>
+
+      <h2 class="h4">How this creepy text generator works</h2>
+      <p>
+        The tool treats your sentence as a stack of independent layers. Each layer is a small, predictable
+        transformation applied in a fixed order, and you choose which ones are active:
+      </p>
+      <ul>
+        <li><strong>Gothic letters</strong> swap plain Latin characters for blackletter-style Unicode.</li>
+        <li><strong>Occult glyphs</strong> wrap each character in a circle, like a sigil or a wax seal.</li>
+        <li><strong>Mirror flip</strong> turns the line upside down and reads it right to left.</li>
+        <li><strong>Whisper spacing</strong> stretches letters apart with thin spaces for a stage-whisper cadence.</li>
+        <li><strong>Static noise</strong> sprinkles block characters between letters, like a dying signal.</li>
+        <li><strong>Shadow marks</strong> stack diacritics above, through and below each character.</li>
+        <li><strong>Blood accents</strong> drops a few &#128167; symbols through the text.</li>
+      </ul>
+      <p>
+        Because the layers are independent, the same sentence can be a soft, whispery ghost story or a
+        full-on demonic screed. The mark intensity slider scales the heaviest layers, so you can keep the
+        output readable when it is going into a bio or a chat message. The creep score gives you a quick
+        number to compare two versions, and the chart shows which layer is doing the heavy lifting.
+      </p>
+
+      <h2 class="h4">Where people use creepy text</h2>
+      <p>
+        Social bios and display names are the most common use: a spooky handle for October, a horror
+        fan account, or a gaming tag that stands out in a lobby. Beyond that, writers use it for chapter
+        headings, podcast episode titles and short-story titles that need an immediate chill. Event
+        organisers dress up Halloween invitations, escape-room signage and party menus. Streamers and
+        Discord moderators use it for channel names and role labels. And plenty of people simply want to
+        text a friend &ldquo;come outside&rdquo; in the most unsettling way possible &mdash; which is a
+        perfectly good reason.
+      </p>
+
+      <h2 class="h4">Pro tips for creepy text that still works</h2>
+      <ul>
+        <li><strong>Creepy works best in short bursts.</strong> A three-word phrase lands harder than a
+          paragraph, because the eye has less chance to adapt.</li>
+        <li><strong>Mix one letterform layer with one decay layer.</strong> Gothic plus shadow marks reads
+          as intentional; three letterform layers at once reads as a glitch.</li>
+        <li><strong>Mind the character budget.</strong> Shadow marks and spacing multiply your length, so a
+          20-character phrase can balloon past a 150-character bio limit. Check the character count above.</li>
+        <li><strong>Test on the target app.</strong> Some platforms strip unusual characters from
+          usernames, so preview before you commit to a handle.</li>
+        <li><strong>Keep a plain-text copy.</strong> Screen readers and search engines cannot read stacked
+          marks, so always publish an accessible version alongside the decorated one.</li>
+      </ul>
+
+      <h2 class="h4">Common mistakes to avoid</h2>
+      <p>
+        The first mistake is over-stacking. When every letter carries ten marks, the text stops being
+        creepy and starts being unreadable noise. The second is using decorated text for anything that
+        needs to be found later &mdash; usernames, file names, product titles. Unicode variants do not
+        match a plain-text search, so a decorated name can make you invisible in search results. The
+        third is forgetting that these are real characters, not styling: what you copy is what gets
+        pasted, permanently. And the fourth is accessibility. If the creepy text is the only version of a
+        message, some readers will never see the content. Decorate the headline, keep the body plain.
+      </p>
+
+      <h2 class="h4">Frequently asked questions</h2>
+      <h3 class="h6 mt-3">Is creepy text safe to copy and paste?</h3>
+      <p>
+        Yes. The output is ordinary Unicode text, so it pastes like any other characters. The only risk is
+        practical: some apps reject or strip unusual characters, and very heavy mark stacking can slow
+        rendering on older devices.
+      </p>
+      <h3 class="h6 mt-3">Will creepy text work on Instagram, Discord and TikTok?</h3>
+      <p>
+        Most of it will. Gothic, circled and fullwidth characters are widely supported. Very dense
+        mark stacks are the exception &mdash; a few apps normalise them, and some fonts render them as
+        blank boxes, so test the exact output before posting.
+      </p>
+      <h3 class="h6 mt-3">Why does my creepy text look different on another phone?</h3>
+      <p>
+        Unicode does not ship a picture with the text, only a code point. Each device picks a font that
+        contains that character, and not every font draws every mark the same way. Spacing and mark
+        placement therefore vary between Android, iOS and desktop.
+      </p>
+      <h3 class="h6 mt-3">Can I undo creepy text after pasting it?</h3>
+      <p>
+        Only by pasting the plain version back. The transformation happens before you copy, so the
+        characters themselves are changed. Keep your original sentence somewhere safe &mdash; or paste it
+        into the tool again and switch the layers off.
+      </p>
+      <h3 class="h6 mt-3">Does this tool store or upload my text?</h3>
+      <p>
+        No. Every transformation runs in your browser with JavaScript, and nothing is sent to a server.
+        You can even disconnect from the internet after the page loads and keep generating.
+      </p>
+
+      <h2 class="h4">About the author</h2>
+      <p>
+        This tool is maintained by the A Free Tools team, a small group of front-end developers and
+        writers who build single-purpose browser utilities. We have spent years shipping copy-and-paste
+        text tools and testing them across Android, iOS, Windows and macOS, because Unicode rendering is
+        exactly where most generators quietly break. Every tool on this site is hand-built, runs entirely
+        on the client and is reviewed against real device output before it ships.
+      </p>
+
+      <p class="text-muted small mb-0">Last updated: 16 November 2026</p>
+
+      <div class="disclaimer mt-4">
+        <strong>Disclaimer:</strong> This creepy text generator is provided for entertainment and
+        creative writing purposes. Output is generated locally in your browser; we make no warranty about
+        how any third-party platform renders, accepts or stores Unicode characters. Always keep a plain-text
+        copy of anything you decorate.
+      </div>
+    </article>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
