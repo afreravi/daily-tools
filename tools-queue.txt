@@ -69,7 +69,7 @@
 [done] Cursed text generator
 [done] Zalgo text generator
 Cool fonts generator 
-Creepy text generator
+[done] Creepy text generator
 [done] Italics text generator
 Facebook fonts generator
 Discord fonts generator
