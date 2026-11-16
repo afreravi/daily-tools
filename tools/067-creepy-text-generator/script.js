@@ -2,12 +2,17 @@
   'use strict';
 
   /* ---------- character maps (built from code points so the file stays plain ASCII) ---------- */
+  // Arrays, not strings: astral characters are surrogate pairs, and String#charAt would
+  // split them, so every map is indexed as an array of code points.
   function cps() {
     var out = '';
     for (var i = 0; i < arguments.length; i++) {
       out += String.fromCodePoint(arguments[i]);
     }
     return out;
+  }
+  function codePointArray(codes) {
+    return codes.map(function (c) { return String.fromCodePoint(c); });
   }
   function range(start, count) {
     var codes = [];
@@ -16,14 +21,14 @@
   }
 
   // Mathematical Fraktur (blackletter). Note the five "gap" code points.
-  var FRAKTUR_UPPER = cps(0x1D504, 0x1D505, 0x212D, 0x1D507, 0x1D508, 0x1D509, 0x1D50A, 0x210C,
-    0x2111, 0x1D50D, 0x1D50E, 0x1D50F, 0x1D510, 0x1D511, 0x1D512, 0x1D513, 0x1D514, 0x211C,
-    0x1D516, 0x1D517, 0x1D518, 0x1D519, 0x1D51A, 0x1D51B, 0x1D51C, 0x2128);
-  var FRAKTUR_LOWER = cps.apply(null, range(0x1D51E, 26));
+  var FRAKTUR_UPPER = codePointArray([0x1D504, 0x1D505, 0x212D, 0x1D507, 0x1D508, 0x1D509, 0x1D50A,
+    0x210C, 0x2111, 0x1D50D, 0x1D50E, 0x1D50F, 0x1D510, 0x1D511, 0x1D512, 0x1D513, 0x1D514,
+    0x211C, 0x1D516, 0x1D517, 0x1D518, 0x1D519, 0x1D51A, 0x1D51B, 0x1D51C, 0x2128]);
+  var FRAKTUR_LOWER = codePointArray(range(0x1D51E, 26));
 
-  var CIRCLED_UPPER = cps.apply(null, range(0x24B6, 26));
-  var CIRCLED_LOWER = cps.apply(null, range(0x24D0, 26));
-  var CIRCLED_DIGIT = cps.apply(null, range(0x2460, 9)) + cps(0x24EA);
+  var CIRCLED_UPPER = codePointArray(range(0x24B6, 26));
+  var CIRCLED_LOWER = codePointArray(range(0x24D0, 26));
+  var CIRCLED_DIGIT = codePointArray(range(0x2460, 9).concat([0x24EA]));
 
   var FLIP = {
     'a': '\u0250', 'b': 'q', 'c': '\u0254', 'd': 'p', 'e': '\u01DD', 'f': '\u025F', 'g': '\u0183',
@@ -41,12 +46,14 @@
     '&': '\u214B', '_': '\u203E', ';': '\u061B'
   };
 
-  var ABOVE = cps.apply(null, range(0x0300, 16)).concat(cps.apply(null, range(0x0311, 12))); // grave..double-grave, etc.
-  var BELOW = cps.apply(null, range(0x0316, 0x0A));
-  var THROUGH = cps(0x0334, 0x0335, 0x0336, 0x0337, 0x0338);
-  var NOISE = '\u2591\u2592\u2593';
-  var THIN = '\u2009';
+  var ABOVE = codePointArray(range(0x0300, 16).concat(range(0x0311, 12)));
+  var BELOW = codePointArray(range(0x0316, 0x0A));
+  var THROUGH = codePointArray([0x0334, 0x0335, 0x0336, 0x0337, 0x0338]);
+  var NOISE = codePointArray([0x2591, 0x2592, 0x2593]);
+  var THIN = String.fromCodePoint(0x2009);
   var BLOOD = String.fromCodePoint(0x1FA78);
+  var GHOST = String.fromCodePoint(0x1F47B);
+  var SKULL = String.fromCodePoint(0x1F480);
 
   var SAMPLES = ['come outside', 'we see you', 'the house is awake', 'do not turn around', 'it is already inside'];
 
@@ -122,7 +129,7 @@
       hint.textContent = layer.hint;
       input.addEventListener('change', function () {
         active[layer.key] = input.checked;
-        if (els.text.value.trim()) { run(false); }
+        if (els.text.value.trim()) { run(); }
         else { drawChart([]); }
       });
       wrap.appendChild(input);
@@ -140,7 +147,7 @@
       b.textContent = phrase;
       b.addEventListener('click', function () {
         els.text.value = phrase;
-        run(true);
+        run();
       });
       els.sampleChips.appendChild(b);
     });
@@ -148,28 +155,28 @@
 
   function onIntensity() {
     els.intensityValue.textContent = els.intensity.value + ' / 5';
-    if (els.text.value.trim()) { run(false); }
+    if (els.text.value.trim()) { run(); }
   }
 
   function onLiveInput() {
-    if (els.text.value.trim()) { run(false); }
+    if (els.text.value.trim()) { run(); }
   }
 
   /* ---------- transformations ---------- */
   function applyGothic(s) {
     return s.replace(/[A-Za-z]/g, function (ch) {
       var i = ch.charCodeAt(0);
-      if (i >= 65 && i <= 90) { return FRAKTUR_UPPER.charAt(i - 65); }
-      return FRAKTUR_LOWER.charAt(i - 97);
+      if (i >= 65 && i <= 90) { return FRAKTUR_UPPER[i - 65]; }
+      return FRAKTUR_LOWER[i - 97];
     });
   }
 
   function applyOccult(s) {
     return s.replace(/[A-Za-z0-9]/g, function (ch) {
       var i = ch.charCodeAt(0);
-      if (i >= 65 && i <= 90) { return CIRCLED_UPPER.charAt(i - 65); }
-      if (i >= 97 && i <= 122) { return CIRCLED_LOWER.charAt(i - 97); }
-      return CIRCLED_DIGIT.charAt(ch === '0' ? 9 : parseInt(ch, 10) - 1);
+      if (i >= 65 && i <= 90) { return CIRCLED_UPPER[i - 65]; }
+      if (i >= 97 && i <= 122) { return CIRCLED_LOWER[i - 97]; }
+      return CIRCLED_DIGIT[ch === '0' ? 9 : parseInt(ch, 10) - 1];
     });
   }
 
@@ -194,7 +201,7 @@
     for (var i = 0; i < chars.length; i++) {
       out += chars[i];
       if (chars[i] !== ' ' && (i + 1) % step === 0) {
-        out += NOISE.charAt(Math.floor(Math.random() * NOISE.length));
+        out += NOISE[Math.floor(Math.random() * NOISE.length)];
       }
     }
     return out;
@@ -207,13 +214,13 @@
       if (ch === ' ' || ch === '\n' || ch === THIN || NOISE.indexOf(ch) > -1) { return ch; }
       var extra = '';
       for (var a = 0; a < aboveN; a++) {
-        extra += ABOVE.charAt(Math.floor(Math.random() * ABOVE.length));
+        extra += ABOVE[Math.floor(Math.random() * ABOVE.length)];
       }
-      for (var t = 0; t < (intensity > 3 ? 1 : 0); t++) {
-        extra += THROUGH.charAt(Math.floor(Math.random() * THROUGH.length));
+      if (intensity > 3) {
+        extra += THROUGH[Math.floor(Math.random() * THROUGH.length)];
       }
       for (var b = 0; b < belowN; b++) {
-        extra += BELOW.charAt(Math.floor(Math.random() * BELOW.length));
+        extra += BELOW[Math.floor(Math.random() * BELOW.length)];
       }
       return ch + extra;
     }).join('');
@@ -222,11 +229,10 @@
   function applyBlood(s, intensity) {
     var chars = Array.from(s);
     var out = '';
-    var step = Math.max(3, 9 - intensity);
+    var step = Math.max(4, 12 - intensity);
     for (var i = 0; i < chars.length; i++) {
       out += chars[i];
-      if (chars[i] === ' ') { out += BLOOD; }
-      else if ((i + 1) % step === 0) { out += BLOOD; }
+      if (chars[i] === ' ' || (i + 1) % step === 0) { out += BLOOD; }
     }
     return out;
   }
@@ -288,7 +294,7 @@
     }
   }
 
-  function run(fromChip) {
+  function run() {
     var raw = els.text.value;
     if (!raw.trim()) {
       showMessage('Type a few words first \u2014 even a short phrase works better than nothing.');
@@ -308,15 +314,13 @@
     var letters = (raw.match(/[A-Za-z]/g) || []).length;
     var intensity = parseInt(els.intensity.value, 10) || 3;
     var output = transform(raw, intensity);
-    if (els.decor.checked) { output = String.fromCodePoint(0x1F47B) + ' ' + output + ' ' + String.fromCodePoint(0x1F480); }
+    if (els.decor.checked) { output = GHOST + ' ' + output + ' ' + SKULL; }
 
     var list = contributions(intensity, Array.from(output).length);
     render(output, scoreFrom(list), list);
 
     if (letters === 0) {
       showMessage('Heads up: there are no letters here, so letterform layers (gothic, occult, mirror) have little to work on.');
-    } else if (fromChip) {
-      showMessage('');
     } else {
       showMessage('');
     }
@@ -324,7 +328,7 @@
 
   function onSubmit(e) {
     e.preventDefault();
-    run(false);
+    run();
   }
 
   function onReset() {
