@@ -68,7 +68,7 @@
 [done] Zalgo text generator
 [done] Cursed text generator
 [done] Zalgo text generator
-Cool fonts generator 
+[done] Cool fonts generator 
 [done] Creepy text generator
 [done] Italics text generator
 Facebook fonts generator
