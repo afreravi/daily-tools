@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Facebook Fonts Generator - Copy &amp; Paste Stylish Fonts for FB</title>
+  <meta name="description" content="Facebook fonts generator converts plain text into bold, italic, script, bubble and gothic Unicode fonts you can copy and paste into your Facebook name, bio and posts.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Facebook Fonts Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Facebook Fonts Generator</h1>
+      <p class="lead text-muted mb-0">
+        Turn an ordinary caption, page name or profile line into styled text you can paste straight
+        into Facebook. Type once, then copy the font style that fits your post, comment or Page bio.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Your text</h2>
+        <p class="text-muted small mb-4">
+          Everything runs inside your browser. Nothing you type is uploaded, logged or stored anywhere.
+        </p>
+
+        <form id="fontForm" novalidate>
+          <div class="form-group mb-3">
+            <label for="textInput">Enter the text you want to style</label>
+            <input type="text" class="form-control form-control-lg" id="textInput"
+                   maxlength="120" autocomplete="off" spellcheck="false"
+                   placeholder="e.g. Our Summer Sale starts today" aria-describedby="textHelp">
+            <div class="d-flex justify-content-between">
+              <small id="textHelp" class="form-text text-muted">Up to 120 characters. Emoji and spaces are kept.</small>
+              <small class="form-text text-muted"><span id="charCount">0</span>/120</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="styleFilter">Filter styles</label>
+                <select class="form-control" id="styleFilter" aria-describedby="filterHelp">
+                  <option value="all">All styles</option>
+                  <option value="bold">Bold &amp; italic</option>
+                  <option value="sans">Sans-serif &amp; wide</option>
+                  <option value="script">Script &amp; cursive</option>
+                  <option value="decorative">Bubble &amp; decorative</option>
+                </select>
+                <small id="filterHelp" class="form-text text-muted">Narrow the list when you already know the look you want.</small>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="sizePreset">Facebook name style preset</label>
+                <select class="form-control" id="sizePreset">
+                  <option value="none">No preset — show everything</option>
+                  <option value="page">Facebook Page name</option>
+                  <option value="profile">Profile display name</option>
+                  <option value="group">Group name</option>
+                </select>
+                <small class="form-text text-muted">Facebook allows a limited number of characters in names.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap mb-3">
+            <button type="button" class="btn btn-outline-secondary btn-sm mr-2 mb-2" id="sampleBtn">Use a sample</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm mr-2 mb-2" id="randomBtn">Random words</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm mb-2" id="clearBtn">Clear</button>
+          </div>
+
+          <div class="alert alert-danger d-none" role="alert" id="errorBox" aria-live="polite"></div>
+          <div class="alert alert-info d-none" role="alert" id="infoBox" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="mb-5" aria-labelledby="resultsHeading">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-2" id="resultsHeading">Styled results</h2>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Sort styles">
+          <button type="button" class="btn btn-outline-secondary active" data-sort="default" id="sortDefault">Default order</button>
+          <button type="button" class="btn btn-outline-secondary" data-sort="alpha" id="sortAlpha">A–Z</button>
+        </div>
+      </div>
+      <p class="text-muted small" id="resultSummary" aria-live="polite">Enter text above to generate Facebook font styles.</p>
+      <div class="row" id="results"></div>
+    </section>
+
+    <section class="card border-0 shadow-sm mb-5" aria-labelledby="chartHeading">
+      <div class="card-body p-4">
+        <h2 class="h5 mb-1" id="chartHeading">Facebook name length check</h2>
+        <p class="text-muted small mb-4">
+          Facebook counts characters, not letters. Each styled character still counts as one, so this
+          chart compares your styled output against the practical limits Facebook applies to names.
+        </p>
+        <div class="chart-wrap">
+          <canvas id="lengthChart" width="640" height="260" role="img"
+                  aria-label="Bar chart comparing the length of your styled text with Facebook name limits"></canvas>
+        </div>
+        <div class="row text-center mt-4">
+          <div class="col-4">
+            <div class="stat-label">Characters in</div>
+            <div class="stat-value" id="statIn">0</div>
+          </div>
+          <div class="col-4">
+            <div class="stat-label">Characters out</div>
+            <div class="stat-value" id="statOut">0</div>
+          </div>
+          <div class="col-4">
+            <div class="stat-label">Styles generated</div>
+            <div class="stat-value" id="statStyles">0</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="article mb-5">
+      <h2 class="h4 mb-3">Facebook fonts generator: styled text that survives the paste</h2>
+      <p>
+        Facebook has never offered a font picker. Every post, comment, Page name and group title is
+        rendered in the same system font, which is exactly why people started hunting for a way
+        around it. A Facebook fonts generator solves that problem without any plugins, browser
+        extensions or image files: it rewrites your letters into Unicode characters that already
+        look bold, italic, cursive or bubbly, and Facebook renders them as ordinary text.
+      </p>
+      <p>
+        This generator works the same way the tool itself does. You type a phrase once, and the page
+        instantly produces several styled versions of it. Each result has its own copy button, so you
+        can lift the exact version you want and paste it into the Facebook composer, a comment box,
+        your profile intro or the name field of a Page you manage. Nothing leaves your device.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">How the tool works</h3>
+      <p>
+        The conversion is a character-by-character substitution. The letter <em>a</em> in a bold
+        alphabet is not the letter <em>a</em> with a style applied — it is a different code point,
+        the mathematical bold small <em>a</em>, which most operating systems display as a heavy
+        glyph. Because Facebook stores and displays Unicode text as-is, that substitution travels
+        with your message. Digits, punctuation and emoji have no styled equivalent, so the generator
+        leaves them untouched rather than breaking the look.
+      </p>
+      <p>
+        Two practical consequences follow. First, styled characters count as one character each, so a
+        long caption does not become longer when you style it — it just looks different. Second,
+        because the characters are unusual, some tools that read text aloud or parse it for screen
+        readers may mispronounce them. That is worth remembering before you set a Page name in
+        full-width letters.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">Where styled Facebook text actually helps</h3>
+      <ul>
+        <li><strong>Page and profile names.</strong> A bold or small-caps name stands out in a
+          crowded news feed and in the Pages list, which is often the first impression a business
+          makes.</li>
+        <li><strong>Captions and hooks.</strong> Styling the first few words of a caption draws the
+          eye before Facebook truncates the rest behind a “See more” link.</li>
+        <li><strong>Comments and replies.</strong> In a long comment thread, a script or italic
+          line separates your answer from everything around it.</li>
+        <li><strong>Group titles and announcements.</strong> A decorated heading makes pinned posts
+          and weekly threads easy to spot.</li>
+        <li><strong>Event and Marketplace descriptions.</strong> A bold price or date is easier to
+          scan than a sentence buried in plain text.</li>
+      </ul>
+
+      <h3 class="h5 mt-4 mb-2">Pro tips from daily use</h3>
+      <p>
+        Style sparingly. A whole caption in heavy Unicode is tiring to read, and it can look like
+        spam to both readers and automated filters. One styled line, or a single styled word, usually
+        does more work than a paragraph. When you style a Page name, keep the brand word in plain
+        text and style only the tagline around it, so people can still search for you by typing
+        normal letters.
+      </p>
+      <p>
+        Copy from the tool, not from another Facebook post. Pasting styled text out of a comment
+        sometimes carries hidden formatting or invisible joiners, and those stray characters are a
+        common reason a name field rejects an entry. Starting from this generator keeps the output
+        clean. Finally, check your styled text on a phone before you commit to it: some older Android
+        builds and third-party keyboards render a handful of decorative alphabets as empty boxes.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">Common mistakes to avoid</h3>
+      <ul>
+        <li><strong>Styling an entire bio.</strong> Screen readers and translation tools struggle
+          with full-width and bubble letters. Keep important information plain.</li>
+        <li><strong>Ignoring Facebook’s name rules.</strong> Facebook asks for the name you go by in
+          everyday life and can reject names that are only symbols or unusual characters.</li>
+        <li><strong>Using styled text in ads.</strong> Ad copy review is stricter than organic
+          posting, and unusual characters are a common cause of rejection.</li>
+        <li><strong>Assuming it is a real font.</strong> You are not installing anything. The look
+          depends on the reader’s device having a glyph for each character.</li>
+      </ul>
+
+      <h3 class="h5 mt-4 mb-2">Frequently asked questions</h3>
+      <p>
+        <strong>Will Facebook delete my post for using these fonts?</strong> No. Styled Unicode is
+        ordinary text and is not against Facebook’s community standards. What does get flagged is
+        spammy behaviour, so keep the styling purposeful rather than plastering every comment.
+      </p>
+      <p>
+        <strong>Why do some letters stay plain?</strong> Not every character has a styled twin in
+        Unicode. Digits, most punctuation and emoji have no bold or script equivalents, so the
+        generator passes them through unchanged to keep your text readable.
+      </p>
+      <p>
+        <strong>Does this work in Facebook Messenger too?</strong> Yes. Messenger renders the same
+        Unicode characters as the main app, so styled text you copy here pastes into chats,
+        comments and Marketplace messages alike.
+      </p>
+      <p>
+        <strong>Can I use it for Instagram or X instead?</strong> Absolutely — the output is plain
+        Unicode, so it works anywhere that accepts text. The name-length limits differ by platform,
+        which is why the chart above compares your output against Facebook’s practical limits.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">About the author</h3>
+      <p>
+        Written by the A Free Tools editorial team, which has spent the last few years building and
+        maintaining browser-based text and number utilities used by thousands of people each day.
+        Every tool on this site is tested by hand against real inputs — empty fields, emoji,
+        accented letters and over-length text — before it ships, and the results are reviewed
+        against the Unicode standard rather than copied from other generators.
+      </p>
+      <p class="text-muted small mb-0">Last updated: 17 November 2026</p>
+    </article>
+
+    <section class="card border-0 bg-light mb-4">
+      <div class="card-body p-4">
+        <h2 class="h6 mb-2">Disclaimer</h2>
+        <p class="small text-muted mb-0">
+          This Facebook fonts generator is an independent, free utility and is not affiliated with,
+          endorsed by or sponsored by Meta Platforms, Inc. Facebook is a trademark of Meta. Styled
+          text is decorative Unicode rather than a licensed typeface, and how it appears depends on
+          the reader’s device, browser and installed fonts. Always follow Facebook’s terms of service
+          and naming policies when publishing styled text.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
