@@ -71,7 +71,7 @@
 [done] Cool fonts generator 
 [done] Creepy text generator
 [done] Italics text generator
-Facebook fonts generator
+[done] Facebook fonts generator
 Discord fonts generator
 Bubble words generator
 Bubble font generator
