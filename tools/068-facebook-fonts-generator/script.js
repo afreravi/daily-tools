@@ -87,14 +87,14 @@
     { id: "bold-serif", name: "Bold serif", group: "bold", map: blockMap(0x1D41A, 0x1D400, 0x1D7CE) },
     { id: "bold-sans", name: "Bold sans", group: "bold", map: blockMap(0x1D5EE, 0x1D5D4, 0x1D7EC) },
     { id: "italic-serif", name: "Italic serif", group: "bold", map: blockMap(0x1D44E, 0x1D434, null, { h: "\u210E" }) },
-    { id: "bold-italic", name: "Bold italic", group: "bold", map: blockMap(0x1D482, 0x1D468, 0x1D7D8) },
+    { id: "bold-italic", name: "Bold italic", group: "bold", map: blockMap(0x1D482, 0x1D468, null) },
     { id: "bold-script", name: "Bold script", group: "script", map: blockMap(0x1D4EA, 0x1D4D0, null) },
     { id: "script", name: "Script", group: "script", map: blockMap(0x1D4B6, 0x1D49C, null, SCRIPT_HOLES) },
     { id: "bold-fraktur", name: "Bold gothic", group: "script", map: blockMap(0x1D586, 0x1D56C, null) },
     { id: "fraktur", name: "Gothic", group: "script", map: blockMap(0x1D51E, 0x1D504, null, FRAKTUR_HOLES) },
-    { id: "sans", name: "Plain sans", group: "sans", map: blockMap(0x1D5A0, 0x1D5A0, 0x1D7E2) },
+    { id: "sans", name: "Plain sans", group: "sans", map: blockMap(0x1D5BA, 0x1D5A0, 0x1D7E2) },
     { id: "sans-italic", name: "Italic sans", group: "sans", map: blockMap(0x1D622, 0x1D608, null) },
-    { id: "sans-bold-italic", name: "Bold italic sans", group: "sans", map: blockMap(0x1D656, 0x1D63C, 0x1D7F6) },
+    { id: "sans-bold-italic", name: "Bold italic sans", group: "sans", map: blockMap(0x1D656, 0x1D63C, null) },
     { id: "monospace", name: "Monospace", group: "sans", map: blockMap(0x1D68A, 0x1D670, 0x1D7F6) },
     { id: "fullwidth", name: "Fullwidth wide", group: "sans", map: blockMap(0xFF41, 0xFF21, 0xFF10) },
     { id: "double-struck", name: "Outline (double-struck)", group: "sans", map: blockMap(0x1D552, 0x1D538, 0x1D7D8, DOUBLE_STRUCK_HOLES) },
@@ -103,8 +103,7 @@
     { id: "negative-circled", name: "Filled bubble", group: "decorative", map: blockMap(0x1F150, 0x1F150, null) },
     { id: "squared", name: "Squared letters", group: "decorative", map: blockMap(0x1F130, 0x1F130, null) },
     { id: "parenthesized", name: "Parenthesised", group: "decorative", map: tableMap(PARENTHESIZED) },
-    { id: "regional", name: "Flag letters", group: "decorative", map: blockMap(0x1F1E6, 0x1F1E6, null) },
-    { id: "math-bold-cap", name: "Tall caps", group: "decorative", map: blockMap(0x1D41A, 0x1D400, null) }
+    { id: "regional", name: "Flag letters", group: "decorative", map: blockMap(0x1F1E6, 0x1F1E6, null) }
   ];
 
   /* ---------- elements ---------- */
@@ -293,6 +292,7 @@
   function drawChart(inLen, outLen) {
     if (!canvas || !canvas.getContext) return;
     var ctx = canvas.getContext("2d");
+    if (!ctx) return;
     var w = canvas.width;
     var h = canvas.height;
     ctx.clearRect(0, 0, w, h);
