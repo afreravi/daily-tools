@@ -85,6 +85,7 @@
 
   var STYLES = [
     { id: "bold", name: "Bold", family: "bold", map: BOLD },
+    { id: "italic", name: "Italic", family: "bold", map: ITALIC },
     { id: "bold-italic", name: "Bold italic", family: "bold", map: BOLD_ITALIC },
     { id: "sans", name: "Sans-serif", family: "bold", map: SANS },
     { id: "mono", name: "Monospace", family: "bold", map: MONO },
@@ -100,8 +101,7 @@
     { id: "strike", name: "Strikethrough", family: "effects", map: null },
     { id: "underline", name: "Underlined", family: "effects", map: null },
     { id: "wavy", name: "Wavy underline", family: "effects", map: null },
-    { id: "upside", name: "Upside down", family: "effects", map: UPSIDE },
-    { id: "italic", name: "Italic", family: "script", map: ITALIC }
+    { id: "upside", name: "Upside down", family: "effects", map: UPSIDE }
   ];
 
   function transform(text, style) {
