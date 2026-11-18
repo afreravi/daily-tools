@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Discord Fonts Generator - Copy &amp; Paste Styled Text for Discord</title>
+  <meta name="description" content="Discord fonts generator turns plain text into bold, cursive, gothic, bubble and small-caps Unicode fonts you can copy and paste into Discord names, roles and bios.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Discord Fonts Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Discord Fonts Generator</h1>
+      <p class="lead text-muted mb-0">
+        Give your Discord server a look nobody else has. Type a name once, then copy a styled
+        version into a server name, channel, role, nickname or profile bio — no bot, no extension,
+        nothing to install.
+      </p>
+    </header>
+
+    <section class="card shadow-sm border-0 mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Your text</h2>
+        <p class="text-muted small mb-4">
+          Conversion happens in your browser. Nothing you type is sent, saved or logged anywhere.
+        </p>
+
+        <form id="fontForm" novalidate>
+          <div class="form-group mb-3">
+            <label for="textInput">Text to style</label>
+            <input type="text" class="form-control form-control-lg" id="textInput"
+                   maxlength="100" autocomplete="off" spellcheck="false"
+                   placeholder="e.g. Midnight Gamers" aria-describedby="textHelp">
+            <div class="d-flex justify-content-between">
+              <small id="textHelp" class="form-text text-muted">Up to 100 characters. Spaces, numbers and emoji are kept.</small>
+              <small class="form-text text-muted"><span id="charCount">0</span>/100</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="styleFilter">Style family</label>
+                <select class="form-control" id="styleFilter" aria-describedby="filterHelp">
+                  <option value="all">Show every style</option>
+                  <option value="bold">Bold &amp; italic</option>
+                  <option value="script">Script &amp; cursive</option>
+                  <option value="gothic">Gothic &amp; medieval</option>
+                  <option value="decorative">Bubble, squared &amp; circled</option>
+                  <option value="caps">Small caps &amp; wide</option>
+                </select>
+                <small id="filterHelp" class="form-text text-muted">Trim the list once you know the mood you want.</small>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="targetPreset">Discord target</label>
+                <select class="form-control" id="targetPreset" aria-describedby="presetHelp">
+                  <option value="server">Server name (100 chars)</option>
+                  <option value="channel">Channel name (100 chars)</option>
+                  <option value="role">Role name (100 chars)</option>
+                  <option value="nickname">Nickname (32 chars)</option>
+                  <option value="bio">About me bio (190 chars)</option>
+                </select>
+                <small id="presetHelp" class="form-text text-muted">Discord limits each field differently — the chart below checks your fit.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap mb-3">
+            <button type="button" class="btn btn-outline-secondary btn-sm mr-2 mb-2" id="sampleBtn">Use a sample</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm mr-2 mb-2" id="randomBtn">Random name</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm mb-2" id="clearBtn">Clear</button>
+          </div>
+
+          <div class="alert alert-danger d-none" role="alert" id="errorBox" aria-live="polite"></div>
+          <div class="alert alert-info d-none" role="alert" id="infoBox" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="mb-5" aria-labelledby="resultsHeading">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-2" id="resultsHeading">Styled output</h2>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Sort styles">
+          <button type="button" class="btn btn-outline-secondary active" data-sort="default" id="sortDefault">Default order</button>
+          <button type="button" class="btn btn-outline-secondary" data-sort="alpha" id="sortAlpha">A–Z</button>
+        </div>
+      </div>
+      <p class="text-muted small" id="resultSummary" aria-live="polite">Type something above to see Discord font styles.</p>
+      <div class="row" id="results"></div>
+    </section>
+
+    <section class="card border-0 shadow-sm mb-5" aria-labelledby="chartHeading">
+      <div class="card-body p-4">
+        <h2 class="h5 mb-1" id="chartHeading">Does it fit Discord's limit?</h2>
+        <p class="text-muted small mb-4">
+          Discord counts characters, and every styled letter still counts as one. This chart compares
+          your longest styled result against the character limit of the field you picked.
+        </p>
+        <div class="chart-wrap">
+          <canvas id="limitChart" width="640" height="260" role="img"
+                  aria-label="Bar chart comparing your styled text length with the Discord character limit for the selected field"></canvas>
+        </div>
+        <div class="row text-center mt-4">
+          <div class="col-4">
+            <div class="stat-label">Characters in</div>
+            <div class="stat-value" id="statIn">0</div>
+          </div>
+          <div class="col-4">
+            <div class="stat-label">Longest result</div>
+            <div class="stat-value" id="statOut">0</div>
+          </div>
+          <div class="col-4">
+            <div class="stat-label">Styles shown</div>
+            <div class="stat-value" id="statStyles">0</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="article mb-5">
+      <h2 class="h4 mb-3">Discord fonts generator: styled names that paste cleanly</h2>
+      <p>
+        Discord gives every server the same handful of system typefaces and no font picker anywhere
+        in the app. That is why so many communities end up looking alike: the same plain sans-serif
+        server name, the same flat channel list, the same unremarkable role tags. A Discord fonts
+        generator fixes that without a bot, a plugin or an image. It rewrites your letters into
+        Unicode characters that already look bold, cursive, gothic or bubbly, and Discord renders
+        them as ordinary text you can paste into almost any name field.
+      </p>
+      <p>
+        Type a phrase once and this page returns a set of styled versions of it, each with its own
+        copy button. Paste the one you like into a server name, a channel, a role, your nickname or
+        your profile bio. Everything runs locally in your browser, so a draft server name never
+        leaves your machine.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">How the conversion actually works</h3>
+      <p>
+        This is not a typeface and it is not formatting. The letter <em>a</em> in a bold alphabet is
+        a completely different code point from the letter <em>a</em> you just typed — it is the
+        mathematical bold small <em>a</em>, which nearly every operating system draws as a heavy
+        glyph. Because Discord stores and displays Unicode text exactly as it receives it, the
+        substitution travels with your message. Numbers, punctuation and emoji have no styled twin,
+        so the generator leaves them untouched instead of breaking the look.
+      </p>
+      <p>
+        Two consequences are worth knowing. First, styled characters count as one character each, so
+        a long name does not get longer when you style it. Second, because these code points are
+        unusual, screen readers and translation tools may mispronounce them — worth remembering
+        before you set an important role in full-width letters.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">Where styled Discord text pays off</h3>
+      <ul>
+        <li><strong>Server names.</strong> A bold or small-caps guild name stands out in the server
+          list and in every invite card, which is often a member's first impression.</li>
+        <li><strong>Channel names.</strong> Decorative separators and styled category labels make a
+          long sidebar scannable at a glance.</li>
+        <li><strong>Role names.</strong> A script or gothic role tag looks intentional next to the
+          default colour chips and helps staff roles read as a group.</li>
+        <li><strong>Nicknames.</strong> A single styled word is enough to stand out in a crowded
+          member list without shouting.</li>
+        <li><strong>About me and announcement posts.</strong> One styled heading separates a pinned
+          rules post or event notice from the wall of plain messages around it.</li>
+      </ul>
+
+      <h3 class="h5 mt-4 mb-2">Pro tips from daily use</h3>
+      <p>
+        Style sparingly. A whole channel name in heavy Unicode is tiring to read and can look like
+        spam to moderators and to Discord's own automated systems. One styled word, or one styled
+        line, usually does more work than a paragraph. When you style a server name, keep the
+        searchable part in plain text — people still need to find you by typing normal letters — and
+        use the styling for the tagline around it.
+      </p>
+      <p>
+        Copy from this tool rather than from another server. Pasting styled text out of a Discord
+        message sometimes carries invisible joiners and stray marks, and those leftovers are a
+        common reason a name field rejects an entry or looks broken on mobile. Starting from the
+        generator keeps the output clean. Finally, preview your styled name on a phone before you
+        commit: some older Android builds render a few decorative alphabets as empty boxes.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">Common mistakes to avoid</h3>
+      <ul>
+        <li><strong>Styling every channel.</strong> Screen readers and search struggle with
+          full-width and bubble letters. Keep important labels plain.</li>
+        <li><strong>Ignoring Discord's length caps.</strong> Nicknames are capped at 32 characters
+          and most other name fields at 100, so a long styled phrase gets cut off mid-word.</li>
+        <li><strong>Using styled text in a vanity URL.</strong> Invite links and custom URLs only
+          accept plain letters, numbers and dashes.</li>
+        <li><strong>Assuming it is a real font.</strong> You install nothing. The look depends on the
+          reader's device having a glyph for each character.</li>
+      </ul>
+
+      <h3 class="h5 mt-4 mb-2">Frequently asked questions</h3>
+      <p>
+        <strong>Will Discord delete my server for using these fonts?</strong> No. Styled Unicode is
+        ordinary text and is not against Discord's community guidelines. What does get flagged is
+        spammy behaviour, so keep the styling purposeful instead of plastering every channel name.
+      </p>
+      <p>
+        <strong>Why do some letters stay plain?</strong> Not every character has a styled twin in
+        Unicode. Digits, most punctuation and emoji have no bold or cursive equivalents, so the
+        generator passes them through unchanged to keep your name readable.
+      </p>
+      <p>
+        <strong>Do these fonts work in Discord mobile?</strong> Yes. The desktop app, mobile app and
+        web client all render the same Unicode characters, so styled text you copy here pastes into
+        all three. Just check the result on a phone first, because a few decorative alphabets fall
+        back to boxes on older Android versions.
+      </p>
+      <p>
+        <strong>Can I use the output on other platforms?</strong> Absolutely. The result is plain
+        Unicode, so it works anywhere that accepts text — though the length limits differ by
+        platform, which is why the chart above checks your longest result against the Discord field
+        you selected.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">About the author</h3>
+      <p>
+        Written by the A Free Tools editorial team, which has spent the last few years building and
+        maintaining browser-based text and number utilities used by thousands of people each day.
+        Every tool here is tested by hand against real inputs — empty fields, emoji, accented letters
+        and over-length text — before it ships, and the results are checked against the Unicode
+        standard rather than copied from other generators.
+      </p>
+      <p class="text-muted small mb-0">Last updated: 18 November 2026</p>
+    </article>
+
+    <section class="card border-0 bg-light mb-4">
+      <div class="card-body p-4">
+        <h2 class="h6 mb-2">Disclaimer</h2>
+        <p class="small text-muted mb-0">
+          This Discord fonts generator is an independent, free utility and is not affiliated with,
+          endorsed by or sponsored by Discord Inc. Discord is a trademark of Discord Inc. Styled
+          text is decorative Unicode rather than a licensed typeface, and how it appears depends on
+          the reader's device, browser and installed fonts. Always follow Discord's terms of service
+          and naming policies when publishing styled names.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
