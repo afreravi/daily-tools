@@ -73,7 +73,7 @@
 [done] Italics text generator
 [done] Facebook fonts generator
 [done] Discord fonts generator
-Bubble words generator
+[done] Bubble words generator
 Bubble font generator
 barbie font generator
 graffiti generator

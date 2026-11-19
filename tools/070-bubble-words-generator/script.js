@@ -97,6 +97,7 @@
       name: "Wide spaced",
       group: "wide",
       join: " ",
+      passthrough: true,
       convert: function (ch) { return ch; }
     },
     {
@@ -104,6 +105,7 @@
       name: "Loose spaced",
       group: "wide",
       join: "  ",
+      passthrough: true,
       convert: function (ch) { return ch; }
     }
   ];
@@ -192,10 +194,9 @@
       }
       out = parts.join(style.join);
     }
-    return {
-      text: decorate(out),
-      coverage: countable === 0 ? 0 : Math.round((converted / countable) * 100)
-    };
+    var coverage = countable === 0 ? 0 : Math.round((converted / countable) * 100);
+    if (style.passthrough && countable > 0) coverage = 100;
+    return { text: decorate(out), coverage: coverage };
   }
 
   function activeStyles() {
