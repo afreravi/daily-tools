@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bubble Words Generator - Bubble Letters to Copy and Paste</title>
+  <meta name="description" content="Bubble words generator turns plain text into bubble letters you can copy and paste. Choose circled, squared, full-width or balloon styles, preview them live and copy in one click.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Bubble Words Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Bubble Words Generator</h1>
+      <p class="lead mb-0">
+        Type a word once and get it back as bubble letters — round, fat and ready to paste into a
+        caption, a party invite, a school poster or a group chat.
+      </p>
+    </header>
+
+    <section class="card border-0 shadow-sm mb-5" id="toolCard" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="toolHeading">Your word</h2>
+        <p class="small text-muted mb-4">
+          Everything is converted in your browser. Nothing you type is uploaded or stored.
+        </p>
+
+        <form id="bubbleForm" novalidate>
+          <div class="form-group mb-3">
+            <label for="textInput">Text to bubble</label>
+            <input type="text" class="form-control form-control-lg" id="textInput"
+                   maxlength="40" autocomplete="off" spellcheck="false"
+                   placeholder="e.g. Happy Birthday" aria-describedby="textHelp">
+            <div class="d-flex justify-content-between">
+              <small class="form-text text-muted" id="textHelp">Up to 40 characters. Numbers and emoji pass through as they are.</small>
+              <small class="form-text text-muted"><span id="charCount">0</span>/40</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="styleFilter">Style group</label>
+                <select class="form-control" id="styleFilter" aria-describedby="filterHelp">
+                  <option value="all">All bubble styles</option>
+                  <option value="round">Round &amp; circled</option>
+                  <option value="blocky">Squared &amp; bold</option>
+                  <option value="wide">Wide &amp; spaced</option>
+                </select>
+                <small class="form-text text-muted" id="filterHelp">Narrow the list to the mood you want.</small>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="sparklePick">Decoration</label>
+                <select class="form-control" id="sparklePick" aria-describedby="sparkleHelp">
+                  <option value="none">Plain bubbles</option>
+                  <option value="sparkle">Sparkles &#10023;</option>
+                  <option value="heart">Hearts &#9825;</option>
+                  <option value="cloud">Clouds &#9729;</option>
+                  <option value="star">Stars &#9733;</option>
+                </select>
+                <small class="form-text text-muted" id="sparkleHelp">Adds a small accent on each side of the word.</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex flex-wrap mb-3">
+            <button type="button" class="btn btn-outline-secondary btn-sm mr-2 mb-2" id="sampleBtn">Try an example</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm mr-2 mb-2" id="randomBtn">Surprise me</button>
+            <button type="button" class="btn btn-outline-secondary btn-sm mb-2" id="clearBtn">Clear</button>
+          </div>
+
+          <div class="alert alert-danger d-none" role="alert" id="errorBox" aria-live="polite"></div>
+          <div class="alert alert-warning d-none" role="alert" id="infoBox" aria-live="polite"></div>
+        </form>
+      </div>
+    </section>
+
+    <section class="card border-0 shadow-sm mb-5" aria-labelledby="previewHeading">
+      <div class="card-body p-4">
+        <h2 class="h5 mb-1" id="previewHeading">Bubble preview</h2>
+        <p class="small text-muted mb-4">
+          Each letter sits in its own round badge, so you can see the shape before you copy the
+          Unicode version below.
+        </p>
+        <div id="bubblePreview" class="bubble-row" aria-live="polite">
+          <p class="text-muted small mb-0" id="previewEmpty">Your bubble letters will appear here.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="mb-5" aria-labelledby="resultsHeading">
+      <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+        <h2 class="h4 mb-2" id="resultsHeading">Copy-and-paste versions</h2>
+        <div class="btn-group btn-group-sm" role="group" aria-label="Sort styles">
+          <button type="button" class="btn btn-outline-secondary active" data-sort="default" id="sortDefault">Curated order</button>
+          <button type="button" class="btn btn-outline-secondary" data-sort="alpha" id="sortAlpha">A&#8211;Z</button>
+        </div>
+      </div>
+      <p class="small text-muted" id="resultSummary" aria-live="polite">Type a word above to see bubble styles.</p>
+      <div class="row" id="results"></div>
+    </section>
+
+    <section class="card border-0 shadow-sm mb-5" aria-labelledby="chartHeading">
+      <div class="card-body p-4">
+        <h2 class="h5 mb-1" id="chartHeading">How much of your word turns into bubbles</h2>
+        <p class="small text-muted mb-4">
+          Letters convert cleanly, but digits, punctuation and emoji have no bubble twin in Unicode.
+          This chart shows the share of your word each style can actually convert.
+        </p>
+        <div class="chart-wrap">
+          <canvas id="coverageChart" width="640" height="280" role="img"
+                  aria-label="Bar chart showing what percentage of your text each bubble style can convert"></canvas>
+        </div>
+        <div class="row text-center mt-4">
+          <div class="col-4">
+            <div class="stat-label">Characters in</div>
+            <div class="stat-value" id="statIn">0</div>
+          </div>
+          <div class="col-4">
+            <div class="stat-label">Best coverage</div>
+            <div class="stat-value" id="statBest">&mdash;</div>
+          </div>
+          <div class="col-4">
+            <div class="stat-label">Styles shown</div>
+            <div class="stat-value" id="statStyles">0</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <article class="article mb-5">
+      <h2 class="h4 mb-3">Bubble words generator: fat round letters you can actually paste</h2>
+      <p>
+        Bubble letters are the ones you drew on notebook covers as a kid — every stroke thick, every
+        corner rounded, the whole word looking inflated. For decades the only way to get them was a
+        marker and a steady hand, or a design app with an outline effect. A bubble words generator
+        gives you the same look as plain text: you type a word, it hands back a version built from
+        round Unicode characters, and you paste that anywhere text is accepted.
+      </p>
+      <p>
+        Type a phrase above and this page returns a stack of bubble styles — circled letters,
+        negative circled letters, squared blocks, full-width balloons — each with its own copy
+        button. Pick the one that fits and paste it into a caption, a comment, a chat message or a
+        school worksheet.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">Why these letters look like bubbles</h3>
+      <p>
+        Nothing here is a font file or a formatting trick. Unicode, the standard that assigns a
+        number to every character on your screen, includes whole decorative alphabets that were
+        designed for mathematics and typography. Inside those blocks sit characters that render as a
+        letter inside a circle, a letter inside a square, or a letter drawn extra wide. Because each
+        one is a single character rather than a styled version of a normal letter, the shape travels
+        with the text — no CSS, no font download, no image.
+      </p>
+      <p>
+        That is also the limitation. Each decorative alphabet only covers the basic Latin letters.
+        Digits, most punctuation and every emoji have no bubble twin, so the generator passes them
+        through untouched rather than breaking your word. The chart above shows exactly how much of
+        your text each style can convert before you copy it.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">Where bubble words work best</h3>
+      <ul>
+        <li><strong>Party and event invites.</strong> A bubbled "You're Invited" reads as celebration
+          before anyone parses the words.</li>
+        <li><strong>Birthday captions.</strong> Names in balloon letters stand out in a feed full of
+          plain text without needing a graphic editor.</li>
+        <li><strong>Classroom and craft projects.</strong> Teachers and students paste bubble letters
+          into slides and worksheets as a starting point for colouring.</li>
+        <li><strong>Group chat reactions.</strong> One bubbled word lands harder than a sentence,
+          especially in a busy thread.</li>
+        <li><strong>Shop and small-business names.</strong> A bubbled tagline suits candy, toy,
+          bakery and kids' brands far better than a serious typeface.</li>
+      </ul>
+
+      <h3 class="h5 mt-4 mb-2">Pro tips from people who use these daily</h3>
+      <p>
+        Keep bubble text short. Round characters take more horizontal room than normal letters, so a
+        long phrase wraps badly on a phone and can push past a platform's character limit even
+        though the count is unchanged. Two or three words is the sweet spot for a caption, and a
+        single word is usually enough for a username or a channel name.
+      </p>
+      <p>
+        Match the decoration to the occasion instead of stacking all of it. Sparkles and hearts are
+        charming on a birthday post and out of place on a work announcement. And preview on a real
+        device before publishing: a handful of the older decorative alphabets render as empty boxes
+        on some Android builds, so a style that looks perfect on your laptop may fall apart on a
+        friend's phone.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">Common mistakes to avoid</h3>
+      <ul>
+        <li><strong>Assuming it is searchable.</strong> A search engine sees bubbled letters as
+          different characters. Keep the important part of a title in plain text.</li>
+        <li><strong>Using it in a web address.</strong> Domains and handles only accept plain
+          letters, digits and dashes — bubble characters will be rejected.</li>
+        <li><strong>Forgetting screen readers.</strong> Assistive software often mispronounces or
+          skips decorative characters, so never bubble the whole of an important message.</li>
+        <li><strong>Copying from a screenshot.</strong> Text lifted from an image carries no Unicode
+          at all. Copy from the generator so the characters stay clean.</li>
+      </ul>
+
+      <h3 class="h5 mt-4 mb-2">Frequently asked questions</h3>
+      <p>
+        <strong>Are these real bubble letters or just a font?</strong> They are real Unicode
+        characters, not a font. Nothing is installed and nothing is styled — the shape is baked into
+        the character itself, which is why the look survives copying into almost any app.
+      </p>
+      <p>
+        <strong>Why do some of my letters stay plain?</strong> Only the basic alphabet has bubble
+        equivalents. Digits, punctuation marks and emoji pass through unchanged so your word stays
+        readable instead of turning into a row of question marks.
+      </p>
+      <p>
+        <strong>Do bubble words work on Instagram, TikTok and Discord?</strong> Yes — they are plain
+        text, so every app that accepts text accepts them. The only catch is that a few platforms
+        count characters differently, which is why short words are safest.
+      </p>
+      <p>
+        <strong>Can I use the output commercially?</strong> Unicode characters are not licensed
+        artwork, so there is no permission to seek. Just check the naming rules of the platform you
+        publish on before you set a bubbled business name.
+      </p>
+
+      <h3 class="h5 mt-4 mb-2">About the author</h3>
+      <p>
+        This tool is maintained by the A Free Tools editorial team, which builds small browser-based
+        utilities for text, numbers and design. Every generator is tested by hand with empty fields,
+        accented names, emoji and over-length input before release, and the character mappings are
+        checked against the Unicode standard rather than copied from another site.
+      </p>
+      <p class="small text-muted mb-0">Last updated: 19 November 2026</p>
+    </article>
+
+    <section class="card border-0 bg-light mb-4">
+      <div class="card-body p-4">
+        <h2 class="h6 mb-2">Disclaimer</h2>
+        <p class="small text-muted mb-0">
+          This bubble words generator is a free, independent utility and is not affiliated with any
+          social platform mentioned on this page. Bubble characters are decorative Unicode rather
+          than a licensed typeface, and how they appear depends on the reader's device and installed
+          fonts. Always follow the terms of service and naming policies of the platform you publish
+          on.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
