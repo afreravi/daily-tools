@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Bubble Font Generator - Make Bubble Letters Online</title>
+  <meta name="description" content="Bubble font generator turns your text into fat bubble letters with real bubble typefaces. Pick a font, colour, outline and shadow, then copy the CSS or download the SVG.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Bubblegum+Sans&family=Bungee&family=Chango&family=Fredoka:wght@500;600&family=Luckiest+Guy&family=Sniglet:wght@800&family=Titan+One&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Bubble Font Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 font-weight-bold mb-2">Bubble Font Generator</h1>
+      <p class="lead mb-0">
+        Set your words in a genuine bubble typeface, then tune the fill, the outline and the drop
+        shadow until they look like blown-up lettering. Copy the CSS or take the SVG with you.
+      </p>
+    </header>
+
+    <section class="card tool-card border-0 mb-4" aria-labelledby="studioHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="studioHeading">Bubble studio</h2>
+        <p class="small text-muted mb-4">
+          Rendering happens in your browser with the fonts already loaded on this page. Nothing you
+          type leaves your device.
+        </p>
+
+        <form id="bubbleForm" novalidate>
+          <div class="form-group mb-4">
+            <label for="textInput" class="font-weight-bold">Your words</label>
+            <input type="text" class="form-control form-control-lg" id="textInput"
+                   maxlength="40" autocomplete="off" spellcheck="false"
+                   placeholder="Happy Birthday" aria-describedby="textHelp textCount">
+            <div class="d-flex justify-content-between flex-wrap">
+              <small class="form-text text-muted" id="textHelp">Up to 40 characters. Spaces and punctuation keep their shape.</small>
+              <small class="form-text text-muted" id="textCount"><span id="charCount">0</span>/40</small>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 col-md-6">
+              <div class="form-group">
+                <label for="fontSelect">Bubble typeface</label>
+                <select class="form-control" id="fontSelect" aria-describedby="fontHelp"></select>
+                <small class="form-text text-muted" id="fontHelp">Every face below is a real web font, so the look survives outside this page.</small>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="form-group">
+                <label for="sizeInput">Font size (px)</label>
+                <input type="number" class="form-control" id="sizeInput" min="24" max="140" step="2" value="72">
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="form-group">
+                <label for="trackingInput">Letter spacing</label>
+                <input type="number" class="form-control" id="trackingInput" min="0" max="14" step="1" value="2">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6 col-md-3">
+              <div class="form-group">
+                <label for="fillInput">Letter colour</label>
+                <input type="color" class="form-control color-field" id="fillInput" value="#60089c">
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="form-group">
+                <label for="strokeColorInput">Outline colour</label>
+                <input type="color" class="form-control color-field" id="strokeColorInput" value="#ffffff">
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="form-group">
+                <label for="strokeInput">Outline width</label>
+                <input type="range" class="custom-range" id="strokeInput" min="0" max="10" step="1" value="4">
+                <small class="form-text text-muted"><span id="strokeValue">4</span>px</small>
+              </div>
+            </div>
+            <div class="col-6 col-md-3">
+              <div class="form-group">
+                <label for="shadowInput">Shadow depth</label>
+                <input type="range" class="custom-range" id="shadowInput" min="0" max="14" step="1" value="6">
+                <small class="form-text text-muted"><span id="shadowValue">6</span>px</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="custom-control custom-checkbox mb-4">
+            <input type="checkbox" class="custom-control-input" id="capsInput" checked>
+            <label class="custom-control-label" for="capsInput">Force capital letters (bubble faces read better in caps)</label>
+          </div>
+
+          <div class="d-flex flex-wrap">
+            <button type="button" class="btn btn-primary mr-2 mb-2" id="copyCssBtn">Copy CSS</button>
+            <button type="button" class="btn btn-outline-primary mr-2 mb-2" id="downloadSvgBtn">Download SVG</button>
+            <button type="button" class="btn btn-link mb-2 px-0" id="resetBtn">Reset everything</button>
+          </div>
+          <p class="small mb-0 mt-2 status-line" id="statusLine" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <section class="card border-0 shadow-sm mb-4" aria-labelledby="previewHeading">
+      <div class="card-body p-4 p-md-5">
+        <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+          <h2 class="h5 mb-2 mb-sm-0" id="previewHeading">Live preview</h2>
+          <span class="badge badge-pill badge-light px-3 py-2" id="previewMeta">72px &middot; 0 characters</span>
+        </div>
+        <div class="preview-stage" id="previewStage">
+          <p class="preview-text mb-0" id="previewText">Happy Birthday</p>
+        </div>
+        <p class="small text-muted mt-3 mb-0">
+          The stage is scaled to fit narrow screens; the exported values stay exactly as you set them.
+        </p>
+      </div>
+    </section>
+
+    <section class="card border-0 shadow-sm mb-4" aria-labelledby="chartHeading">
+      <div class="card-body p-4 p-md-5">
+        <h2 class="h5 mb-1" id="chartHeading">Width of your words in every bubble face</h2>
+        <p class="small text-muted mb-4">
+          Measured at your chosen size. Bubble faces are wide, so a long phrase can overflow a story
+          card or a chat bubble even when it looks short in a plain font.
+        </p>
+        <div class="chart-wrap">
+          <canvas id="widthChart" height="300" role="img"
+                  aria-label="Bar chart comparing the rendered width of your text in each bubble font"></canvas>
+        </div>
+        <div class="table-responsive mt-4">
+          <table class="table table-sm table-bordered mb-0">
+            <caption class="small text-muted">Rendered width and width per character for each face.</caption>
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">Typeface</th>
+                <th scope="col" class="text-right">Width (px)</th>
+                <th scope="col" class="text-right">Per character</th>
+              </tr>
+            </thead>
+            <tbody id="widthTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <article class="article-block">
+      <h2 class="h4">What a bubble font generator actually does</h2>
+      <p>
+        A bubble font generator sets your words in a typeface whose letterforms are built from round,
+        inflated shapes, then lets you push that look further with colour, outline and shadow. This
+        page works differently from the Unicode text tricks that swap letters for look-alike symbols.
+        Nothing is substituted character by character. The words stay real text in a real font, so a
+        browser, a printer or a design tool all render them the same way.
+      </p>
+      <p>
+        That distinction matters when you need the result somewhere other than a chat box. A copied
+        Unicode bubble word collapses into odd boxes the moment a font is missing. A bubble lettering
+        style built on a named web font can be reproduced exactly, because you hand over the font name
+        along with the text.
+      </p>
+
+      <h2 class="h4">How to use the bubble studio</h2>
+      <ol>
+        <li>Type the word or short phrase you want to bubble. Forty characters is the practical limit, since bubble faces take up a lot of room.</li>
+        <li>Pick a bubble typeface from the eight faces on the page. Each one has a different weight, and the chart below the preview tells you how wide it runs.</li>
+        <li>Set the size in pixels, then adjust letter spacing so the letters stop crowding each other.</li>
+        <li>Choose a fill colour and, if you want that sticker look, an outline colour with a width between one and ten pixels.</li>
+        <li>Add a shadow depth to lift the letters off the background, then copy the CSS or download the SVG.</li>
+      </ol>
+      <p>
+        Every control is a real form field, so you can tab through the whole studio and change values
+        from the keyboard. Invalid numbers are clamped to the nearest allowed value instead of
+        producing a broken preview.
+      </p>
+
+      <h2 class="h4">Choosing between the eight bubble faces</h2>
+      <p>
+        <strong>Baloo 2</strong> is the friendliest all-rounder: soft corners, generous counters and
+        strong legibility at small sizes. <strong>Fredoka</strong> is slightly rounder and more
+        geometric, which suits children's branding. <strong>Bubblegum Sans</strong> leans hand-drawn,
+        with a bounce that feels like a marker pen. <strong>Luckiest Guy</strong> is heavy and comic,
+        made for headlines. <strong>Titan One</strong> is the fattest of the group and works well with
+        a thick white outline. <strong>Chango</strong> mixes a chunky silhouette with sharper edges,
+        <strong>Sniglet</strong> adds a playful wobble, and <strong>Bungee</strong> brings a sign-painter
+        feel with very tall letters.
+      </p>
+
+      <h2 class="h4">Where bubble lettering earns its place</h2>
+      <p>
+        Bubble lettering is at its best when the message is short and the mood is light. Party
+        invitations, birthday cards, classroom posters and cake toppers all benefit from inflated
+        letterforms that read from across a room. Social posts use bubble fonts for announcement
+        cards, quiz stickers and thumbnail text. Small shops set bubble headings over product photos
+        to soften a commercial message. Teachers use them for bulletin boards and reward charts,
+        where a rounded face is easier for early readers to follow.
+      </p>
+      <p>
+        The SVG export is the useful part for print work. Drop the file into a cutting machine, a
+        poster layout or a sticker template and the letters stay sharp at any size, because vector
+        text has no fixed resolution.
+      </p>
+
+      <h2 class="h4">Pro tips for readable bubble letters</h2>
+      <ul>
+        <li>Keep phrases to three or four words. Bubble faces are wide, and long lines lose their impact.</li>
+        <li>Use an outline that matches the background rather than a random colour. A white outline on a white card reads as a clean cut-out.</li>
+        <li>Give the shadow a small offset. Two to eight pixels is enough for a sticker feel; more than that looks like a printing error.</li>
+        <li>Check contrast. A pale fill on a pale card disappears even when the shape is right.</li>
+        <li>Letter-space generously in capitals, because bubble faces already crowd their side bearings.</li>
+      </ul>
+
+      <h2 class="h4">Common mistakes worth avoiding</h2>
+      <p>
+        The most frequent mistake is using bubble fonts for body text. They are display faces: fine
+        at headline sizes, tiring in a paragraph. The second is stretching a face horizontally to make
+        it wider, which flattens the round curves that give bubble lettering its charm. Third, people
+        mix three or four bubble faces in one design; one bubble face plus a plain sans-serif for the
+        supporting copy almost always looks better. Finally, plenty of designs skip the contrast check
+        and end up with decorative letters nobody can read on a phone screen.
+      </p>
+
+      <h2 class="h4">Frequently asked questions</h2>
+      <div class="faq">
+        <details>
+          <summary>Is a bubble font generator the same as a bubble text converter?</summary>
+          <p>
+            No. A converter swaps your letters for Unicode symbols that only look bubbly. This
+            generator styles real text with a real font, so it stays editable and prints correctly.
+          </p>
+        </details>
+        <details>
+          <summary>Can I use the result commercially?</summary>
+          <p>
+            The CSS and SVG you generate here are yours to use. The typefaces themselves are open
+            source under the SIL Open Font License, which allows commercial use; check each font's
+            licence page if you need the exact terms.
+          </p>
+        </details>
+        <details>
+          <summary>Why do my letters look thin instead of bubbly?</summary>
+          <p>
+            The outline is probably set to zero. A bubble look usually needs both a heavy face and an
+            outline of three pixels or more in a contrasting colour.
+          </p>
+        </details>
+        <details>
+          <summary>Will the font show up if I paste the CSS somewhere else?</summary>
+          <p>
+            Only if that page also loads the font. Keep the font link or embed the font file, otherwise
+            the browser falls back to a default sans-serif.
+          </p>
+        </details>
+        <details>
+          <summary>How many characters can I bubble at once?</summary>
+          <p>
+            The input allows forty. Beyond that the preview wraps and the letters get too small to
+            read on a phone.
+          </p>
+        </details>
+      </div>
+
+      <h2 class="h4">About the author</h2>
+      <p class="author-bio">
+        Nadia Rahman is a front-end developer and type nerd who has spent nine years building
+        browser-based design utilities. She maintains the font and colour tools on this site and
+        writes about web typography, accessibility contrast and small-screen legibility. Every tool
+        here is tested in current versions of Chrome, Firefox and Safari before it ships.
+      </p>
+
+      <p class="small text-muted mb-1">Last updated: 20 November 2026</p>
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> this bubble font generator is provided for general design and
+        personal use. Preview rendering can differ slightly between browsers and operating systems,
+        so always check the exported SVG before sending artwork to print or to a cutting machine.
+        Font licences remain with their respective authors.
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer py-4">
+    <div class="container small">
+      <span>&copy; 2026 A Free Tools &middot; Bubble Font Generator</span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
