@@ -162,7 +162,7 @@
     return rows;
   }
 
-  function renderTable(rows, activeId) {
+  function renderTable(rows) {
     var activeLabel = selectedFont().label;
     var html = rows.map(function (row) {
       var isActive = row.label === activeLabel;
@@ -188,8 +188,10 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.clearRect(0, 0, cssWidth, cssHeight);
 
-    var padLeft = 96;
-    var padRight = 56;
+    var narrow = cssWidth < 560;
+    var labelSize = narrow ? 11 : 12;
+    var padLeft = narrow ? 86 : 104;
+    var padRight = 52;
     var padTop = 16;
     var padBottom = 34;
     var plotWidth = cssWidth - padLeft - padRight;
@@ -199,7 +201,8 @@
 
     var activeLabel = selectedFont().label;
 
-    ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif';
+    var baseFont = labelSize + 'px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif';
+    ctx.font = baseFont;
     ctx.textBaseline = 'middle';
 
     var barGap = 8;
@@ -231,12 +234,12 @@
 
       ctx.fillStyle = isActive ? '#44046f' : '#5b4f68';
       ctx.textAlign = 'right';
-      ctx.font = (isActive ? '600 ' : '') + '12px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif';
-      ctx.fillText(row.label, padLeft - 10, y + barHeight / 2);
+      ctx.font = (isActive ? '600 ' : '') + baseFont;
+      ctx.fillText(row.label, padLeft - 8, y + barHeight / 2);
 
       ctx.textAlign = 'left';
       ctx.fillStyle = isActive ? '#44046f' : '#8a7b97';
-      ctx.fillText(row.width + 'px', padLeft + w + 8, y + barHeight / 2);
+      ctx.fillText(row.width + 'px', Math.min(padLeft + w + 8, cssWidth - padRight + 4), y + barHeight / 2);
     });
   }
 
@@ -256,7 +259,7 @@
     var state = readState();
     applyPreview(state);
     var rows = measureAll(state);
-    renderTable(rows, state.font);
+    renderTable(rows);
     renderChart(rows);
   }
 
