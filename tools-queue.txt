@@ -75,7 +75,7 @@
 [done] Discord fonts generator
 [done] Bubble words generator
 [done] Bubble font generator
-barbie font generator
+[done] barbie font generator
 graffiti generator
 Ascii art generator
 Calligraphy font generator
