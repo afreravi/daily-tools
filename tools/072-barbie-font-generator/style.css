@@ -87,7 +87,13 @@ a:hover { color: var(--plum-900); }
   box-shadow: 0 10px 28px rgba(96, 8, 156, 0.06);
 }
 
-.panel--preview { background: linear-gradient(180deg, #fff 0%, var(--plum-050) 100%); }
+.panel--preview {
+  background: linear-gradient(180deg, #fff 0%, var(--plum-050) 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.panel--preview .plaque { flex: 1 1 auto; }
 
 .panel__label {
   font-size: 0.75rem;

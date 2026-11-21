@@ -299,7 +299,11 @@
     var padTop = 22;
     var padBottom = 30;
     var plotWidth = width - padLeft - padRight;
-    var maxRatio = 7;
+    var labelRoom = 34;
+    var maxRatio = Math.max.apply(null, PALETTES.map(function (p) {
+      return contrastOnWhite(p.to);
+    }));
+    maxRatio = Math.ceil(maxRatio / 2) * 2;
 
     ctx.clearRect(0, 0, width, height);
     ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
@@ -327,7 +331,7 @@
       var y = padTop + index * rowHeight;
       var barHeight = Math.min(20, rowHeight - 12);
       var barY = y + (rowHeight - barHeight) / 2;
-      var barWidth = Math.max(3, (ratio / maxRatio) * plotWidth);
+      var barWidth = Math.min(plotWidth - labelRoom, Math.max(3, (ratio / maxRatio) * plotWidth));
 
       ctx.fillStyle = '#4b3a58';
       ctx.textAlign = 'right';
