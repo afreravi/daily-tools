@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Barbie Font Generator — Pink Logo Maker &amp; Copy-Paste Text</title>
+<meta name="description" content="Type a name to build a Barbie-style logo in pink gradient lettering, download it as SVG, and copy six Barbie-inspired Unicode text styles for bios and captions.">
+<meta name="theme-color" content="#60089c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@1,700&family=Baloo+2:wght@800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-head">
+  <div class="container site-head__inner">
+    <a class="brand" href="#top">Barbie Font Generator</a>
+    <span class="brand__tag">Free · No sign-up · Works offline</span>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="container">
+      <h1 class="hero__title">Barbie Font Generator</h1>
+      <p class="hero__lead">
+        Type a name, choose a pink, and this generator builds a glossy Barbie-style logo you can
+        download as a clean SVG — plus six copy-and-paste Barbie text styles for your bio, caption or handle.
+      </p>
+    </div>
+  </section>
+
+  <section class="workspace" aria-labelledby="workspace-heading">
+    <div class="container">
+      <h2 id="workspace-heading" class="sr-only">Barbie logo and text generator</h2>
+      <div class="row">
+        <div class="col-lg-5 mb-4 mb-lg-0">
+          <div class="panel">
+            <form id="barbie-form" novalidate>
+              <div class="form-group">
+                <label for="barbie-name">Name or short phrase</label>
+                <input type="text" class="form-control" id="barbie-name" value="Barbie"
+                       maxlength="24" autocomplete="off" spellcheck="false"
+                       aria-describedby="name-help">
+                <small id="name-help" class="form-text">Up to 24 characters. Letters, numbers, spaces and &amp; are supported.</small>
+              </div>
+
+              <fieldset class="form-group">
+                <legend class="field-legend">Lettering style</legend>
+                <div class="style-grid" id="style-grid"></div>
+              </fieldset>
+
+              <fieldset class="form-group mb-0">
+                <legend class="field-legend">Pink palette</legend>
+                <div class="swatch-grid" id="swatch-grid"></div>
+              </fieldset>
+
+              <p id="form-error" class="form-error" role="alert" hidden></p>
+
+              <div class="actions">
+                <button type="button" class="btn btn-brand" id="download-btn">Download SVG logo</button>
+                <button type="button" class="btn btn-outline-brand" id="reset-btn">Reset</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="panel panel--preview">
+            <div class="panel__label">Live logo preview</div>
+            <div class="plaque" id="plaque">
+              <span class="plaque__spark plaque__spark--one" aria-hidden="true">✦</span>
+              <span class="plaque__spark plaque__spark--two" aria-hidden="true">✦</span>
+              <p class="plaque__name" id="plaque-name">Barbie</p>
+              <p class="plaque__sub">your name, dolled up</p>
+            </div>
+            <p class="preview-note">
+              The preview is styled with real web fonts. The SVG download keeps the gradient, the outline
+              and the sparkle accents, so it stays sharp at any size.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-lg-7 mb-4 mb-lg-0">
+          <div class="panel">
+            <div class="panel__label">Copy-and-paste Barbie text</div>
+            <div class="variants" id="variants" aria-live="polite"></div>
+            <p class="tiny-note">
+              Unicode text is plain characters, not an image — paste it into Instagram, TikTok, Discord,
+              X or anywhere else that accepts text. Some platforms fall back to their own font.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="panel">
+            <div class="panel__label">Palette contrast check</div>
+            <canvas id="contrast-chart" width="520" height="300" tabindex="0" role="img"
+                    aria-label="Bar chart of each pink palette colour's contrast ratio against white text background"></canvas>
+            <p class="tiny-note mb-0">
+              Bars show contrast against white. Tap a bar to apply that palette. A ratio of 4.5:1 or more
+              keeps body text readable; 3:1 is the floor for large display lettering.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="article">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-9">
+          <p class="updated">Last updated: 21 November 2026</p>
+
+          <h2>What a Barbie font actually is</h2>
+          <p>
+            There is no single "Barbie font" you can install from a font menu. The look people mean is a
+            soft, rounded, hand-lettered script with a heavy white outline and a bright pink fill — the
+            kind of lettering on a doll box or a movie poster. Designers get close with fonts such as
+            Pacifico, Dancing Script or a chunky bubble face, then add a stroke, a shadow and a warm pink
+            gradient on top. This generator does exactly that in the browser: pick a lettering style, pick
+            a pink, and the preview assembles the outline and gradient for you.
+          </p>
+          <p>
+            The second half of the page is different. Some places — an Instagram bio, a Discord nickname,
+            a TikTok display name — will not let you upload a logo at all. They only accept text. For those
+            spots the generator produces Unicode versions of your name: real characters that look like
+            script, bubble or wide lettering and survive a copy-and-paste. That is why the tool gives you
+            both a graphic and plain text from the same input.
+          </p>
+
+          <h2>How the generator works</h2>
+          <p>
+            Type your name in the box. Each letter is measured as you type, so the plaque shrinks or grows
+            to fit and never spills outside the card. Choose one of four lettering styles — Classic Script,
+            Dream Script, Dollhouse Serif and Y2K Bubble — and one of six pink palettes. The preview updates
+            instantly, with the palette's gradient filling the letters, a white outline around them and a
+            soft shadow underneath. When you are happy, download the SVG. Unlike a screenshot, an SVG is
+            vector, so it stays crisp on a phone screen, a laptop or a printed sticker sheet.
+          </p>
+          <p>
+            Below the preview you get six text variants of the same input: Barbie Script (bold script
+            characters), Barbie Bubble (circled letters), Wide Glam (full-width letters), Small Caps,
+            Heart Frame and Sparkle. Each has its own copy button. The chart beside them plots every
+            palette against white so you can see which pinks stay readable as a caption colour and which
+            ones only work as large display type. Tap any bar to apply that palette to the preview.
+          </p>
+
+          <h2>Ways people use it</h2>
+          <ul>
+            <li><strong>Party and shower invitations.</strong> A pink gradient name plate works as a header image on a printed invite or a Canva layout.</li>
+            <li><strong>Small-business branding.</strong> Cake makers, nail techs, hair stylists and kids' party planners use a doll-style wordmark for price lists and story stickers.</li>
+            <li><strong>Social profiles.</strong> The Unicode variants let you carry the same pink-logo personality into bios, handles and channel names that only accept text.</li>
+            <li><strong>Classroom and kids' projects.</strong> Name tags, book labels and birthday banners are quick to make and easy to print.</li>
+            <li><strong>Fan edits and party themes.</strong> Matching a movie-night theme without hunting for a licensed font file.</li>
+          </ul>
+
+          <h2>Pro tips for a cleaner result</h2>
+          <ul>
+            <li><strong>Keep it short.</strong> Two words beat five. Long names force the lettering to shrink until the outline disappears.</li>
+            <li><strong>Mix a script with a plain sans.</strong> Set the generated name large and add a small, plain subtitle underneath. The contrast reads as designed rather than messy.</li>
+            <li><strong>Check contrast before you print.</strong> Hot pink on white is bright but thin. For body text, pick a palette scoring above 4.5:1 in the chart; keep the punchy pinks for headlines.</li>
+            <li><strong>Test the paste.</strong> Unicode text renders differently across apps. Paste your chosen variant into the exact app you plan to use before you commit to it.</li>
+            <li><strong>Mind the outline weight.</strong> A white stroke looks crisp at large sizes and mushy at 12 pixels, so export the SVG and scale it rather than shrinking a screenshot.</li>
+          </ul>
+
+          <h2>Common mistakes</h2>
+          <p>
+            The most frequent one is assuming the SVG keeps the Google Font when you open it in another
+            editor. Vector files reference font names, not font files, so a machine without Pacifico will
+            substitute something else. If the logo must look identical everywhere, convert the text to
+            outlines in a vector editor before you send it out. The second mistake is stacking every
+            decoration at once — hearts, sparkles, outline and shadow. Pick two. The third is using a
+            decorative Unicode style in a place that matters for search or screen readers: those characters
+            are read letter by letter by some assistive tech, so keep important names in plain text and
+            use the fancy version as a flourish.
+          </p>
+
+          <h2>Frequently asked questions</h2>
+          <h3>Is there an official Barbie font I can download?</h3>
+          <p>
+            No. The Barbie wordmark is a trademarked custom design owned by Mattel, so there is no legal
+            font file that reproduces it exactly. This tool builds an original pink, script-inspired look
+            with openly licensed web fonts instead. That keeps it fine for personal projects, and safe to
+            use as long as you do not imply an official Mattel product.
+          </p>
+          <h3>Can I use the generated logo commercially?</h3>
+          <p>
+            The lettering styles here are built on Google Fonts released under the SIL Open Font License,
+            which allows commercial use. The arrangement, gradient and export are yours to keep. Avoid
+            pairing the result with Mattel logos, doll artwork or brand names you do not own, and check the
+            licence of any font you swap in.
+          </p>
+          <h3>Why does the copied text look different in my app?</h3>
+          <p>
+            Unicode styles depend on the font your app ships. Most phones and modern desktop apps cover
+            script and circled characters, but a few chat clients show boxes or fall back to plain letters.
+            If a variant looks broken, try another style — the plain small-caps version is the safest
+            fallback.
+          </p>
+          <h3>Does the generator work on a phone?</h3>
+          <p>
+            Yes. The layout stacks, the input uses the on-screen keyboard, and the SVG downloads straight
+            to your files app. Nothing is uploaded to a server — all conversion happens inside your browser.
+          </p>
+
+          <h2>About the author</h2>
+          <div class="author">
+            <div class="author__avatar" aria-hidden="true">AF</div>
+            <div>
+              <p class="author__name">Written by the Afre Tools team</p>
+              <p class="author__bio">
+                We build small, fast browser tools and test each one against real inputs before it ships.
+                This generator was checked across desktop and mobile browsers, with names containing
+                spaces, numbers, ampersands and accented letters, so the preview and the exported SVG stay
+                aligned. Questions or a style request? Tell us through the contact link on the main site.
+              </p>
+            </div>
+          </div>
+
+          <div class="disclaimer">
+            <strong>Disclaimer:</strong> This is an independent, unofficial tool. It is not affiliated
+            with, endorsed by or sponsored by Mattel, and "Barbie" is a trademark of its respective owner.
+            The generator creates an original script-inspired design; results are for personal and
+            small-business use, and you are responsible for how you use the exported files.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="container">
+    <p>Barbie Font Generator — part of <a href="../">Daily Tools</a>. Built with vanilla JavaScript; no data leaves your browser.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
