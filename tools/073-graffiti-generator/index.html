@@ -135,11 +135,10 @@
           to install.
         </p>
         <p>
-          This page is built for people who want a usable tag in a couple of minutes: skaters making
-          deck graphics, teachers making classroom posters, streamers making overlays, and anyone who
-          has ever wanted their name to look louder than it normally does. There is no account, no
-          upload and no queue — the renderer is a few hundred lines of JavaScript running on a canvas
-          in your own browser.
+          It is built for people who want a usable tag in a couple of minutes: skaters making deck
+          graphics, teachers making posters, streamers making overlays. There is no account, no upload
+          and no queue — the renderer is a few hundred lines of JavaScript running on a canvas in your
+          browser.
         </p>
 
         <h2>How the spray-paint renderer works</h2>
@@ -151,38 +150,35 @@
           irregularities that separate hand-painted lettering from typed text.
         </p>
         <p>
-          Third comes the outline: a thick stroke with rounded joins in a dark ink colour, painted
-          before the fill so the fill sits neatly inside the letter shape. Fourth, the tool scatters
-          thousands of tiny dots across the lettering while clipping to the letters themselves, which
-          is what gives the fill its grainy spray-can texture instead of a flat vector look. Finally,
-          where you asked for drips, it finds the lowest painted pixel in a handful of columns and
-          draws a thin run of paint downward from there. The chart below the canvas is not decoration:
-          it counts real opaque pixels per vertical band, so you can see at a glance whether your tag
-          is balanced or crowded to one side.
+          Third comes the outline: a thick stroke with rounded joins in dark ink, painted before the
+          fill so the fill sits inside the letter shape. Fourth, the tool scatters thousands of tiny
+          dots across the lettering while clipping to the letters themselves — that is what gives the
+          fill its grainy spray-can texture instead of a flat vector look. Finally, where you asked for
+          drips, it finds the lowest painted pixel in a handful of columns and draws a thin run of paint
+          downward. The chart below the canvas is not decoration: it counts real opaque pixels per
+          vertical band, so you can see whether your tag is balanced or crowded to one side.
         </p>
 
         <h2>Four lettering styles, and when to use each</h2>
         <p>
           <strong>Bubble</strong> lettering is the friendliest of the four: fat rounded shapes, a heavy
-          outline and a small highlight. It reads from across a room, which makes it the safest choice
-          for posters, cake toppers and anything that will be printed small. <strong>Wildstyle</strong>
-          leans the letters over, rotates them and packs them tight, imitating the interlocking shapes
-          of complex graffiti pieces; it looks best on wide formats and short words. <strong>Throw-up</strong>
-          uses a marker-style face with a two-tone fill, the split-colour look of a quick outline painted
-          on a wall in one pass. <strong>Blockbuster</strong> is the opposite of subtle — wide block
-          capitals with a hard extruded shadow, close to the lettering used for large-format wall
-          pieces where legibility matters more than flourish.
+          outline and a small highlight. It reads across a room, which makes it the safest choice for
+          posters and anything printed small. <strong>Wildstyle</strong> leans the letters over,
+          rotates them and packs them tight, imitating the interlocking shapes of complex pieces; it
+          looks best on wide formats and short words. <strong>Throw-up</strong> uses a marker-style face
+          with a two-tone fill, the split-colour look of a quick outline painted in one pass.
+          <strong>Blockbuster</strong> is the opposite of subtle — wide block capitals with a hard
+          extruded shadow, for large-format wall pieces where legibility beats flourish.
         </p>
 
         <h2>Where people use a graffiti name generator</h2>
         <p>
           The most common request is personal: a graffiti name generator for a tag you use online, on a
-          skate deck, or on the back of a denim jacket. Beyond that, small businesses use graffiti-style
-          lettering for coffee carts, barbershops and streetwear drops where a polished logo would feel
-          wrong. Teachers and youth workers print tags for classroom displays and art projects. Event
-          organisers use them for birthday banners, hen-do signs and gig posters. And plenty of people
-          simply use the tool as a starting point: paint a tag here, then trace or redraw it by hand on
-          a wall, a canvas or a piece of cardboard.
+          skate deck or on the back of a denim jacket. Small businesses use graffiti-style lettering for
+          coffee carts, barbershops and streetwear drops where a polished logo would feel wrong.
+          Teachers print tags for classroom displays, and event organisers use them for birthday
+          banners and gig posters. Plenty of people simply use the tool as a starting point: paint a tag
+          here, then trace or redraw it by hand on a wall, a canvas or a piece of cardboard.
         </p>
 
         <h2>Pro tips for a tag that holds up</h2>
@@ -200,22 +196,21 @@
           weight do most of the work; the typeface is only the skeleton. The second is over-decorating:
           speckle plus drips plus a heavy shadow plus four colours is a recipe for a muddy image. The
           third is ignoring the canvas edge — a tag that touches the border looks cut off rather than
-          painted. And the fourth is a practical one: if you plan to print, export at a size that suits
-          the paper, because a canvas image scaled up on a home printer will lose the fine spray grain
-          that made it convincing.
+          painted. And if you plan to print, export at a size that suits the paper, because a canvas
+          image scaled up on a home printer loses the fine spray grain that made it convincing.
         </p>
 
         <h2>Frequently asked questions</h2>
         <h3>Is this graffiti generator free?</h3>
-        <p>Yes. There is no account, no watermark and no download limit. The page is a static HTML file, so it also works offline once it has loaded.</p>
+        <p>Yes. No account, no watermark, no download limit — and once loaded, the page works offline.</p>
         <h3>Can I use the tags commercially?</h3>
-        <p>The image is generated from your own text, so you can use it on products, posters and merch. Check that the word you paint is not someone else’s protected trademark before you print it.</p>
+        <p>The image comes from your own text, so you can use it on products, posters and merch — just check the word is not someone else’s trademark.</p>
         <h3>Why does my long name look cramped?</h3>
-        <p>The renderer scales the type to fit a fixed canvas, so longer words mean smaller letters. Shorten the tag, or export a wider composition by keeping the text at six characters or fewer.</p>
+        <p>The renderer scales the type to fit a fixed canvas, so longer words mean smaller letters. Keep the tag to six characters or fewer for a bolder result.</p>
         <h3>Does the tool upload my text anywhere?</h3>
-        <p>No. All drawing happens locally in your browser; the only network requests are for the fonts and the Bootstrap stylesheet.</p>
+        <p>No. Drawing happens locally in your browser; the only requests are for the fonts and Bootstrap stylesheet.</p>
         <h3>Can I edit the PNG afterwards?</h3>
-        <p>Yes — it is a normal raster image, so it opens in any editor. For clean recolouring, choose the transparent background and keep the outline colour dark.</p>
+        <p>Yes — it is a normal raster image and opens in any editor. For clean recolouring, export on a transparent background.</p>
 
         <h2>About the author</h2>
         <p class="author-bio">

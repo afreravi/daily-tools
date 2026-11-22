@@ -81,32 +81,33 @@
   }
 
   function buildLayout(g, text, style) {
-    var size = style.base;
+    var maxW = CANVAS_W - 200;
+    var maxH = CANVAS_H - 250;
+    var probe = 100;
     var letters = [];
     var total = 0;
-    var maxW = CANVAS_W - 170;
-    var maxH = CANVAS_H - 190;
-    var guard = 0;
 
-    while (guard < 60) {
-      g.font = '400 ' + size + 'px "' + style.font + '", sans-serif';
-      letters = [];
-      total = 0;
-      for (var i = 0; i < text.length; i++) {
-        var ch = text.charAt(i);
-        var w = g.measureText(ch).width;
-        letters.push({ ch: ch, w: w });
-        total += w * (1 + style.tracking);
-      }
-      if (total <= maxW && size * 1.15 <= maxH) break;
-      size *= 0.94;
-      if (size < 26) break;
-      guard++;
+    g.font = '400 ' + probe + 'px "' + style.font + '", sans-serif';
+    for (var i = 0; i < text.length; i++) {
+      var ch = text.charAt(i);
+      total += g.measureText(ch).width * (1 + style.tracking);
+    }
+
+    var size = Math.min((maxW / total) * probe, maxH / 1.15, style.base * 1.7);
+    size = Math.max(size, 24);
+
+    g.font = '400 ' + size + 'px "' + style.font + '", sans-serif';
+    total = 0;
+    for (var k = 0; k < text.length; k++) {
+      var chk = text.charAt(k);
+      var wk = g.measureText(chk).width;
+      letters.push({ ch: chk, w: wk });
+      total += wk * (1 + style.tracking);
     }
 
     var rand = makeRandom(text + '|' + style.id);
     var x = (CANVAS_W - total) / 2;
-    var baseline = CANVAS_H / 2 + size * 0.36;
+    var baseline = CANVAS_H / 2 + size * 0.04;
 
     for (var j = 0; j < letters.length; j++) {
       var L = letters[j];
@@ -242,7 +243,7 @@
     g.lineCap = 'round';
     for (var i = 0; i < count; i++) {
       var c = columns[Math.floor(rand() * columns.length)];
-      var len = 30 + rand() * 120;
+      var len = Math.min(30 + rand() * 120, CANVAS_H - c.y - 12);
       var width = 5 + rand() * 9;
       var grad = g.createLinearGradient(0, c.y, 0, c.y + len);
       grad.addColorStop(0, pal.fillDark);
