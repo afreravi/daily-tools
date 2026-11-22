@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Graffiti Generator — Spray-Paint Tag Maker with Bubble &amp; Wildstyle Fonts</title>
+<meta name="description" content="Create a spray-paint graffiti tag from any name. Pick bubble, wildstyle, throw-up or blockbuster lettering, choose a palette, add drips and download a PNG.">
+<meta name="theme-color" content="#60089c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Bungee&family=Permanent+Marker&family=Rubik+Mono+One&family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-head">
+  <div class="container site-head__inner">
+    <a class="brand" href="#top">Graffiti Generator</a>
+    <span class="brand__tag">Free · No sign-up · Nothing uploaded</span>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="container">
+      <p class="hero__eyebrow">Spray-paint tag maker</p>
+      <h1 class="hero__title">Turn a name into a graffiti tag</h1>
+      <p class="hero__lead">
+        Type a word, choose a lettering style, and this generator paints it on canvas with
+        spray speckle, hard outlines and paint drips. Save the result as a transparent or
+        solid-background PNG — everything happens in your browser.
+      </p>
+    </div>
+  </section>
+
+  <section class="workspace" aria-labelledby="workspace-heading">
+    <div class="container">
+      <h2 id="workspace-heading" class="sr-only">Graffiti tag generator controls and preview</h2>
+      <div class="row">
+        <div class="col-lg-5 mb-4 mb-lg-0">
+          <div class="panel">
+            <form id="tag-form" novalidate>
+              <div class="form-group">
+                <label for="tag-text">Your tag</label>
+                <input type="text" class="form-control" id="tag-text" value="AFRE" maxlength="16"
+                       autocomplete="off" spellcheck="false" aria-describedby="tag-help">
+                <small id="tag-help" class="form-text">1–16 characters. Letters, numbers and spaces work best.</small>
+              </div>
+
+              <fieldset class="form-group">
+                <legend class="field-legend">Lettering style</legend>
+                <div class="chip-grid" id="style-grid" role="radiogroup" aria-label="Lettering style"></div>
+              </fieldset>
+
+              <fieldset class="form-group">
+                <legend class="field-legend">Colour palette</legend>
+                <div class="swatch-grid" id="swatch-grid" role="radiogroup" aria-label="Colour palette"></div>
+              </fieldset>
+
+              <div class="form-group">
+                <label for="spray-range">Spray speckle <span class="range-value" id="spray-value">40%</span></label>
+                <input type="range" class="custom-range" id="spray-range" min="0" max="100" step="5" value="40">
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-sm-7">
+                  <label for="bg-select">Background</label>
+                  <select class="form-control" id="bg-select">
+                    <option value="#ffffff">Wall white</option>
+                    <option value="#f4eefb">Lilac paper</option>
+                    <option value="#f7f2e8">Concrete cream</option>
+                    <option value="transparent">Transparent (PNG)</option>
+                  </select>
+                </div>
+                <div class="form-group col-sm-5 d-flex align-items-end">
+                  <div class="custom-control custom-checkbox mb-2">
+                    <input type="checkbox" class="custom-control-input" id="drips-check" checked>
+                    <label class="custom-control-label" for="drips-check">Paint drips</label>
+                  </div>
+                </div>
+              </div>
+
+              <p id="form-error" class="form-error" role="alert" hidden></p>
+
+              <div class="button-row">
+                <button type="submit" class="btn btn-brand">Paint the tag</button>
+                <button type="button" class="btn btn-outline-brand" id="randomize-btn">Surprise me</button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="panel panel--canvas">
+            <div class="canvas-frame">
+              <canvas id="tag-canvas" width="900" height="420"
+                      aria-label="Graffiti tag preview. Use the form to change the text, style and colours."></canvas>
+            </div>
+
+            <div class="result-bar">
+              <a class="btn btn-brand" id="download-btn" href="#" download="graffiti-tag.png" role="button">Download PNG</a>
+              <button type="button" class="btn btn-outline-brand" id="reset-btn">Reset</button>
+              <span class="result-bar__meta" id="result-meta" aria-live="polite"></span>
+            </div>
+
+            <div class="chart-block">
+              <h3 class="chart-block__title">Ink coverage across the wall</h3>
+              <p class="chart-block__sub">Opaque paint pixels per vertical band of the canvas, measured after each render.</p>
+              <div class="coverage-chart" id="coverage-chart" role="img" aria-label="Ink coverage chart"></div>
+              <div class="stat-strip">
+                <div class="stat"><span class="stat__value" id="stat-coverage">0%</span><span class="stat__label">of the wall painted</span></div>
+                <div class="stat"><span class="stat__value" id="stat-letters">0</span><span class="stat__label">characters</span></div>
+                <div class="stat"><span class="stat__value" id="stat-style">—</span><span class="stat__label">style</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="article-wrap">
+    <div class="container">
+      <article class="article">
+        <p class="article__updated">Last updated: <time datetime="2026-11-22">22 November 2026</time></p>
+
+        <h2>What a graffiti generator actually gives you</h2>
+        <p>
+          A graffiti generator is a shortcut between a word in your head and a piece of lettering that
+          looks like it came off a wall. You supply the name — a nickname, a crew name, a brand, a
+          birthday message — and the tool does the parts that are slow by hand: building the outline,
+          shading the fill, spattering the spray and letting a few drips run down the letters. What you
+          get back is a flat image you can print, post or paste into a design file, not a font you have
+          to install.
+        </p>
+        <p>
+          This page is built for people who want a usable tag in a couple of minutes: skaters making
+          deck graphics, teachers making classroom posters, streamers making overlays, and anyone who
+          has ever wanted their name to look louder than it normally does. There is no account, no
+          upload and no queue — the renderer is a few hundred lines of JavaScript running on a canvas
+          in your own browser.
+        </p>
+
+        <h2>How the spray-paint renderer works</h2>
+        <p>
+          Every render follows the same five steps, and knowing them makes the controls easier to use.
+          First the tool measures your text in the chosen typeface and shrinks the size until the tag
+          fits inside the canvas with a comfortable margin. Second it draws each letter separately, so
+          it can nudge the baseline, rotate a letter a few degrees and vary the height — the small
+          irregularities that separate hand-painted lettering from typed text.
+        </p>
+        <p>
+          Third comes the outline: a thick stroke with rounded joins in a dark ink colour, painted
+          before the fill so the fill sits neatly inside the letter shape. Fourth, the tool scatters
+          thousands of tiny dots across the lettering while clipping to the letters themselves, which
+          is what gives the fill its grainy spray-can texture instead of a flat vector look. Finally,
+          where you asked for drips, it finds the lowest painted pixel in a handful of columns and
+          draws a thin run of paint downward from there. The chart below the canvas is not decoration:
+          it counts real opaque pixels per vertical band, so you can see at a glance whether your tag
+          is balanced or crowded to one side.
+        </p>
+
+        <h2>Four lettering styles, and when to use each</h2>
+        <p>
+          <strong>Bubble</strong> lettering is the friendliest of the four: fat rounded shapes, a heavy
+          outline and a small highlight. It reads from across a room, which makes it the safest choice
+          for posters, cake toppers and anything that will be printed small. <strong>Wildstyle</strong>
+          leans the letters over, rotates them and packs them tight, imitating the interlocking shapes
+          of complex graffiti pieces; it looks best on wide formats and short words. <strong>Throw-up</strong>
+          uses a marker-style face with a two-tone fill, the split-colour look of a quick outline painted
+          on a wall in one pass. <strong>Blockbuster</strong> is the opposite of subtle — wide block
+          capitals with a hard extruded shadow, close to the lettering used for large-format wall
+          pieces where legibility matters more than flourish.
+        </p>
+
+        <h2>Where people use a graffiti name generator</h2>
+        <p>
+          The most common request is personal: a graffiti name generator for a tag you use online, on a
+          skate deck, or on the back of a denim jacket. Beyond that, small businesses use graffiti-style
+          lettering for coffee carts, barbershops and streetwear drops where a polished logo would feel
+          wrong. Teachers and youth workers print tags for classroom displays and art projects. Event
+          organisers use them for birthday banners, hen-do signs and gig posters. And plenty of people
+          simply use the tool as a starting point: paint a tag here, then trace or redraw it by hand on
+          a wall, a canvas or a piece of cardboard.
+        </p>
+
+        <h2>Pro tips for a tag that holds up</h2>
+        <ul>
+          <li><strong>Keep it short.</strong> Four to six characters fill the canvas properly; twelve characters force the renderer to shrink everything and the spray texture turns into mush.</li>
+          <li><strong>Match style to size.</strong> Bubble and blockbuster survive small prints. Wildstyle needs room, so export it large and crop later.</li>
+          <li><strong>Use one accent.</strong> A single highlight or shadow colour reads as intentional. Three competing colours read as noise.</li>
+          <li><strong>Turn drips down for clean work.</strong> Drips sell the spray-can story, but they also blur fine details at thumbnail size.</li>
+          <li><strong>Export transparent when composing.</strong> A transparent PNG drops onto a photo, a mockup or a deck graphic without a white box around it.</li>
+        </ul>
+
+        <h2>Common mistakes to avoid</h2>
+        <p>
+          The biggest one is treating graffiti lettering as a font choice. Style, spacing and outline
+          weight do most of the work; the typeface is only the skeleton. The second is over-decorating:
+          speckle plus drips plus a heavy shadow plus four colours is a recipe for a muddy image. The
+          third is ignoring the canvas edge — a tag that touches the border looks cut off rather than
+          painted. And the fourth is a practical one: if you plan to print, export at a size that suits
+          the paper, because a canvas image scaled up on a home printer will lose the fine spray grain
+          that made it convincing.
+        </p>
+
+        <h2>Frequently asked questions</h2>
+        <h3>Is this graffiti generator free?</h3>
+        <p>Yes. There is no account, no watermark and no download limit. The page is a static HTML file, so it also works offline once it has loaded.</p>
+        <h3>Can I use the tags commercially?</h3>
+        <p>The image is generated from your own text, so you can use it on products, posters and merch. Check that the word you paint is not someone else’s protected trademark before you print it.</p>
+        <h3>Why does my long name look cramped?</h3>
+        <p>The renderer scales the type to fit a fixed canvas, so longer words mean smaller letters. Shorten the tag, or export a wider composition by keeping the text at six characters or fewer.</p>
+        <h3>Does the tool upload my text anywhere?</h3>
+        <p>No. All drawing happens locally in your browser; the only network requests are for the fonts and the Bootstrap stylesheet.</p>
+        <h3>Can I edit the PNG afterwards?</h3>
+        <p>Yes — it is a normal raster image, so it opens in any editor. For clean recolouring, choose the transparent background and keep the outline colour dark.</p>
+
+        <h2>About the author</h2>
+        <p class="author-bio">
+          <strong>Written by the Afre Tools team.</strong> We build small, single-purpose browser tools
+          and test each one against real inputs before publishing — including the awkward cases, like
+          one-character tags, sixteen-character tags and empty fields. This guide reflects how the
+          renderer on this page behaves today, and it is reviewed whenever the tool changes.
+        </p>
+
+        <p class="disclaimer">
+          <strong>Disclaimer:</strong> this tool is for design and entertainment. It is not affiliated
+          with any artist, crew or brand, and it does not condone painting on property you do not own
+          or have permission to paint. Always follow local laws and get permission before putting
+          lettering on a wall.
+        </p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="container">
+    <p>Graffiti Generator — part of <a href="../../README.md">Daily Tools</a>. Built with plain HTML, CSS and JavaScript.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
