@@ -188,7 +188,7 @@
       g.fillStyle = pal.fillDark;
       g.fillText(L.ch, 0, 0);
       g.restore();
-      g.lineWidth = s * 0.10;
+      g.lineWidth = s * 0.055;
       g.strokeStyle = pal.outline;
       g.strokeText(L.ch, 0, 0);
     } else {

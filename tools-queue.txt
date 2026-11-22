@@ -76,7 +76,7 @@
 [done] Bubble words generator
 [done] Bubble font generator
 [done] barbie font generator
-graffiti generator
+[done] graffiti generator
 Ascii art generator
 Calligraphy font generator
 Creepy text generator
