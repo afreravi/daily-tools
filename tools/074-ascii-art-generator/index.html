@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>ASCII Art Generator — Turn Text into Copy-and-Paste ASCII Banners</title>
+<meta name="description" content="Turn any word into copy-and-paste ASCII art. Choose from seven banner styles, set scale and spacing, check the width against terminal limits, then copy it.">
+<meta name="theme-color" content="#60089c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-head">
+  <div class="container site-head__inner">
+    <a class="brand" href="#top"><span class="brand__mark" aria-hidden="true">&gt;_</span> ASCII Art Generator</a>
+    <span class="brand__tag">Runs in your browser · Nothing uploaded</span>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="container">
+      <p class="hero__eyebrow">Text to ASCII banner</p>
+      <h1 class="hero__title">Turn plain words into ASCII art you can paste anywhere</h1>
+      <p class="hero__lead">
+        Type a word or short phrase, choose a style, and this generator draws it with
+        monospace characters on a fixed pixel grid. Copy the result into a README,
+        a terminal banner, a code comment or a chat window — no image files, no uploads.
+      </p>
+    </div>
+  </section>
+
+  <section class="workspace" aria-labelledby="workspace-heading">
+    <div class="container">
+      <h2 id="workspace-heading" class="sr-only">ASCII art generator controls and output</h2>
+      <div class="row">
+        <div class="col-lg-5 mb-4 mb-lg-0">
+          <div class="panel">
+            <form id="art-form" novalidate>
+              <div class="form-group">
+                <label for="art-text">Your text</label>
+                <input type="text" class="form-control" id="art-text" name="art-text"
+                       value="ASCII" maxlength="14" autocomplete="off" spellcheck="false"
+                       aria-describedby="text-help">
+                <small id="text-help" class="form-text text-muted">
+                  Letters, digits and basic punctuation. Up to 14 characters keeps the art readable.
+                </small>
+                <div class="invalid-feedback" id="text-error" role="alert"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="art-style">Style</label>
+                <select class="form-control" id="art-style">
+                  <option value="classic">Classic hash — #</option>
+                  <option value="solid">Solid block — █</option>
+                  <option value="outline">Outline only</option>
+                  <option value="dots">Dots — •</option>
+                  <option value="stars">Stars — *</option>
+                  <option value="shadow">Block with shadow</option>
+                  <option value="at">At signs — @</option>
+                </select>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group col-6">
+                  <label for="art-scale">Scale <span class="hint">1–3</span></label>
+                  <select class="form-control" id="art-scale">
+                    <option value="1" selected>1 — compact</option>
+                    <option value="2">2 — wide</option>
+                    <option value="3">3 — poster</option>
+                  </select>
+                </div>
+                <div class="form-group col-6">
+                  <label for="art-spacing">Letter spacing <span class="hint">0–3</span></label>
+                  <select class="form-control" id="art-spacing">
+                    <option value="0">0 — tight</option>
+                    <option value="1" selected>1 — normal</option>
+                    <option value="2">2 — airy</option>
+                    <option value="3">3 — loose</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="btn-row">
+                <button type="submit" class="btn btn-primary">Generate ASCII art</button>
+                <button type="button" class="btn btn-outline-secondary" id="copy-btn" disabled>Copy</button>
+                <button type="button" class="btn btn-outline-secondary" id="download-btn" disabled>Download .txt</button>
+              </div>
+              <p class="status-line" id="status-line" role="status" aria-live="polite"></p>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="panel panel--output">
+            <div class="panel__head">
+              <h2 class="panel__title">Output</h2>
+              <span class="badge-line" id="badge-line">—</span>
+            </div>
+            <div class="art-wrap">
+              <pre class="art" id="art-output" aria-live="polite" aria-label="ASCII art result">Generate to see your art.</pre>
+            </div>
+            <p class="chart-caption" id="chart-caption">Width check against common paste targets</p>
+            <canvas id="fit-chart" width="640" height="150" role="img"
+                    aria-label="Bar chart comparing the width of your ASCII art with typical terminal and README widths"></canvas>
+            <p class="chart-legend">
+              <span><i class="swatch swatch--art"></i> your art</span>
+              <span><i class="swatch swatch--limit"></i> 72 README · 80 terminal · 120 wide terminal · 280 tweet</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="article">
+    <div class="container article__inner">
+      <p class="updated">Last updated: 23 November 2026</p>
+
+      <h2>What an ASCII art generator actually does</h2>
+      <p>
+        An ASCII art generator takes normal text and rebuilds it out of characters. This one uses a
+        fixed five-by-seven pixel grid: every letter, digit and punctuation mark is stored as a small
+        bitmap, and the tool prints a filled character wherever a pixel is on. Because every glyph
+        shares the same grid, the letters line up perfectly, which is the whole reason text art looks
+        clean rather than wobbly.
+      </p>
+      <p>
+        The idea is old. Before images travelled well between systems, people drew with whatever
+        characters a terminal could print — slashes, pipes, hashes and asterisks. ASCII banners became
+        a way to sign a message, mark a section of output, or simply show off. Modern tools like this
+        one keep that spirit but skip the typing: you pick a style, the grid does the drawing.
+      </p>
+
+      <h2>How to use this ASCII banner maker</h2>
+      <ol>
+        <li><strong>Type your text.</strong> Short words work best. Fourteen characters is the ceiling
+        here because each character is five columns wide plus spacing, so a long phrase produces a
+        banner wider than most windows.</li>
+        <li><strong>Choose a style.</strong> Hash marks give the classic look, solid blocks read as
+        heavy and modern, outline keeps the interior empty, dots and stars feel lighter, and the
+        shadow style adds depth by dropping a second layer one step to the right and down.</li>
+        <li><strong>Set scale and spacing.</strong> Scale repeats each pixel column and row, which
+        thickens the strokes. Spacing controls the gap between letters; tight spacing is great for
+        logos, loose spacing for headings you want to breathe.</li>
+        <li><strong>Check the width chart.</strong> The bar under the output compares your art to 72
+        columns (a typical README block), 80 columns (a classic terminal) and 120 columns (a wide
+        terminal). If the bar overshoots the line you care about, drop the scale or shorten the text.</li>
+        <li><strong>Copy or download.</strong> Copy puts the text on your clipboard; download saves a
+        plain .txt file. Both keep the exact line breaks, so the art never reflows.</li>
+      </ol>
+
+      <h2>Where text art still earns its place</h2>
+      <p>
+        It is easy to assume ASCII art is a novelty. In practice it solves a real problem: it is the
+        only decorative element that survives every plain-text channel. Some places it still works
+        hard:
+      </p>
+      <ul>
+        <li><strong>README headers.</strong> A short banner above the project title gives a repository
+        instant identity without shipping an image asset.</li>
+        <li><strong>Terminal banners and MOTD screens.</strong> Installer scripts and login messages
+        use them to announce which environment you just entered.</li>
+        <li><strong>Code comments.</strong> A boxed section title makes a long file easier to scan.</li>
+        <li><strong>Chat and forums.</strong> Monospace code blocks keep the alignment intact where
+        rich formatting is unavailable.</li>
+        <li><strong>Print and retro hardware.</strong> Dot-matrix printers, receipts and e-ink screens
+        render characters reliably, where graphics may not.</li>
+      </ul>
+
+      <h2>Pro tips from daily use</h2>
+      <p>
+        Paste ASCII art only into a monospace context — code blocks, terminals, preformatted HTML.
+        Proportional fonts ruin the alignment instantly because an "i" is narrower than an "M".
+        Keep the widest line under the width of the container you are pasting into; a banner that
+        wraps mid-row looks broken rather than bold. Outline styles work best on light backgrounds,
+        while solid blocks and shadows hold up better when the surrounding text is dense. Finally,
+        trim trailing spaces before you commit — most editors highlight them, and some linters fail
+        the build over them. This tool already strips them for you.
+      </p>
+
+      <h2>Common mistakes worth avoiding</h2>
+      <p>
+        The most frequent error is over-scaling: a scale of three on an eight-letter word produces a
+        banner roughly 130 characters wide, which wraps in almost every terminal. The second is mixing
+        tabs and spaces — tabs expand differently in every editor, so use spaces only. The third is
+        using decorative Unicode blocks in places that only accept basic ASCII, such as older build
+        logs or strict configuration files; in that case choose the classic hash style, which stays
+        inside the printable ASCII range.
+      </p>
+
+      <h2>Frequently asked questions</h2>
+      <h3>Is ASCII art still used today?</h3>
+      <p>
+        Yes. It appears in READMEs, command-line tools, installer screens, code comments and plain-text
+        email. Anywhere formatting is limited to characters, text art is the only decoration available.
+      </p>
+      <h3>Why does my art look crooked when I paste it?</h3>
+      <p>
+        Almost always a font problem. The art assumes a monospace font where every character has the
+        same width. Switch the destination to a code block or a monospace editor and the alignment
+        returns.
+      </p>
+      <h3>Can I use this ASCII art commercially?</h3>
+      <p>
+        The output is generated from a generic pixel font by your own input, so there is no third-party
+        artwork involved. Treat it as you would any text you typed yourself, and check the terms of the
+        platform you publish on.
+      </p>
+      <h3>What is the difference between ASCII art and figlet banners?</h3>
+      <p>
+        Figlet is a classic program with its own font files, and its banners are usually seven or eight
+        lines tall with slanted edges. This generator follows the same idea but renders from a pixel
+        grid, so styles change the fill rather than the letter shapes.
+      </p>
+      <h3>Does the tool send my text anywhere?</h3>
+      <p>
+        No. All rendering happens in your browser with plain JavaScript. Nothing is uploaded, stored or
+        logged, and the page works offline once it has loaded.
+      </p>
+
+      <h2>About the author</h2>
+      <p class="author-bio">
+        <strong>Written by the Afre Tools team.</strong> We build small, single-purpose browser tools and
+        check each one against real inputs before publishing — including the awkward cases, like a single
+        character, a fourteen-character phrase, punctuation-only text and an empty field. This guide
+        describes how the renderer on this page behaves today, and it is updated whenever the tool changes.
+      </p>
+
+      <p class="disclaimer">
+        <strong>Disclaimer:</strong> this ASCII art generator is provided for personal, educational and
+        design use. Character widths vary between fonts and terminals, so check the result in your own
+        target environment before publishing. The tool is offered as-is, without warranty of any kind.
+      </p>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="container">
+    <p>Part of <a href="../../README.md">Daily Tools</a> — one small browser tool built every day.</p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
