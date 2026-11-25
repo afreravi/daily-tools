@@ -66,11 +66,14 @@
     var i, code;
 
     if (style.custom) {
-      for (code in style.custom) {
-        if (Object.prototype.hasOwnProperty.call(style.custom, code)) {
-          map[String.fromCharCode(Number(code))] = fromCodePoint(style.custom[code]);
+      Object.keys(style.custom).forEach(function (key) {
+        var base = Number(key);
+        var glyph = fromCodePoint(style.custom[key]);
+        map[String.fromCharCode(base)] = glyph;
+        if (base >= 65 && base <= 90) {
+          map[String.fromCharCode(base + 32)] = glyph;
         }
-      }
+      });
       style.map = map;
       return map;
     }
@@ -234,7 +237,7 @@
     ctx.clearRect(0, 0, cssWidth, cssHeight);
 
     var padLeft = 118;
-    var padRight = 16;
+    var padRight = 52;
     var padTop = 14;
     var padBottom = 12;
     var plotWidth = Math.max(40, cssWidth - padLeft - padRight);
