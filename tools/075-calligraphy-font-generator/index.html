@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Calligraphy Font Generator — Copy and Paste Cursive Lettering</title>
+<meta name="description" content="Free calligraphy font generator: type a word once and copy elegant script, bold italic and fraktur lettering for bios, invitations and logos. No sign-up needed.">
+<meta name="theme-color" content="#60089c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Jost:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#workspace">Skip to the generator</a>
+
+<header class="site-head">
+  <div class="container site-head__inner">
+    <a class="brand" href="#top">Calligraphy Font Generator</a>
+    <span class="brand__tag">Free · Works offline · Nothing uploaded</span>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="container">
+      <p class="hero__eyebrow">Copy-and-paste lettering</p>
+      <h1 class="hero__title">Write it in calligraphy, then paste it anywhere</h1>
+      <p class="hero__lead">
+        Type a name, a quote or a short line. This generator rewrites every letter as a
+        genuine Unicode calligraphy character — flowing script, upright italic, bold brush
+        script or blackletter — so the result survives copy and paste into Instagram,
+        wedding stationery, a slide deck or a logo mock-up.
+      </p>
+    </div>
+  </section>
+
+  <section class="workspace" id="workspace" aria-labelledby="workspace-heading">
+    <div class="container">
+      <h2 id="workspace-heading" class="sr-only">Calligraphy font generator controls and preview</h2>
+      <div class="row">
+        <div class="col-lg-5 mb-4 mb-lg-0">
+          <div class="panel">
+            <form id="font-form" novalidate>
+              <div class="form-group">
+                <label for="font-text">Your text</label>
+                <input type="text" class="form-control" id="font-text" value="Ever After"
+                       maxlength="60" autocomplete="off" spellcheck="false" aria-describedby="font-help">
+                <small id="font-help" class="form-text">Up to 60 characters. Accents and emoji pass through unchanged.</small>
+              </div>
+
+              <fieldset class="form-group">
+                <legend class="field-legend">Ornament around the word</legend>
+                <div class="ornament-row" id="ornament-row" role="radiogroup" aria-label="Ornament style"></div>
+              </fieldset>
+
+              <div class="form-row">
+                <div class="form-group col-7">
+                  <label for="font-case">Letter case</label>
+                  <select class="form-control" id="font-case">
+                    <option value="keep" selected>As I typed it</option>
+                    <option value="title">Title Case</option>
+                    <option value="upper">ALL CAPITALS</option>
+                    <option value="lower">all lowercase</option>
+                  </select>
+                </div>
+                <div class="form-group col-5">
+                  <label for="font-spacing">Preview spacing</label>
+                  <select class="form-control" id="font-spacing">
+                    <option value="normal" selected>Normal</option>
+                    <option value="wide">Wide</option>
+                    <option value="wider">Widest</option>
+                  </select>
+                </div>
+              </div>
+
+              <p class="note-small mb-0">
+                Spacing and ornaments apply to the preview only — copying always gives you the
+                plain calligraphy characters plus any ornament you picked.
+              </p>
+            </form>
+          </div>
+
+          <div class="panel panel--tips">
+            <h3 class="panel__title">Reading the chart</h3>
+            <p class="mb-0">
+              The bars below measure how wide each style renders your text. Script lettering
+              leans and flows, so it usually takes more room than upright italic — handy to know
+              before you paste a name into a 30-character bio.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-lg-7">
+          <div class="panel panel--preview">
+            <div class="preview-head">
+              <h2 class="panel__title mb-0">Pick a style</h2>
+              <span class="preview-head__count" id="char-count" aria-live="polite">11 characters</span>
+            </div>
+            <p class="sr-only" id="status" role="status" aria-live="polite"></p>
+            <div id="style-grid" class="style-grid"></div>
+
+            <div class="chart-block">
+              <h3 class="chart-block__title">Rendered width by style</h3>
+              <p class="chart-block__sub" id="chart-sub">Pixels at 18px in a serif stack</p>
+              <div class="chart-wrap">
+                <canvas id="width-chart" width="640" height="300" role="img"
+                        aria-label="Bar chart comparing rendered width of each calligraphy style"></canvas>
+              </div>
+              <p class="chart-block__note mb-0" id="chart-note"></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <article class="article">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <p class="article__meta">Last updated: <time datetime="2026-11-25">25 November 2026</time></p>
+
+          <h2>What a calligraphy font generator actually does</h2>
+          <p>
+            Calligraphy is the art of writing by hand with a broad-edged nib or a brush, where
+            the thick and thin parts of a letter come from the angle of the tool rather than from
+            a type designer's outline. A <strong>calligraphy font generator</strong> borrows that
+            look and delivers it as text. Instead of rendering an image, it swaps each ordinary
+            letter for a different Unicode character that already looks like calligraphy:
+            <span class="glyph-sample">𝒜</span> for A, <span class="glyph-sample">𝓫</span> for b,
+            <span class="glyph-sample">𝔠</span> for c. Those characters live inside the font files
+            installed on nearly every phone and computer, so they display correctly even where you
+            cannot install a custom typeface.
+          </p>
+          <p>
+            That distinction matters. A downloaded TTF file only looks right on a machine that has
+            it installed; a Unicode string looks right everywhere — an Instagram bio, a WhatsApp
+            message, a Notion page, a printed place card. The trade-off is choice: Unicode ships a
+            fixed set of styles, which is exactly what the eight options above cover.
+          </p>
+
+          <h2>How the tool works, step by step</h2>
+          <ol class="steps">
+            <li><strong>Type your line.</strong> A first name, a short quote, a table number, a
+              small logo word. Sixty characters is the practical ceiling for bios and captions.</li>
+            <li><strong>Choose an ornament.</strong> Nothing, a sparkle, a fleuron, a quotation
+              pair or a little constellation. Ornaments travel with the copied text, so they land
+              in your caption exactly as previewed.</li>
+            <li><strong>Preview every style at once.</strong> Each card rewrites the same text, so
+              you can compare a flowing script against a blackletter without retyping.</li>
+            <li><strong>Copy the one you like.</strong> The copy button writes the characters to
+              your clipboard; paste with Ctrl+V or a long press.</li>
+          </ol>
+          <p>
+            Every conversion runs in your browser. Nothing is typed into a form that leaves the
+            page, there is no account and no image rendering queue — which also means the tool
+            keeps working on a plane.
+          </p>
+
+          <h2>The eight styles, and where each one belongs</h2>
+          <ul class="style-list">
+            <li><strong>Bold script</strong> — heavy, confident cursive. The safest pick for a
+              name on a wedding invitation or a book cover.</li>
+            <li><strong>Light script</strong> — the same flow with a finer stroke. Good for
+              signatures and for long lines where bold would feel shouty.</li>
+            <li><strong>Bold italic</strong> — a serif italic with real weight. Reads as engraved
+              stationery rather than handwriting.</li>
+            <li><strong>Upright italic</strong> — slanted but unfussy. The most legible calligraphy
+              option in small sizes, so it suits captions.</li>
+            <li><strong>Blackletter (fraktur)</strong> — the dense, angular hand of old printed
+              books. Perfect for a pub sign, a tattoo flash sheet or a metal poster, heavy going
+              for a paragraph.</li>
+            <li><strong>Bold blackletter</strong> — fraktur with extra ink. Use it for a single
+              word, never a sentence.</li>
+            <li><strong>Double-struck</strong> — the chalk-on-a-blackboard look used in
+              mathematics. It reads as clean and technical rather than romantic.</li>
+            <li><strong>Small caps</strong> — every letter set at capital height. Quiet, formal
+              and the most accessible of the group for readers with low vision.</li>
+          </ul>
+
+          <h2>Practical uses people ask about most</h2>
+          <p>
+            Wedding and event stationery is the big one: names, table numbers, seating cards and
+            "save the date" lines. Second is social media — an Instagram bio header, a Pinterest
+            pin title, a YouTube channel name that needs to stand out in a comment feed. Third is
+            branding mock-ups: you are pitching a logo and need the word to look like lettering
+            before anyone opens Illustrator. Teachers use it for worksheet headings too.
+          </p>
+
+          <h2>Pro tips for better calligraphy text</h2>
+          <p>
+            Keep it short. Script styles are wider than normal text, and a long line in bold
+            script on a phone screen wraps in the middle of a word. Mix weights instead of mixing
+            alphabets — one script word plus one small-caps word looks deliberate, while three
+            styles on one card look accidental. Watch your capitals: several Unicode script
+            capitals are drawn from older letterlike symbols, so a word in all caps can look
+            slightly uneven next to a lowercase one. And always test the paste in the actual app,
+            because a few platforms (older Android keyboards, some email clients) substitute their
+            own font and flatten the effect.
+          </p>
+
+          <h2>Common mistakes to avoid</h2>
+          <p>
+            The first is using Unicode calligraphy for body copy. Screen readers announce these
+            characters inconsistently and search engines index them poorly, so a caption is fine
+            and a 500-word blog post is not. The second is pasting decorated text into a form
+            field that validates names or email addresses — many systems reject non-ASCII letters
+            outright. The third is assuming the characters are an image: they are text, so anyone
+            can select and copy them, and a screenshot is still the only way to guarantee a fixed
+            look.
+          </p>
+
+          <h2>Frequently asked questions</h2>
+          <div class="faq">
+            <h3>Is this real calligraphy?</h3>
+            <p>
+              It is a calligraphic typeface, not hand lettering. The letterforms were drawn by
+              type designers from historical hands — Spencerian and copperplate for the scripts,
+              Textura for the blackletter — then encoded as Unicode so they work as text.
+            </p>
+            <h3>Will the font copy and paste into Instagram or TikTok?</h3>
+            <p>
+              Yes. These characters are plain text, so they paste into bios, captions, comments and
+              usernames. Some apps limit how many non-standard characters a username may contain,
+              so keep handles short.
+            </p>
+            <h3>Why do some letters stay plain?</h3>
+            <p>
+              Unicode only defines calligraphic forms for the Latin alphabet and a few digits.
+              Accented letters, Cyrillic, Greek beyond the basic set and emoji have no script
+              equivalents, so they are passed through unchanged rather than mangled.
+            </p>
+            <h3>Can I use the output in a logo I sell?</h3>
+            <p>
+              The characters themselves are part of the Unicode standard and are not owned by
+              anyone, but a logo built from them can look generic. Treat the result as a
+              placeholder and commission a drawn wordmark before you trademark it.
+            </p>
+            <h3>Does the letter spacing copy too?</h3>
+            <p>
+              No. Spacing is a CSS property applied to the preview. If you need airy spacing in the
+              final artwork, add it in your design app or use a thin space between characters.
+            </p>
+          </div>
+
+          <section class="author-box">
+            <h2 class="author-box__title">About the author</h2>
+            <p>
+              <strong>Ravi Afre</strong> builds small, single-purpose web tools at
+              <a href="https://afreetools.com">afreetools.com</a>. A decade in front-end engineering
+              and typesetting-adjacent work informs each calculator and converter here, all of which
+              run without an account, an upload or a tracking pixel.
+            </p>
+          </section>
+        </div>
+
+        <aside class="col-lg-4">
+          <div class="side-card">
+            <h2 class="side-card__title">Quick glossary</h2>
+            <dl class="glossary">
+              <dt>Script</dt><dd>A connected, slanted hand modelled on handwriting.</dd>
+              <dt>Fraktur</dt><dd>German blackletter with broken, angular strokes.</dd>
+              <dt>Copperplate</dt><dd>Engraved script with extreme thick-to-thin contrast.</dd>
+              <dt>Unicode</dt><dd>The standard that assigns every character a code point.</dd>
+            </dl>
+          </div>
+          <div class="side-card side-card--disclaimer">
+            <h2 class="side-card__title">Disclaimer</h2>
+            <p class="mb-0">
+              This generator is provided for personal and commercial design convenience, "as is",
+              without warranty. Character coverage depends on the fonts installed on the device
+              that displays the text, and some platforms strip or restyle non-ASCII characters.
+              Verify the result in the app where you plan to publish it.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer class="site-foot">
+  <div class="container site-foot__inner">
+    <p class="mb-0">Part of the Daily Tools collection — one new browser tool every day.</p>
+    <a href="../../index.html">All tools</a>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

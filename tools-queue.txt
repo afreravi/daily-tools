@@ -78,7 +78,7 @@
 [done] barbie font generator
 [done] graffiti generator
 [done] Ascii art generator
-Calligraphy font generator
+[done] Calligraphy font generator
 Creepy text generator
 Gothic font generator
 Strikethrough text generator

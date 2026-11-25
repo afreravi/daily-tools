@@ -2,7 +2,7 @@
 
 One new single-page **HTML/CSS/JS** tool, every day — built by an [OpenHands](https://www.openhands.dev) automation, merged by a human.
 
-**Live site:** [afreetools.com](https://afreetools.com) · **74 tools built** · **1 per day since 2025**
+**Live site:** [afreetools.com](https://afreetools.com) · **75 tools built** · **1 per day since 2025**
 
 ## How it works
 
@@ -112,3 +112,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md): Bootstrap 4.6, light th
 | 072 | barbie-font-generator | Type a name to build a Barbie-style logo in pink gradient lettering, download it as SVG, and copy six Barbie-inspired Unicode text... |
 | 073 | graffiti-generator | Create a spray-paint graffiti tag from any name. |
 | 074 | ascii-art-generator | Turn any word into copy-and-paste ASCII art. |
+| 075 | calligraphy-font-generator | Free calligraphy font generator: type once and copy elegant script, italic, blackletter and small-caps Unicode lettering for bios, invites and logos. |
