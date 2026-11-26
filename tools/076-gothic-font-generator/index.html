@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Gothic Font Generator — Blackletter Text to Copy and Paste</title>
+<meta name="description" content="Free gothic font generator: turn plain text into blackletter, fraktur and textura lettering you can copy and paste into bios, tattoos, logos and invites.">
+<meta name="theme-color" content="#60089c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Pirata+One&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip-link" href="#scriptorium">Skip to the generator</a>
+
+<header class="masthead">
+  <div class="container masthead__row">
+    <span class="masthead__mark" aria-hidden="true">G</span>
+    <span class="masthead__name">Gothic Font Generator</span>
+    <span class="masthead__meta">No sign-up · Nothing uploaded · Copy and paste</span>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero">
+    <div class="container">
+      <p class="hero__kicker">Blackletter, fraktur, textura</p>
+      <h1 class="hero__title">Set your words in gothic letters</h1>
+      <p class="hero__lede">
+        Type a name, a shop sign or a band title. This page rewrites every letter as a real
+        Unicode blackletter character — the kind a phone keyboard can paste into Instagram,
+        Discord, a tattoo stencil brief or a label mock-up — and previews the same words in two
+        true gothic typefaces so you can see the weight before you commit.
+      </p>
+    </div>
+  </section>
+
+  <section class="scriptorium" id="scriptorium" aria-labelledby="scriptorium-heading">
+    <div class="container">
+      <h2 id="scriptorium-heading" class="sr-only">Gothic font generator: input and previews</h2>
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card-panel">
+            <form id="gothic-form" novalidate>
+              <label for="gothic-input" class="field-label">Your words</label>
+              <textarea id="gothic-input" class="field-input" rows="3" maxlength="80"
+                        autocomplete="off" spellcheck="false"
+                        aria-describedby="gothic-help">Raven and Crown</textarea>
+              <p id="gothic-help" class="field-help">Up to 80 characters. Letters and numbers are converted; punctuation and emoji stay as they are.</p>
+
+              <div class="field-row">
+                <label for="gothic-space" class="field-label field-label--small">Letter spacing</label>
+                <select id="gothic-space" class="field-select">
+                  <option value="normal" selected>Tight (normal)</option>
+                  <option value="wide">Wide (thin spaces)</option>
+                </select>
+              </div>
+
+              <button type="button" id="gothic-clear" class="btn-ghost">Clear text</button>
+              <p class="field-note" id="gothic-count" aria-live="polite">0 characters</p>
+            </form>
+          </div>
+        </div>
+
+        <div class="col-lg-8">
+          <div class="preview-grid" id="preview-grid">
+            <article class="preview" data-style="fraktur">
+              <header class="preview__head">
+                <h3 class="preview__name">Fraktur</h3>
+                <button type="button" class="copy-btn" data-copy="out-fraktur">Copy</button>
+              </header>
+              <p class="preview__text" id="out-fraktur" tabindex="0" role="textbox" aria-readonly="true" aria-label="Fraktur output"></p>
+            </article>
+
+            <article class="preview" data-style="bold">
+              <header class="preview__head">
+                <h3 class="preview__name">Bold Fraktur</h3>
+                <button type="button" class="copy-btn" data-copy="out-bold">Copy</button>
+              </header>
+              <p class="preview__text" id="out-bold" tabindex="0" role="textbox" aria-readonly="true" aria-label="Bold Fraktur output"></p>
+            </article>
+
+            <article class="preview" data-style="caps">
+              <header class="preview__head">
+                <h3 class="preview__name">Gothic caps</h3>
+                <button type="button" class="copy-btn" data-copy="out-caps">Copy</button>
+              </header>
+              <p class="preview__text" id="out-caps" tabindex="0" role="textbox" aria-readonly="true" aria-label="Gothic caps output"></p>
+            </article>
+
+            <article class="preview preview--type" data-style="maguntia">
+              <header class="preview__head">
+                <h3 class="preview__name">UnifrakturMaguntia</h3>
+                <span class="preview__tag">Web font preview</span>
+              </header>
+              <p class="preview__text preview__text--maguntia" id="out-maguntia"></p>
+            </article>
+
+            <article class="preview preview--type" data-style="pirata">
+              <header class="preview__head">
+                <h3 class="preview__name">Pirata One</h3>
+                <span class="preview__tag">Web font preview</span>
+              </header>
+              <p class="preview__text preview__text--pirata" id="out-pirata"></p>
+            </article>
+          </div>
+
+          <div class="chart-panel">
+            <div class="chart-panel__head">
+              <h3 class="chart-panel__title">Character coverage by style</h3>
+              <label for="chart-scale" class="chart-panel__label">Preview size
+                <input type="range" id="chart-scale" min="20" max="64" step="2" value="34">
+              </label>
+            </div>
+            <canvas id="coverage-chart" height="190" role="img"
+                    aria-label="Bar chart showing the percentage of your characters each gothic style can render"></canvas>
+            <p class="chart-panel__caption" id="chart-caption">Coverage updates as you type.</p>
+          </div>
+        </div>
+      </div>
+      <p class="sr-only" id="copy-status" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section class="reading">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <article class="article">
+            <p class="article__stamp">Last updated: 26 November 2026</p>
+
+            <h2>What a gothic font actually is</h2>
+            <p>
+              Gothic lettering — also called blackletter — is the family of scripts that dominated
+              European manuscripts and early printed books from roughly the twelfth century until
+              roman type pushed it aside in the 1500s. It splits into several hands: <strong>textura</strong>,
+              the tight vertical book hand with diamond-shaped feet; <strong>rotunda</strong>, its rounder
+              southern cousin; <strong>fraktur</strong>, the broken, angular German form that later became
+              the standard for printed German; and <strong>schwabacher</strong>, a softer variant that
+              printers used for headings. When people ask for a "gothic font" today they almost
+              always mean fraktur or textura, the two this generator leans on.
+            </p>
+            <p>
+              That history matters because blackletter is not one look. A tattoo artist who wants
+              a heavy textura stencil and a bakery owner who wants a light fraktur wordmark are
+              asking for very different weights. Use the previews on this page to compare before
+              you ask a designer or an engraver for a quote.
+            </p>
+
+            <h2>How this generator produces copyable gothic text</h2>
+            <p>
+              The three upper cards are not pictures. They are Unicode: since 2001 the standard has
+              included a <em>Mathematical Fraktur</em> alphabet in the range U+1D504–U+1D537, plus a
+              bold fraktur set at U+1D56C–U+1D59F. Because those are ordinary text characters, not
+              an image or a font file, they survive a copy and paste into almost any app — Instagram
+              bios, YouTube titles, Discord nicknames, WhatsApp, a CMS field, an email subject line.
+              The receiving device simply needs a font that draws them, which most modern systems do.
+            </p>
+            <p>
+              Five capital letters are the historical exception. Fraktur <em>C, H, I, R</em> and <em>Z</em>
+              were encoded earlier as letterlike symbols, so they live outside the mathematical block
+              at U+212D, U+210C, U+2111, U+211C and U+2128. This tool swaps them in automatically,
+              which is why the capitals do not show up as empty boxes. Numbers have no fraktur forms
+              at all, so digits are rendered in the matching bold or sans-serif mathematical style.
+            </p>
+
+            <h2>Where blackletter earns its keep</h2>
+            <p>
+              The style is loud, so give it a job that suits a loud voice. Breweries and distilleries
+              use fraktur on labels because it reads as old and hand-made. Metal and hardcore bands
+              have used it on covers for decades. Tattoo studios lean on textura for script-style
+              names and on fraktur for blockier lettering. Wedding suites borrow it for a single
+              monogram, never for the seating plan. Game masters and guild leaders use it for
+              faction names, and a surprising number of readers use it to decorate a Notion heading
+              or a journal index.
+            </p>
+
+            <h2>Practical tips from daily use</h2>
+            <ul>
+              <li><strong>Keep the line short.</strong> Blackletter has dense counters. Two or three words set large will always beat a full sentence.</li>
+              <li><strong>Switch on wide spacing for social bios.</strong> Fraktur letters crowd each other at small sizes; thin spaces restore legibility on a phone screen.</li>
+              <li><strong>Pair with a plain roman face.</strong> A gothic heading over an Inter or Helvetica body keeps the page readable and the contrast deliberate.</li>
+              <li><strong>Test on the real device.</strong> Paste your result into the app you plan to use before you order anything printed.</li>
+              <li><strong>Check names before you commit.</strong> A wordmark can infringe a registered trademark even when the letters are Unicode.</li>
+            </ul>
+
+            <h2>Mistakes worth avoiding</h2>
+            <p>
+              The most common error is using gothic text for body copy. It is a display style, and
+              long paragraphs in it tire the eye fast. The second is accessibility: screen readers
+              announce mathematical letters inconsistently, so never put essential information —
+              a price, a date, a legal notice — in stylised characters alone. The third is
+              over-decoration: combining a gothic face with a border, a shadow and a gradient
+              usually reads as noise rather than craft. And remember that Unicode gothic is a
+              character set, not a typeface — you cannot kern it, so if you need true spacing
+              control for print, license a blackletter font and set it properly.
+            </p>
+
+            <h2>Frequently asked questions</h2>
+            <div class="faq">
+              <h3>Can I use gothic font text in my Instagram bio?</h3>
+              <p>Yes. The Unicode outputs on this page paste cleanly into Instagram, TikTok, Discord and X. Some apps limit how many special characters a display name accepts, so test with a short string first.</p>
+
+              <h3>Why do some gothic letters look like ordinary capitals?</h3>
+              <p>That is the letterlike-symbol quirk described above. Your device is drawing ℭ, ℌ, ℑ, ℜ or ℨ from a different font than the rest of the word, so the weight can look slightly lighter. Bold fraktur avoids the mismatch entirely.</p>
+
+              <h3>Will gothic text work in a Google Doc or Word file?</h3>
+              <p>It will paste, but the file only shows it correctly if the reader's font covers the mathematical block. For documents that must look identical everywhere, embed a real blackletter font instead.</p>
+
+              <h3>Is this the same as the "gothic" fonts in Canva or Word?</h3>
+              <p>No. Those are typefaces with outlines and kerning. This tool gives you characters. Use it for quick social text; use a font file for anything printed at scale.</p>
+
+              <h3>Do I need to pay or sign up?</h3>
+              <p>No. Everything runs in your browser, nothing is uploaded, and there is no account. You can save this page and use it offline.</p>
+            </div>
+
+            <h2>About the author</h2>
+            <p class="author">
+              <span class="author__mark" aria-hidden="true">AF</span>
+              <span><strong>Written by the Afre Tools editorial desk.</strong> We build small, free
+              browser tools and document how the underlying maths, encodings and standards behave.
+              This guide was checked against the Unicode Standard's Mathematical Alphanumeric Symbols
+              block (U+1D400–U+1D7FF) and its Letterlike Symbols block (U+2100–U+214F), and the
+              previews use the open-source UnifrakturMaguntia and Pirata One typefaces.</span>
+            </p>
+
+            <p class="disclaimer">
+              <strong>Disclaimer:</strong> this generator is provided for design and entertainment
+              purposes. Glyph availability varies by device, operating system and app, so always
+              verify a result before printing, engraving, tattooing or publishing it. Nothing here
+              is legal advice on trademarks or licensing.
+            </p>
+          </article>
+        </div>
+
+        <aside class="col-lg-4">
+          <div class="side-note">
+            <h2 class="side-note__title">Quick reference</h2>
+            <dl class="side-note__list">
+              <dt>Fraktur</dt><dd>Angular, broken strokes. The classic German book hand.</dd>
+              <dt>Textura</dt><dd>Dense vertical rhythm, diamond feet. Heavy and formal.</dd>
+              <dt>Rotunda</dt><dd>Rounder, softer; common in Italian manuscripts.</dd>
+              <dt>Schwabacher</dt><dd>A transitional German style, lighter than fraktur.</dd>
+            </dl>
+            <p class="side-note__foot">Unicode block to know: <code>U+1D504–U+1D537</code> (Mathematical Fraktur).</p>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="container site-foot__row">
+    <p>Gothic Font Generator · part of the Afre Tools daily build</p>
+    <p><a href="/">All tools</a></p>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
