@@ -113,3 +113,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md): Bootstrap 4.6, light th
 | 073 | graffiti-generator | Create a spray-paint graffiti tag from any name. |
 | 074 | ascii-art-generator | Turn any word into copy-and-paste ASCII art. |
 | 075 | calligraphy-font-generator | Free calligraphy font generator: type once and copy elegant script, italic, blackletter and small-caps Unicode lettering for bios, invites and logos. |
+| 076 | gothic-font-generator | Free gothic font generator: turn plain text into copy-and-paste blackletter, fraktur and textura lettering, with live typeface previews and a glyph coverage chart. |

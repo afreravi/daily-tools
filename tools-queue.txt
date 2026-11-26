@@ -79,8 +79,8 @@
 [done] graffiti generator
 [done] Ascii art generator
 [done] Calligraphy font generator
-Creepy text generator
-Gothic font generator
+[done] Creepy text generator (already shipped as 067-creepy-text-generator)
+[done] Gothic font generator
 Strikethrough text generator
 Wingdings translator
 underline text generator
