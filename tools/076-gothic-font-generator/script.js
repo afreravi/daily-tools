@@ -187,7 +187,7 @@
       roundRect(ctx, padLeft, y - barH / 2, trackW, barH, barH / 2);
       ctx.fill();
 
-      var width = Math.max(6, (trackW * row.px) / maxPx);
+      var width = row.px > 0 ? Math.max(6, (trackW * row.px) / maxPx) : 0;
       if (width > 0) {
         var grad = ctx.createLinearGradient(padLeft, 0, padLeft + width, 0);
         grad.addColorStop(0, '#7a1cbb');
@@ -237,6 +237,8 @@
       ? trimmed.length + ' character' + (trimmed.length === 1 ? '' : 's')
       : 'Nothing typed yet';
 
+    applyScale();
+
     var baseSize = parseInt(scaleInput.value, 10) || 34;
     var rows = STYLES.map(function (style) {
       var sample = styleText(raw, style.key);
@@ -264,10 +266,10 @@
     var size = parseInt(scaleInput.value, 10);
     if (isNaN(size)) { return; }
     [outputs.fraktur, outputs.bold, outputs.caps].forEach(function (el) {
-      el.style.fontSize = size + 'px';
+      el.style.fontSize = el.classList.contains('is-empty') ? '' : size + 'px';
     });
-    outputs.maguntia.style.fontSize = Math.round(size * 1.32) + 'px';
-    outputs.pirata.style.fontSize = Math.round(size * 1.16) + 'px';
+    outputs.maguntia.style.fontSize = outputs.maguntia.classList.contains('is-empty') ? '' : Math.round(size * 1.32) + 'px';
+    outputs.pirata.style.fontSize = outputs.pirata.classList.contains('is-empty') ? '' : Math.round(size * 1.16) + 'px';
   }
 
   function fallbackCopy(text) {
