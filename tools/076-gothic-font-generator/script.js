@@ -112,25 +112,28 @@
     return out.replace(new RegExp(THIN_SPACE + '+$'), '');
   }
 
-  function isBasicLatinLetterOrDigit(ch) {
-    var code = ch.charCodeAt(0);
-    return (code >= 48 && code <= 57) || (code >= 65 && code <= 90) || (code >= 97 && code <= 122);
+  var FONT_STACKS = {
+    fraktur: '"Noto Sans Math", "Cambria Math", "STIX Two Math", "DejaVu Sans", sans-serif',
+    bold: '"Noto Sans Math", "Cambria Math", "STIX Two Math", "DejaVu Sans", sans-serif',
+    caps: '"Noto Sans Math", "Cambria Math", "STIX Two Math", "DejaVu Sans", sans-serif',
+    maguntia: '"UnifrakturMaguntia", Georgia, serif',
+    pirata: '"Pirata One", Georgia, serif'
+  };
+
+  var SCALE = { fraktur: 1, bold: 1, caps: 1, maguntia: 1.32, pirata: 1.16 };
+
+  function styleText(text, key) {
+    if (key === 'maguntia' || key === 'pirata') { return text; }
+    return convert(text, key);
   }
 
-  function coverage(text, style) {
-    var total = 0;
-    var covered = 0;
-    for (var i = 0; i < text.length; i += 1) {
-      var ch = text.charAt(i);
-      if (/\s/.test(ch)) { continue; }
-      total += 1;
-      if (style === 'maguntia' || style === 'pirata') {
-        if (isBasicLatinLetterOrDigit(ch)) { covered += 1; }
-      } else if (convertChar(ch, style) !== ch) {
-        covered += 1;
-      }
-    }
-    return { total: total, covered: covered, pct: total ? Math.round((covered / total) * 100) : 0 };
+  /* Width is measured in the browser with the real font, so it reflects what the reader will see. */
+  function measureWidth(text, key, baseSize) {
+    var ctx = canvas.getContext('2d');
+    if (!ctx) { return 0; }
+    var size = Math.round(baseSize * SCALE[key]);
+    ctx.font = '400 ' + size + 'px ' + FONT_STACKS[key];
+    return ctx.measureText(text).width;
   }
 
   function setPreview(el, value, emptyLabel) {
@@ -154,6 +157,7 @@
     ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
     ctx.clearRect(0, 0, cssWidth, cssHeight);
 
+    var maxPx = data.reduce(function (m, row) { return Math.max(m, row.px); }, 0) || 1;
     var padLeft = 92;
     var padRight = 44;
     var top = 12;
@@ -164,16 +168,13 @@
     ctx.font = '12px Inter, system-ui, sans-serif';
     ctx.textBaseline = 'middle';
 
-    [0, 50, 100].forEach(function (tick) {
-      var x = padLeft + (trackW * tick) / 100;
-      ctx.strokeStyle = tick === 0 ? '#d8cbe4' : '#efe7f6';
+    [0, 0.5, 1].forEach(function (fraction) {
+      var x = padLeft + trackW * fraction;
+      ctx.strokeStyle = fraction === 0 ? '#d8cbe4' : '#efe7f6';
       ctx.beginPath();
       ctx.moveTo(x, top - 4);
       ctx.lineTo(x, cssHeight - 6);
       ctx.stroke();
-      ctx.fillStyle = '#8b8199';
-      ctx.textAlign = 'center';
-      ctx.fillText(tick + '%', x, cssHeight - 2);
     });
 
     data.forEach(function (row, index) {
@@ -186,7 +187,7 @@
       roundRect(ctx, padLeft, y - barH / 2, trackW, barH, barH / 2);
       ctx.fill();
 
-      var width = Math.max(row.pct > 0 ? 6 : 0, (trackW * row.pct) / 100);
+      var width = Math.max(6, (trackW * row.px) / maxPx);
       if (width > 0) {
         var grad = ctx.createLinearGradient(padLeft, 0, padLeft + width, 0);
         grad.addColorStop(0, '#7a1cbb');
@@ -198,7 +199,7 @@
 
       ctx.fillStyle = '#470572';
       ctx.textAlign = 'left';
-      ctx.fillText(row.pct + '%', padLeft + trackW + 8, y);
+      ctx.fillText(row.px + 'px', padLeft + trackW + 8, y);
     });
   }
 
@@ -236,21 +237,26 @@
       ? trimmed.length + ' character' + (trimmed.length === 1 ? '' : 's')
       : 'Nothing typed yet';
 
+    var baseSize = parseInt(scaleInput.value, 10) || 34;
     var rows = STYLES.map(function (style) {
-      var cov = coverage(raw, style.key);
-      return { label: style.label, pct: cov.pct, covered: cov.covered, total: cov.total };
+      var sample = styleText(raw, style.key);
+      return { label: style.label, px: Math.round(measureWidth(sample, style.key, baseSize)) };
     });
 
     renderChart(rows);
 
-    var first = rows[0];
     if (!trimmed) {
-      caption.textContent = 'Type a word to see how much of it each style can convert.';
-    } else if (first.total === 0) {
-      caption.textContent = 'Only spaces so far — add letters to see coverage.';
+      caption.textContent = 'Type a word to compare how wide it runs in each gothic style.';
     } else {
-      caption.textContent = 'Fraktur converted ' + first.covered + ' of ' + first.total +
-        ' visible characters. Symbols without a blackletter form pass through unchanged.';
+      var widest = rows.reduce(function (best, row) {
+        return row.px > best.px ? row : best;
+      }, rows[0]);
+      var narrowest = rows.reduce(function (best, row) {
+        return row.px < best.px ? row : best;
+      }, rows[0]);
+      caption.textContent = 'Widest: ' + widest.label + ' at ' + widest.px + 'px. Narrowest: ' +
+        narrowest.label + ' at ' + narrowest.px + 'px. Measured live in your browser at ' +
+        baseSize + 'px, so you can pick a style that fits a bio or a sign.';
     }
   }
 
@@ -336,6 +342,10 @@
     window.clearTimeout(resizeTimer);
     resizeTimer = window.setTimeout(update, 140);
   });
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(update);
+  }
 
   applyScale();
   update();
