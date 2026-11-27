@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Strikethrough Text Generator - Copy &amp; Paste Struck Text</title>
+  <meta name="description" content="Strikethrough text generator turns plain words into copy-and-paste struck-through Unicode text for posts, docs and lists. Ten styles, live preview, free.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#tool">Skip to the generator</a>
+
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">A Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Strikethrough Text Generator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 mb-2 font-weight-bold">Strikethrough Text Generator</h1>
+      <p class="lead text-muted mb-0">
+        Type a line, pick a strike style, and copy text that stays crossed out everywhere &mdash;
+        captions, comments, chat, documents and spreadsheets. No fonts to install, no account,
+        no formatting to lose.
+      </p>
+    </header>
+
+    <section id="tool" class="card tool-card mb-4" aria-labelledby="toolHeading">
+      <div class="card-body p-4">
+        <h2 id="toolHeading" class="h5 mb-3">Your text</h2>
+
+        <label for="sourceText" class="sr-only">Text to strike through</label>
+        <textarea id="sourceText" class="form-control source-input" rows="3" maxlength="400"
+          placeholder="Type or paste up to 400 characters, e.g. Limited time offer"
+          aria-describedby="sourceHelp"></textarea>
+
+        <div class="d-flex flex-wrap align-items-center mt-3">
+          <button type="button" id="sampleBtn" class="btn btn-sm btn-outline-theme mr-2 mb-2">Try a sample</button>
+          <button type="button" id="clearBtn" class="btn btn-sm btn-outline-secondary mr-2 mb-2">Clear</button>
+          <button type="button" id="downloadBtn" class="btn btn-sm btn-outline-theme mr-2 mb-2">Download all styles (.txt)</button>
+          <span id="charCount" class="small text-muted ml-auto mb-2">0 / 400 characters</span>
+        </div>
+
+        <p id="sourceHelp" class="small text-muted mb-0 mt-2">
+          Whitespace is never struck, so word spacing stays intact. Emoji and pictographs cannot
+          carry a stroke &mdash; the coverage chart below shows how much of your line each style handles.
+        </p>
+      </div>
+    </section>
+
+    <div class="row">
+      <div class="col-lg-5 mb-4">
+        <section class="card preview-card h-100" aria-labelledby="previewHeading">
+          <div class="card-body p-4">
+            <h2 id="previewHeading" class="h6 text-uppercase text-muted mb-3">Live preview</h2>
+            <p id="previewText" class="preview-text mb-2" aria-live="polite">Nothing to strike yet</p>
+            <p class="small text-muted mb-0" id="previewMeta">Start typing to see the standard strikethrough.</p>
+            <ul class="small text-muted pl-3 mt-3 mb-0 preview-tips">
+              <li>Stays struck in Instagram, X, Facebook and TikTok captions.</li>
+              <li>Survives Slack, WhatsApp, Discord and plain email.</li>
+              <li>Pastes cleanly into Docs, Sheets, Notion and Word.</li>
+            </ul>
+          </div>
+        </section>
+      </div>
+
+      <div class="col-lg-7 mb-4">
+        <section class="card h-100" aria-labelledby="chartHeading">
+          <div class="card-body p-4">
+            <h2 id="chartHeading" class="h6 text-uppercase text-muted mb-1">Style coverage for your text</h2>
+            <p class="small text-muted mb-3">
+              Share of your visible characters each style can actually render.
+            </p>
+            <canvas id="coverageChart" width="600" height="320" role="img"
+              aria-label="Bar chart of how much of your text each strikethrough style covers"></canvas>
+            <p id="chartSummary" class="small text-muted mb-0 mt-2">Type something to measure coverage.</p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <section class="mb-4" aria-labelledby="resultsHeading">
+      <div class="d-flex align-items-baseline justify-content-between mb-3">
+        <h2 id="resultsHeading" class="h5 mb-0">Copy a style</h2>
+        <span class="small text-muted">Click Copy, or focus a box and press Ctrl / Cmd + C</span>
+      </div>
+      <div id="results" class="row"></div>
+      <p id="emptyState" class="alert alert-light border small mb-0">
+        Your styles appear here as soon as you type a few characters.
+      </p>
+    </section>
+
+    <section class="card mb-4" aria-labelledby="htmlHeading">
+      <div class="card-body p-4">
+        <h2 id="htmlHeading" class="h6 text-uppercase text-muted mb-2">For web pages: real HTML strikethrough</h2>
+        <p class="small text-muted mb-2">
+          Inside HTML, Unicode strokes are the wrong tool. Use the <code>&lt;del&gt;</code> element
+          instead &mdash; screen readers announce it as deleted text, and it stays editable.
+        </p>
+        <pre class="html-out mb-2"><code id="htmlOut">&lt;del&gt;your text&lt;/del&gt;</code></pre>
+        <button type="button" id="copyHtmlBtn" class="btn btn-sm btn-outline-theme">Copy HTML</button>
+      </div>
+    </section>
+
+    <p id="status" class="copy-status" role="status" aria-live="polite"></p>
+
+    <article class="article mt-5">
+      <h2 class="h4 mb-3">Why crossed-out text is worth generating</h2>
+      <p>
+        Strikethrough is the oldest editing mark there is, and it survives because it says two
+        things at once: <em>this was here</em> and <em>this no longer applies</em>. In a shared doc
+        that is priceless. A price drop, a corrected date, a task you abandoned &mdash; each one
+        reads faster crossed out than explained in a sentence. The problem is that most platforms
+        with a text box refuse to give you the button. Twitter, Instagram, LinkedIn, YouTube
+        comments and plenty of chat apps have no strikethrough control at all.
+      </p>
+      <p>
+        This generator gets around that limitation honestly. It does not take a screenshot or add
+        fake CSS. It inserts a Unicode combining character &mdash; technically a stroke overlay
+        that a font draws through the preceding glyph &mdash; after every visible character in your
+        line. The result is ordinary text. It copies like text, pastes like text, and keeps its
+        stroke in any app that renders Unicode properly, which today means almost all of them.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">How the generator builds each style</h2>
+      <p>
+        Every style in the list is a small recipe. The <strong>standard strikethrough</strong> uses
+        U+0336, the combining long stroke overlay. The <strong>short strikethrough</strong> uses
+        U+0335, which many fonts draw as a series of dashes rather than one continuous rule. Swap
+        the stroke for U+0338 and you get a <strong>slash through</strong>; U+0334 produces a wavy
+        line instead of a straight one. Stacking two strokes gives the heavier
+        <strong>double strikethrough</strong>, and adding U+0332 underneath produces the
+        <strong>strike plus underline</strong> look people use for "final answer" jokes.
+      </p>
+      <p>
+        The <strong>bold</strong> and <strong>italic</strong> variants take a different route. They
+        first convert your letters into the Unicode Mathematical Bold or Mathematical Italic blocks,
+        then add the stroke. That means they only work on characters that have a mathematical
+        counterpart &mdash; Latin letters mostly, and digits in the bold set. The coverage chart
+        above measures exactly that for your own text, so you can see before you paste whether a
+        style will hold up on a line full of numbers or symbols.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">Where people actually use it</h2>
+      <ul>
+        <li><strong>Social captions and comments.</strong> Cross out a claim you are walking back, or set up the classic "I was going to say &mdash; never mind" joke.</li>
+        <li><strong>Pricing and promotions.</strong> Show a previous price beside the new one in a post where you cannot style text at all.</li>
+        <li><strong>Task lists and changelogs.</strong> A struck item reads as finished without an extra word of explanation.</li>
+        <li><strong>Document edits.</strong> Mark a superseded figure inside a sentence when tracked changes are not available.</li>
+        <li><strong>Chat and email.</strong> Correct a typo visibly instead of silently, which avoids the "wait, what changed?" reply.</li>
+      </ul>
+
+      <h2 class="h4 mt-4 mb-3">Pro tips from regular use</h2>
+      <p>
+        Keep struck lines short. A stroke through a long paragraph becomes visual noise, and on a
+        phone the line breaks fall wherever they like. Strike a phrase, not a page. If you are
+        striking numbers, test the paste in the destination app first &mdash; a few apps normalise
+        unusual characters on the way in. Avoid striking inside a hashtag or a mention, because the
+        combining marks can break the link or the search match. And when you need the crossed text
+        to be selectable, searchable and announced correctly by a screen reader, use the HTML
+        <code>&lt;del&gt;</code> snippet instead of Unicode strokes.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">Common mistakes to avoid</h2>
+      <p>
+        The first is assuming every device will render the stroke identically. Fonts choose how to
+        draw a combining mark; most draw a clean line, a few draw something thinner or offset. The
+        second is pasting into a field with a strict character whitelist &mdash; some username boxes
+        and SMS gateways strip anything outside the basic Latin range, and the stroke vanishes. The
+        third is relying on Unicode text for accessibility. Combining marks are read inconsistently
+        by screen readers, so a strike-through joke can fall flat for a listener. Use it for
+        decoration and visual shorthand, not for information that only the stroke conveys.
+      </p>
+
+      <h2 class="h4 mt-4 mb-3">Frequently asked questions</h2>
+      <h3 class="h6 mt-3 mb-1">Does strikethrough text work on Instagram and TikTok?</h3>
+      <p class="mb-3">
+        Yes, in captions and comments. Both apps render combining stroke overlays, though the exact
+        thickness follows the platform font. Bios are stricter about unusual characters, so paste
+        and check before saving.
+      </p>
+      <h3 class="h6 mt-3 mb-1">Can I undo it once pasted?</h3>
+      <p class="mb-3">
+        Delete and retype. A struck line is a different string from the plain one, so find-and-replace
+        on the original word will not match it. Keep the plain version in a notes app if you plan to
+        reuse the sentence.
+      </p>
+      <h3 class="h6 mt-3 mb-1">Why do some letters look uneven?</h3>
+      <p class="mb-3">
+        Combining marks attach to the character before them. When a font has no glyph for the pair,
+        the browser synthesises one, which can sit a pixel high or low. Switching to the short
+        strikethrough or the slash often looks tidier on a mixed line.
+      </p>
+      <h3 class="h6 mt-3 mb-1">Is the text still searchable?</h3>
+      <p class="mb-3">
+        Only if someone searches for the struck version. Search engines and in-app search index the
+        literal characters, stroke included, so a struck word will not match its plain spelling.
+        That is another reason to keep Unicode strikes for decoration.
+      </p>
+
+      <div class="author-box mt-4 p-3">
+        <p class="mb-1"><strong>Written by the A Free Tools team.</strong></p>
+        <p class="small text-muted mb-0">
+          We build small, single-purpose browser tools and test each one against real platforms
+          before publishing &mdash; including pasting the output into social apps, chat clients and
+          spreadsheets to see where Unicode strokes survive. Character names and code points in this
+          guide come from the Unicode Character Database, and every style on this page is generated
+          live in your browser, so nothing you type is uploaded or stored.
+        </p>
+      </div>
+
+      <p class="small text-muted mt-3 mb-1">Last updated: 27 November 2026</p>
+      <p class="disclaimer small mb-0">
+        Disclaimer: this tool is provided for convenience. Rendering of Unicode combining characters
+        varies by font, app and device, and we cannot guarantee identical results everywhere. Always
+        check the pasted text in its final destination before publishing.
+      </p>
+    </article>
+  </main>
+
+  <footer class="site-footer py-4 mt-4">
+    <div class="container small">
+      <a href="/">A Free Tools</a> &middot; <a href="/tools/">All tools</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
