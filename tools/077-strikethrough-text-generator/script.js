@@ -51,6 +51,10 @@
       if (keepSpace !== false && isWhitespace(ch)) {
         return ch;
       }
+      // Pictographs have no combining-mark anchor: the stroke lands beside the glyph.
+      if (isPictograph(ch)) {
+        return ch;
+      }
       return ch + mark;
     }).join('');
   }
