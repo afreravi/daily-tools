@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wingdings Translator - Convert Text to Dingbat Symbols</title>
+  <meta name="description" content="Free Wingdings translator: turn any message into copy-and-paste dingbat symbols and decode them back. Letters, digits and punctuation, with a live key chart.">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#tool">Skip to the translator</a>
+
+  <main class="container py-4 py-md-5">
+
+    <nav aria-label="breadcrumb" class="small">
+      <ol class="breadcrumb bg-transparent px-0 mb-3">
+        <li class="breadcrumb-item"><a href="/">Free Tools</a></li>
+        <li class="breadcrumb-item"><a href="/tools/">Tools</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Wingdings Translator</li>
+      </ol>
+    </nav>
+
+    <header class="mb-4">
+      <h1 class="h2 font-weight-bold mb-2">Wingdings Translator</h1>
+      <p class="lead text-muted mb-0">
+        Type a message and watch it turn into a row of symbols you can paste anywhere &mdash;
+        chat, comments, captions, spreadsheets. Paste symbols back and the
+        translator reads them as plain letters again.
+      </p>
+    </header>
+
+    <section id="tool" class="card tool-card mb-4" aria-labelledby="toolHeading">
+      <div class="card-body p-4 p-md-4">
+        <h2 id="toolHeading" class="h5 mb-3">Translate your text</h2>
+
+        <ul class="nav nav-pills mode-switch mb-3" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="encodeTab" data-toggle="pill" data-target="#encodePane"
+              type="button" role="tab" aria-controls="encodePane" aria-selected="true">Text to symbols</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="decodeTab" data-toggle="pill" data-target="#decodePane"
+              type="button" role="tab" aria-controls="decodePane" aria-selected="false">Symbols to text</button>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <div class="tab-pane fade show active" id="encodePane" role="tabpanel" aria-labelledby="encodeTab">
+            <label for="sourceText" class="font-weight-bold small text-uppercase tracking">Your message</label>
+            <textarea id="sourceText" class="form-control source-input" rows="3" maxlength="500"
+              placeholder="Type up to 500 characters, e.g. Meet me at eight"
+              aria-describedby="sourceHelp"></textarea>
+
+            <div class="d-flex flex-wrap align-items-center mt-3">
+              <button type="button" id="sampleBtn" class="btn btn-sm btn-outline-theme mr-2 mb-2">Try a sample</button>
+              <button type="button" id="clearBtn" class="btn btn-sm btn-outline-secondary mr-2 mb-2">Clear</button>
+              <button type="button" id="copyBtn" class="btn btn-sm btn-theme mr-2 mb-2">Copy symbols</button>
+              <button type="button" id="downloadBtn" class="btn btn-sm btn-outline-theme mr-2 mb-2">Download .txt</button>
+              <span id="charCount" class="small text-muted ml-auto mb-2">0 / 500 characters</span>
+            </div>
+
+            <p id="sourceHelp" class="small text-muted mb-0 mt-2">
+              Every letter maps to one symbol, so the output stays the same length as your input.
+              Spaces and line breaks are kept as they are.
+            </p>
+
+            <fieldset class="mt-3">
+              <legend class="sr-only">Character sets to translate</legend>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="optDigits" checked>
+                <label class="custom-control-label small" for="optDigits">Include numbers</label>
+              </div>
+              <div class="custom-control custom-checkbox custom-control-inline">
+                <input type="checkbox" class="custom-control-input" id="optPunct" checked>
+                <label class="custom-control-label small" for="optPunct">Include punctuation</label>
+              </div>
+            </fieldset>
+          </div>
+
+          <div class="tab-pane fade" id="decodePane" role="tabpanel" aria-labelledby="decodeTab">
+            <label for="encodedText" class="font-weight-bold small text-uppercase tracking">Paste symbols</label>
+            <textarea id="encodedText" class="form-control source-input" rows="3" maxlength="500"
+              placeholder="Paste a line of symbols, e.g. ☕☄☄✐"
+              aria-describedby="decodeHelp"></textarea>
+            <div class="d-flex flex-wrap align-items-center mt-3">
+              <button type="button" id="decodeBtn" class="btn btn-sm btn-theme mr-2 mb-2">Read as text</button>
+              <button type="button" id="decodeClearBtn" class="btn btn-sm btn-outline-secondary mr-2 mb-2">Clear</button>
+              <button type="button" id="decodeCopyBtn" class="btn btn-sm btn-outline-theme mr-2 mb-2">Copy text</button>
+            </div>
+            <p id="decodeHelp" class="small text-muted mb-0 mt-2">
+              Symbols this tool did not produce are left in place, so you can see exactly what it could not read.
+            </p>
+          </div>
+        </div>
+
+        <div class="result-box mt-4" id="resultBox">
+          <div class="d-flex justify-content-between align-items-baseline mb-2">
+            <h3 class="h6 mb-0 text-uppercase tracking text-muted">Result</h3>
+            <span id="resultNote" class="small text-muted" role="status" aria-live="polite">Waiting for input</span>
+          </div>
+          <output id="resultOut" class="glyph-output" aria-live="polite"></output>
+          <p id="resultWarn" class="small text-warning mb-0 mt-2 d-none"></p>
+        </div>
+
+        <div class="row mt-4">
+          <div class="col-md-5 mb-3 mb-md-0">
+            <h3 class="h6 text-uppercase tracking text-muted">Coverage</h3>
+            <canvas id="coverageChart" width="320" height="200" role="img"
+              aria-label="Chart of translated and untranslated characters"></canvas>
+            <p id="chartCaption" class="small text-muted mt-2 mb-0">Nothing to chart yet.</p>
+          </div>
+          <div class="col-md-7">
+            <h3 class="h6 text-uppercase tracking text-muted">Font preview</h3>
+            <div id="fontPreview" class="font-preview" aria-hidden="true">Sample text</div>
+            <p id="fontStatus" class="small text-muted mt-2 mb-0">
+              This box asks your system for the Wingdings font. If it is not installed, your browser
+              quietly falls back to a normal typeface &mdash; the symbol output above works either way.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card soft-card mb-4" aria-labelledby="keyHeading">
+      <div class="card-body p-4">
+        <h2 id="keyHeading" class="h5 mb-1">The key</h2>
+        <p class="small text-muted mb-3">This translator uses a fixed one-to-one key. Same input, same output, every time.</p>
+        <div id="keyTable" class="key-grid"></div>
+      </div>
+    </section>
+
+    <article class="article">
+      <p class="last-updated small text-muted">Last updated: 28 November 2026</p>
+
+      <h2 class="h4 mt-4">What a Wingdings translator actually does</h2>
+      <p>
+        Wingdings is a symbol typeface that shipped with early Windows. Instead of drawing letters, it
+        draws arrows, hands, clocks, stars and crosses in the same slots where an ordinary font keeps
+        its alphabet. That single quirk created a lasting party trick: switch a sentence to Wingdings
+        and readable words become a line of pictograms. Our translator recreates the experience without
+        asking you to install anything. It swaps each character in your message for a matching Unicode
+        symbol, so the result is ordinary text you can copy, paste, search and send.
+      </p>
+      <p>
+        That last detail matters more than it sounds. A real font only looks like Wingdings on machines
+        that own the font file. Symbol characters travel with the message itself, which means your
+        pasted line looks the same on a phone, in a spreadsheet cell, in a comment box or in an email
+        signature. If you want the honest technical framing: this is a <strong>dingbat substitution
+        cipher</strong>, not a font switch. It is the practical version of the idea.
+      </p>
+
+      <h2 class="h4 mt-4">How the translation works</h2>
+      <p>
+        The tool reads your text one character at a time. Letters A to Z become a fixed set of symbols
+        &mdash; sun, cloud, umbrella, telephone, pointing hands, skull, peace sign, yin-yang and friends.
+        Digits and punctuation have their own blocks, and you can switch either group off if you want
+        letters only. Case is folded, so &ldquo;Hello&rdquo; and &ldquo;hello&rdquo; encode the same way,
+        which keeps the key short enough to memorise. Spaces, tabs and line breaks pass straight through,
+        so word boundaries survive the trip.
+      </p>
+      <p>
+        Decoding runs the same key backwards. Paste a line of symbols into the second tab and each one
+        is looked up in the reverse table. Anything the tool did not produce &mdash; an emoji, a stray
+        bracket, a character from someone else's cipher &mdash; is left untouched and flagged, so you
+        never get a silent wrong answer. The coverage chart next to the result counts what was mapped
+        and what was not, which is the fastest way to spot a typo in a long pasted line.
+      </p>
+
+      <h2 class="h4 mt-4">Where people use it</h2>
+      <p>
+        Most visits fall into a few familiar patterns. Teachers turn spelling words into symbol lines so
+        students have to decode them, which works surprisingly well as a warm-up exercise. Friends send
+        short secret notes in group chats where a plain &ldquo;see you at eight&rdquo; would spoil the
+        surprise. Puzzle makers and escape-room designers use symbol alphabets as a cheap substitution
+        cipher, and the downloadable key saves them redrawing one by hand.
+      </p>
+      <p>
+        There is a design use too. Symbol strings make distinctive dividers for newsletters and slide
+        decks, and because they are text rather than images, they stay crisp at any size and never need
+        a retina version. Social posts use them as decorative borders. Just keep them short: a wall of
+        pictograms is hard to scroll past.
+      </p>
+
+      <h2 class="h4 mt-4">Pro tips from regular use</h2>
+      <ul>
+        <li><strong>Send the key, not just the message.</strong> A recipient who has never seen the
+          cipher will not guess it. Screenshot the key table or link this page.</li>
+        <li><strong>Watch your line length.</strong> Symbol glyphs are wider than Latin letters in most
+          typefaces, so a line that fits in a tweet as text may wrap as symbols. Test in the target app.</li>
+        <li><strong>Do not trust copy-paste through a rich-text editor.</strong> Word and Google Docs
+          occasionally convert symbols to smart quotes or pictures. Paste into a plain-text field first
+          if a line looks mangled.</li>
+        <li><strong>Keep case-insensitive in mind.</strong> If your secret depends on capital letters,
+          this key cannot carry that information. Use spacing or a second symbol set instead.</li>
+      </ul>
+
+      <h2 class="h4 mt-4">Common mistakes</h2>
+      <p>
+        The first is expecting the output to be a real font. It is not, and pretending otherwise leads
+        to disappointment when someone opens the file on a machine that handles the symbols differently.
+        The second is assuming every symbol renders identically everywhere. Unicode support is broad
+        these days, but a few older Android builds and some terminal fonts draw a handful of dingbats
+        as empty boxes. Sticking to the symbol blocks this tool uses keeps that risk low.
+      </p>
+      <p>
+        The third mistake is treating the cipher as security. A substitution alphabet is a puzzle, not
+        encryption. Anyone with a pen and five minutes can break a short message, and pattern frequency
+        gives it away even faster in a long one. Use it for fun, for puzzles and for decoration.
+      </p>
+
+      <h2 class="h4 mt-4">Questions people ask</h2>
+      <p>
+        <strong>Is this the real Wingdings font?</strong> No. Microsoft's Wingdings is a licensed
+        typeface, and its glyph order is not the same as this key. What you get here is a portable
+        dingbat alphabet with the same spirit and none of the installation.
+      </p>
+      <p>
+        <strong>Will the symbols work on a phone?</strong> Yes. They are standard Unicode characters,
+        not images or fonts, so iOS and Android both render them from the system typeface.
+      </p>
+      <p>
+        <strong>Can I decode a message someone else sent?</strong> Only if they used this key. Other
+        symbol ciphers use different tables, and a mixed message will show some readable letters and
+        some untouched symbols. That mismatch is your signal.
+      </p>
+      <p>
+        <strong>Does anything leave my device?</strong> No. The translation runs in your browser with
+        plain JavaScript. Nothing is uploaded, stored or logged.
+      </p>
+
+      <h2 class="h4 mt-4">About the author</h2>
+      <p class="mb-4">
+        Written by the small team behind this free tools site, who spend their days building
+        single-purpose browser utilities that need no account and no build step. The symbol tables here
+        were checked against the Unicode Dingbats and Miscellaneous Symbols blocks, and the coverage
+        chart exists because we got tired of guessing which character in a pasted line had failed to
+        map.
+      </p>
+
+      <div class="disclaimer small text-muted">
+        <strong>Disclaimer:</strong> This tool is provided for entertainment, education and design use.
+        It is a substitution cipher, not encryption, and it is not affiliated with or endorsed by
+        Microsoft. Wingdings is a trademark of its respective owner. Results depend on the Unicode
+        support of the app you paste into, so check important messages before sending them.
+      </div>
+    </article>
+  </main>
+
+  <footer class="site-footer py-4 mt-4">
+    <div class="container small text-muted d-flex flex-wrap justify-content-between">
+      <span>Wingdings Translator &mdash; part of the free tools collection.</span>
+      <a href="/tools/">Browse all tools</a>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
