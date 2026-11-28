@@ -82,7 +82,7 @@
 [done] Creepy text generator (already shipped as 067-creepy-text-generator)
 [done] Gothic font generator
 [done] Strikethrough text generator
-Wingdings translator
+[done] Wingdings translator
 underline text generator
 fancy text generator
 Superscript generator
