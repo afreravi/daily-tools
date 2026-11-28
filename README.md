@@ -115,3 +115,4 @@ Full build rules live in [GUIDELINES.md](GUIDELINES.md): Bootstrap 4.6, light th
 | 075 | calligraphy-font-generator | Free calligraphy font generator: type once and copy elegant script, italic, blackletter and small-caps Unicode lettering for bios, invites and logos. |
 | 076 | gothic-font-generator | Free gothic font generator: turn plain text into copy-and-paste blackletter, fraktur and textura lettering, with live typeface previews and a glyph coverage chart. |
 | 077 | strikethrough-text-generator | Cross out any line with ten copy-and-paste Unicode strike styles, live preview, coverage chart and a `<del>` snippet for the web. |
+| 078 | wingdings-translator | Wingdings translator turns text into copy-and-paste dingbat symbols and decodes them back, with a live coverage chart. |
